@@ -1,0 +1,765 @@
+<!-- index.html — static, SEO-first, perf-first, 4 languages (uk/en/pt/ru), minimal JS -->
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+
+  <!-- SEO: title/description will be set per-language by inline JS (tiny) -->
+  <title>Belyakov Consult — Data • Analytics • Digital</title>
+  <meta name="description" content="Стратегія даних, якість (DQ/Governance), BI та інтеграції. Delivery для складних систем." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://example.com/" />
+  <!-- hreflang for a SINGLE-PAGE language switch is imperfect.
+       Best SEO: separate URLs /uk /en /pt /ru. Here we keep one page with hash (#uk/#en/#pt/#ru). -->
+  <link rel="alternate" href="https://example.com/#en" hreflang="en" />
+  <link rel="alternate" href="https://example.com/#uk" hreflang="uk" />
+  <link rel="alternate" href="https://example.com/#pt" hreflang="pt" />
+  <link rel="alternate" href="https://example.com/#ru" hreflang="ru" />
+  <link rel="alternate" href="https://example.com/" hreflang="x-default" />
+
+  <!-- OpenGraph (kept generic; can be updated per-lang via JS if you want) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Belyakov Consult — Data • Analytics • Digital" />
+  <meta property="og:description" content="Data strategy, DQ/Governance, BI and integrations. Delivery for complex systems." />
+  <meta property="og:url" content="https://example.com/" />
+  <meta property="og:image" content="https://example.com/assets/og-1200x630.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="theme-color" content="#0b0f17" />
+
+  <!-- Fonts: keep minimal; swap prevents CLS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CRITICAL CSS: header + hero + CTA (first screen only) -->
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:#0f1624; --text:#e7eefc; --muted:#a9b7d0; --line:rgba(231,238,252,.12);
+      --accent:#7dd3fc; --accent2:#a78bfa; --ok:#86efac;
+      --r:18px; --max:1120px; --pad:clamp(18px,3vw,28px);
+      --h1:clamp(32px,4.2vw,56px); --p:clamp(15px,1.3vw,17px);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 600px at 18% -10%, rgba(167,139,250,.22), transparent 55%),
+        radial-gradient(900px 500px at 90% 10%, rgba(125,211,252,.18), transparent 60%),
+        var(--bg);
+      line-height:1.55;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+    .card{
+      background:color-mix(in srgb, var(--panel) 86%, transparent);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+
+    header{position:sticky;top:0;z-index:10;background:color-mix(in srgb, var(--bg) 78%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:10px;min-width:220px}
+    .logo{
+      width:36px;height:36px;border-radius:12px;border:1px solid var(--line);
+      background:
+        radial-gradient(14px 14px at 30% 30%, var(--accent), transparent 70%),
+        radial-gradient(14px 14px at 70% 70%, var(--accent2), transparent 70%),
+        color-mix(in srgb, var(--panel) 60%, #000 40%);
+    }
+    .brand b{font-size:14px;letter-spacing:.3px}
+    .brand span{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+
+    .navlinks{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+    .navlinks a{padding:8px 10px;border-radius:12px}
+    .navlinks a:hover{color:var(--text)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 14px;border-radius:14px;border:1px solid var(--line);
+      background:color-mix(in srgb, var(--panel) 80%, transparent);
+      color:var(--text);font-size:13px;cursor:pointer;user-select:none;
+      white-space:nowrap;
+    }
+    .btn.primary{
+      border-color:color-mix(in srgb, var(--accent) 55%, var(--line));
+      background:linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 25%, var(--panel)),
+        color-mix(in srgb, var(--accent2) 18%, var(--panel)));
+    }
+
+    /* language switcher: no layout shift */
+    .lang{
+      position:relative;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .lang select{
+      appearance:none;
+      padding:10px 34px 10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:color-mix(in srgb, var(--panel) 80%, transparent);
+      color:var(--text);
+      font:600 13px/1.2 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      cursor:pointer;
+    }
+    .lang:after{
+      content:"▾";
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      color:var(--muted);pointer-events:none;font-size:12px;
+    }
+
+    .heroWrap{padding:clamp(22px,4vw,44px) 0 18px}
+    .hero{
+      display:grid;grid-template-columns:1.35fr .95fr;gap:clamp(14px,3vw,24px);
+      align-items:stretch;max-height:800px;
+    }
+    .heroMain{padding:clamp(18px,3vw,26px)}
+    .kicker{
+      display:inline-flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);
+      padding:8px 12px;border:1px solid var(--line);border-radius:999px;
+      background:color-mix(in srgb, var(--panel) 92%, transparent);
+    }
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--ok);box-shadow:0 0 0 6px rgba(134,239,172,.12)}
+    h1{margin:16px 0 10px;font-size:var(--h1);line-height:1.06;letter-spacing:-.8px}
+    .sub{font-size:var(--p);color:var(--muted);max-width:70ch;margin:0}
+    .heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .metaRow{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:12px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb, var(--panel) 92%, transparent)}
+
+    .heroSide{padding:clamp(16px,2.6vw,20px);display:flex;flex-direction:column;gap:12px}
+    .portrait{
+      border-radius:16px;border:1px solid var(--line);overflow:hidden;
+      background:linear-gradient(135deg, rgba(125,211,252,.14), rgba(167,139,250,.12));
+      aspect-ratio: 4 / 3; /* CLS protection */
+    }
+    .portrait picture, .portrait img{display:block;width:100%;height:100%}
+    .portrait img{object-fit:cover}
+    .q{
+      padding:12px;border-radius:16px;border:1px solid var(--line);
+      background:color-mix(in srgb, var(--panel) 92%, transparent);
+    }
+    .q b{display:block;font-size:13px;margin-bottom:4px}
+    .q span{font-size:12px;color:var(--muted)}
+
+    .ctaBar{margin-top:14px;padding:14px 16px}
+    .ctaBar b{display:block;font-size:14px;margin-bottom:4px}
+    .ctaBar span{display:block;color:var(--muted);font-size:12px}
+
+    /* language blocks: no CLS, just show/hide */
+    [data-lang]{display:none}
+    [data-lang].active{display:contents}
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr;max-height:none}
+      .navlinks{display:none}
+    }
+    @media (max-width: 640px){
+      .heroWrap{padding:18px 0 14px}
+      .hero{min-height:70dvh}
+      .brand{min-width:auto}
+    }
+  </style>
+
+  <!-- NON-CRITICAL CSS (below fold), async -->
+  <link rel="stylesheet" href="/styles.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/styles.css"></noscript>
+
+  <!-- Speakable (voice search) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Belyakov Consult — Data • Analytics • Digital",
+    "speakable":{"@type":"SpeakableSpecification","cssSelector":["#hero-h1","#hero-sub"]}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Belyakov Consult",
+    "url":"https://example.com/",
+    "logo":"https://example.com/assets/logo-512.png"
+  }
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#top">
+          <span class="logo" aria-hidden="true"></span>
+          <span>
+            <b>Belyakov Consult</b>
+            <span id="nav-tagline">Data • Analytics • Digital</span>
+          </span>
+        </a>
+
+        <div class="navlinks">
+          <a href="#services" id="nav-services">Услуги</a>
+          <a href="#process" id="nav-process">Процесс</a>
+          <a href="#cases" id="nav-cases">Кейсы</a>
+          <a href="#contact" id="nav-contact">Контакт</a>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="lang" aria-label="Language selector">
+            <select id="langSelect">
+              <option value="en">ENG</option>
+              <option value="uk">UKR</option>
+              <option value="pt">POR</option>
+              <option value="ru">RUS</option>
+            </select>
+          </div>
+          <a class="btn primary" href="#contact" id="nav-cta">Запросити консультацію</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="heroWrap" aria-label="Hero">
+      <div class="wrap">
+        <div class="hero">
+          <article class="card heroMain">
+            <div class="kicker"><span class="dot"></span> <span id="hero-kicker">Консалтинг для складних систем: дані, архітектура, управління</span></div>
+
+            <!-- HERO (translated by JS): -->
+            <h1 id="hero-h1"></h1>
+            <p id="hero-sub" class="sub"></p>
+
+            <div class="heroActions">
+              <a class="btn primary" href="#contact" id="hero-cta1"></a>
+              <a class="btn" href="#cases" id="hero-cta2"></a>
+              <a class="btn" href="#services" id="hero-cta3"></a>
+            </div>
+
+            <div class="metaRow">
+              <span class="pill" id="pill1"></span>
+              <span class="pill" id="pill2"></span>
+              <span class="pill" id="pill3"></span>
+            </div>
+
+            <div class="card ctaBar">
+              <b id="cta-title"></b>
+              <span id="cta-sub"></span>
+            </div>
+          </article>
+
+          <aside class="card heroSide" aria-label="Key info">
+            <!-- LCP image -->
+            <div class="portrait" aria-label="Portrait">
+              <picture>
+                <source type="image/avif"
+                        srcset="/assets/hero-640.avif 640w, /assets/hero-1024.avif 1024w, /assets/hero-1280.avif 1280w"
+                        sizes="(max-width: 980px) 100vw, 460px" />
+                <source type="image/webp"
+                        srcset="/assets/hero-640.webp 640w, /assets/hero-1024.webp 1024w, /assets/hero-1280.webp 1280w"
+                        sizes="(max-width: 980px) 100vw, 460px" />
+                <img
+                  src="/assets/hero-1024.jpg"
+                  width="920" height="690"
+                  alt="Консультант по данным и цифровой трансформации"
+                  decoding="async"
+                  fetchpriority="high"
+                  loading="eager"
+                  style="background-image:url('/assets/hero-lqip.jpg');background-size:cover;background-position:center;"
+                />
+              </picture>
+            </div>
+
+            <div class="q">
+              <b id="q1t"></b>
+              <span id="q1s"></span>
+            </div>
+            <div class="q">
+              <b id="q2t"></b>
+              <span id="q2s"></span>
+            </div>
+            <div class="q">
+              <b id="q3t"></b>
+              <span id="q3s"></span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- BELOW THE FOLD (content is same, only headings/buttons translated via JS) -->
+    <section id="services" class="section">
+      <div class="wrap">
+        <header class="secHead">
+          <h2 id="s-title"></h2>
+          <p class="lead" id="s-lead"></p>
+        </header>
+
+        <div class="grid3">
+          <article class="card box">
+            <h3 id="srv1t"></h3>
+            <p id="srv1p"></p>
+            <ul class="list" id="srv1l"></ul>
+          </article>
+
+          <article class="card box">
+            <h3 id="srv2t"></h3>
+            <p id="srv2p"></p>
+            <ul class="list" id="srv2l"></ul>
+          </article>
+
+          <article class="card box">
+            <h3 id="srv3t"></h3>
+            <p id="srv3p"></p>
+            <ul class="list" id="srv3l"></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="section">
+      <div class="wrap">
+        <header class="secHead">
+          <h2 id="p-title"></h2>
+          <p class="lead" id="p-lead"></p>
+        </header>
+
+        <ol class="steps" id="steps"></ol>
+      </div>
+    </section>
+
+    <section id="cases" class="section">
+      <div class="wrap">
+        <header class="secHead">
+          <h2 id="c-title"></h2>
+          <p class="lead" id="c-lead"></p>
+        </header>
+
+        <div class="grid2">
+          <article class="card box">
+            <h3 id="case1t"></h3>
+            <p id="case1p"></p>
+          </article>
+          <article class="card box">
+            <h3 id="case2t"></h3>
+            <p id="case2p"></p>
+          </article>
+        </div>
+
+        <figure class="media card">
+          <picture>
+            <source type="image/avif"
+              srcset="/assets/case-640.avif 640w, /assets/case-1024.avif 1024w, /assets/case-1280.avif 1280w, /assets/case-1920.avif 1920w"
+              sizes="(max-width: 1280px) 100vw, 1120px" />
+            <source type="image/webp"
+              srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w"
+              sizes="(max-width: 1280px) 100vw, 1120px" />
+            <img
+              src="/assets/case-1024.jpg"
+              width="1120" height="630"
+              alt="Пример визуализации: карта данных и метрик"
+              loading="lazy"
+              decoding="async"
+              style="background-image:url('/assets/case-lqip.jpg');background-size:cover;background-position:center;"
+            />
+          </picture>
+          <figcaption id="figcap"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <header class="secHead">
+          <h2 id="ct-title"></h2>
+          <p class="lead" id="ct-lead"></p>
+        </header>
+
+        <div class="grid2">
+          <form class="card box" method="post" action="/send" aria-label="Lead form">
+            <label class="field">
+              <span id="f-name"></span>
+              <input name="name" autocomplete="name" required />
+            </label>
+            <label class="field">
+              <span id="f-email"></span>
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span id="f-msg"></span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button class="btn primary" type="submit" id="f-send"></button>
+            <p class="fine" id="f-fine"></p>
+          </form>
+
+          <div class="card box">
+            <h3 id="fast-title"></h3>
+            <p class="lead" id="fast-lead"></p>
+            <ul class="list" id="fast-list"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <small>© <span id="y"></span> Belyakov Consult</small>
+    </div>
+  </footer>
+
+  <!-- Minimal JS: language switch + text injection (small, after main content) -->
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const I18N = {
+      uk: {
+        htmlLang: "uk",
+        title: "Belyakov Consult — Дані • Аналітика • Digital",
+        desc: "Стратегія даних, якість (DQ/Governance), BI та інтеграції. Delivery для складних систем.",
+        nav: { services:"Послуги", process:"Процес", cases:"Кейси", contact:"Контакт", cta:"Запросити консультацію", tagline:"Data • Analytics • Digital" },
+        hero: {
+          kicker:"Консалтинг для складних систем: дані, архітектура, управління",
+          h1:"Налагоджую дані й процеси так, щоб керівники приймали рішення, а не сперечалися про цифри.",
+          sub:"Стратегія даних, якість (DQ/Governance), BI та інтеграції для держсектору й великих програм. Quick wins + доведення до стійкої моделі.",
+          cta1:"Забронювати 30 хв", cta2:"Подивитись кейси", cta3:"Що роблю",
+          pills:["LCP: фіксовані розміри","CLS: 0 layout shift","JS: мінімум"],
+          ctaTitle:"Якщо немає власника даних — призначте.",
+          ctaSub:"Без ownership і правил якості будь-який BI перетворюється на декорацію."
+        },
+        side:{
+          q1t:"Кому підходить", q1s:"CDTO/CIO, керівникам програм, власникам реєстрів, аналітичним командам.",
+          q2t:"Що отримаєте", q2s:"Roadmap, DQ-правила, модель метрик, мапу інтеграцій, BI-прототип.",
+          q3t:"Формат", q3s:"Аудит 2–4 тижні або супровід 2–3 дні/тижд. Scope фіксується."
+        },
+        services:{
+          title:"Послуги",
+          lead:"Delivery-орієнтований консалтинг: артефакти, які можна запускати в роботу.",
+          s1t:"Data/Process Audit", s1p:"Діагностика даних, інтеграцій, процесів, ролей і відповідальності.",
+          s1l:["Мапа потоків даних і джерел","DQ-знімок: дублі/пропуски/консистентність","Backlog quick wins на 30 днів"],
+          s2t:"Data Quality & Governance", s2p:"Правила якості, ownership, словники, моніторинг і керування змінами.",
+          s2l:["DQ rulebook + пороги якості","Metric/Data dictionary","RACI: owner / steward / consumer"],
+          s3t:"BI / Analytics", s3p:"Модель метрик + прототип дашбордів + відтворюваний пайплайн.",
+          s3l:["Єдині визначення KPI","Дашборд-прототип за 7–14 днів","SQL/ETL пакет для повторюваності"]
+        },
+        process:{
+          title:"Процес",
+          lead:"Чіткі етапи, deliverables і критерії “готово”.",
+          steps:[
+            ["1) Діагностика","Інвентаризація даних/інтеграцій + DQ-профілювання."],
+            ["2) Roadmap","Пріоритизація, план 30/60/90, ризики та залежності."],
+            ["3) Quick wins","DQ-правила, прототип BI, стабілізація критичних місць."],
+            ["4) Впровадження","Документація, handover, моніторинг якості, навчання."]
+          ]
+        },
+        cases:{
+          title:"Кейси",
+          lead:"Структура “задача → рішення → результат”. Додайте свої цифри.",
+          c1t:"Єдиний KPI замість 5 різних", c1p:"Metric dictionary + правила розрахунку + контроль змін.",
+          c2t:"Зниження дублів у реєстрі", c2p:"DQ-правила, дедуплікація, ownership і процес виправлень.",
+          fig:"Мапа потоків даних і єдині визначення KPI."
+        },
+        contact:{
+          title:"Контакт",
+          lead:"Коротко опишіть задачу, систему/дані, дедлайн і критерій “готово”.",
+          fname:"Ім’я", femail:"Email", fmsg:"Повідомлення", fsend:"Надіслати",
+          ffine:"Для 100/100: підключіть статичну форму (Netlify Forms/Formspree) без важкого JS.",
+          fastTitle:"Швидкі канали", fastLead:"Замініть на реальні.",
+          fastList:[
+            `Email: <a href="mailto:serhii@example.com">serhii@example.com</a>`,
+            `LinkedIn: <a href="https://www.linkedin.com/" rel="noopener">профіль</a>`,
+            `Calendar: <a href="https://calendly.com/" rel="noopener">слот</a>`
+          ]
+        }
+      },
+
+      en: {
+        htmlLang: "en",
+        title: "Belyakov Consult — Data • Analytics • Digital",
+        desc: "Data strategy, DQ/Governance, BI and integrations. Delivery for complex systems.",
+        nav: { services:"Services", process:"Process", cases:"Cases", contact:"Contact", cta:"Request a consult", tagline:"Data • Analytics • Digital" },
+        hero: {
+          kicker:"Consulting for complex systems: data, architecture, governance",
+          h1:"I turn messy data and processes into a system leaders can trust to make decisions.",
+          sub:"Data strategy, DQ/Governance, BI and integrations for large programs and the public sector. Quick wins + a sustainable operating model.",
+          cta1:"Book 30 min", cta2:"View cases", cta3:"What I do",
+          pills:["LCP: fixed dimensions","CLS: no layout shift","JS: minimal"],
+          ctaTitle:"If there is no data owner — appoint one.",
+          ctaSub:"Without ownership and quality rules, BI becomes decoration."
+        },
+        side:{
+          q1t:"Who it’s for", q1s:"CDTO/CIO, program leads, registry owners, analytics teams.",
+          q2t:"What you get", q2s:"Roadmap, DQ rules, metrics model, integration map, BI prototype.",
+          q3t:"Engagement", q3s:"Audit 2–4 weeks or support 2–3 days/week. Scope is fixed."
+        },
+        services:{
+          title:"Services",
+          lead:"Delivery-first consulting: artifacts you can actually implement.",
+          s1t:"Data/Process Audit", s1p:"Assess data, integrations, processes, roles and accountability.",
+          s1l:["Data flow & sources map","DQ snapshot: duplicates/gaps/consistency","30-day quick wins backlog"],
+          s2t:"Data Quality & Governance", s2p:"Quality rules, ownership, dictionaries, monitoring and change control.",
+          s2l:["DQ rulebook + thresholds","Metric/Data dictionary","RACI: owner / steward / consumer"],
+          s3t:"BI / Analytics", s3p:"Metrics model + dashboards prototype + repeatable pipeline.",
+          s3l:["Unified KPI definitions","Dashboard prototype in 7–14 days","SQL/ETL package for repeatability"]
+        },
+        process:{
+          title:"Process",
+          lead:"Clear stages, deliverables and definition of done.",
+          steps:[
+            ["1) Discovery","Inventory of data/integrations + DQ profiling."],
+            ["2) Roadmap","Priorities, 30/60/90 plan, risks and dependencies."],
+            ["3) Quick wins","DQ rules, BI prototype, stabilizing critical points."],
+            ["4) Delivery","Docs, handover, quality monitoring, training."]
+          ]
+        },
+        cases:{
+          title:"Cases",
+          lead:"Structure: problem → solution → outcome. Add your real numbers.",
+          c1t:"One KPI instead of five", c1p:"Metric dictionary + calculation rules + change control.",
+          c2t:"Reducing duplicates in a registry", c2p:"DQ rules, deduplication, ownership and fix workflow.",
+          fig:"Data flows map and unified KPI definitions."
+        },
+        contact:{
+          title:"Contact",
+          lead:"Briefly share the problem, systems/data, deadline, and definition of done.",
+          fname:"Name", femail:"Email", fmsg:"Message", fsend:"Send",
+          ffine:"For 100/100: use a static form (Netlify Forms/Formspree) without heavy JS.",
+          fastTitle:"Quick channels", fastLead:"Replace with your real contacts.",
+          fastList:[
+            `Email: <a href="mailto:serhii@example.com">serhii@example.com</a>`,
+            `LinkedIn: <a href="https://www.linkedin.com/" rel="noopener">profile</a>`,
+            `Calendar: <a href="https://calendly.com/" rel="noopener">slot</a>`
+          ]
+        }
+      },
+
+      pt: {
+        htmlLang: "pt",
+        title: "Belyakov Consult — Dados • Analytics • Digital",
+        desc: "Estratégia de dados, DQ/Governance, BI e integrações. Delivery para sistemas complexos.",
+        nav: { services:"Serviços", process:"Processo", cases:"Casos", contact:"Contato", cta:"Solicitar consulta", tagline:"Dados • Analytics • Digital" },
+        hero: {
+          kicker:"Consultoria para sistemas complexos: dados, arquitetura, governança",
+          h1:"Transformo dados e processos caóticos em um sistema confiável para decisões.",
+          sub:"Estratégia de dados, DQ/Governance, BI e integrações para programas grandes e setor público. Quick wins + modelo operacional sustentável.",
+          cta1:"Agendar 30 min", cta2:"Ver casos", cta3:"O que faço",
+          pills:["LCP: dimensões fixas","CLS: sem layout shift","JS: mínimo"],
+          ctaTitle:"Se não há dono dos dados — nomeie um.",
+          ctaSub:"Sem ownership e regras de qualidade, BI vira decoração."
+        },
+        side:{
+          q1t:"Para quem", q1s:"CDTO/CIO, líderes de programa, donos de registros, times de analytics.",
+          q2t:"O que você recebe", q2s:"Roadmap, regras de DQ, modelo de métricas, mapa de integrações, protótipo de BI.",
+          q3t:"Formato", q3s:"Auditoria 2–4 semanas ou suporte 2–3 dias/semana. Escopo fixo."
+        },
+        services:{
+          title:"Serviços",
+          lead:"Consultoria orientada a entrega: artefatos que você consegue implementar.",
+          s1t:"Auditoria de Dados/Processos", s1p:"Avalio dados, integrações, processos, papéis e responsabilidades.",
+          s1l:["Mapa de fluxos e fontes","Snapshot de DQ: duplicados/lacunas/consistência","Backlog de quick wins (30 dias)"],
+          s2t:"Qualidade & Governança", s2p:"Regras de qualidade, ownership, dicionários, monitoramento e controle de mudanças.",
+          s2l:["Rulebook de DQ + limiares","Dicionário de métricas/dados","RACI: owner / steward / consumer"],
+          s3t:"BI / Analytics", s3p:"Modelo de métricas + protótipo de dashboards + pipeline repetível.",
+          s3l:["Definições unificadas de KPI","Protótipo em 7–14 dias","Pacote SQL/ETL para repetibilidade"]
+        },
+        process:{
+          title:"Processo",
+          lead:"Etapas, entregáveis e definição de pronto bem claros.",
+          steps:[
+            ["1) Diagnóstico","Inventário de dados/integrações + profiling de DQ."],
+            ["2) Roadmap","Prioridades, plano 30/60/90, riscos e dependências."],
+            ["3) Quick wins","Regras de DQ, protótipo de BI, estabilização de pontos críticos."],
+            ["4) Entrega","Documentação, handover, monitoramento de qualidade, treinamento."]
+          ]
+        },
+        cases:{
+          title:"Casos",
+          lead:"Estrutura: problema → solução → resultado. Inclua números reais.",
+          c1t:"Um KPI em vez de cinco", c1p:"Dicionário de métricas + regras de cálculo + controle de mudanças.",
+          c2t:"Redução de duplicados no registro", c2p:"Regras de DQ, deduplicação, ownership e fluxo de correção.",
+          fig:"Mapa de fluxos de dados e definições unificadas de KPI."
+        },
+        contact:{
+          title:"Contato",
+          lead:"Descreva o problema, sistemas/dados, prazo e definição de pronto.",
+          fname:"Nome", femail:"Email", fmsg:"Mensagem", fsend:"Enviar",
+          ffine:"Para 100/100: use formulário estático (Netlify Forms/Formspree) sem JS pesado.",
+          fastTitle:"Canais rápidos", fastLead:"Substitua pelos seus contatos reais.",
+          fastList:[
+            `Email: <a href="mailto:serhii@example.com">serhii@example.com</a>`,
+            `LinkedIn: <a href="https://www.linkedin.com/" rel="noopener">perfil</a>`,
+            `Calendar: <a href="https://calendly.com/" rel="noopener">horário</a>`
+          ]
+        }
+      },
+
+      ru: {
+        htmlLang: "ru",
+        title: "Belyakov Consult — Данные • Аналитика • Digital",
+        desc: "Стратегия данных, качество (DQ/Governance), BI и интеграции. Delivery для сложных систем.",
+        nav: { services:"Услуги", process:"Процесс", cases:"Кейсы", contact:"Контакт", cta:"Запросить консультацию", tagline:"Data • Analytics • Digital" },
+        hero: {
+          kicker:"Консалтинг для сложных систем: данные, архитектура, управление",
+          h1:"Налаживаю данные и процессы так, чтобы руководители принимали решения, а не спорили о цифрах.",
+          sub:"Стратегия данных, качество (DQ/Governance), BI и интеграции для госсектора и крупных программ. Quick wins + доведение до устойчивой модели.",
+          cta1:"Забронировать 30 мин", cta2:"Посмотреть кейсы", cta3:"Что делаю",
+          pills:["LCP: фикс. размеры","CLS: 0 layout shift","JS: минимум"],
+          ctaTitle:"Если нет владельца данных — назначьте.",
+          ctaSub:"Без ownership и правил качества любой BI превращается в декорацию."
+        },
+        side:{
+          q1t:"Кому подходит", q1s:"CDTO/CIO, руководителям программ, владельцам реестров, аналитическим командам.",
+          q2t:"Что получите", q2s:"Roadmap, DQ-правила, модель метрик, карту интеграций, BI-прототип.",
+          q3t:"Формат", q3s:"Аудит 2–4 недели или сопровождение 2–3 дня/нед. Scope фиксируется."
+        },
+        services:{
+          title:"Услуги",
+          lead:"Delivery-ориентированный консалтинг: артефакты, которые можно запускать в работу.",
+          s1t:"Data/Process Audit", s1p:"Диагностика данных, интеграций, процессов, ролей и ответственности.",
+          s1l:["Карта потоков данных и источников","DQ-снимок: дубли/пропуски/консистентность","Backlog quick wins на 30 дней"],
+          s2t:"Data Quality & Governance", s2p:"Правила качества, ownership, словари, мониторинг и управление изменениями.",
+          s2l:["DQ rulebook + пороги качества","Metric/Data dictionary","RACI: owner / steward / consumer"],
+          s3t:"BI / Analytics", s3p:"Модель метрик + прототип дашбордов + повторяемый пайплайн.",
+          s3l:["Единые определения KPI","Дашборд-прототип за 7–14 дней","SQL/ETL пакет для воспроизводимости"]
+        },
+        process:{
+          title:"Процесс",
+          lead:"Четкие этапы, deliverables и критерии “готово”.",
+          steps:[
+            ["1) Диагностика","Инвентаризация данных/интеграций + DQ-профилирование."],
+            ["2) Roadmap","Приоритизация, план 30/60/90, риски и зависимости."],
+            ["3) Quick wins","DQ-правила, прототип BI, стабилизация критических мест."],
+            ["4) Внедрение","Документация, handover, мониторинг качества, обучение."]
+          ]
+        },
+        cases:{
+          title:"Кейсы",
+          lead:"Структура “задача → решение → результат”. Добавьте свои цифры.",
+          c1t:"Единый KPI вместо 5 разных", c1p:"Metric dictionary + правила расчета + контроль изменений.",
+          c2t:"Снижение дублей в реестре", c2p:"DQ-правила, дедупликация, ownership и процесс исправлений.",
+          fig:"Карта потоков данных и единые определения KPI."
+        },
+        contact:{
+          title:"Контакт",
+          lead:"Коротко опишите задачу, систему/данные, дедлайн и критерий “готово”.",
+          fname:"Имя", femail:"Email", fmsg:"Сообщение", fsend:"Отправить",
+          ffine:"Для 100/100: подключите статическую форму (Netlify Forms/Formspree) без тяжелого JS.",
+          fastTitle:"Быстрые каналы", fastLead:"Замените на реальные.",
+          fastList:[
+            `Email: <a href="mailto:serhii@example.com">serhii@example.com</a>`,
+            `LinkedIn: <a href="https://www.linkedin.com/" rel="noopener">профиль</a>`,
+            `Calendar: <a href="https://calendly.com/" rel="noopener">слот</a>`
+          ]
+        }
+      }
+    };
+
+    function setMeta(name, content){
+      let el = document.querySelector(`meta[name="${name}"]`);
+      if(!el){ el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    }
+
+    function renderList(ul, items){
+      ul.innerHTML = items.map(x => `<li>${x}</li>`).join("");
+    }
+    function renderSteps(ol, items){
+      ol.innerHTML = items.map(([t,s])=>`<li class="card step"><b>${t}</b><span>${s}</span></li>`).join("");
+    }
+
+    function applyLang(lang){
+      const t = I18N[lang] || I18N.uk;
+
+      document.documentElement.lang = t.htmlLang;
+      document.title = t.title;
+      setMeta("description", t.desc);
+
+      // Nav
+      $("nav-tagline").textContent = t.nav.tagline;
+      $("nav-services").textContent = t.nav.services;
+      $("nav-process").textContent = t.nav.process;
+      $("nav-cases").textContent = t.nav.cases;
+      $("nav-contact").textContent = t.nav.contact;
+      $("nav-cta").textContent = t.nav.cta;
+
+      // Hero
+      $("hero-kicker").textContent = t.hero.kicker;
+      $("hero-h1").textContent = t.hero.h1;
+      $("hero-sub").textContent = t.hero.sub;
+      $("hero-cta1").textContent = t.hero.cta1;
+      $("hero-cta2").textContent = t.hero.cta2;
+      $("hero-cta3").textContent = t.hero.cta3;
+
+      $("pill1").textContent = t.hero.pills[0];
+      $("pill2").textContent = t.hero.pills[1];
+      $("pill3").textContent = t.hero.pills[2];
+
+      $("cta-title").textContent = t.hero.ctaTitle;
+      $("cta-sub").textContent = t.hero.ctaSub;
+
+      // Side
+      $("q1t").textContent = t.side.q1t; $("q1s").textContent = t.side.q1s;
+      $("q2t").textContent = t.side.q2t; $("q2s").textContent = t.side.q2s;
+      $("q3t").textContent = t.side.q3t; $("q3s").textContent = t.side.q3s;
+
+      // Services
+      $("s-title").textContent = t.services.title;
+      $("s-lead").textContent = t.services.lead;
+      $("srv1t").textContent = t.services.s1t; $("srv1p").textContent = t.services.s1p; renderList($("srv1l"), t.services.s1l);
+      $("srv2t").textContent = t.services.s2t; $("srv2p").textContent = t.services.s2p; renderList($("srv2l"), t.services.s2l);
+      $("srv3t").textContent = t.services.s3t; $("srv3p").textContent = t.services.s3p; renderList($("srv3l"), t.services.s3l);
+
+      // Process
+      $("p-title").textContent = t.process.title;
+      $("p-lead").textContent = t.process.lead;
+      renderSteps($("steps"), t.process.steps);
+
+      // Cases
+      $("c-title").textContent = t.cases.title;
+      $("c-lead").textContent = t.cases.lead;
+      $("case1t").textContent = t.cases.c1t; $("case1p").textContent = t.cases.c1p;
+      $("case2t").textContent = t.cases.c2t; $("case2p").textContent = t.cases.c2p;
+      $("figcap").textContent = t.cases.fig;
+
+      // Contact
+      $("ct-title").textContent = t.contact.title;
+      $("ct-lead").textContent = t.contact.lead;
+      $("f-name").textContent = t.contact.fname;
+      $("f-email").textContent = t.contact.femail;
+      $("f-msg").textContent = t.contact.fmsg;
+      $("f-send").textContent = t.contact.fsend;
+      $("f-fine").textContent = t.contact.ffine;
+      $("fast-title").textContent = t.contact.fastTitle;
+      $("fast-lead").textContent = t.contact.fastLead;
+      $("fast-list").innerHTML = t.contact.fastList.map(x=>`<li>${x}</li>`).join("");
+
+      // Persist + hash for shareable link
+      localStorage.setItem("lang", lang);
+      if(location.hash !== "#" + lang) history.replaceState(null, "", "#" + lang);
+    }
+
+    // init
+    const y = new Date().getFullYear();
+    document.getElementById("y").textContent = y;
+
+    const sel = document.getElementById("langSelect");
+    const fromHash = (location.hash || "").replace("#","").trim();
+    const fromStorage = localStorage.getItem("lang");
+    const initial = (["uk","en","pt","ru"].includes(fromHash) && fromHash) || (["en","uk","pt","ru"].includes(fromStorage) && fromStorage) || "uk";
+    sel.value = initial;
+    applyLang(initial);
+
+    sel.addEventListener("change", (e)=> applyLang(e.target.value));
+    window.addEventListener("hashchange", ()=>{
+      const h = (location.hash || "").replace("#","").trim();
+      if(["uk","en","pt","ru"].includes(h) && sel.value !== h){
+        sel.value = h;
+        applyLang(h);
+      }
+    });
+  </script>
+</body>
+</html>
+
