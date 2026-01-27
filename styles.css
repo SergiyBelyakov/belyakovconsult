@@ -1,57 +1,167 @@
-/* styles.css — premium layout system (spacing, grids, typography, responsive) */
+/* styles.css — GitHub-like premium UI (clean, restrained, code-product aesthetic) */
 
-/* ---------- Section rhythm ---------- */
+:root{
+  /* Core neutrals (GitHub dark-ish) */
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel2: #0f1720;
+  --border: rgba(240,246,252,.12);
+  --border2: rgba(240,246,252,.08);
+
+  /* Text */
+  --text: rgba(240,246,252,.92);
+  --muted: rgba(240,246,252,.68);
+  --muted2: rgba(240,246,252,.55);
+
+  /* Accent (your green) */
+  --accent: #18c98b;
+  --accent2: #0ea36f;
+
+  /* Radius / shadow */
+  --r: 12px;
+  --r2: 16px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+  /* Type */
+  --ui: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Rhythm */
+  --container: 1100px;
+  --padX: clamp(16px, 3vw, 28px);
+  --gap: clamp(12px, 2vw, 20px);
+}
+
+/* ---------- Base ---------- */
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  font-family: var(--ui);
+  color: var(--text);
+  background:
+    radial-gradient(900px 450px at 20% -10%, rgba(24,201,139,.14), transparent 55%),
+    radial-gradient(800px 400px at 80% 0%, rgba(24,201,139,.10), transparent 52%),
+    linear-gradient(180deg, #0b0f14 0%, var(--bg) 40%, #0b0f14 100%);
+}
+
+/* Optional “GitHub page” feel */
+a{ color: rgba(88,166,255,.95); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+.container{
+  width: min(var(--container), calc(100% - (var(--padX) * 2)));
+  margin: 0 auto;
+}
+
+/* ---------- Section rhythm (keep your clamp but more GitHub) ---------- */
 .section{
-  padding: clamp(40px, 5vw, 72px) 0;
+  padding: clamp(28px, 4vw, 56px) 0;
 }
 
 .pad{
-  padding: clamp(18px, 2.2vw, 28px);
+  padding: clamp(14px, 2vw, 22px);
 }
 
-/* ---------- Typography ---------- */
+/* ---------- Headings / text (GitHub-ish) ---------- */
+h1, h2, h3{ margin: 0; letter-spacing: -0.01em; }
 h2{
-  margin: 0 0 18px;
-  font-size: clamp(22px, 2.4vw, 32px);
+  margin: 0 0 14px;
+  font-size: clamp(20px, 2.1vw, 28px);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.25;
 }
-
 h3{
-  margin: 0 0 10px;
-  font-size: clamp(16px, 1.6vw, 20px);
-  font-weight: 500;
+  margin: 0 0 8px;
+  font-size: clamp(15px, 1.5vw, 18px);
+  font-weight: 600;
   line-height: 1.35;
 }
-
 p{
   margin: 0;
   color: var(--muted);
-  line-height: 1.6;
-  font-size: 15.5px;
+  line-height: 1.65;
+  font-size: 15px;
 }
 
-/* ---------- Grid system ---------- */
+/* ---------- Panels / cards (GitHub boxes) ---------- */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  box-shadow: var(--shadow);
+}
+
+.cardHeader{
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTitle{
+  font-family: var(--ui);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.badge{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: rgba(255,255,255,.02);
+}
+
+.cardBody{
+  padding: clamp(14px, 2vw, 20px);
+}
+
+/* ---------- “Repo-like” meta line ---------- */
+.metaLine{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted2);
+}
+.metaLine span{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Grid system (cleaner, less “marketing”) ---------- */
 .grid3{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 2vw, 22px);
+  gap: var(--gap);
   align-items: stretch;
 }
 
 .grid2{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(14px, 2vw, 22px);
+  gap: var(--gap);
   align-items: stretch;
 }
 
-/* ---------- Media blocks ---------- */
+/* ---------- Media blocks (GitHub preview-style) ---------- */
 .mediaWide{
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: var(--r2);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.02);
 }
 
 .mediaWide img{
@@ -59,38 +169,108 @@ p{
   height: 100%;
   object-fit: cover;
   display: block;
-  transform: scale(1.02);
 }
 
-/* ---------- Contact line ---------- */
+/* ---------- Code / “file view” blocks ---------- */
+.codeBlock{
+  font-family: var(--mono);
+  font-size: 12.8px;
+  line-height: 1.6;
+  color: rgba(240,246,252,.86);
+  background: #0b1220;
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+}
+
+.codeBlock .codeTop{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border2);
+  background: rgba(255,255,255,.02);
+}
+
+.codeBlock pre{
+  margin: 0;
+  padding: 12px;
+  overflow: auto;
+}
+
+/* ---------- Buttons (GitHub-ish) ---------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .08s ease, background .15s ease, border-color .15s ease;
+}
+.btn:hover{
+  background: rgba(255,255,255,.05);
+  border-color: rgba(240,246,252,.18);
+}
+.btn:active{ transform: translateY(1px); }
+
+.btnAccent{
+  border-color: rgba(24,201,139,.35);
+  background: linear-gradient(180deg, rgba(24,201,139,.22), rgba(24,201,139,.12));
+}
+.btnAccent:hover{
+  border-color: rgba(24,201,139,.55);
+  background: linear-gradient(180deg, rgba(24,201,139,.28), rgba(24,201,139,.14));
+}
+
+/* ---------- Contact line (tighter) ---------- */
 .contactLine{
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 14px;
-  margin-top: 14px;
-  font-size: 14px;
+  gap: 8px 12px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted2);
 }
 
 /* ---------- Footer ---------- */
 .footer{
-  padding: clamp(28px, 4vw, 54px) 0;
-  margin-top: clamp(28px, 4vw, 60px);
-
-  color: var(--muted);
-  font-size: 13.5px;
-  line-height: 1.6;
-
-  border-top: 1px solid rgba(234,247,242,.10);
+  padding: clamp(22px, 3.5vw, 44px) 0;
+  margin-top: clamp(22px, 3.5vw, 52px);
+  color: var(--muted2);
+  font-size: 12.8px;
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px){
-  .grid3,
-  .grid2{
-    grid-template-columns: 1fr;
-  }
+  .grid3, .grid2{ grid-template-columns: 1fr; }
+  .section{ padding: 40px 0; }
+}
 
-  .section{
-    padding: 44px 0;
-  }
+/* ---------- Optional subtle “digital” accent (very restrained) ---------- */
+.digitalHint{
+  position: relative;
+  overflow: hidden;
+}
+.digitalHint::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(700px 220px at 15% 0%, rgba(24,201,139,.10), transparent 55%),
+    radial-gradient(600px 220px at 85% 0%, rgba(24,201,139,.08), transparent 55%),
+    linear-gradient(90deg, rgba(24,201,139,.06), transparent 35%, transparent 65%, rgba(24,201,139,.06));
+  opacity:.55;
+  pointer-events:none;
+  mix-blend-mode: screen;
 }
