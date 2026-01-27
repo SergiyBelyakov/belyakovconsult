@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Belyakov Consult — Data Architecture & Digital Transformation</title>
-  <meta name="description" content="Premium consulting in data architecture, integration, and digital transformation for enterprise and public-sector leaders." />
+
+  <title>Belyakov Consult — BI & Analytics Architecture for High-Stakes Decisions</title>
+  <meta name="description" content="Hands-on BI and analytics architecture for regulated, donor-funded, and high-stakes environments where trust in analytics determines decisions." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://belyakovconsult.com/" />
 
@@ -15,8 +16,8 @@
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="x-default" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Belyakov Consult — Data Architecture & Digital Transformation" />
-  <meta property="og:description" content="Premium consulting in data architecture, integration, and digital transformation for enterprise leaders." />
+  <meta property="og:title" content="Belyakov Consult — BI & Analytics Architecture for High-Stakes Decisions" />
+  <meta property="og:description" content="When analytics are wrong, decisions become liabilities. Hands-on BI and analytics architecture to restore trust under pressure." />
   <meta property="og:url" content="https://belyakovconsult.com/" />
   <meta property="og:image" content="https://belyakovconsult.com/assets/og-1200x630.jpg" />
   <meta property="og:site_name" content="Belyakov Consult" />
@@ -34,16 +35,53 @@
     "@type": "ProfessionalService",
     "name": "Belyakov Consult",
     "url": "https://belyakovconsult.com",
-    "description": "Premium consulting in data architecture, integration, and digital transformation.",
-    "telephone": "+380441234567",
+    "description": "Hands-on BI and analytics architecture for high-stakes environments where trust in analytics determines decisions.",
+    "telephone": "+380936859779",
     "email": "hello@belyakovconsult.com",
     "sameAs": [
-      "https://www.linkedin.com/company/belyakovconsult",
-      "https://www.facebook.com/belyakovconsult"
+      "https://www.linkedin.com/in/sergiy-belyakov",
+      "https://www.facebook.com/sergiy.belyakov"
     ]
   }
   </script>
+
+  <!-- Messenger icons: same “socials” style (stroke outline, consistent hover) -->
+  <style>
+    /* HERO buttons alignment (if not already in style.css) */
+    .hero-actions{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
+    .hero-actions .btn{flex:1 1 260px;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:56px;white-space:nowrap}
+
+    /* Symmetry: equal card heights */
+    .grid.grid-3{grid-auto-rows:1fr}
+    .grid.grid-3>.card{height:100%}
+
+    /* Contact: icon row in the SAME style as .socials (outline, circular, hover) */
+    .messenger-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .messenger-row a{
+      width:40px;height:40px;border-radius:999px;
+      display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+      color: inherit;
+    }
+    .messenger-row a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.22);
+    }
+    .messenger-row svg{
+      width:18px;height:18px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      opacity:.92;
+    }
+  </style>
 </head>
+
 <body>
   <header class="header glass">
     <div class="container nav">
@@ -51,223 +89,400 @@
         <div class="brand-mark" aria-hidden="true"></div>
         <div class="brand-text">
           <strong>Belyakov Consult</strong>
-          <span>Data • Architecture • Transformation</span>
+          <span>BI • Analytics • Trust</span>
         </div>
       </a>
+
       <nav class="nav-links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#cases">Cases</a>
         <a href="#contact">Contact</a>
       </nav>
+
       <div class="nav-actions">
         <div class="lang-switch" aria-label="Language">
-          <a class="active" href="/index.html">EN</a>
-          <a href="/uk/index.html">UA</a>
-          <a href="/pt/index.html">PT</a>
-          <a href="/ru/index.html">RU</a>
+          <a class="active" href="/index.html" title="English">EN</a>
+          <a href="/uk/index.html" title="Ukrainian">UA</a>
+          <a href="/pt/index.html" title="Portuguese">PT</a>
+          <a href="/ru/index.html" title="Russian">RU</a>
         </div>
+
         <div class="socials">
-          <a href="https://www.linkedin.com/company/belyakovconsult" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/sergiy-belyakov" aria-label="LinkedIn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.3 8.2h4.4v14.3H.3V8.2zM8.7 8.2h4.2v2h.1c.6-1.1 2.2-2.3 4.5-2.3 4.8 0 5.7 3.2 5.7 7.4v7.2h-4.4v-6.4c0-1.5 0-3.5-2.1-3.5-2.1 0-2.4 1.6-2.4 3.4v6.6H8.7V8.2z"/>
             </svg>
           </a>
-          <a href="https://www.facebook.com/belyakovconsult" aria-label="Facebook">
+
+          <a href="https://www.facebook.com/sergiy.belyakov" aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.3c0-2.4 1.4-3.7 3.5-3.7 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4v1.7H16l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
         </div>
-        <button class="menu-toggle" aria-label="Open menu">☰</button>
+
+        <button class="menu-toggle" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
 
   <main>
+    <!-- HERO -->
     <section id="hero" class="hero">
       <div class="hero-media">
         <picture>
           <source type="image/webp" data-srcset="assets/hero-640.webp 640w, assets/hero-1024.webp 1024w, assets/hero-1280.webp 1280w" />
-          <img src="assets/hero-lqip.jpg" data-src="assets/hero-1280.jpg" data-srcset="assets/hero-640.jpg 640w, assets/hero-1024.jpg 1024w, assets/hero-1280.jpg 1280w" sizes="100vw" alt="Portrait of Belyakov consultant" width="1280" height="720" />
+          <img
+            src="assets/hero-lqip.jpg"
+            data-src="assets/hero-1280.jpg"
+            data-srcset="assets/hero-640.jpg 640w, assets/hero-1024.jpg 1024w, assets/hero-1280.jpg 1280w"
+            sizes="100vw"
+            alt="BI and analytics for high-stakes decision-making"
+            width="1280"
+            height="720"
+          />
         </picture>
       </div>
+
       <div class="container hero-content">
-        <p class="section-lead">Executive-grade advisory for CDTOs, CIOs, and transformation leaders.</p>
-        <h1 class="hero-title">Data & Architecture Consulting for Digital Transformation</h1>
-        <p class="hero-lead">Unify enterprise data, modernize architecture, and deliver measurable transformation outcomes with a trusted, hands-on consulting partner.</p>
+        <p class="section-lead">National-scale systems · Donor-funded programs · Regulated environments</p>
+        <h1 class="hero-title">When analytics are wrong, decisions become liabilities</h1>
+
+        <p class="hero-lead">
+          Hands-on BI and analytics architecture for environments where trust, funding, and policy depend on data.
+        </p>
+        <p class="hero-lead" style="opacity:.92">
+          Dashboards can look convincing — and still mislead.
+          Metrics drift from reality. Methodologies break silently.
+          When leadership or donors stop trusting analytics, systems stall.
+        </p>
+
         <div class="hero-actions">
-          <a class="btn btn-primary neu" href="https://calendly.com/belyakovconsult/intro" data-calendly>Schedule a consultation</a>
-          <a class="btn btn-secondary" href="#contact">Talk to us</a>
+          <a class="btn btn-primary neu" href="#contact">Assess your analytics for decision risk</a>
+          <a class="btn btn-secondary" href="#services">View the diagnostic approach</a>
         </div>
       </div>
-      <div class="scroll-hint">Scroll</div>
     </section>
 
+    <!-- ABOUT / CHALLENGES -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Challenges CDTOs and CIOs face today</h2>
-        <p class="section-lead reveal">We work with large programs and public-sector initiatives where data complexity, legacy technology, and integration risks can stall transformation.</p>
+        <h2 class="section-title reveal">Why analytics fail at the decision level</h2>
+        <p class="section-lead reveal">
+          Most organizations do not lack data. They lack analytics that reflects reality under pressure.
+          In high-stakes environments, analytics failure has consequences: funding decisions are delayed or questioned,
+          leadership avoids data in critical moments, and shadow reporting replaces BI.
+        </p>
+
         <div class="grid grid-3">
           <div class="card reveal">
-            <h3>Fragmented data estates</h3>
-            <p>Critical data is locked in siloed platforms, delaying analytics and decision-making.</p>
+            <h3>Misleading KPIs</h3>
+            <p>Indicators look stable while drifting away from operational truth and policy definitions.</p>
           </div>
           <div class="card reveal">
-            <h3>Legacy architecture debt</h3>
-            <p>Monolithic stacks limit agility, security, and the speed of new service delivery.</p>
+            <h3>Methodology drift</h3>
+            <p>Rules change quietly. Aggregations hide gaps. Dashboards keep updating as trust disappears.</p>
           </div>
           <div class="card reveal">
-            <h3>Integration bottlenecks</h3>
-            <p>Complex middleware and API sprawl slow onboarding of new partners and systems.</p>
+            <h3>Shadow reporting</h3>
+            <p>Parallel spreadsheets and manual reconciliation emerge when BI stops being defensible.</p>
           </div>
           <div class="card reveal">
-            <h3>Governance gaps</h3>
-            <p>Data quality, ownership, and compliance issues undermine stakeholder trust.</p>
+            <h3>Quality decay</h3>
+            <p>Duplicates, overrides, and uncontrolled transformations distort analytics without visible system errors.</p>
           </div>
           <div class="card reveal">
-            <h3>Transformation pressure</h3>
-            <p>Boards demand results quickly while internal teams juggle capacity constraints.</p>
+            <h3>Accountability pressure</h3>
+            <p>Donors and leadership demand traceability—numbers alone are not enough.</p>
+          </div>
+          <div class="card reveal">
+            <h3>Decision disconnect</h3>
+            <p>Leaders stop using BI in critical moments and default to intuition or “trusted” offline narratives.</p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- SERVICES -->
     <section id="services" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Solutions and expertise</h2>
-        <p class="section-lead reveal">We combine strategic vision with delivery-grade execution to help leaders move from plan to impact.</p>
+        <h2 class="section-title reveal">What I actually do</h2>
+        <p class="section-lead reveal">
+          This is not “more dashboards.” This is restoring trust in analytics so decisions remain legitimate under scrutiny.
+        </p>
+
         <div class="grid grid-3">
           <div class="card reveal">
-            <h3>End-to-end data architecture</h3>
-            <p>Target-state architecture, migration blueprints, and scalable platforms for analytics and AI readiness.</p>
+            <h3>Analytics diagnostic</h3>
+            <p><strong>Identify where your analytics stops reflecting reality.</strong></p>
+            <p>
+              Review KPI logic, aggregation rules, and indicator definitions. Trace metrics back to sources and assumptions.
+              Detect silent data quality decay that distorts analytics.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> leadership sees which decisions are currently based on unreliable signals — and why.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Integration & API strategy</h3>
-            <p>Modern integration frameworks, event-driven architectures, and API governance for speed and resilience.</p>
+            <h3>BI & analytics platform rebuild</h3>
+            <p><strong>Rebuild analytics so decisions are grounded in reality, not visuals.</strong></p>
+            <p>
+              Redesign data models with embedded quality controls. Remove silent fixes, manual overrides, and uncontrolled transformations.
+              Align BI metrics with operational and policy definitions.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> analytics becomes a defensible decision interface, not a reporting layer.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Digital transformation strategy</h3>
-            <p>Program roadmaps, KPI-driven governance, and executive alignment across business and IT.</p>
+            <h3>M&amp;E and accountability analytics</h3>
+            <p><strong>Make analytics withstand scrutiny — internal and external.</strong></p>
+            <p>
+              Embed data quality rules directly into indicators. Ensure traceability from metric to source.
+              Replace “presentation-ready” KPIs with auditable logic.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> donors and leadership trust not just the numbers, but the methodology behind them.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Data governance & quality</h3>
-            <p>Operating models, stewardship, and quality controls that rebuild trust in data assets.</p>
+            <h3>Transformation support</h3>
+            <p><strong>Hands-on intervention where analytics blocks progress.</strong></p>
+            <p>
+              Step in when analytics undermines transformation programs. Translate BI and data quality issues into architectural actions.
+              Stabilize decision-making during high-pressure phases.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> transformation regains momentum because decisions regain credibility.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Delivery acceleration</h3>
-            <p>Rapid assessments and 10–30 day quick wins that unlock momentum.</p>
+            <h3>Embedded data quality</h3>
+            <p>
+              Quality is not cleanup. It is the diagnostic signal of where the system no longer reflects reality.
+              Controls belong inside the analytics layer—otherwise BI drifts again.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> analytics stops drifting; trust becomes measurable.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Executive advisory</h3>
-            <p>Confidential guidance for senior leaders during high-stakes transformation decisions.</p>
+            <h3>Executive alignment</h3>
+            <p>
+              When analytics is contested, the problem is often organizational: definitions, ownership, and accountability.
+              I align stakeholders around auditable logic—before decisions get politicized.
+            </p>
+            <p class="muted"><strong>Outcome:</strong> one shared reality for decision-making.</p>
           </div>
         </div>
+
         <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="https://calendly.com/belyakovconsult/intro" data-calendly>Discover the approach</a>
+          <a class="btn btn-primary neu" href="#contact">See if your analytics can be trusted for decisions</a>
         </div>
       </div>
     </section>
 
+    <!-- CASES -->
     <section id="cases" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Portfolio highlights</h2>
-        <p class="section-lead reveal">Selected engagements that demonstrate measurable outcomes across enterprise and public-sector environments.</p>
+        <h2 class="section-title reveal">Selected cases (anonymized)</h2>
+        <p class="section-lead reveal">
+          I do not publish client names in sensitive environments. The cases below describe the sphere, the failure mode, the intervention, and the outcome.
+        </p>
+
         <div class="grid grid-2">
           <article class="card case-card reveal">
             <picture>
               <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img src="assets/case-lqip.jpg" data-src="assets/case-1280.jpg" data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w" sizes="(max-width: 768px) 100vw, 520px" alt="Integration platform dashboard for a national bank" width="1280" height="720" loading="lazy" />
+              <img
+                src="assets/case-lqip.jpg"
+                data-src="assets/case-1280.jpg"
+                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
+                sizes="(max-width: 768px) 100vw, 520px"
+                alt="National social policy analytics case"
+                width="1280"
+                height="720"
+                loading="lazy"
+              />
             </picture>
-            <h3>National Bank Integration Program</h3>
-            <p>Unified 40+ legacy systems, reduced onboarding time by 55%, and established API governance for new services.</p>
+            <h3>National Social Policy Analytics</h3>
+            <p class="muted"><strong>Context:</strong> fragmented registries, politically sensitive indicators.</p>
+            <p class="muted"><strong>Problem:</strong> dashboards were used — and systematically misleading. Trust eroded.</p>
+            <p class="muted"><strong>Intervention:</strong> rebuilt KPI logic, aligned indicators with definitions, removed manual “presentation fixes”.</p>
+            <p><strong>Result:</strong> analytics became usable for policy decisions and accountability.</p>
           </article>
+
           <article class="card case-card reveal">
             <picture>
               <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img src="assets/case-lqip.jpg" data-src="assets/case-1024.jpg" data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w" sizes="(max-width: 768px) 100vw, 520px" alt="Government analytics modernization case" width="1280" height="720" loading="lazy" />
+              <img
+                src="assets/case-lqip.jpg"
+                data-src="assets/case-1024.jpg"
+                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
+                sizes="(max-width: 768px) 100vw, 520px"
+                alt="Healthcare analytics GIS and BI case"
+                width="1280"
+                height="720"
+                loading="lazy"
+              />
             </picture>
-            <h3>Public Sector Data Modernization</h3>
-            <p>Designed a national analytics platform with governance, security, and KPI dashboards for executive oversight.</p>
+            <h3>Healthcare System Analytics (GIS + BI)</h3>
+            <p class="muted"><strong>Context:</strong> national network under reform pressure; coverage metrics tied to decisions.</p>
+            <p class="muted"><strong>Problem:</strong> dashboards looked correct but masked structural access gaps.</p>
+            <p class="muted"><strong>Intervention:</strong> integrated GIS with BI, revalidated assumptions, rebuilt accessibility metrics.</p>
+            <p><strong>Result:</strong> decision-makers saw where the system actually failed — not where reports suggested stability.</p>
           </article>
+
           <article class="card case-card reveal">
             <picture>
               <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img src="assets/case-lqip.jpg" data-src="assets/case-1280.jpg" data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w" sizes="(max-width: 768px) 100vw, 520px" alt="Enterprise data platform architecture case" width="1280" height="720" loading="lazy" />
+              <img
+                src="assets/case-lqip.jpg"
+                data-src="assets/case-1280.jpg"
+                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
+                sizes="(max-width: 768px) 100vw, 520px"
+                alt="Reform monitoring and evaluation analytics platform case"
+                width="1280"
+                height="720"
+                loading="lazy"
+              />
             </picture>
-            <h3>Enterprise Data Platform</h3>
-            <p>Delivered a cloud-ready architecture that accelerated analytics adoption across 12 business units.</p>
+            <h3>Reform M&amp;E Analytics Platform</h3>
+            <p class="muted"><strong>Context:</strong> multi-stakeholder program with donor oversight and regional reporting.</p>
+            <p class="muted"><strong>Problem:</strong> indicators existed, but methodology drift made comparisons unreliable.</p>
+            <p class="muted"><strong>Intervention:</strong> standardized logic, embedded quality controls, removed shadow reporting.</p>
+            <p><strong>Result:</strong> analytics became defensible to donors and usable for steering the reform.</p>
           </article>
+        </div>
+
+        <div style="margin-top: 32px" class="reveal">
+          <a class="btn btn-primary neu" href="#contact">Assess whether your analytics reflect reality</a>
         </div>
       </div>
     </section>
 
+    <!-- OUTCOMES -->
     <section class="section">
       <div class="container">
-        <h2 class="section-title reveal">Client testimonials</h2>
-        <p class="section-lead reveal">Executive teams rely on us for clarity, speed, and trusted delivery.</p>
+        <h2 class="section-title reveal">Decision outcomes after trust is restored</h2>
+        <p class="section-lead reveal">Not more reporting. A decision system that holds under pressure.</p>
+
         <div class="grid grid-3">
           <div class="testimonial reveal">
-            <p>“Belyakov Consult aligned our executive team and delivered a data strategy we could execute immediately.”</p>
-            <strong>Olena K., CDTO — National Services Group</strong>
+            <p>Analytics becomes defensible: leadership can explain metrics without hand-waving.</p>
+            <strong>Decision level</strong>
           </div>
           <div class="testimonial reveal">
-            <p>“Their architecture roadmap reduced integration risk and helped us launch new services on time.”</p>
-            <strong>Marco S., CIO — Regional Bank</strong>
+            <p>Indicators become auditable: oversight sees traceability from metric to source.</p>
+            <strong>Accountability level</strong>
           </div>
           <div class="testimonial reveal">
-            <p>“We finally have governance that is measurable, transparent, and adopted across the organization.”</p>
-            <strong>Elena R., Program Director — Public Sector</strong>
+            <p>Shadow reporting collapses: teams stop maintaining parallel spreadsheets to “make numbers work”.</p>
+            <strong>Operational level</strong>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- FINAL CTA -->
     <section class="section">
       <div class="container">
         <div class="cta reveal">
-          <h2 class="section-title">Ready to lead your transformation?</h2>
-          <p class="section-lead">Schedule a confidential strategy call to assess priorities, risks, and quick wins.</p>
-          <a class="btn btn-primary neu" href="https://calendly.com/belyakovconsult/intro" data-calendly>Book a strategy call</a>
+          <h2 class="section-title">Ready to test whether your analytics can be trusted?</h2>
+          <p class="section-lead">
+            If decisions, funding, or policy depend on your dashboards, it is worth knowing where they might be wrong.
+          </p>
+          <a class="btn btn-primary neu" href="#contact">Request an analytics diagnostic</a>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer id="contact" class="footer">
     <div class="container footer-grid">
       <div>
         <h3>Belyakov Consult</h3>
-        <p class="section-lead">Premium advisory for data, architecture, and digital transformation leaders.</p>
+        <p class="section-lead">
+          High-stakes environments require analytics that holds under pressure.
+          Hands-on BI and analytics architecture where failure is not an option.
+        </p>
+
         <div class="socials">
-          <a href="https://www.linkedin.com/company/belyakovconsult" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/sergiy-belyakov/" aria-label="LinkedIn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.3 8.2h4.4v14.3H.3V8.2zM8.7 8.2h4.2v2h.1c.6-1.1 2.2-2.3 4.5-2.3 4.8 0 5.7 3.2 5.7 7.4v7.2h-4.4v-6.4c0-1.5 0-3.5-2.1-3.5-2.1 0-2.4 1.6-2.4 3.4v6.6H8.7V8.2z"/>
             </svg>
           </a>
-          <a href="https://www.facebook.com/belyakovconsult" aria-label="Facebook">
+          <a href="https://www.facebook.com/sergiy.belyakov" aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.3c0-2.4 1.4-3.7 3.5-3.7 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4v1.7H16l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
         </div>
       </div>
+
       <div>
         <h3>Contact</h3>
         <div class="contact-list">
-          <a href="tel:+380441234567">📞 +38 (044) 123-45-67</a>
-          <a href="mailto:hello@belyakovconsult.com">✉️ hello@belyakovconsult.com</a>
-          <a href="https://calendly.com/belyakovconsult/intro" data-calendly>📅 Schedule a consultation</a>
+          <a href="tel:+380936859779">Phone: +38 (093) 685-97-79</a>
+          <a href="mailto:hello@belyakovconsult.com">Email: hello@belyakovconsult.com</a>
+        </div>
+
+        <!-- Messenger icons: same outline/circle style as socials -->
+        <div class="messenger-row" aria-label="Messengers">
+          <!-- WhatsApp -->
+          <a href="https://wa.me/380936859779" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 11.5a8 8 0 0 1-12.7 6.4L4 19l1.2-3.1A8 8 0 1 1 20 11.5Z"/>
+              <path d="M9.1 9.3c.2-.5.4-.5.6-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4 0 .6l-.3.5c-.1.2-.1.3 0 .4.3.6 1 1.3 1.6 1.6.1.1.3.1.4 0l.5-.3c.2-.1.4-.1.6 0l1.6.7c.3.1.4.3.4.5v.5c0 .2 0 .4-.5.6-.6.3-1.6.2-2.6-.2-1.6-.7-3.4-2.4-4.1-4.1-.4-1-.5-2-.2-2.6Z"/>
+            </svg>
+          </a>
+
+          <!-- Telegram (web link) -->
+          <a href="https://t.me/+380936859779" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 5 10 12"/>
+              <path d="M21 5 14 21l-4-9-8-3 19-4Z"/>
+            </svg>
+          </a>
+
+          <!-- Viber (deep link) -->
+          <a href="viber://chat?number=%2B380936859779" aria-label="Viber">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 6h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-3 2v-2H7a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z"/>
+              <path d="M9.2 10.2c.2-.4.4-.4.6-.4h.3c.2 0 .3.1.4.3l.6 1.3c.1.2.1.4 0 .5l-.3.4c-.1.1-.1.2 0 .3.3.5.9 1.1 1.4 1.4.1.1.2.1.3 0l.4-.3c.1-.1.3-.1.5 0l1.3.6c.2.1.3.2.3.4v.3c0 .2 0 .4-.4.6-.5.2-1.3.2-2.1-.1-1.3-.6-2.8-2-3.4-3.4-.3-.8-.3-1.6-.1-2.1Z"/>
+            </svg>
+          </a>
+
+          <!-- Email icon (symmetry / quick action) -->
+          <a href="mailto:hello@belyakovconsult.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16v12H4z"/>
+              <path d="M4 7l8 6 8-6"/>
+            </svg>
+          </a>
         </div>
       </div>
+
       <div>
-        <h3>Request a call</h3>
-        <form class="form" action="https://formspree.io/f/xbjnzqrg" method="post">
-          <input type="text" name="name" placeholder="Name" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
-          <button class="btn btn-primary neu" type="submit">Send request</button>
+        <h3>Request a diagnostic</h3>
+
+        <p class="muted">
+          Submit your request and I will personally confirm next steps within 12–24 hours.
+        </p>
+
+        <form class="form" action="https://formspree.io/f/xykwoaql" method="post">
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Your email" required />
+          <input type="text" name="preferred_time" placeholder="Preferred time window (e.g. Tue–Thu, 10:00–14:00 UTC+2)" required />
+          <textarea name="message" rows="4" placeholder="Briefly describe your request (scope, urgency, decision context)" required></textarea>
+          <button class="btn btn-primary neu" type="submit">Submit diagnostic request</button>
         </form>
+
+        <p class="muted small">
+          No automated scheduling. High-touch, confidential, and tailored to your case.
+        </p>
       </div>
     </div>
   </footer>
