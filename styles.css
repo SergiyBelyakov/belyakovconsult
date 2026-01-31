@@ -1,5 +1,9 @@
+/* styles.css — custom overrides for Belyakov Consult (Premium Glass + Cases + 8-tiles grid)
+   Replace your current styles.css with this file.
+*/
+
 /* =========================
-   CONTACT ICONS (Premium Glass)
+   CONTACT ICONS (Premium Glass) — improved
    ========================= */
 
 .contact-icons{
@@ -33,6 +37,9 @@
     background .18s ease,
     border-color .18s ease,
     box-shadow .18s ease;
+
+  /* tap UX */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .contact-icon:hover{
@@ -46,13 +53,42 @@
     inset 0 1px 0 rgba(255,255,255,.08);
 }
 
+/* keyboard accessibility */
+.contact-icon:focus-visible{
+  outline: 2px solid rgba(255,255,255,.38);
+  outline-offset: 3px;
+}
+
+/* Premium look: prefer outline (stroke) icons */
 .contact-icon svg{
   width:18px;
   height:18px;
-  fill: currentColor;
-  opacity:.9;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  opacity:.92;
 }
 
+/* Fallback if backdrop-filter is unsupported */
+@supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))){
+  .contact-icon{
+    background: rgba(255,255,255,.06);
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .contact-icon{
+    transition: none;
+  }
+  .contact-icon:hover{
+    transform: none;
+  }
+}
 
 /* Prevent contact list overflow */
 .contact-list a{
@@ -63,7 +99,7 @@
 
 
 /* =========================
-   CASES (Consistent Premium Media)
+   CASES (Consistent Premium Media) — improved
    ========================= */
 
 .case-card{
@@ -72,6 +108,7 @@
   gap:14px;
 }
 
+/* Predictable media height regardless of original image ratio */
 .case-media{
   width:100%;
   aspect-ratio: 16 / 9;
@@ -92,11 +129,14 @@
   transition: transform .18s ease, box-shadow .18s ease;
 }
 
-.case-card:hover .case-media{
-  transform: translateY(-2px);
-  box-shadow:
-    0 20px 55px rgba(0,0,0,.42),
-    inset 0 1px 0 rgba(255,255,255,.06);
+/* Avoid hover weirdness on touch devices */
+@media (hover:hover) and (pointer:fine){
+  .case-card:hover .case-media{
+    transform: translateY(-2px);
+    box-shadow:
+      0 20px 55px rgba(0,0,0,.42),
+      inset 0 1px 0 rgba(255,255,255,.06);
+  }
 }
 
 .case-media picture,
@@ -116,7 +156,6 @@
   aspect-ratio: 3 / 4;
 }
 
-
 /* Reduce noise in long case descriptions */
 .case-card p{
   margin:0;
@@ -126,8 +165,7 @@
   margin-top:8px;
 }
 
-
-/* Mobile refinement */
+/* Mobile refinement: slightly taller preview (better balance with long text) */
 @media (max-width: 520px){
   .contact-icon{
     width:42px;
@@ -135,9 +173,11 @@
   }
 
   .case-media{
+    aspect-ratio: 4 / 3;
     border-radius:18px;
   }
 }
+
 
 /* =========================
    WHY ANALYTICS FAIL — 8 tiles grid
