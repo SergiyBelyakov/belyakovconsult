@@ -4,20 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Belyakov Consult — BI e analytics para decisões confiáveis</title>
-  <meta name="description" content="Arquitetura prática de BI e analytics para Portugal: quando a confiança na analítica determina decisões, auditorias e prestação de contas." />
+  <title>Belyakov Consult — Arquitetura de BI e Analytics para Decisões de Alto Risco</title>
+  <meta name="description" content="Arquitetura prática de BI e analytics para ambientes regulados, financiados por doadores e de alto risco, onde a confiança na analítica determina decisões." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://belyakovconsult.com/pt/index.html" />
+
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/logo-bc-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/logo-bc-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/logo-bc-180.png" />
 
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="en" />
   <link rel="alternate" href="https://belyakovconsult.com/uk/index.html" hreflang="uk" />
   <link rel="alternate" href="https://belyakovconsult.com/pt/index.html" hreflang="pt" />
-  <link rel="alternate" href="https://belyakovconsult.com/ru/index.html" hreflang="ru" />
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="x-default" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Belyakov Consult — BI e analytics para decisões confiáveis" />
-  <meta property="og:description" content="Quando a analítica falha, decisões viram risco. Reforço BI e métricas para que resistam a auditoria, pressão e escrutínio." />
+  <meta property="og:title" content="Belyakov Consult — Arquitetura de BI e Analytics para Decisões de Alto Risco" />
+  <meta property="og:description" content="Quando a analítica está errada, decisões viram passivos. Arquitetura prática de BI e analytics para restaurar confiança sob pressão." />
   <meta property="og:url" content="https://belyakovconsult.com/pt/index.html" />
   <meta property="og:image" content="https://belyakovconsult.com/assets/og-1200x630.jpg" />
   <meta property="og:site_name" content="Belyakov Consult" />
@@ -27,18 +30,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../styles.css" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Belyakov Consult",
-    "url": "https://belyakovconsult.com/pt/index.html",
-    "description": "Arquitetura prática de BI e analytics para decisões confiáveis em ambientes regulados e programas com elevada exigência de prestação de contas.",
+    "url": "https://belyakovconsult.com",
+    "description": "Arquitetura prática de BI e analytics para ambientes de alto risco, onde a confiança na analítica determina decisões.",
     "telephone": "+380936859779",
     "email": "hello@belyakovconsult.com",
-    "areaServed": "PT",
     "sameAs": [
       "https://www.linkedin.com/in/sergiy-belyakov",
       "https://www.facebook.com/sergiy.belyakov"
@@ -47,7 +50,10 @@
   </script>
 
   <style>
-    /* HERO buttons alignment */
+    /* Brand logo image (replaces gradient mark) */
+    .brand-mark{display:block;object-fit:cover}
+
+    /* HERO buttons alignment (if not already in style.css) */
     .hero-actions{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
     .hero-actions .btn{flex:1 1 260px;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:56px;white-space:nowrap}
 
@@ -55,7 +61,7 @@
     .grid.grid-3{grid-auto-rows:1fr}
     .grid.grid-3>.card{height:100%}
 
-    /* Contact: icon row */
+    /* Contact: icon row in the SAME style as .socials (outline, circular, hover) */
     .messenger-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
     .messenger-row a{
       width:40px;height:40px;border-radius:999px;
@@ -86,26 +92,27 @@
   <header class="header glass">
     <div class="container nav">
       <a class="brand" href="#hero">
-        <div class="brand-mark" aria-hidden="true"></div>
+        <img class="brand-mark" src="../assets/logo-bc-64.png"
+             srcset="../assets/logo-bc-32.png 32w, ../assets/logo-bc-64.png 64w, ../assets/logo-bc-96.png 96w"
+             sizes="44px" width="44" height="44" alt="Logotipo Belyakov Consult" decoding="async" />
         <div class="brand-text">
           <strong>Belyakov Consult</strong>
           <span>BI • Analytics • Confiança</span>
         </div>
       </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#about">Problemas</a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#about">Sobre</a>
         <a href="#services">Serviços</a>
         <a href="#cases">Casos</a>
-        <a href="#contact">Contacto</a>
+        <a href="#contact">Contato</a>
       </nav>
 
       <div class="nav-actions">
-        <div class="lang-switch" aria-label="Language">
+        <div class="lang-switch" aria-label="Idioma">
           <a href="/index.html" title="English">EN</a>
-          <a href="/uk/index.html" title="Ukrainian">UA</a>
-          <a class="active" href="/pt/index.html" title="Portuguese">PT</a>
-          <a href="/ru/index.html" title="Russian">RU</a>
+          <a href="/uk/index.html" title="Українська">UA</a>
+          <a class="active" href="/pt/index.html" title="Português">PT</a>
         </div>
 
         <div class="socials">
@@ -122,7 +129,7 @@
           </a>
         </div>
 
-        <button class="menu-toggle" aria-label="Open menu">
+        <button class="menu-toggle" aria-label="Abrir menu">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
@@ -136,13 +143,13 @@
     <section id="hero" class="hero">
       <div class="hero-media">
         <picture>
-          <source type="image/webp" data-srcset="/assets/hero-640.webp 640w, /assets/hero-1024.webp 1024w, /assets/hero-1280.webp 1280w" />
+          <source type="image/webp" data-srcset="../assets/hero-640.webp 640w, ../assets/hero-1024.webp 1024w, ../assets/hero-1280.webp 1280w" />
           <img
-            src="/assets/hero-lqip.jpg"
-            data-src="/assets/hero-1280.jpg"
-            data-srcset="/assets/hero-640.jpg 640w, /assets/hero-1024.jpg 1024w, /assets/hero-1280.jpg 1280w"
+            src="../assets/hero-lqip.jpg"
+            data-src="../assets/hero-1280.jpg"
+            data-srcset="../assets/hero-640.jpg 640w, ../assets/hero-1024.jpg 1024w, ../assets/hero-1280.jpg 1280w"
             sizes="100vw"
-            alt="BI e analytics para decisões de gestão"
+            alt="BI e analytics para decisões sob pressão"
             width="1280"
             height="720"
           />
@@ -150,21 +157,21 @@
       </div>
 
       <div class="container hero-content">
-        <p class="section-lead">Portugal · ambientes regulados · auditoria · prestação de contas</p>
-        <h1 class="hero-title">Quando a analítica falha, decisões viram risco</h1>
+        <p class="section-lead">Sistemas em escala nacional · Programas financiados por doadores · Ambientes regulados</p>
+        <h1 class="hero-title">Quando a analítica está errada, decisões viram passivos</h1>
 
         <p class="hero-lead">
-          Arquitetura prática de BI e analytics para contextos onde a confiança nas métricas define decisões, financiamentos e conformidade.
+          Arquitetura prática de BI e analytics para ambientes onde confiança, financiamento e políticas dependem de dados.
         </p>
         <p class="hero-lead" style="opacity:.92">
-          Um dashboard pode parecer convincente — e ainda assim enganar.
-          KPIs desviam da realidade. A metodologia quebra em silêncio.
-          Quando a liderança deixa de confiar, BI é substituído por folhas paralelas e narrativas.
+          Dashboards podem parecer convincentes — e ainda assim enganar.
+          Métricas se afastam da realidade. Metodologias quebram silenciosamente.
+          Quando liderança ou doadores deixam de confiar na analítica, sistemas travam.
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary neu" href="#contact">Avaliar risco de decisão</a>
-          <a class="btn btn-secondary" href="#services">Ver abordagem de diagnóstico</a>
+          <a class="btn btn-primary neu" href="#contact">Avaliar risco analítico para decisões</a>
+          <a class="btn btn-secondary" href="#services">Ver a abordagem diagnóstica</a>
         </div>
       </div>
     </section>
@@ -172,37 +179,51 @@
     <!-- ABOUT / CHALLENGES -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Porque a analítica falha ao nível da decisão</h2>
+        <h2 class="section-title reveal">Por que a analítica falha no nível de decisão</h2>
         <p class="section-lead reveal">
-          O problema raramente é “falta de dados”. É a analítica deixar de refletir a realidade sob pressão.
-          Em ambientes regulados ou com auditoria, isso traduz-se em: decisões atrasadas, números contestados,
-          e equipas a recorrerem a “shadow reporting” para justificar resultados.
+          A maioria das organizações não carece de dados. Carece de analítica que reflita a realidade sob pressão.
+          Quando decisões carregam risco político, financeiro ou reputacional, uma analítica fraca colapsa silenciosamente.
         </p>
 
-        <div class="grid grid-3">
+        <div class="grid grid-4">
           <div class="card reveal">
-            <h3>KPIs enganadores</h3>
-            <p>Indicadores parecem estáveis, mas afastam-se da verdade operacional e das definições oficiais.</p>
+            <h3>KPIs enganosos</h3>
+            <p>Indicadores parecem estáveis enquanto se afastam da realidade operacional e da intenção de política.</p>
           </div>
+
           <div class="card reveal">
             <h3>Deriva metodológica</h3>
-            <p>Regras mudam discretamente. Agregações escondem falhas. O dashboard continua a atualizar — e a confiança desaparece.</p>
+            <p>Definições e cálculos mudam discretamente, quebrando comparabilidade sem alarmes visíveis.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Shadow reporting</h3>
-            <p>Folhas paralelas e reconciliação manual surgem quando o BI deixa de ser confiável.</p>
+            <h3>Relatórios paralelos</h3>
+            <p>Planilhas paralelas e reconciliações manuais surgem quando o BI deixa de ser defensável.</p>
           </div>
+
           <div class="card reveal">
             <h3>Degradação da qualidade</h3>
-            <p>Duplicados, “ajustes” e transformações sem controlo distorcem resultados sem erros visíveis no sistema.</p>
+            <p>Duplicados, overrides e transformações não controladas distorcem a analítica sem erros aparentes.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Pressão de accountability</h3>
-            <p>Auditoria e gestão exigem rastreabilidade — números sem lógica auditável não chegam.</p>
+            <h3>Linhagem não verificável</h3>
+            <p>Sem rastreio claro do KPI à fonte. Sob escrutínio, números não se sustentam.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Ruptura com a decisão</h3>
-            <p>Em momentos críticos, a liderança deixa de usar BI e decide com base em intuição ou versões “offline”.</p>
+            <h3>“Ajustes” de apresentação</h3>
+            <p>Dados são mexidos para “parecer certo”. O dashboard sobrevive — a integridade, não.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Pressão por accountability</h3>
+            <p>Doadores e liderança exigem rastreabilidade — não apenas gráficos polidos.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Evitar decisões</h3>
+            <p>Em momentos críticos, líderes contornam o BI e recorrem à intuição ou narrativas informais.</p>
           </div>
         </div>
       </div>
@@ -211,76 +232,84 @@
     <!-- SERVICES -->
     <section id="services" class="section">
       <div class="container">
-        <h2 class="section-title reveal">O que eu faço, na prática</h2>
+        <h2 class="section-title reveal">O que eu realmente faço</h2>
         <p class="section-lead reveal">
-          Não é “mais dashboards”. É restaurar confiança para que decisões sejam confiáveis e sustentáveis sob escrutínio.
+          Não é “mais dashboards”. É restaurar confiança na analítica para que decisões permaneçam legítimas sob escrutínio.
         </p>
 
         <div class="grid grid-3">
           <div class="card reveal">
             <h3>Diagnóstico de analytics</h3>
-            <p><strong>Identifico onde a analítica deixa de refletir a realidade.</strong></p>
+            <p><strong>Identificar onde sua analítica deixa de refletir a realidade.</strong></p>
             <p>
-              Rever lógica de KPIs, regras de agregação e definições. Traçar métricas até fontes e pressupostos.
-              Detetar degradação silenciosa da qualidade que distorce resultados.
+              Revisão de lógica de KPI, regras de agregação e definições de indicadores. Rastreio de métricas às fontes e premissas.
+              Detecção de degradação silenciosa de qualidade que distorce resultados.
             </p>
-            <p class="muted"><strong>Resultado:</strong> a liderança percebe quais decisões estão baseadas em sinais não confiáveis — e porquê.</p>
+            <p class="muted"><strong>Resultado:</strong> a liderança vê quais decisões se baseiam em sinais não confiáveis — e por quê.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Rebuild de BI &amp; analytics</h3>
-            <p><strong>Reconstruo BI para que decisões sejam ancoradas na realidade, não em visuais.</strong></p>
+            <h3>Reconstrução de BI & plataforma analítica</h3>
+            <p><strong>Reformular analytics para decisões ancoradas na realidade, não no visual.</strong></p>
             <p>
-              Redesenhar modelos de dados com controlos de qualidade embutidos.
-              Remover “fixes” silenciosos, overrides manuais e transformações sem governação.
-              Alinhar métricas com definições operacionais e regulatórias.
+              Redesenho de modelos de dados com controles de qualidade embutidos. Remoção de ajustes manuais, overrides e transformações não controladas.
+              Alinhamento de métricas com definições operacionais e de política.
             </p>
-            <p class="muted"><strong>Resultado:</strong> BI torna-se uma interface confiável de decisão, não apenas reporting.</p>
+            <p class="muted"><strong>Resultado:</strong> o BI vira interface defensável de decisão, não uma camada de reporte.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Analytics para M&amp;E e accountability</h3>
-            <p><strong>Faço a analítica resistir a auditoria — interna e externa.</strong></p>
+            <h3>Analytics de M&amp;E e accountability</h3>
+            <p><strong>Fazer analytics resistir à auditoria — interna e externa.</strong></p>
             <p>
-              Embutir regras de qualidade diretamente nos indicadores.
-              Garantir rastreabilidade do KPI até à fonte.
-              Substituir KPIs “de apresentação” por lógica auditável.
+              Regras de qualidade incorporadas nos indicadores. Rastreabilidade da métrica à fonte.
+              Substituição de KPIs “apresentáveis” por lógica auditável.
             </p>
-            <p class="muted"><strong>Resultado:</strong> auditoria e gestão confiam não só nos números, mas na metodologia.</p>
+            <p class="muted"><strong>Resultado:</strong> doadores e liderança confiam nos números — e na metodologia por trás deles.</p>
           </div>
 
           <div class="card reveal">
             <h3>Suporte à transformação</h3>
-            <p><strong>Intervenção hands-on quando a analítica bloqueia progresso.</strong></p>
+            <p><strong>Intervenção prática quando a analítica bloqueia o progresso.</strong></p>
             <p>
-              Entrar quando BI e qualidade de dados travam programas.
-              Traduzir problemas de analytics em ações arquiteturais e de processo.
-              Estabilizar decisões em fases de alta pressão.
+              Atuação quando analytics mina programas de transformação. Traduzo problemas de BI e qualidade em ações arquiteturais.
+              Estabilizo decisão em fases de alta pressão.
             </p>
-            <p class="muted"><strong>Resultado:</strong> transformação recupera ritmo porque decisões voltam a ter base confiável.</p>
+            <p class="muted"><strong>Resultado:</strong> a transformação recupera velocidade porque decisões recuperam credibilidade.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Qualidade de dados embutida</h3>
+            <h3>Qualidade embutida</h3>
             <p>
-              Qualidade não é “limpeza”. É o sinal de onde o sistema já não reflete a realidade.
-              Controlos têm de existir dentro da camada analítica — caso contrário o BI volta a derivar.
+              Qualidade não é “limpeza”. É o sinal diagnóstico de onde o sistema deixou de refletir a realidade.
+              Controles precisam estar dentro da camada analítica — ou o BI deriva de novo.
             </p>
-            <p class="muted"><strong>Resultado:</strong> a analítica deixa de “derivar”; confiança torna-se mensurável.</p>
+            <p class="muted"><strong>Resultado:</strong> analytics para de derivar; confiança vira mensurável.</p>
           </div>
 
           <div class="card reveal">
             <h3>Alinhamento executivo</h3>
             <p>
-              Quando a analítica é contestada, o problema é muitas vezes organizacional: definições, ownership e responsabilidade.
-              Alinho stakeholders em torno de lógica auditável — antes das decisões serem politizadas.
+              Quando a analítica é contestada, o problema costuma ser organizacional: definições, ownership e accountability.
+              Eu alinho stakeholders em lógica auditável — antes de decisões se politizarem.
             </p>
-            <p class="muted"><strong>Resultado:</strong> uma realidade partilhada para decidir.</p>
+            <p class="muted"><strong>Resultado:</strong> uma realidade compartilhada para tomada de decisão.</p>
+          </div>
+
+          <!-- 2 blocos adicionais -->
+          <div class="card reveal">
+            <h3>Diagnóstico (10–14 dias)</h3>
+            <p>Avaliação em nível executivo que aponta deriva de KPI, causas raiz e as primeiras correções que restauram confiança.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Recuperação de KPI &amp; metodologia</h3>
+            <p>Revisão de definições, lógica de cálculo e governança para que relatórios resistam a auditoria e pressão.</p>
           </div>
         </div>
 
         <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="#contact">Verificar se a sua analítica é confiável</a>
+          <a class="btn btn-primary neu" href="#contact">Verificar se sua analítica é confiável para decisões</a>
         </div>
       </div>
     </section>
@@ -290,76 +319,115 @@
       <div class="container">
         <h2 class="section-title reveal">Casos selecionados (anonimizados)</h2>
         <p class="section-lead reveal">
-          Não publico nomes de clientes em contextos sensíveis. Abaixo: setor, modo de falha, intervenção e resultado.
+          Eu não publico nomes de clientes em ambientes sensíveis. Os casos abaixo descrevem o setor, o modo de falha, a intervenção e o resultado.
         </p>
 
         <div class="grid grid-2">
+          <!-- Case 1 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1280.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Caso de analytics em setor público/regulado"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>Sector público / ambiente regulado</h3>
-            <p class="muted"><strong>Contexto:</strong> múltiplas fontes, métricas sensíveis, alto escrutínio.</p>
-            <p class="muted"><strong>Problema:</strong> dashboards eram usados — mas induziam erro; confiança caiu.</p>
-            <p class="muted"><strong>Intervenção:</strong> reconstrução de lógica de KPIs, alinhamento de definições, eliminação de “ajustes” manuais.</p>
-            <p><strong>Resultado:</strong> BI tornou-se confiável para gestão e accountability.</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard-640.webp 640w,
+                    ../assets/dashboard-1024.webp 1024w,
+                    ../assets/dashboard-1280.webp 1280w,
+                    ../assets/dashboard-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard-lqip.jpg"
+                  data-src="../assets/dashboard-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard-640.jpg 640w,
+                    ../assets/dashboard-1024.jpg 1024w,
+                    ../assets/dashboard-1280.jpg 1280w,
+                    ../assets/dashboard-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Caso: analytics de política social em escala nacional"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Analytics de Política Social (escala nacional)</h3>
+            <p class="muted"><strong>Contexto:</strong> registros fragmentados, indicadores politicamente sensíveis.</p>
+            <p class="muted"><strong>Problema:</strong> dashboards eram usados — e sistematicamente enganosos. A confiança erodiu.</p>
+            <p class="muted"><strong>Intervenção:</strong> reconstrução da lógica de KPI, alinhamento de definições e remoção de “ajustes” manuais de apresentação.</p>
+            <p><strong>Resultado:</strong> analytics voltou a ser utilizável para decisões de política e accountability.</p>
           </article>
 
+          <!-- Case 2 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1024.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Caso de analytics com componente geoespacial (GIS)"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>Analytics com componente geoespacial (GIS + BI)</h3>
-            <p class="muted"><strong>Contexto:</strong> decisões dependem de cobertura e acesso; pressão por resultados.</p>
-            <p class="muted"><strong>Problema:</strong> dashboards mascaravam falhas estruturais e enviesavam decisões.</p>
-            <p class="muted"><strong>Intervenção:</strong> integração GIS com BI, validação de pressupostos, reconstrução de indicadores.</p>
-            <p><strong>Resultado:</strong> gestão viu onde o sistema falhava de facto — não onde o reporting sugeria estabilidade.</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard1-640.webp 640w,
+                    ../assets/dashboard1-1024.webp 1024w,
+                    ../assets/dashboard1-1280.webp 1280w,
+                    ../assets/dashboard1-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard1-lqip.jpg"
+                  data-src="../assets/dashboard1-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard1-640.jpg 640w,
+                    ../assets/dashboard1-1024.jpg 1024w,
+                    ../assets/dashboard1-1280.jpg 1280w,
+                    ../assets/dashboard1-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Caso: analytics de saúde (GIS + BI)"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Analytics do Sistema de Saúde (GIS + BI)</h3>
+            <p class="muted"><strong>Contexto:</strong> rede nacional sob pressão de reforma; métricas de cobertura ligadas a decisões.</p>
+            <p class="muted"><strong>Problema:</strong> dashboards pareciam corretos, mas escondiam lacunas estruturais de acesso.</p>
+            <p class="muted"><strong>Intervenção:</strong> integração de GIS com BI, revalidação de premissas e reconstrução de métricas de acessibilidade.</p>
+            <p><strong>Resultado:</strong> decisores enxergaram onde o sistema falhava — não onde relatórios sugeriam estabilidade.</p>
           </article>
 
+          <!-- Case 3 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1280.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Caso de M&E e prestação de contas"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>M&amp;E e prestação de contas</h3>
-            <p class="muted"><strong>Contexto:</strong> programa multi-stakeholder com auditoria e reporting regional.</p>
-            <p class="muted"><strong>Problema:</strong> deriva metodológica tornou comparações não confiáveis.</p>
-            <p class="muted"><strong>Intervenção:</strong> padronização de lógica, controlos embutidos, eliminação de shadow reporting.</p>
-            <p><strong>Resultado:</strong> analítica confiável para auditoria e útil para steering do programa.</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard2-640.webp 640w,
+                    ../assets/dashboard2-1024.webp 1024w,
+                    ../assets/dashboard2-1280.webp 1280w,
+                    ../assets/dashboard2-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard2-lqip.jpg"
+                  data-src="../assets/dashboard2-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard2-640.jpg 640w,
+                    ../assets/dashboard2-1024.jpg 1024w,
+                    ../assets/dashboard2-1280.jpg 1280w,
+                    ../assets/dashboard2-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Caso: plataforma de analytics de M&amp;E"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Plataforma de Analytics de M&amp;E (reforma)</h3>
+            <p class="muted"><strong>Contexto:</strong> programa multi-stakeholder com supervisão de doadores e reporte regional.</p>
+            <p class="muted"><strong>Problema:</strong> havia indicadores, mas a deriva metodológica tornava comparações pouco confiáveis.</p>
+            <p class="muted"><strong>Intervenção:</strong> padronização de lógica, controles de qualidade embutidos e eliminação de shadow reporting.</p>
+            <p><strong>Resultado:</strong> analytics ficou defensável para doadores e útil para conduzir a reforma.</p>
           </article>
         </div>
 
         <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="#contact">Avaliar se a sua analítica reflete a realidade</a>
+          <a class="btn btn-primary neu" href="#contact">Avaliar se sua analítica reflete a realidade</a>
         </div>
       </div>
     </section>
@@ -367,20 +435,20 @@
     <!-- OUTCOMES -->
     <section class="section">
       <div class="container">
-        <h2 class="section-title reveal">O que muda quando a confiança é restaurada</h2>
-        <p class="section-lead reveal">Não mais reporting. Um sistema de decisão confiável sob pressão.</p>
+        <h2 class="section-title reveal">Resultados de decisão após restaurar confiança</h2>
+        <p class="section-lead reveal">Não mais relatórios. Um sistema de decisão que se sustenta sob pressão.</p>
 
         <div class="grid grid-3">
           <div class="testimonial reveal">
-            <p>BI passa a ser confiável: decisões são explicáveis sem “truques” e sem ajustes de última hora.</p>
+            <p>Analytics vira defensável: liderança explica métricas sem “achismos”.</p>
             <strong>Nível de decisão</strong>
           </div>
           <div class="testimonial reveal">
-            <p>Indicadores tornam-se auditáveis: rastreabilidade do KPI até à fonte e regras explícitas.</p>
+            <p>Indicadores viram auditáveis: há rastreabilidade da métrica à fonte.</p>
             <strong>Nível de accountability</strong>
           </div>
           <div class="testimonial reveal">
-            <p>Shadow reporting desaparece: menos folhas paralelas para “fazer bater os números”.</p>
+            <p>Shadow reporting colapsa: equipes param de manter planilhas paralelas para “fazer números baterem”.</p>
             <strong>Nível operacional</strong>
           </div>
         </div>
@@ -391,11 +459,11 @@
     <section class="section">
       <div class="container">
         <div class="cta reveal">
-          <h2 class="section-title">Quer testar se a sua analítica é confiável?</h2>
+          <h2 class="section-title">Pronto para testar se sua analítica é confiável?</h2>
           <p class="section-lead">
-            Se decisões, compliance ou financiamento dependem de dashboards, vale a pena saber onde eles podem estar errados.
+            Se decisões, financiamento ou políticas dependem dos seus dashboards, vale saber onde eles podem estar errados.
           </p>
-          <a class="btn btn-primary neu" href="#contact">Pedir um diagnóstico</a>
+          <a class="btn btn-primary neu" href="#contact">Solicitar diagnóstico de analytics</a>
         </div>
       </div>
     </section>
@@ -407,8 +475,8 @@
       <div>
         <h3>Belyakov Consult</h3>
         <p class="section-lead">
-          Ambientes de alta pressão exigem analítica que se mantém confiável.
-          Arquitetura prática de BI e analytics onde falhar não é opção.
+          Ambientes de alto risco exigem analytics que se sustenta sob pressão.
+          Arquitetura prática de BI e analytics onde falhar não é uma opção.
         </p>
 
         <div class="socials">
@@ -426,13 +494,13 @@
       </div>
 
       <div>
-        <h3>Contacto</h3>
+        <h3>Contato</h3>
         <div class="contact-list">
           <a href="tel:+380936859779">Telefone: +38 (093) 685-97-79</a>
           <a href="mailto:hello@belyakovconsult.com">Email: hello@belyakovconsult.com</a>
         </div>
 
-        <div class="messenger-row" aria-label="Messengers">
+        <div class="messenger-row" aria-label="Mensageiros">
           <a href="https://wa.me/380936859779" target="_blank" rel="noopener" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 11.5a8 8 0 0 1-12.7 6.4L4 19l1.2-3.1A8 8 0 1 1 20 11.5Z"/>
@@ -464,22 +532,22 @@
       </div>
 
       <div>
-        <h3>Pedir um diagnóstico</h3>
+        <h3>Solicitar diagnóstico</h3>
 
         <p class="muted">
-          Envie o pedido — eu confirmo pessoalmente os próximos passos em 12–24 horas.
+          Envie sua solicitação — eu confirmarei pessoalmente os próximos passos em 12–24 horas.
         </p>
 
         <form class="form" action="https://formspree.io/f/xykwoaql" method="post">
-          <input type="text" name="name" placeholder="O seu nome" required />
-          <input type="email" name="email" placeholder="O seu email" required />
-          <input type="text" name="preferred_time" placeholder="Janela de horário (ex.: Ter–Qui, 10:00–14:00 UTC+1)" required />
-          <textarea name="message" rows="4" placeholder="Descreva o pedido (contexto, dimensão, urgência)" required></textarea>
-          <button class="btn btn-primary neu" type="submit">Enviar pedido</button>
+          <input type="text" name="name" placeholder="Seu nome" required />
+          <input type="email" name="email" placeholder="Seu email" required />
+          <input type="text" name="preferred_time" placeholder="Janela preferida (ex.: ter–qui, 10:00–14:00 UTC+2)" required />
+          <textarea name="message" rows="4" placeholder="Descreva brevemente (escopo, urgência, contexto de decisão)" required></textarea>
+          <button class="btn btn-primary neu" type="submit">Enviar solicitação</button>
         </form>
 
         <p class="muted small">
-          Sem agendamento automático. Confidencial, personalizado e orientado ao seu caso.
+          Sem agendamento automático. Alto contato, confidencial e sob medida.
         </p>
       </div>
     </div>
@@ -487,6 +555,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="/assets/main.js" defer></script>
+  <script src="../assets/main.js" defer></script>
 </body>
 </html>

@@ -1,41 +1,165 @@
-/* assets/style.css — додай в кінець */
+/* =========================
+   CONTACT ICONS (Premium Glass)
+   ========================= */
 
-/* Contact: рядок іконок месенджерів (симетрія + преміум) */
 .contact-icons{
   display:flex;
-  gap:12px;
+  gap:14px;
   flex-wrap:wrap;
-  margin-top:14px;
+  margin-top:16px;
 }
 
 .contact-icon{
-  width:40px;
-  height:40px;
+  width:44px;
+  height:44px;
   border-radius:999px;
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
-  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.035);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.06);
+
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
 
 .contact-icon:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,.07);
+  transform: translateY(-2px);
+
+  background: rgba(255,255,255,.06);
   border-color: rgba(255,255,255,.22);
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 .contact-icon svg{
   width:18px;
   height:18px;
   fill: currentColor;
-  opacity:.92;
+  opacity:.9;
 }
 
-/* щоб список контактів не “роздувався” від довгих рядків */
+
+/* Prevent contact list overflow */
 .contact-list a{
   display:block;
-  max-width: 100%;
+  max-width:100%;
   word-break: break-word;
+}
+
+
+/* =========================
+   CASES (Consistent Premium Media)
+   ========================= */
+
+.case-card{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.case-media{
+  width:100%;
+  aspect-ratio: 16 / 9;
+
+  overflow:hidden;
+  border-radius:22px;
+
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.025);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.05);
+
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.case-card:hover .case-media{
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.42),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.case-media picture,
+.case-media img{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+.case-media img{
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Optional portrait variant */
+.case-media.is-portrait{
+  aspect-ratio: 3 / 4;
+}
+
+
+/* Reduce noise in long case descriptions */
+.case-card p{
+  margin:0;
+}
+
+.case-card p + p{
+  margin-top:8px;
+}
+
+
+/* Mobile refinement */
+@media (max-width: 520px){
+  .contact-icon{
+    width:42px;
+    height:42px;
+  }
+
+  .case-media{
+    border-radius:18px;
+  }
+}
+
+/* =========================
+   WHY ANALYTICS FAIL — 8 tiles grid
+   ========================= */
+
+.grid-4{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:22px;
+  margin-top:34px;
+}
+
+/* Tablet: 2×4 */
+@media (max-width: 980px){
+  .grid-4{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1×8 */
+@media (max-width: 560px){
+  .grid-4{
+    grid-template-columns: 1fr;
+  }
 }

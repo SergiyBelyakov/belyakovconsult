@@ -4,20 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Belyakov Consult — BI та аналітика для надійних управлінських рішень</title>
-  <meta name="description" content="Практична BI та аналітична архітектура для України: коли довіра до аналітики визначає рішення керівництва, донорів і контролю." />
+  <title>Belyakov Consult — Архітектура BI та аналітики для рішень під тиском</title>
+  <meta name="description" content="Практична архітектура BI та аналітики для регульованих, донорських і високоризикових середовищ, де довіра до даних визначає рішення." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://belyakovconsult.com/uk/index.html" />
+
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/logo-bc-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/logo-bc-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/logo-bc-180.png" />
 
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="en" />
   <link rel="alternate" href="https://belyakovconsult.com/uk/index.html" hreflang="uk" />
   <link rel="alternate" href="https://belyakovconsult.com/pt/index.html" hreflang="pt" />
-  <link rel="alternate" href="https://belyakovconsult.com/ru/index.html" hreflang="ru" />
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="x-default" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Belyakov Consult — BI та аналітика для надійних управлінських рішень" />
-  <meta property="og:description" content="Коли аналітика помиляється — рішення стають ризиком. Відновлюю довіру до BI та показників у складних середовищах." />
+  <meta property="og:title" content="Belyakov Consult — Архітектура BI та аналітики для рішень під тиском" />
+  <meta property="og:description" content="Коли аналітика помиляється, рішення стають зобов’язаннями. Практична архітектура BI та аналітики, щоб повернути довіру під тиском." />
   <meta property="og:url" content="https://belyakovconsult.com/uk/index.html" />
   <meta property="og:image" content="https://belyakovconsult.com/assets/og-1200x630.jpg" />
   <meta property="og:site_name" content="Belyakov Consult" />
@@ -27,18 +30,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../styles.css" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Belyakov Consult",
-    "url": "https://belyakovconsult.com/uk/index.html",
-    "description": "Практична BI та аналітична архітектура для надійних управлінських рішень у державному секторі та великих програмах в Україні.",
+    "url": "https://belyakovconsult.com",
+    "description": "Практична архітектура BI та аналітики для високоризикових середовищ, де довіра до аналітики визначає рішення.",
     "telephone": "+380936859779",
     "email": "hello@belyakovconsult.com",
-    "areaServed": "UA",
     "sameAs": [
       "https://www.linkedin.com/in/sergiy-belyakov",
       "https://www.facebook.com/sergiy.belyakov"
@@ -47,7 +50,10 @@
   </script>
 
   <style>
-    /* HERO buttons alignment */
+    /* Brand logo image (replaces gradient mark) */
+    .brand-mark{display:block;object-fit:cover}
+
+    /* HERO buttons alignment (if not already in style.css) */
     .hero-actions{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
     .hero-actions .btn{flex:1 1 260px;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:56px;white-space:nowrap}
 
@@ -55,7 +61,7 @@
     .grid.grid-3{grid-auto-rows:1fr}
     .grid.grid-3>.card{height:100%}
 
-    /* Contact: icon row */
+    /* Contact: icon row in the SAME style as .socials (outline, circular, hover) */
     .messenger-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
     .messenger-row a{
       width:40px;height:40px;border-radius:999px;
@@ -86,26 +92,27 @@
   <header class="header glass">
     <div class="container nav">
       <a class="brand" href="#hero">
-        <div class="brand-mark" aria-hidden="true"></div>
+        <img class="brand-mark" src="../assets/logo-bc-64.png"
+             srcset="../assets/logo-bc-32.png 32w, ../assets/logo-bc-64.png 64w, ../assets/logo-bc-96.png 96w"
+             sizes="44px" width="44" height="44" alt="Логотип Belyakov Consult" decoding="async" />
         <div class="brand-text">
           <strong>Belyakov Consult</strong>
           <span>BI • Аналітика • Довіра</span>
         </div>
       </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#about">Проблеми</a>
+      <nav class="nav-links" aria-label="Основна навігація">
+        <a href="#about">Про підхід</a>
         <a href="#services">Послуги</a>
         <a href="#cases">Кейси</a>
         <a href="#contact">Контакти</a>
       </nav>
 
       <div class="nav-actions">
-        <div class="lang-switch" aria-label="Language">
+        <div class="lang-switch" aria-label="Мова">
           <a href="/index.html" title="English">EN</a>
-          <a class="active" href="/uk/index.html" title="Ukrainian">UA</a>
+          <a class="active" href="/uk/index.html" title="Українська">UA</a>
           <a href="/pt/index.html" title="Portuguese">PT</a>
-          <a href="/ru/index.html" title="Russian">RU</a>
         </div>
 
         <div class="socials">
@@ -122,7 +129,7 @@
           </a>
         </div>
 
-        <button class="menu-toggle" aria-label="Open menu">
+        <button class="menu-toggle" aria-label="Відкрити меню">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
@@ -136,13 +143,13 @@
     <section id="hero" class="hero">
       <div class="hero-media">
         <picture>
-          <source type="image/webp" data-srcset="/assets/hero-640.webp 640w, /assets/hero-1024.webp 1024w, /assets/hero-1280.webp 1280w" />
+          <source type="image/webp" data-srcset="../assets/hero-640.webp 640w, ../assets/hero-1024.webp 1024w, ../assets/hero-1280.webp 1280w" />
           <img
-            src="/assets/hero-lqip.jpg"
-            data-src="/assets/hero-1280.jpg"
-            data-srcset="/assets/hero-640.jpg 640w, /assets/hero-1024.jpg 1024w, /assets/hero-1280.jpg 1280w"
+            src="../assets/hero-lqip.jpg"
+            data-src="../assets/hero-1280.jpg"
+            data-srcset="../assets/hero-640.jpg 640w, ../assets/hero-1024.jpg 1024w, ../assets/hero-1280.jpg 1280w"
             sizes="100vw"
-            alt="BI та аналітика для управлінських рішень"
+            alt="BI та аналітика для рішень під тиском"
             width="1280"
             height="720"
           />
@@ -150,20 +157,20 @@
       </div>
 
       <div class="container hero-content">
-        <p class="section-lead">Україна · державний сектор · програми відновлення · донорський контроль</p>
-        <h1 class="hero-title">Коли аналітика помиляється — рішення стають ризиком</h1>
+        <p class="section-lead">Системи національного масштабу · Донорські програми · Регульовані середовища</p>
+        <h1 class="hero-title">Коли аналітика помиляється — рішення стають зобов’язаннями</h1>
 
         <p class="hero-lead">
-          Практична BI та аналітична архітектура для середовищ, де довіра до показників визначає фінансування, політики та управління.
+          Практична архітектура BI та аналітики для середовищ, де довіра, фінансування й політика залежать від даних.
         </p>
         <p class="hero-lead" style="opacity:.92">
-          Дашборд може виглядати переконливо — і водночас вводити в оману.
-          Показники «пливуть» від реальності. Методологія ламається тихо.
-          Коли керівництво або донори перестають довіряти аналітиці, програми зупиняються.
+          Дашборди можуть виглядати переконливо — і водночас вводити в оману.
+          Метрики відриваються від реальності. Методології ламаються тихо.
+          Коли керівництво або донори перестають довіряти аналітиці — системи зупиняються.
         </p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary neu" href="#contact">Оцінити ризик помилкових рішень</a>
+          <a class="btn btn-primary neu" href="#contact">Оцінити ризики аналітики для рішень</a>
           <a class="btn btn-secondary" href="#services">Подивитися діагностичний підхід</a>
         </div>
       </div>
@@ -172,37 +179,51 @@
     <!-- ABOUT / CHALLENGES -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Чому аналітика «валиться» на рівні рішень</h2>
+        <h2 class="section-title reveal">Чому аналітика “падає” на рівні управлінських рішень</h2>
         <p class="section-lead reveal">
-          Проблема зазвичай не в тому, що «немає даних». Проблема в тому, що аналітика перестає відображати реальність під тиском.
-          У публічному секторі та великих програмах це означає: рішення затягуються, фінансування ставлять під сумнів,
-          керівництво у критичні моменти уникає даних, а Excel замінює BI.
+          Проблема не в нестачі даних. Проблема — в аналітиці, яка не відображає реальність під тиском.
+          Коли рішення несуть політичні, фінансові або репутаційні ризики, слабка аналітика руйнується тихо.
         </p>
 
-        <div class="grid grid-3">
+        <div class="grid grid-4">
           <div class="card reveal">
             <h3>Оманливі KPI</h3>
-            <p>Показники виглядають стабільно, але віддаляються від операційної правди та нормативних визначень.</p>
+            <p>Показники виглядають стабільними, але віддаляються від операційної реальності та намірів політики.</p>
           </div>
+
           <div class="card reveal">
             <h3>Дрейф методології</h3>
-            <p>Правила змінюються «тихо». Агрегації ховають розриви. Дашборди оновлюються, а довіра зникає.</p>
+            <p>Визначення й формули змінюються непомітно, ламаючи порівнюваність без видимих сигналів.</p>
           </div>
+
           <div class="card reveal">
             <h3>Тіньова звітність</h3>
-            <p>Паралельні таблиці та ручні звірки з’являються, коли BI перестає бути надійним.</p>
+            <p>З’являються паралельні таблиці та ручні звірки, коли BI перестає бути захищуваним.</p>
           </div>
+
           <div class="card reveal">
             <h3>Деградація якості</h3>
-            <p>Дублікати, ручні «підправляння» і неконтрольовані трансформації спотворюють аналітику без явних помилок системи.</p>
+            <p>Дублі, перевизначення та неконтрольовані трансформації викривляють аналітику без помітних “помилок системи”.</p>
           </div>
+
+          <div class="card reveal">
+            <h3>Неперевірна лінія походження</h3>
+            <p>Немає чіткої трасування KPI до джерел. Під аудитом цифри неможливо довести.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Ручні “презентаційні правки”</h3>
+            <p>Дані підганяють, щоб “виглядало правильно”. Дашборди виживають — цілісність ні.</p>
+          </div>
+
           <div class="card reveal">
             <h3>Тиск підзвітності</h3>
-            <p>Донори та керівництво вимагають трасованості — «просто цифр» недостатньо.</p>
+            <p>Донори й керівництво вимагають простежуваності — одних красивих графіків недостатньо.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Розрив із рішеннями</h3>
-            <p>Коли дані спірні, керівники повертаються до інтуїції або «перевірених» офлайнових наративів.</p>
+            <h3>Уникнення рішень</h3>
+            <p>У критичні моменти керівники обходять BI та спираються на інтуїцію або неформальні наративи.</p>
           </div>
         </div>
       </div>
@@ -211,73 +232,84 @@
     <!-- SERVICES -->
     <section id="services" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Що саме я роблю</h2>
+        <h2 class="section-title reveal">Що я реально роблю</h2>
         <p class="section-lead reveal">
-          Це не «ще один дашборд». Це відновлення довіри до аналітики, щоб рішення залишались надійними під перевірками.
+          Це не “ще більше дашбордів”. Це відновлення довіри до аналітики, щоб рішення залишались легітимними під перевіркою.
         </p>
 
         <div class="grid grid-3">
           <div class="card reveal">
             <h3>Діагностика аналітики</h3>
-            <p><strong>Виявляю, де аналітика перестає відображати реальність.</strong></p>
+            <p><strong>Знайти, де аналітика перестає відображати реальність.</strong></p>
             <p>
-              Перевіряю логіку KPI, правила агрегацій і визначення індикаторів. Трасую метрики до джерел і припущень.
-              Виявляю «тиху» деградацію якості даних, що спотворює висновки.
+              Перевіряю логіку KPI, правила агрегацій та визначення індикаторів. Трасую метрики до джерел і припущень.
+              Виявляю “тиху” деградацію якості даних, яка спотворює аналітику.
             </p>
             <p class="muted"><strong>Результат:</strong> керівництво бачить, які рішення зараз базуються на ненадійних сигналах — і чому.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Перезбір BI та аналітичної платформи</h3>
-            <p><strong>Перебудовую аналітику так, щоб рішення спирались на реальність, а не на візуал.</strong></p>
+            <h3>Перебудова BI та аналітичної платформи</h3>
+            <p><strong>Зробити аналітику опорою рішень, а не візуальним шаром.</strong></p>
             <p>
-              Перепроєктовую моделі даних із вбудованими контролями якості. Прибираю «тихі» виправлення, ручні оверрайди
-              та неконтрольовані трансформації. Узгоджую метрики з операційними та нормативними визначеннями.
+              Перепроєктовую моделі даних із вбудованими контролями якості. Прибираю “тихі” правки, ручні оверрайди та неконтрольовані трансформації.
+              Узгоджую метрики BI з операційними та політичними визначеннями.
             </p>
-            <p class="muted"><strong>Результат:</strong> BI стає надійним інтерфейсом для рішень, а не просто шаром звітів.</p>
+            <p class="muted"><strong>Результат:</strong> аналітика стає захищуваним інтерфейсом прийняття рішень, а не звітністю.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Аналітика M&amp;E та підзвітності</h3>
-            <p><strong>Роблю аналітику стійкою до внутрішньої й зовнішньої перевірки.</strong></p>
+            <h3>Аналітика М&amp;Е та підзвітності</h3>
+            <p><strong>Щоб аналітика витримувала внутрішню та зовнішню перевірку.</strong></p>
             <p>
-              Вбудовую правила якості прямо в індикатори. Забезпечую трасованість «від показника до джерела».
-              Замінюю «презентаційні KPI» на метрики з аудитовною логікою.
+              Вбудовую правила якості даних у самі індикатори. Забезпечую трасування від метрики до джерела.
+              Замінюю “презентаційні” KPI на аудиторсько-захищувану логіку.
             </p>
-            <p class="muted"><strong>Результат:</strong> донори та керівництво довіряють не лише цифрам, а й методології.</p>
+            <p class="muted"><strong>Результат:</strong> донори й керівництво довіряють не тільки цифрам, а методології за ними.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Підтримка трансформацій</h3>
-            <p><strong>Підключаюсь там, де аналітика блокує прогрес.</strong></p>
+            <h3>Підтримка трансформації</h3>
+            <p><strong>Ручне втручання там, де аналітика блокує прогрес.</strong></p>
             <p>
-              Втручаюсь, коли BI і якість даних підривають програми змін. Перекладаю проблеми аналітики у конкретні
-              архітектурні та процесні дії. Стабілізую прийняття рішень у «гарячі» фази.
+              Заходжу в проєкт, коли аналітика підриває трансформаційні програми. Перекладаю проблеми BI та якості даних у архітектурні дії.
+              Стабілізую прийняття рішень у фазах високого тиску.
             </p>
-            <p class="muted"><strong>Результат:</strong> трансформація відновлює темп, бо рішення знову мають надійну основу.</p>
+            <p class="muted"><strong>Результат:</strong> трансформація повертає темп, бо рішення повертають довіру.</p>
           </div>
 
           <div class="card reveal">
             <h3>Вбудована якість даних</h3>
             <p>
-              Якість — це не «прибирання». Це діагностичний сигнал, де система перестала відображати реальність.
-              Контролі мають бути всередині аналітичного шару — інакше BI знову дрейфує.
+              Якість — це не “очистка”. Це діагностичний сигнал, де система перестала відображати реальність.
+              Контролі мають бути всередині аналітичного шару — інакше BI знову “попливе”.
             </p>
-            <p class="muted"><strong>Результат:</strong> аналітика перестає «плисти», довіра стає вимірюваною.</p>
+            <p class="muted"><strong>Результат:</strong> аналітика перестає дрейфувати; довіра стає вимірюваною.</p>
           </div>
 
           <div class="card reveal">
-            <h3>Вирівнювання на рівні керівництва</h3>
+            <h3>Узгодження на рівні керівництва</h3>
             <p>
-              Коли аналітику оскаржують, причина часто організаційна: визначення, власність, відповідальність.
-              Я вирівнюю стейкхолдерів навколо прозорої, аудитовної логіки — до того, як рішення стають політизованими.
+              Коли аналітика спірна, проблема часто організаційна: визначення, власність та підзвітність.
+              Я вирівнюю стейкхолдерів навколо аудиторсько-захищуваної логіки — до того, як рішення політизуються.
             </p>
-            <p class="muted"><strong>Результат:</strong> одна спільна «реальність» для управлінських рішень.</p>
+            <p class="muted"><strong>Результат:</strong> одна спільна реальність для ухвалення рішень.</p>
+          </div>
+
+          <!-- 2 додаткові блоки -->
+          <div class="card reveal">
+            <h3>Діагностика аналітики (10–14 днів)</h3>
+            <p>Оцінка рівня керівництва, що точно показує дрейф KPI, причини та перші правки, які повертають довіру.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Відновлення KPI та методології</h3>
+            <p>Перезбір визначень метрик, логіки розрахунку та управління, щоб звітність витримувала аудит і тиск.</p>
           </div>
         </div>
 
         <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="#contact">Перевірити, чи ваша аналітика надійна для рішень</a>
+          <a class="btn btn-primary neu" href="#contact">Перевірити, чи можна довіряти вашій аналітиці для рішень</a>
         </div>
       </div>
     </section>
@@ -285,73 +317,112 @@
     <!-- CASES -->
     <section id="cases" class="section">
       <div class="container">
-        <h2 class="section-title reveal">Вибрані кейси (знеособлено)</h2>
+        <h2 class="section-title reveal">Вибрані кейси (анонімізовано)</h2>
         <p class="section-lead reveal">
-          У чутливих середовищах я не публікую назви організацій. Нижче — сфера, тип збою, втручання і результат.
+          Я не публікую назви клієнтів у чутливих середовищах. Нижче — сфера, тип збою, втручання та результат.
         </p>
 
         <div class="grid grid-2">
+          <!-- Case 1 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1280.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Кейс національної аналітики соціальної політики"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>Аналітика соціальної сфери (національний рівень)</h3>
-            <p class="muted"><strong>Контекст:</strong> фрагментовані реєстри, чутливі індикатори, високий рівень контролю.</p>
-            <p class="muted"><strong>Проблема:</strong> дашборди використовували — але вони системно вводили в оману; довіра падала.</p>
-            <p class="muted"><strong>Втручання:</strong> перезбір логіки KPI, узгодження визначень, усунення ручних «підгонок».</p>
-            <p><strong>Результат:</strong> BI став надійним для управління та підзвітності.</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard-640.webp 640w,
+                    ../assets/dashboard-1024.webp 1024w,
+                    ../assets/dashboard-1280.webp 1280w,
+                    ../assets/dashboard-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard-lqip.jpg"
+                  data-src="../assets/dashboard-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard-640.jpg 640w,
+                    ../assets/dashboard-1024.jpg 1024w,
+                    ../assets/dashboard-1280.jpg 1280w,
+                    ../assets/dashboard-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Кейс: аналітика соціальної політики"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Аналітика соціальної політики (національний рівень)</h3>
+            <p class="muted"><strong>Контекст:</strong> фрагментовані реєстри, політично чутливі індикатори.</p>
+            <p class="muted"><strong>Проблема:</strong> дашборди використовувалися — і системно вводили в оману. Довіра зникла.</p>
+            <p class="muted"><strong>Втручання:</strong> перезбір логіки KPI, вирівнювання визначень, прибрано ручні “презентаційні правки”.</p>
+            <p><strong>Результат:</strong> аналітика стала придатною для рішень і підзвітності.</p>
           </article>
 
+          <!-- Case 2 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1024.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Кейс аналітики охорони здоров'я з GIS та BI"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>Аналітика мережі послуг (GIS + BI)</h3>
-            <p class="muted"><strong>Контекст:</strong> реформа/перерозподіл ресурсів, показники впливають на рішення.</p>
-            <p class="muted"><strong>Проблема:</strong> «правильні» дашборди маскували структурні прогалини доступу.</p>
-            <p class="muted"><strong>Втручання:</strong> інтеграція GIS із BI, перевірка припущень, перезбір індикаторів доступності.</p>
-            <p><strong>Результат:</strong> керівники побачили реальні провали системи, а не «стабільність у звітах».</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard1-640.webp 640w,
+                    ../assets/dashboard1-1024.webp 1024w,
+                    ../assets/dashboard1-1280.webp 1280w,
+                    ../assets/dashboard1-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard1-lqip.jpg"
+                  data-src="../assets/dashboard1-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard1-640.jpg 640w,
+                    ../assets/dashboard1-1024.jpg 1024w,
+                    ../assets/dashboard1-1280.jpg 1280w,
+                    ../assets/dashboard1-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Кейс: аналітика системи охорони здоров’я (GIS + BI)"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Аналітика системи охорони здоров’я (GIS + BI)</h3>
+            <p class="muted"><strong>Контекст:</strong> національна мережа під тиском реформ; метрики покриття прив’язані до рішень.</p>
+            <p class="muted"><strong>Проблема:</strong> дашборди виглядали коректно, але маскували структурні прогалини доступу.</p>
+            <p class="muted"><strong>Втручання:</strong> інтеграція GIS з BI, перевалідація припущень, перезбір метрик доступності.</p>
+            <p><strong>Результат:</strong> керівники побачили, де система реально “провисає”, а не де звіти показували стабільність.</p>
           </article>
 
+          <!-- Case 3 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="/assets/case-640.webp 640w, /assets/case-1024.webp 1024w, /assets/case-1280.webp 1280w, /assets/case-1920.webp 1920w" />
-              <img
-                src="/assets/case-lqip.jpg"
-                data-src="/assets/case-1280.jpg"
-                data-srcset="/assets/case-640.jpg 640w, /assets/case-1024.jpg 1024w, /assets/case-1280.jpg 1280w, /assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Кейс аналітики моніторингу та оцінки програм"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
-            <h3>Аналітика моніторингу та оцінки програм (M&amp;E)</h3>
-            <p class="muted"><strong>Контекст:</strong> багатостороння програма з донорським контролем та регіональною звітністю.</p>
-            <p class="muted"><strong>Проблема:</strong> індикатори існували, але дрейф методології робив порівняння ненадійними.</p>
-            <p class="muted"><strong>Втручання:</strong> стандартизація логіки, вбудовані контролі якості, усунення «тіньової» звітності.</p>
-            <p><strong>Результат:</strong> аналітика стала надійною для донорів і керівництва та придатною для управління програмою.</p>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    ../assets/dashboard2-640.webp 640w,
+                    ../assets/dashboard2-1024.webp 1024w,
+                    ../assets/dashboard2-1280.webp 1280w,
+                    ../assets/dashboard2-1920.webp 1920w" />
+                <img
+                  src="../assets/dashboard2-lqip.jpg"
+                  data-src="../assets/dashboard2-1280.jpg"
+                  data-srcset="
+                    ../assets/dashboard2-640.jpg 640w,
+                    ../assets/dashboard2-1024.jpg 1024w,
+                    ../assets/dashboard2-1280.jpg 1280w,
+                    ../assets/dashboard2-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Кейс: платформа аналітики М&amp;Е"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
+            <h3>Платформа аналітики М&amp;Е для реформ</h3>
+            <p class="muted"><strong>Контекст:</strong> багатостороння програма з донорським наглядом і регіональною звітністю.</p>
+            <p class="muted"><strong>Проблема:</strong> індикатори були, але дрейф методології робив порівняння ненадійним.</p>
+            <p class="muted"><strong>Втручання:</strong> стандартизація логіки, вбудовані контролі якості, прибрано тіньову звітність.</p>
+            <p><strong>Результат:</strong> аналітика стала захищуваною для донорів і придатною для керування реформою.</p>
           </article>
         </div>
 
@@ -365,19 +436,19 @@
     <section class="section">
       <div class="container">
         <h2 class="section-title reveal">Що змінюється після відновлення довіри</h2>
-        <p class="section-lead reveal">Не більше звітів. А надійна система рішень у складних умовах.</p>
+        <p class="section-lead reveal">Не більше звітів. Система прийняття рішень, що витримує тиск.</p>
 
         <div class="grid grid-3">
           <div class="testimonial reveal">
-            <p>Аналітика стає надійною: керівництво може пояснити метрики без «магії» та маніпуляцій.</p>
+            <p>Аналітика стає захищуваною: керівництво може пояснити метрики без “магії”.</p>
             <strong>Рівень рішень</strong>
           </div>
           <div class="testimonial reveal">
-            <p>Індикатори стають прозорими: контроль бачить трасованість від показника до джерела.</p>
+            <p>Індикатори стають аудиторськими: є трасування від метрики до джерела.</p>
             <strong>Рівень підзвітності</strong>
           </div>
           <div class="testimonial reveal">
-            <p>Зникає «Excel-реальність»: команди припиняють підтримувати паралельні таблиці, щоб «звести цифри».</p>
+            <p>Тіньова звітність зникає: команди перестають вести паралельні таблиці, щоб “звести цифри”.</p>
             <strong>Операційний рівень</strong>
           </div>
         </div>
@@ -388,9 +459,9 @@
     <section class="section">
       <div class="container">
         <div class="cta reveal">
-          <h2 class="section-title">Готові перевірити, чи ваша аналітика надійна?</h2>
+          <h2 class="section-title">Готові перевірити, чи вашій аналітиці можна довіряти?</h2>
           <p class="section-lead">
-            Якщо рішення, фінансування або політика залежать від дашбордів — варто знати, де саме вони можуть помилятися.
+            Якщо рішення, фінансування або політика залежать від ваших дашбордів — варто знати, де вони можуть помилятися.
           </p>
           <a class="btn btn-primary neu" href="#contact">Запросити діагностику аналітики</a>
         </div>
@@ -404,8 +475,8 @@
       <div>
         <h3>Belyakov Consult</h3>
         <p class="section-lead">
-          У високонавантажених середовищах потрібна аналітика, що тримається під тиском.
-          Практична BI та аналітична архітектура, де збій — неприпустимий.
+          Високоризикові середовища потребують аналітики, що витримує тиск.
+          Практична архітектура BI та аналітики там, де збій — неприйнятний.
         </p>
 
         <div class="socials">
@@ -429,7 +500,7 @@
           <a href="mailto:hello@belyakovconsult.com">Email: hello@belyakovconsult.com</a>
         </div>
 
-        <div class="messenger-row" aria-label="Messengers">
+        <div class="messenger-row" aria-label="Месенджери">
           <a href="https://wa.me/380936859779" target="_blank" rel="noopener" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 11.5a8 8 0 0 1-12.7 6.4L4 19l1.2-3.1A8 8 0 1 1 20 11.5Z"/>
@@ -464,19 +535,19 @@
         <h3>Запит на діагностику</h3>
 
         <p class="muted">
-          Надішліть запит — і я особисто підтверджу наступні кроки протягом 12–24 годин.
+          Надішліть запит — я особисто підтверджу наступні кроки протягом 12–24 годин.
         </p>
 
         <form class="form" action="https://formspree.io/f/xykwoaql" method="post">
           <input type="text" name="name" placeholder="Ваше ім’я" required />
           <input type="email" name="email" placeholder="Ваш email" required />
-          <input type="text" name="preferred_time" placeholder="Зручний час (напр. Вт–Чт, 10:00–14:00 UTC+2)" required />
-          <textarea name="message" rows="4" placeholder="Коротко опишіть запит (контекст, масштаб, терміновість)" required></textarea>
+          <input type="text" name="preferred_time" placeholder="Зручне вікно часу (напр. вт–чт, 10:00–14:00 UTC+2)" required />
+          <textarea name="message" rows="4" placeholder="Коротко опишіть запит (обсяг, терміновість, контекст рішення)" required></textarea>
           <button class="btn btn-primary neu" type="submit">Надіслати запит</button>
         </form>
 
         <p class="muted small">
-          Без автоматичного бронювання. Конфіденційно, персонально, під ваш кейс.
+          Без автоматичного запису. Конфіденційно, індивідуально, “high-touch”.
         </p>
       </div>
     </div>
@@ -484,6 +555,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="/assets/main.js" defer></script>
+  <script src="../assets/main.js" defer></script>
 </body>
 </html>

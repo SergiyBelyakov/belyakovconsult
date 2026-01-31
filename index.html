@@ -4,10 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <title>Belyakov Consult — BI & Analytics Architecture for High-Stakes Decisions</title>
+  <title>Belyakov Consult — BI &amp; Analytics Architecture for High-Stakes Decisions</title>
   <meta name="description" content="Hands-on BI and analytics architecture for regulated, donor-funded, and high-stakes environments where trust in analytics determines decisions." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://belyakovconsult.com/" />
+
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo-bc-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo-bc-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo-bc-180.png" />
 
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="en" />
   <link rel="alternate" href="https://belyakovconsult.com/uk/index.html" hreflang="uk" />
@@ -15,7 +19,7 @@
   <link rel="alternate" href="https://belyakovconsult.com/" hreflang="x-default" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Belyakov Consult — BI & Analytics Architecture for High-Stakes Decisions" />
+  <meta property="og:title" content="Belyakov Consult — BI &amp; Analytics Architecture for High-Stakes Decisions" />
   <meta property="og:description" content="When analytics are wrong, decisions become liabilities. Hands-on BI and analytics architecture to restore trust under pressure." />
   <meta property="og:url" content="https://belyakovconsult.com/" />
   <meta property="og:image" content="https://belyakovconsult.com/assets/og-1200x630.jpg" />
@@ -27,6 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="styles.css" />
 
   <script type="application/ld+json">
   {
@@ -46,6 +51,9 @@
 
   <!-- Messenger icons: same “socials” style (stroke outline, consistent hover) -->
   <style>
+    /* Brand logo image (replaces gradient mark) */
+    .brand-mark{display:block;object-fit:cover}
+
     /* HERO buttons alignment (if not already in style.css) */
     .hero-actions{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
     .hero-actions .btn{flex:1 1 260px;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:56px;white-space:nowrap}
@@ -85,7 +93,9 @@
   <header class="header glass">
     <div class="container nav">
       <a class="brand" href="#hero">
-        <div class="brand-mark" aria-hidden="true"></div>
+        <img class="brand-mark" src="assets/logo-bc-64.png"
+             srcset="assets/logo-bc-32.png 32w, assets/logo-bc-64.png 64w, assets/logo-bc-96.png 96w"
+             sizes="44px" width="44" height="44" alt="Belyakov Consult logo" decoding="async" />
         <div class="brand-text">
           <strong>Belyakov Consult</strong>
           <span>BI • Analytics • Trust</span>
@@ -173,34 +183,48 @@
         <h2 class="section-title reveal">Why analytics fail at the decision level</h2>
         <p class="section-lead reveal">
           Most organizations do not lack data. They lack analytics that reflects reality under pressure.
-          In high-stakes environments, analytics failure has consequences: funding decisions are delayed or questioned,
-          leadership avoids data in critical moments, and shadow reporting replaces BI.
+          When decisions carry political, financial, or reputational risk, weak analytics quietly collapses.
         </p>
 
-        <div class="grid grid-3">
+        <div class="grid grid-4">
           <div class="card reveal">
             <h3>Misleading KPIs</h3>
-            <p>Indicators look stable while drifting away from operational truth and policy definitions.</p>
+            <p>Indicators appear stable while drifting away from operational reality and policy intent.</p>
           </div>
+
           <div class="card reveal">
             <h3>Methodology drift</h3>
-            <p>Rules change quietly. Aggregations hide gaps. Dashboards keep updating as trust disappears.</p>
+            <p>Definitions and calculations change quietly, breaking comparability without visible alarms.</p>
           </div>
+
           <div class="card reveal">
             <h3>Shadow reporting</h3>
-            <p>Parallel spreadsheets and manual reconciliation emerge when BI stops being defensible.</p>
+            <p>Parallel spreadsheets and manual reconciliations emerge when BI stops being defensible.</p>
           </div>
+
           <div class="card reveal">
             <h3>Quality decay</h3>
-            <p>Duplicates, overrides, and uncontrolled transformations distort analytics without visible system errors.</p>
+            <p>Duplicates, overrides, and uncontrolled transformations distort analytics invisibly.</p>
           </div>
+
+          <div class="card reveal">
+            <h3>Unverifiable lineage</h3>
+            <p>No clear trace from KPI to source. Under scrutiny, numbers cannot be proven.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>Manual “presentation fixes”</h3>
+            <p>Data gets adjusted to “look right”. Dashboards survive — integrity does not.</p>
+          </div>
+
           <div class="card reveal">
             <h3>Accountability pressure</h3>
-            <p>Donors and leadership demand traceability—numbers alone are not enough.</p>
+            <p>Donors and leadership demand traceability, not just polished charts.</p>
           </div>
+
           <div class="card reveal">
-            <h3>Decision disconnect</h3>
-            <p>Leaders stop using BI in critical moments and default to intuition or “trusted” offline narratives.</p>
+            <h3>Decision avoidance</h3>
+            <p>In critical moments, leaders bypass BI and rely on intuition or informal narratives.</p>
           </div>
         </div>
       </div>
@@ -226,7 +250,7 @@
           </div>
 
           <div class="card reveal">
-            <h3>BI & analytics platform rebuild</h3>
+            <h3>BI &amp; analytics platform rebuild</h3>
             <p><strong>Rebuild analytics so decisions are grounded in reality, not visuals.</strong></p>
             <p>
               Redesign data models with embedded quality controls. Remove silent fixes, manual overrides, and uncontrolled transformations.
@@ -272,6 +296,17 @@
             </p>
             <p class="muted"><strong>Outcome:</strong> one shared reality for decision-making.</p>
           </div>
+
+          <!-- Extra 2 blocks requested -->
+          <div class="card reveal">
+            <h3>Analytics Diagnostic (10–14 days)</h3>
+            <p>Executive-grade assessment that pinpoints KPI drift, root causes, and the first fixes that restore trust.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3>KPI &amp; methodology recovery</h3>
+            <p>Rebuild metric definitions, calculation logic, and governance so reporting survives audit and pressure.</p>
+          </div>
         </div>
 
         <div style="margin-top: 32px" class="reveal">
@@ -289,20 +324,33 @@
         </p>
 
         <div class="grid grid-2">
+          <!-- Case 1 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img
-                src="assets/case-lqip.jpg"
-                data-src="assets/case-1280.jpg"
-                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="National social policy analytics case"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    assets/dashboard-640.webp 640w,
+                    assets/dashboard-1024.webp 1024w,
+                    assets/dashboard-1280.webp 1280w,
+                    assets/dashboard-1920.webp 1920w" />
+                <img
+                  src="assets/dashboard-lqip.jpg"
+                  data-src="assets/dashboard-1280.jpg"
+                  data-srcset="
+                    assets/dashboard-640.jpg 640w,
+                    assets/dashboard-1024.jpg 1024w,
+                    assets/dashboard-1280.jpg 1280w,
+                    assets/dashboard-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="National social policy analytics case"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
             <h3>National Social Policy Analytics</h3>
             <p class="muted"><strong>Context:</strong> fragmented registries, politically sensitive indicators.</p>
             <p class="muted"><strong>Problem:</strong> dashboards were used — and systematically misleading. Trust eroded.</p>
@@ -310,20 +358,33 @@
             <p><strong>Result:</strong> analytics became usable for policy decisions and accountability.</p>
           </article>
 
+          <!-- Case 2 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img
-                src="assets/case-lqip.jpg"
-                data-src="assets/case-1024.jpg"
-                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Healthcare analytics GIS and BI case"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    assets/dashboard1-640.webp 640w,
+                    assets/dashboard1-1024.webp 1024w,
+                    assets/dashboard1-1280.webp 1280w,
+                    assets/dashboard1-1920.webp 1920w" />
+                <img
+                  src="assets/dashboard1-lqip.jpg"
+                  data-src="assets/dashboard1-1280.jpg"
+                  data-srcset="
+                    assets/dashboard1-640.jpg 640w,
+                    assets/dashboard1-1024.jpg 1024w,
+                    assets/dashboard1-1280.jpg 1280w,
+                    assets/dashboard1-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Healthcare analytics GIS and BI case"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
             <h3>Healthcare System Analytics (GIS + BI)</h3>
             <p class="muted"><strong>Context:</strong> national network under reform pressure; coverage metrics tied to decisions.</p>
             <p class="muted"><strong>Problem:</strong> dashboards looked correct but masked structural access gaps.</p>
@@ -331,20 +392,33 @@
             <p><strong>Result:</strong> decision-makers saw where the system actually failed — not where reports suggested stability.</p>
           </article>
 
+          <!-- Case 3 -->
           <article class="card case-card reveal">
-            <picture>
-              <source type="image/webp" data-srcset="assets/case-640.webp 640w, assets/case-1024.webp 1024w, assets/case-1280.webp 1280w, assets/case-1920.webp 1920w" />
-              <img
-                src="assets/case-lqip.jpg"
-                data-src="assets/case-1280.jpg"
-                data-srcset="assets/case-640.jpg 640w, assets/case-1024.jpg 1024w, assets/case-1280.jpg 1280w, assets/case-1920.jpg 1920w"
-                sizes="(max-width: 768px) 100vw, 520px"
-                alt="Reform monitoring and evaluation analytics platform case"
-                width="1280"
-                height="720"
-                loading="lazy"
-              />
-            </picture>
+            <div class="case-media">
+              <picture>
+                <source type="image/webp"
+                  data-srcset="
+                    assets/dashboard2-640.webp 640w,
+                    assets/dashboard2-1024.webp 1024w,
+                    assets/dashboard2-1280.webp 1280w,
+                    assets/dashboard2-1920.webp 1920w" />
+                <img
+                  src="assets/dashboard2-lqip.jpg"
+                  data-src="assets/dashboard2-1280.jpg"
+                  data-srcset="
+                    assets/dashboard2-640.jpg 640w,
+                    assets/dashboard2-1024.jpg 1024w,
+                    assets/dashboard2-1280.jpg 1280w,
+                    assets/dashboard2-1920.jpg 1920w"
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  alt="Reform monitoring and evaluation analytics platform case"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+
             <h3>Reform M&amp;E Analytics Platform</h3>
             <p class="muted"><strong>Context:</strong> multi-stakeholder program with donor oversight and regional reporting.</p>
             <p class="muted"><strong>Problem:</strong> indicators existed, but methodology drift made comparisons unreliable.</p>
