@@ -1,560 +1,118 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <title>Belyakov Consult — Arquitetura de BI e Analytics para Decisões de Alto Risco</title>
-  <meta name="description" content="Arquitetura prática de BI e analytics para ambientes regulados, financiados por doadores e de alto risco, onde a confiança na analítica determina decisões." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://belyakovconsult.com/pt/index.html" />
-
-  <link rel="icon" type="image/png" sizes="16x16" href="../assets/logo-bc-16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/logo-bc-32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="../assets/logo-bc-180.png" />
-
-  <link rel="alternate" href="https://belyakovconsult.com/" hreflang="en" />
-  <link rel="alternate" href="https://belyakovconsult.com/uk/index.html" hreflang="uk" />
-  <link rel="alternate" href="https://belyakovconsult.com/pt/index.html" hreflang="pt" />
-  <link rel="alternate" href="https://belyakovconsult.com/" hreflang="x-default" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Belyakov Consult — Arquitetura de BI e Analytics para Decisões de Alto Risco" />
-  <meta property="og:description" content="Quando a analítica está errada, decisões viram passivos. Arquitetura prática de BI e analytics para restaurar confiança sob pressão." />
-  <meta property="og:url" content="https://belyakovconsult.com/pt/index.html" />
-  <meta property="og:image" content="https://belyakovconsult.com/assets/og-1200x630.jpg" />
-  <meta property="og:site_name" content="Belyakov Consult" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="../assets/style.css" />
-  <link rel="stylesheet" href="../styles.css" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Belyakov Consult",
-    "url": "https://belyakovconsult.com",
-    "description": "Arquitetura prática de BI e analytics para ambientes de alto risco, onde a confiança na analítica determina decisões.",
-    "telephone": "+380936859779",
-    "email": "hello@belyakovconsult.com",
-    "sameAs": [
-      "https://www.linkedin.com/in/sergiy-belyakov",
-      "https://www.facebook.com/sergiy.belyakov"
-    ]
-  }
-  </script>
-
-  <style>
-    /* Brand logo image (replaces gradient mark) */
-    .brand-mark{display:block;object-fit:cover}
-
-    /* HERO buttons alignment (if not already in style.css) */
-    .hero-actions{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
-    .hero-actions .btn{flex:1 1 260px;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:56px;white-space:nowrap}
-
-    /* Symmetry: equal card heights */
-    .grid.grid-3{grid-auto-rows:1fr}
-    .grid.grid-3>.card{height:100%}
-
-    /* Contact: icon row in the SAME style as .socials (outline, circular, hover) */
-    .messenger-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .messenger-row a{
-      width:40px;height:40px;border-radius:999px;
-      display:inline-flex;align-items:center;justify-content:center;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.03);
-      transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
-      color: inherit;
-    }
-    .messenger-row a:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.07);
-      border-color: rgba(255,255,255,.22);
-    }
-    .messenger-row svg{
-      width:18px;height:18px;
-      fill:none;
-      stroke:currentColor;
-      stroke-width:2;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      opacity:.92;
-    }
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Belyakov Consult — Arquitetura de BI e Dados para Decisões de Alto Impacto</title>
+    <meta name="description" content="Arquitetura prática de BI e dados para ambientes regulados e programas de doadores." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
 </head>
-
 <body>
-  <header class="header glass">
-    <div class="container nav">
-      <a class="brand" href="#hero">
-        <img class="brand-mark" src="../assets/logo-bc-64.png"
-             srcset="../assets/logo-bc-32.png 32w, ../assets/logo-bc-64.png 64w, ../assets/logo-bc-96.png 96w"
-             sizes="44px" width="44" height="44" alt="Logotipo Belyakov Consult" decoding="async" />
-        <div class="brand-text">
-          <strong>Belyakov Consult</strong>
-          <span>BI • Analytics • Confiança</span>
-        </div>
-      </a>
-
-      <nav class="nav-links" aria-label="Navegação principal">
-        <a href="#about">Sobre</a>
-        <a href="#services">Serviços</a>
-        <a href="#cases">Casos</a>
-        <a href="#contact">Contato</a>
-      </nav>
-
-      <div class="nav-actions">
-        <div class="lang-switch" aria-label="Idioma">
-          <a href="/index.html" title="English">EN</a>
-          <a href="/uk/index.html" title="Українська">UA</a>
-          <a class="active" href="/pt/index.html" title="Português">PT</a>
-        </div>
-
-        <div class="socials">
-          <a href="https://www.linkedin.com/in/sergiy-belyakov" aria-label="LinkedIn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.3 8.2h4.4v14.3H.3V8.2zM8.7 8.2h4.2v2h.1c.6-1.1 2.2-2.3 4.5-2.3 4.8 0 5.7 3.2 5.7 7.4v7.2h-4.4v-6.4c0-1.5 0-3.5-2.1-3.5-2.1 0-2.4 1.6-2.4 3.4v6.6H8.7V8.2z"/>
-            </svg>
-          </a>
-
-          <a href="https://www.facebook.com/sergiy.belyakov" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.3c0-2.4 1.4-3.7 3.5-3.7 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4v1.7H16l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/>
-            </svg>
-          </a>
-        </div>
-
-        <button class="menu-toggle" aria-label="Abrir menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- HERO -->
-    <section id="hero" class="hero">
-      <div class="hero-media">
-        <picture>
-          <source type="image/webp" data-srcset="../assets/hero-640.webp 640w, ../assets/hero-1024.webp 1024w, ../assets/hero-1280.webp 1280w" />
-          <img
-            src="../assets/hero-lqip.jpg"
-            data-src="../assets/hero-1280.jpg"
-            data-srcset="../assets/hero-640.jpg 640w, ../assets/hero-1024.jpg 1024w, ../assets/hero-1280.jpg 1280w"
-            sizes="100vw"
-            alt="BI e analytics para decisões sob pressão"
-            width="1280"
-            height="720"
-          />
-        </picture>
-      </div>
-
-      <div class="container hero-content">
-        <p class="section-lead">Sistemas em escala nacional · Programas financiados por doadores · Ambientes regulados</p>
-        <h1 class="hero-title">Quando a analítica está errada, decisões viram passivos</h1>
-
-        <p class="hero-lead">
-          Arquitetura prática de BI e analytics para ambientes onde confiança, financiamento e políticas dependem de dados.
-        </p>
-        <p class="hero-lead" style="opacity:.92">
-          Dashboards podem parecer convincentes — e ainda assim enganar.
-          Métricas se afastam da realidade. Metodologias quebram silenciosamente.
-          Quando liderança ou doadores deixam de confiar na analítica, sistemas travam.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary neu" href="#contact">Avaliar risco analítico para decisões</a>
-          <a class="btn btn-secondary" href="#services">Ver a abordagem diagnóstica</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT / CHALLENGES -->
-    <section id="about" class="section">
-      <div class="container">
-        <h2 class="section-title reveal">Por que a analítica falha no nível de decisão</h2>
-        <p class="section-lead reveal">
-          A maioria das organizações não carece de dados. Carece de analítica que reflita a realidade sob pressão.
-          Quando decisões carregam risco político, financeiro ou reputacional, uma analítica fraca colapsa silenciosamente.
-        </p>
-
-        <div class="grid grid-4">
-          <div class="card reveal">
-            <h3>KPIs enganosos</h3>
-            <p>Indicadores parecem estáveis enquanto se afastam da realidade operacional e da intenção de política.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Deriva metodológica</h3>
-            <p>Definições e cálculos mudam discretamente, quebrando comparabilidade sem alarmes visíveis.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Relatórios paralelos</h3>
-            <p>Planilhas paralelas e reconciliações manuais surgem quando o BI deixa de ser defensável.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Degradação da qualidade</h3>
-            <p>Duplicados, overrides e transformações não controladas distorcem a analítica sem erros aparentes.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Linhagem não verificável</h3>
-            <p>Sem rastreio claro do KPI à fonte. Sob escrutínio, números não se sustentam.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>“Ajustes” de apresentação</h3>
-            <p>Dados são mexidos para “parecer certo”. O dashboard sobrevive — a integridade, não.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Pressão por accountability</h3>
-            <p>Doadores e liderança exigem rastreabilidade — não apenas gráficos polidos.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Evitar decisões</h3>
-            <p>Em momentos críticos, líderes contornam o BI e recorrem à intuição ou narrativas informais.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="section">
-      <div class="container">
-        <h2 class="section-title reveal">O que eu realmente faço</h2>
-        <p class="section-lead reveal">
-          Não é “mais dashboards”. É restaurar confiança na analítica para que decisões permaneçam legítimas sob escrutínio.
-        </p>
-
-        <div class="grid grid-3">
-          <div class="card reveal">
-            <h3>Diagnóstico de analytics</h3>
-            <p><strong>Identificar onde sua analítica deixa de refletir a realidade.</strong></p>
-            <p>
-              Revisão de lógica de KPI, regras de agregação e definições de indicadores. Rastreio de métricas às fontes e premissas.
-              Detecção de degradação silenciosa de qualidade que distorce resultados.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> a liderança vê quais decisões se baseiam em sinais não confiáveis — e por quê.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Reconstrução de BI & plataforma analítica</h3>
-            <p><strong>Reformular analytics para decisões ancoradas na realidade, não no visual.</strong></p>
-            <p>
-              Redesenho de modelos de dados com controles de qualidade embutidos. Remoção de ajustes manuais, overrides e transformações não controladas.
-              Alinhamento de métricas com definições operacionais e de política.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> o BI vira interface defensável de decisão, não uma camada de reporte.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Analytics de M&amp;E e accountability</h3>
-            <p><strong>Fazer analytics resistir à auditoria — interna e externa.</strong></p>
-            <p>
-              Regras de qualidade incorporadas nos indicadores. Rastreabilidade da métrica à fonte.
-              Substituição de KPIs “apresentáveis” por lógica auditável.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> doadores e liderança confiam nos números — e na metodologia por trás deles.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Suporte à transformação</h3>
-            <p><strong>Intervenção prática quando a analítica bloqueia o progresso.</strong></p>
-            <p>
-              Atuação quando analytics mina programas de transformação. Traduzo problemas de BI e qualidade em ações arquiteturais.
-              Estabilizo decisão em fases de alta pressão.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> a transformação recupera velocidade porque decisões recuperam credibilidade.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Qualidade embutida</h3>
-            <p>
-              Qualidade não é “limpeza”. É o sinal diagnóstico de onde o sistema deixou de refletir a realidade.
-              Controles precisam estar dentro da camada analítica — ou o BI deriva de novo.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> analytics para de derivar; confiança vira mensurável.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Alinhamento executivo</h3>
-            <p>
-              Quando a analítica é contestada, o problema costuma ser organizacional: definições, ownership e accountability.
-              Eu alinho stakeholders em lógica auditável — antes de decisões se politizarem.
-            </p>
-            <p class="muted"><strong>Resultado:</strong> uma realidade compartilhada para tomada de decisão.</p>
-          </div>
-
-          <!-- 2 blocos adicionais -->
-          <div class="card reveal">
-            <h3>Diagnóstico (10–14 dias)</h3>
-            <p>Avaliação em nível executivo que aponta deriva de KPI, causas raiz e as primeiras correções que restauram confiança.</p>
-          </div>
-
-          <div class="card reveal">
-            <h3>Recuperação de KPI &amp; metodologia</h3>
-            <p>Revisão de definições, lógica de cálculo e governança para que relatórios resistam a auditoria e pressão.</p>
-          </div>
-        </div>
-
-        <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="#contact">Verificar se sua analítica é confiável para decisões</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CASES -->
-    <section id="cases" class="section">
-      <div class="container">
-        <h2 class="section-title reveal">Casos selecionados (anonimizados)</h2>
-        <p class="section-lead reveal">
-          Eu não publico nomes de clientes em ambientes sensíveis. Os casos abaixo descrevem o setor, o modo de falha, a intervenção e o resultado.
-        </p>
-
-        <div class="grid grid-2">
-          <!-- Case 1 -->
-          <article class="card case-card reveal">
-            <div class="case-media">
-              <picture>
-                <source type="image/webp"
-                  data-srcset="
-                    ../assets/dashboard-640.webp 640w,
-                    ../assets/dashboard-1024.webp 1024w,
-                    ../assets/dashboard-1280.webp 1280w,
-                    ../assets/dashboard-1920.webp 1920w" />
-                <img
-                  src="../assets/dashboard-lqip.jpg"
-                  data-src="../assets/dashboard-1280.jpg"
-                  data-srcset="
-                    ../assets/dashboard-640.jpg 640w,
-                    ../assets/dashboard-1024.jpg 1024w,
-                    ../assets/dashboard-1280.jpg 1280w,
-                    ../assets/dashboard-1920.jpg 1920w"
-                  sizes="(max-width: 768px) 100vw, 520px"
-                  alt="Caso: analytics de política social em escala nacional"
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                />
-              </picture>
+    <header class="header glass">
+        <div class="container nav">
+            <a class="logo" href="#hero">BC<span>.</span></a>
+            <nav class="nav-links">
+                <a href="#about">Desafios</a>
+                <a href="#services">Serviços</a>
+                <a href="#cases">Casos</a>
+                <a href="#contact">Contato</a>
+            </nav>
+            <div class="nav-actions">
+                <div class="lang-switch">
+                    <a href="../index.html">EN</a>
+                    <a href="../uk/index.html">UA</a>
+                    <a class="active" href="#">PT</a>
+                </div>
+                <div class="social-top">
+                    <a href="https://www.linkedin.com/in/sergiy-belyakov" class="icon-circle" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
             </div>
+        </div>
+    </header>
 
-            <h3>Analytics de Política Social (escala nacional)</h3>
-            <p class="muted"><strong>Contexto:</strong> registros fragmentados, indicadores politicamente sensíveis.</p>
-            <p class="muted"><strong>Problema:</strong> dashboards eram usados — e sistematicamente enganosos. A confiança erodiu.</p>
-            <p class="muted"><strong>Intervenção:</strong> reconstrução da lógica de KPI, alinhamento de definições e remoção de “ajustes” manuais de apresentação.</p>
-            <p><strong>Resultado:</strong> analytics voltou a ser utilizável para decisões de política e accountability.</p>
-          </article>
-
-          <!-- Case 2 -->
-          <article class="card case-card reveal">
-            <div class="case-media">
-              <picture>
-                <source type="image/webp"
-                  data-srcset="
-                    ../assets/dashboard1-640.webp 640w,
-                    ../assets/dashboard1-1024.webp 1024w,
-                    ../assets/dashboard1-1280.webp 1280w,
-                    ../assets/dashboard1-1920.webp 1920w" />
-                <img
-                  src="../assets/dashboard1-lqip.jpg"
-                  data-src="../assets/dashboard1-1280.jpg"
-                  data-srcset="
-                    ../assets/dashboard1-640.jpg 640w,
-                    ../assets/dashboard1-1024.jpg 1024w,
-                    ../assets/dashboard1-1280.jpg 1280w,
-                    ../assets/dashboard1-1920.jpg 1920w"
-                  sizes="(max-width: 768px) 100vw, 520px"
-                  alt="Caso: analytics de saúde (GIS + BI)"
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                />
-              </picture>
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-bg"><img src="../assets/hero-1280.jpg" alt="Background" /></div>
+            <div class="container">
+                <div class="badge">Sistemas de escala nacional · Programas de doadores</div>
+                <h1 class="hero-title">Quando a análise falha, <br><span class="text-gradient">decisões tornam-se riscos.</span></h1>
+                <p class="hero-lead">Arquitetura de dados para ambientes onde confiança, financiamento e políticas dependem da precisão.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#contact">Avaliar riscos</a>
+                    <a class="btn btn-secondary" href="#services">Abordagem diagnóstica</a>
+                </div>
             </div>
+        </section>
 
-            <h3>Analytics do Sistema de Saúde (GIS + BI)</h3>
-            <p class="muted"><strong>Contexto:</strong> rede nacional sob pressão de reforma; métricas de cobertura ligadas a decisões.</p>
-            <p class="muted"><strong>Problema:</strong> dashboards pareciam corretos, mas escondiam lacunas estruturais de acesso.</p>
-            <p class="muted"><strong>Intervenção:</strong> integração de GIS com BI, revalidação de premissas e reconstrução de métricas de acessibilidade.</p>
-            <p><strong>Resultado:</strong> decisores enxergaram onde o sistema falhava — não onde relatórios sugeriam estabilidade.</p>
-          </article>
-
-          <!-- Case 3 -->
-          <article class="card case-card reveal">
-            <div class="case-media">
-              <picture>
-                <source type="image/webp"
-                  data-srcset="
-                    ../assets/dashboard2-640.webp 640w,
-                    ../assets/dashboard2-1024.webp 1024w,
-                    ../assets/dashboard2-1280.webp 1280w,
-                    ../assets/dashboard2-1920.webp 1920w" />
-                <img
-                  src="../assets/dashboard2-lqip.jpg"
-                  data-src="../assets/dashboard2-1280.jpg"
-                  data-srcset="
-                    ../assets/dashboard2-640.jpg 640w,
-                    ../assets/dashboard2-1024.jpg 1024w,
-                    ../assets/dashboard2-1280.jpg 1280w,
-                    ../assets/dashboard2-1920.jpg 1920w"
-                  sizes="(max-width: 768px) 100vw, 520px"
-                  alt="Caso: plataforma de analytics de M&amp;E"
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                />
-              </picture>
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">Por que o BI falha no nível de decisão</h2>
+                <div class="grid grid-4">
+                    <div class="glass-card"><span class="card-num">01</span><h3>KPIs enganosos</h3><p>Indicadores parecem estáveis mas distanciam-se da realidade operacional.</p></div>
+                    <div class="glass-card"><span class="card-num">02</span><h3>Deriva metodológica</h3><p>As definições mudam silenciosamente, quebrando a comparabilidade.</p></div>
+                    <div class="glass-card"><span class="card-num">03</span><h3>Relatórios paralelos</h3><p>Planilhas surgem quando o BI deixa de ser defensável.</p></div>
+                    <div class="glass-card"><span class="card-num">04</span><h3>Degradação da qualidade</h3><p>Duplicatas e transformações ocultas distorcem os dados.</p></div>
+                    <div class="glass-card"><span class="card-num">05</span><h3>Linhagem opaca</h3><p>Sem rastro claro do KPI à origem. Sob auditoria, os números falham.</p></div>
+                    <div class="glass-card"><span class="card-num">06</span><h3>Ajustes manuais</h3><p>Dados são manipulados para "parecerem corretos". A integridade morre.</p></div>
+                    <div class="glass-card"><span class="card-num">07</span><h3>Accountability</h3><p>Doadores exigem rastreabilidade que o BI padrão não fornece.</p></div>
+                    <div class="glass-card"><span class="card-num">08</span><h3>Evitar decisões</h3><p>Líderes ignoram o BI e usam intuição por falta de confiança nos dados.</p></div>
+                </div>
             </div>
+        </section>
 
-            <h3>Plataforma de Analytics de M&amp;E (reforma)</h3>
-            <p class="muted"><strong>Contexto:</strong> programa multi-stakeholder com supervisão de doadores e reporte regional.</p>
-            <p class="muted"><strong>Problema:</strong> havia indicadores, mas a deriva metodológica tornava comparações pouco confiáveis.</p>
-            <p class="muted"><strong>Intervenção:</strong> padronização de lógica, controles de qualidade embutidos e eliminação de shadow reporting.</p>
-            <p><strong>Resultado:</strong> analytics ficou defensável para doadores e útil para conduzir a reforma.</p>
-          </article>
-        </div>
+        <section id="services" class="section bg-darker">
+            <div class="container">
+                <h2 class="section-title">Diagnóstico e Arquitetura</h2>
+                <div class="grid grid-3">
+                    <div class="service-card"><span class="service-tag">Diagnóstico</span><h3>Diagnóstico de Dados</h3><p>Identificar onde a análise parou de refletir a realidade. Auditoria de lógica de KPIs.</p></div>
+                    <div class="service-card"><span class="service-tag">Infraestrutura</span><h3>Reconstrução de Plataforma</h3><p>Redesenho de modelos com controles de qualidade nativos. Eliminação de correções manuais.</p></div>
+                    <div class="service-card"><span class="service-tag">Governança</span><h3>Accountability M&E</h3><p>Análise auditável que satisfaz doadores e reguladores internacionais.</p></div>
+                </div>
+            </div>
+        </section>
 
-        <div style="margin-top: 32px" class="reveal">
-          <a class="btn btn-primary neu" href="#contact">Avaliar se sua analítica reflete a realidade</a>
-        </div>
-      </div>
-    </section>
+        <section id="cases" class="section">
+            <div class="container">
+                <h2 class="section-title">Casos selecionados</h2>
+                <div class="grid grid-3">
+                    <article class="case-card"><div class="case-media"><img src="../assets/dashboard-1280.jpg" alt="Caso 1"></div><div class="case-body"><h3>Política Social Nacional</h3><p>Reconstrução de lógica de KPI para registros fragmentados.</p><div class="result">Resultado: Análise defensável para decisões políticas.</div></div></article>
+                    <article class="case-card"><div class="case-media"><img src="../assets/dashboard1-1280.jpg" alt="Caso 2"></div><div class="case-body"><h3>Sistemas de Saúde</h3><p>Integração de GIS para revelar lacunas estruturais de acesso.</p><div class="result">Resultado: Estabilização de métricas de cobertura.</div></div></article>
+                    <article class="case-card"><div class="case-media"><img src="../assets/dashboard2-1280.jpg" alt="Caso 3"></div><div class="case-body"><h3>Infraestrutura M&E</h3><p>Automação de dados para auditoria de programas internacionais.</p><div class="result">Resultado: 100% de conformidade em auditorias.</div></div></article>
+                </div>
+            </div>
+        </section>
 
-    <!-- OUTCOMES -->
-    <section class="section">
-      <div class="container">
-        <h2 class="section-title reveal">Resultados de decisão após restaurar confiança</h2>
-        <p class="section-lead reveal">Não mais relatórios. Um sistema de decisão que se sustenta sob pressão.</p>
-
-        <div class="grid grid-3">
-          <div class="testimonial reveal">
-            <p>Analytics vira defensável: liderança explica métricas sem “achismos”.</p>
-            <strong>Nível de decisão</strong>
-          </div>
-          <div class="testimonial reveal">
-            <p>Indicadores viram auditáveis: há rastreabilidade da métrica à fonte.</p>
-            <strong>Nível de accountability</strong>
-          </div>
-          <div class="testimonial reveal">
-            <p>Shadow reporting colapsa: equipes param de manter planilhas paralelas para “fazer números baterem”.</p>
-            <strong>Nível operacional</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FINAL CTA -->
-    <section class="section">
-      <div class="container">
-        <div class="cta reveal">
-          <h2 class="section-title">Pronto para testar se sua analítica é confiável?</h2>
-          <p class="section-lead">
-            Se decisões, financiamento ou políticas dependem dos seus dashboards, vale saber onde eles podem estar errados.
-          </p>
-          <a class="btn btn-primary neu" href="#contact">Solicitar diagnóstico de analytics</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer id="contact" class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Belyakov Consult</h3>
-        <p class="section-lead">
-          Ambientes de alto risco exigem analytics que se sustenta sob pressão.
-          Arquitetura prática de BI e analytics onde falhar não é uma opção.
-        </p>
-
-        <div class="socials">
-          <a href="https://www.linkedin.com/in/sergiy-belyakov/" aria-label="LinkedIn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.3 8.2h4.4v14.3H.3V8.2zM8.7 8.2h4.2v2h.1c.6-1.1 2.2-2.3 4.5-2.3 4.8 0 5.7 3.2 5.7 7.4v7.2h-4.4v-6.4c0-1.5 0-3.5-2.1-3.5-2.1 0-2.4 1.6-2.4 3.4v6.6H8.7V8.2z"/>
-            </svg>
-          </a>
-          <a href="https://www.facebook.com/sergiy.belyakov" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.3c0-2.4 1.4-3.7 3.5-3.7 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4v1.7H16l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div>
-        <h3>Contato</h3>
-        <div class="contact-list">
-          <a href="tel:+380936859779">Telefone: +38 (093) 685-97-79</a>
-          <a href="mailto:hello@belyakovconsult.com">Email: hello@belyakovconsult.com</a>
-        </div>
-
-        <div class="messenger-row" aria-label="Mensageiros">
-          <a href="https://wa.me/380936859779" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 11.5a8 8 0 0 1-12.7 6.4L4 19l1.2-3.1A8 8 0 1 1 20 11.5Z"/>
-              <path d="M9.1 9.3c.2-.5.4-.5.6-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4 0 .6l-.3.5c-.1.2-.1.3 0 .4.3.6 1 1.3 1.6 1.6.1.1.3.1.4 0l.5-.3c.2-.1.4-.1.6 0l1.6.7c.3.1.4.3.4.5v.5c0 .2 0 .4-.5.6-.6.3-1.6.2-2.6-.2-1.6-.7-3.4-2.4-4.1-4.1-.4-1-.5-2-.2-2.6Z"/>
-            </svg>
-          </a>
-
-          <a href="https://t.me/+380936859779" target="_blank" rel="noopener" aria-label="Telegram">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 5 10 12"/>
-              <path d="M21 5 14 21l-4-9-8-3 19-4Z"/>
-            </svg>
-          </a>
-
-          <a href="viber://chat?number=%2B380936859779" aria-label="Viber">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 6h8a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H9l-3 2v-2H7a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z"/>
-              <path d="M9.2 10.2c.2-.4.4-.4.6-.4h.3c.2 0 .3.1.4.3l.6 1.3c.1.2.1.4 0 .5l-.3.4c-.1.1-.1.2 0 .3.3.5.9 1.1 1.4 1.4.1.1.2.1.3 0l.4-.3c.1-.1.3-.1.5 0l1.3.6c.2.1.3.2.3.4v.3c0 .2 0 .4-.4.6-.5.2-1.3.2-2.1-.1-1.3-.6-2.8-2-3.4-3.4-.3-.8-.3-1.6-.1-2.1Z"/>
-            </svg>
-          </a>
-
-          <a href="mailto:hello@belyakovconsult.com" aria-label="Email">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 6h16v12H4z"/>
-              <path d="M4 7l8 6 8-6"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div>
-        <h3>Solicitar diagnóstico</h3>
-
-        <p class="muted">
-          Envie sua solicitação — eu confirmarei pessoalmente os próximos passos em 12–24 horas.
-        </p>
-
-        <form class="form" action="https://formspree.io/f/xykwoaql" method="post">
-          <input type="text" name="name" placeholder="Seu nome" required />
-          <input type="email" name="email" placeholder="Seu email" required />
-          <input type="text" name="preferred_time" placeholder="Janela preferida (ex.: ter–qui, 10:00–14:00 UTC+2)" required />
-          <textarea name="message" rows="4" placeholder="Descreva brevemente (escopo, urgência, contexto de decisão)" required></textarea>
-          <button class="btn btn-primary neu" type="submit">Enviar solicitação</button>
-        </form>
-
-        <p class="muted small">
-          Sem agendamento automático. Alto contato, confidencial e sob medida.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="../assets/main.js" defer></script>
+        <footer id="contact" class="footer section">
+            <div class="container footer-grid">
+                <div class="footer-info">
+                    <div class="logo">BC<span>.</span></div>
+                    <p class="footer-desc">Ambientes críticos exigem análises que resistam à pressão.</p>
+                    <div class="premium-contacts">
+                        <a href="mailto:hello@belyakovconsult.com" class="contact-link"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>hello@belyakovconsult.com</a>
+                        <a href="tel:+380936859779" class="contact-link"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>+380 93 685 97 79</a>
+                    </div>
+                    <div class="social-modern">
+                        <a href="https://t.me/+380936859779" class="social-circle">TG</a>
+                        <a href="https://wa.me/380936859779" class="social-circle">WA</a>
+                        <a href="https://linkedin.com/in/sergiy-belyakov" class="social-circle">LI</a>
+                    </div>
+                </div>
+                <div class="footer-form">
+                    <form class="glass-form" action="https://formspree.io/f/xykwoaql" method="POST">
+                        <h3>Solicitar diagnóstico</h3>
+                        <div class="form-row"><input type="text" name="name" placeholder="Seu nome" required /></div>
+                        <div class="form-row"><input type="email" name="email" placeholder="Email" required /></div>
+                        <div class="form-row"><textarea name="message" placeholder="Descreva o contexto (escopo, urgência)" rows="4" required></textarea></div>
+                        <button type="submit" class="btn btn-primary">Iniciar avaliação</button>
+                    </form>
+                </div>
+            </div>
+        </footer>
+    </main>
 </body>
 </html>
