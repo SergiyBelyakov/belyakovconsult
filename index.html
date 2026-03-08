@@ -6,7 +6,6 @@
     <title>Belyakov Consult — BI & Analytics Architecture</title>
     <meta name="description" content="Hands-on BI and analytics architecture for regulated, donor-funded, and high-stakes environments." />
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
@@ -15,7 +14,10 @@
 </head>
 <body>
 
-    <header class="header glass">
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <header class="header">
         <div class="container nav">
             <a class="logo" href="#hero">BC<span>.</span></a>
             
@@ -28,13 +30,13 @@
 
             <div class="nav-actions">
                 <div class="lang-switch">
-                    <a class="active" href="/index.html">EN</a>
-                    <a href="/uk/index.html">UA</a>
-                    <a href="/pt/index.html">PT</a>
+                    <a class="active" href="#">EN</a>
+                    <a href="#">UA</a>
+                    <a href="#">PT</a>
                 </div>
                 <div class="social-top">
                     <a href="https://www.linkedin.com/in/sergiy-belyakov" class="icon-circle" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     </a>
                 </div>
             </div>
@@ -42,163 +44,94 @@
     </header>
 
     <main>
-        <!-- HERO -->
         <section id="hero" class="hero">
-            <div class="hero-bg">
-                <img src="assets/hero-1280.jpg" alt="Background" />
-            </div>
+            <div class="hero-bg"></div>
             <div class="container">
                 <div class="badge">National-scale systems · Donor-funded programs</div>
-                <h1 class="hero-title">When analytics are wrong, <br><span class="text-gradient">decisions become liabilities.</span></h1>
+                <h1 class="hero-title metallic-text">
+                    When analytics are wrong, <br>
+                    <span class="text-gradient">decisions become liabilities.</span>
+                </h1>
                 <p class="hero-lead">
                     Hands-on BI and analytics architecture for environments where trust, funding, and policy depend on data accuracy.
                 </p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="#contact">Assess decision risk</a>
+                    <a class="btn btn-primary btn-glow" href="#contact">Assess decision risk</a>
                     <a class="btn btn-secondary" href="#services">Diagnostic approach</a>
                 </div>
             </div>
         </section>
 
-        <!-- CHALLENGES (8 TILE GRID) -->
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">Why analytics fail at the decision level</h2>
                 <div class="grid grid-4">
-                    <div class="glass-card">
+                    <div class="glass-card interactive-card">
                         <span class="card-num">01</span>
                         <h3>Misleading KPIs</h3>
                         <p>Indicators appear stable while drifting away from operational reality.</p>
                     </div>
-                    <div class="glass-card">
+                    <div class="glass-card interactive-card">
                         <span class="card-num">02</span>
                         <h3>Methodology drift</h3>
                         <p>Definitions change quietly, breaking comparability without visible alarms.</p>
                     </div>
-                    <div class="glass-card">
+                    <div class="glass-card interactive-card">
                         <span class="card-num">03</span>
                         <h3>Shadow reporting</h3>
                         <p>Parallel spreadsheets emerge when BI stops being defensible.</p>
                     </div>
-                    <div class="glass-card">
+                    <div class="glass-card interactive-card">
                         <span class="card-num">04</span>
                         <h3>Quality decay</h3>
-                        <p>Duplicates and uncontrolled transformations distort analytics invisibly.</p>
-                    </div>
-                    <div class="glass-card">
-                        <span class="card-num">05</span>
-                        <h3>Unverifiable lineage</h3>
-                        <p>No clear trace from KPI to source. Under scrutiny, numbers fail.</p>
-                    </div>
-                    <div class="glass-card">
-                        <span class="card-num">06</span>
-                        <h3>Manual fixes</h3>
-                        <p>Data is adjusted to "look right". Dashboards survive — integrity does not.</p>
-                    </div>
-                    <div class="glass-card">
-                        <span class="card-num">07</span>
-                        <h3>Accountability</h3>
-                        <p>Donors demand traceability that standard reporting cannot provide.</p>
-                    </div>
-                    <div class="glass-card">
-                        <span class="card-num">08</span>
-                        <h3>Decision avoidance</h3>
-                        <p>Leaders bypass BI and rely on intuition due to lack of data trust.</p>
+                        <p>Duplicates distort analytics invisibly.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SERVICES -->
-        <section id="services" class="section bg-darker">
-            <div class="container">
-                <h2 class="section-title">Diagnostic & Architecture</h2>
-                <div class="grid grid-3">
-                    <div class="service-card">
-                        <span class="service-tag">Diagnostic</span>
-                        <h3>Analytics diagnostic</h3>
-                        <p>Identify where your analytics stops reflecting reality. Review KPI logic and trace metrics to sources.</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="service-tag">Infrastructure</span>
-                        <h3>Platform rebuild</h3>
-                        <p>Redesign data models with embedded quality controls. Remove silent fixes and manual overrides.</p>
-                    </div>
-                    <div class="service-card">
-                        <span class="service-tag">Governance</span>
-                        <h3>M&E Accountability</h3>
-                        <p>Make analytics withstand donor scrutiny. Replace presentation-ready KPIs with auditable logic.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CASES (3 CASES) -->
-        <section id="cases" class="section">
+        <section id="cases" class="section bg-darker">
             <div class="container">
                 <h2 class="section-title">Selected cases</h2>
                 <div class="grid grid-3">
-                    <article class="case-card">
+                    <article class="case-card interactive-card">
                         <div class="case-media">
                             <img src="assets/dashboard-1280.jpg" alt="Case 1">
                         </div>
                         <div class="case-body">
                             <h3>National Social Policy</h3>
                             <p>Rebuilt KPI logic for fragmented registries where trust had eroded.</p>
-                            <div class="result">Result: Defensible analytics for policy.</div>
+                            <div class="case-result">Result: Defensible analytics for policy.</div>
                         </div>
                     </article>
-                    <article class="case-card">
+                    <article class="case-card interactive-card">
                         <div class="case-media">
                             <img src="assets/dashboard1-1280.jpg" alt="Case 2">
                         </div>
                         <div class="case-body">
                             <h3>Healthcare Systems</h3>
                             <p>Integrated GIS with BI to reveal structural accessibility gaps.</p>
-                            <div class="result">Result: Stabilized coverage metrics.</div>
-                        </div>
-                    </article>
-                    <article class="case-card">
-                        <div class="case-media">
-                            <img src="assets/dashboard2-1280.jpg" alt="Case 3">
-                        </div>
-                        <div class="case-body">
-                            <h3>M&E Infrastructure</h3>
-                            <p>Automated data collection for multi-country donor program audit trails.</p>
-                            <div class="result">Result: 100% audit compliance.</div>
+                            <div class="case-result">Result: Stabilized coverage metrics.</div>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <!-- CONTACT -->
         <footer id="contact" class="footer section">
             <div class="container footer-grid">
                 <div class="footer-info">
                     <div class="logo">BC<span>.</span></div>
                     <p class="footer-desc">High-stakes environments require analytics that holds under pressure.</p>
-                    
-                    <div class="premium-contacts">
-                        <a href="mailto:hello@belyakovconsult.com" class="contact-link">
-                            <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-                            hello@belyakovconsult.com
-                        </a>
-                        <a href="tel:+380936859779" class="contact-link">
-                            <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-                            +380 93 685 97 79
-                        </a>
-                    </div>
-
                     <div class="social-modern">
-                        <a href="https://t.me/+380936859779" class="social-circle" aria-label="Telegram">TG</a>
-                        <a href="https://wa.me/380936859779" class="social-circle" aria-label="WhatsApp">WA</a>
-                        <a href="https://linkedin.com/in/sergiy-belyakov" class="social-circle" aria-label="LinkedIn">LI</a>
+                        <a href="#" class="social-circle">TG</a>
+                        <a href="#" class="social-circle">WA</a>
+                        <a href="https://linkedin.com/in/sergiy-belyakov" class="social-circle">LI</a>
                     </div>
                 </div>
                 
                 <div class="footer-form">
-                    <form class="glass-form" action="https://formspree.io/f/xykwoaql" method="POST">
+                    <form class="glass-form glow-border-form" action="https://formspree.io/f/xykwoaql" method="POST">
                         <h3>Request a diagnostic</h3>
                         <div class="form-row">
                             <input type="text" name="name" placeholder="Full Name" required />
@@ -207,9 +140,9 @@
                             <input type="email" name="email" placeholder="Professional Email" required />
                         </div>
                         <div class="form-row">
-                            <textarea name="message" placeholder="Context (e.g. Current stack, specific drift, or urgency)" rows="4" required></textarea>
+                            <textarea name="message" placeholder="Context or urgency" rows="4" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Start assessment</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-glow">Start assessment</button>
                     </form>
                 </div>
             </div>
