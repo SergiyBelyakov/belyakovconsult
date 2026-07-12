@@ -1,163 +1,351 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="uk">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Belyakov Consult — BI & Analytics Architecture</title>
-    <meta name="description" content="Hands-on BI and analytics architecture for regulated, donor-funded, and high-stakes environments." />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Базові речі — преміальне видання книги та воркбуку</title>
+  <meta name="description" content="Преміальне друковане видання книги і воркбуку про чесну самодіагностику життя: книга, воркбук, лясе, ручка, сертифікат першого тиражу та цифрові матеріали.">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta property="og:title" content="Базові речі — мануал життя для людини">
+  <meta property="og:description" content="Книга і воркбук для тих, хто хоче перестати пояснювати просідання життя і почати бачити факти, систему та перший крок.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/og-manual-life.jpg">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/images/product-kit-1600.webp" imagesrcset="assets/images/product-kit-900.webp 900w, assets/images/product-kit-1600.webp 1600w">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="На початок">
+      <span class="brand-mark">◎</span>
+      <span><strong>Базові речі</strong><small>Мануал життя для людини</small></span>
+    </a>
+    <div class="header-actions">
+      <div class="language-switch" aria-label="Мови сайту">
+        <span class="lang-label">Мова</span>
+        <a class="is-active" href="index.html" aria-current="page">UA</a>
+        <a href="en.html">EN</a>
+        <a href="de.html">DE</a>
+      </div>
+      <button class="menu-button" type="button" data-menu-button aria-label="Відкрити меню">Меню</button>
+    </div>
+    <nav class="nav" data-nav>
+      <a href="#product">Видання</a>
+      <a href="#method">Метод</a>
+      <a href="#inside">Що всередині</a>
+      <a href="#author">Автор</a>
+      <a href="#social">Соцмережі</a>
+      <a href="#preorder">Передзамовлення</a>
+    </nav>
+  </header>
 
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-
-    <header class="header">
-        <div class="container nav">
-            <a class="logo" href="#hero">BC<span>.</span></a>
-            
-            <nav class="nav-links">
-                <a href="#about">Challenges</a>
-                <a href="#services">Services</a>
-                <a href="#cases">Cases</a>
-                <a href="#contact">Contact</a>
-            </nav>
-
-            <div class="nav-actions">
-                <div class="lang-switch">
-                    <a class="active" href="/index.html">EN</a>
-                    <a href="/uk/index.html">UA</a>
-                    <a href="/pt/index.html">PT</a>
-                </div>
-                <div class="social-top">
-                    <a href="https://www.linkedin.com/in/sergiy-belyakov" class="icon-circle" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                </div>
-            </div>
+  <main id="top">
+    <section class="hero section-pad">
+      <div class="hero-bg-orbit" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Преміальне друковане видання · книга та воркбук + електронні матеріали</p>
+          <h1>Прийняти реальність. Реалізувати свій потенціал.</h1>
+          <p class="lead">Це не мотиваційна книга і не щоденник “для кращої версії себе”. Це мануал для дорослої самодіагностики, який дозволяє побачити, де система життя просідає, що ти називаєш нормою і яку ціну платиш за відкладені рішення.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#preorder">Стати в список передзамовлення</a>
+            <a class="btn btn-secondary" href="calculator.html">Пройти калькулятор самообману</a>
+          </div>
+          <div class="hero-proof" aria-label="Ключові характеристики">
+            <span>Перший лімітований тираж 100 екземплярів</span>
+            <span>Тверда палітурка</span>
+            <span>Воркбук подвійної діагностики</span>
+          </div>
         </div>
-    </header>
+        <figure class="hero-visual reveal">
+          <div class="hero-visual-frame">
+            <picture>
+              <source type="image/webp" srcset="assets/images/product-kit-900.webp 900w, assets/images/product-kit-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 58vw">
+              <img src="assets/images/product-kit-1600.jpg" alt="Преміальний набір книги, воркбуку, ручки, лясе, електронні матеріали та сертифіката першого тиражу" width="1402" height="1122" loading="eager">
+            </picture>
+          </div>
+          <figcaption>Концепт подарункового набору: книги, воркбуку, ручки, лясе, електронні матеріали та сертифіката першого тиражу.</figcaption>
+        </figure>
+      </div>
+    </section>
 
-    <main>
-        <section id="hero" class="hero">
-            <div class="hero-bg"></div>
-            <div class="container">
-                <div class="badge">National-scale systems · Donor-funded programs</div>
-                <h1 class="hero-title metallic-text">
-                    When analytics are wrong, <br>
-                    <span class="text-gradient">decisions become liabilities.</span>
-                </h1>
-                <p class="hero-lead">
-                    Hands-on BI and analytics architecture for environments where trust, funding, and policy depend on data accuracy.
-                </p>
-                <div class="hero-actions">
-                    <a class="btn btn-primary btn-glow" href="#contact">Assess decision risk</a>
-                    <a class="btn btn-secondary" href="#services">Diagnostic approach</a>
-                </div>
-            </div>
-        </section>
+    <section class="section-pad section-border" id="product">
+      <div class="container split-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Не wellness. Не коучинг. Не солодка ілюзія.</p>
+          <h2>Книга для тих, кому вже мало красивих пояснень.</h2>
+        </div>
+        <div class="rich-text reveal">
+          <p>Коли життя просідає, може здаватися, що це не системна проблема. Частіше здається, що “зараз складний період”, “треба ще трохи потерпіти”, “я просто втомився”, “пізніше розберуся”. Так роки проходять не через катастрофу, а через відсутність чесного аудиту.</p>
+          <p>“Базові речі” знімає декоративний шар. Воркбук переводить це в таблиці, матриці, оцінки, порівняння і перший крок. Не для самобичування. Для управління реальністю.</p>
+        </div>
+      </div>
 
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">Why analytics fail at the decision level</h2>
-                <div class="grid grid-4">
-                    <div class="glass-card interactive-card">
-                        <span class="card-num">01</span>
-                        <h3>Misleading KPIs</h3>
-                        <p>Indicators appear stable while drifting away from operational reality.</p>
-                    </div>
-                    <div class="glass-card interactive-card">
-                        <span class="card-num">02</span>
-                        <h3>Methodology drift</h3>
-                        <p>Definitions change quietly, breaking comparability without visible alarms.</p>
-                    </div>
-                    <div class="glass-card interactive-card">
-                        <span class="card-num">03</span>
-                        <h3>Shadow reporting</h3>
-                        <p>Parallel spreadsheets emerge when BI stops being defensible.</p>
-                    </div>
-                    <div class="glass-card interactive-card">
-                        <span class="card-num">04</span>
-                        <h3>Quality decay</h3>
-                        <p>Duplicates distort analytics invisibly.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <div class="container product-mosaic reveal">
+        <article class="mosaic-card large">
+          <picture>
+            <source type="image/webp" srcset="assets/images/cover-design-900.webp 900w, assets/images/cover-design-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 54vw">
+            <img src="assets/images/cover-design-1600.jpg" alt="Дизайн обкладинки книги з чорним фактурним папером і золотим тисненням" loading="lazy">
+          </picture>
+        </article>
+        <article class="mosaic-card text-card">
+          <span class="card-number">01</span>
+          <h3>Матеріальність</h3>
+          <p>Твердий чорний корпус, фактурний папір, золоте тиснення, чистий корінець і подарункова коробка. Книга, яку хочеться тримати в руках.</p>
+        </article>
+        <article class="mosaic-card text-card dark-gold">
+          <span class="card-number">02</span>
+          <h3>Подвійна діагностика</h3>
+          <p>Спочатку суб’єктивна карта життя. Потім фактична карта. Різниця між ними показує не настрій, а сліпу зону.</p>
+        </article>
+      </div>
+    </section>
 
-        <section id="cases" class="section bg-darker">
-            <div class="container">
-                <h2 class="section-title">Selected cases</h2>
-                <div class="grid grid-3">
-                    <article class="case-card interactive-card">
-                        <div class="case-media">
-                            <img src="assets/dashboard-1280.jpg" alt="Case 1">
-                        </div>
-                        <div class="case-body">
-                            <h3>National Social Policy</h3>
-                            <p>Rebuilt KPI logic for fragmented registries where trust had eroded.</p>
-                            <div class="case-result">Result: Defensible analytics for policy.</div>
-                        </div>
-                    </article>
-                    <article class="case-card interactive-card">
-                        <div class="case-media">
-                            <img src="assets/dashboard1-1280.jpg" alt="Case 2">
-                        </div>
-                        <div class="case-body">
-                            <h3>Healthcare Systems</h3>
-                            <p>Integrated GIS with BI to reveal structural accessibility gaps.</p>
-                            <div class="case-result">Result: Stabilized coverage metrics.</div>
-                        </div>
-                     </article>
-                    <article class="case-card interactive-card">
-                        <div class="case-media">
-                            <img src="assets/dashboard2-1280.jpg" alt="Case 3">
-                        </div>
-                        <div class="case-body">
-                            <h3>M&E Infrastructure</h3>
-                            <p>Automated data collection for multi-country donor program audit trails.</p>
-                            <div class="case-result">Result: 100% audit compliance.</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+    <section class="section-pad" id="method">
+      <div class="container method-grid">
+        <div class="sticky-copy reveal">
+          <p class="eyebrow">Метод</p>
+          <h2>Побачив. Записав. Оцінив. Порівняв. Обрав. Зробив перший крок.</h2>
+          <p>Слабка логіка більшості “тестів життя” в тому, що вони дають красиву картинку без операційного рішення. Тут інша логіка: оцінка має привести до вибору, вибір до дії, дія до перевірки реальності.</p>
+          <a class="text-link" href="calculator.html">Відкрити інтерактивний калькулятор →</a>
+        </div>
+        <div class="method-steps reveal">
+          <article><span>01</span><h3>Карта сфер</h3><p>Тіло, психіка, мислення, гроші, робота, стосунки, час, репутація, ризик і сенс. Не “баланс”, а система опор.</p></article>
+          <article><span>02</span><h3>Вага сфер</h3><p>Не всі проблеми мають однакову ціну. Те, що зараз важить найбільше, має отримати пріоритет, а не залишатися фоном.</p></article>
+          <article><span>03</span><h3>Порівняння з фактами</h3><p>Самооцінка без фактів швидко стає самозахистом. Фактична карта повертає тверду поверхню під ногами.</p></article>
+          <article><span>04</span><h3>План 72 годин</h3><p>Якщо після діагностики немає першого ходу, це не діагностика. Це ще один спосіб відкласти рішення.</p></article>
+        </div>
+      </div>
+    </section>
 
+    <section class="section-pad section-border" id="inside">
+      <div class="container gallery-grid">
+        <div class="gallery-copy reveal">
+          <p class="eyebrow">Всередині</p>
+          <h2>Не текст заради тексту. Сторінки, які змушують рахувати реальність.</h2>
+          <p>У виданні поєднуються короткі розділи, контрольні питання, таблиці самоаналізу, матриці ваг сфер і карти фактичного стану. Завдання не в тому, щоб читачу стало приємніше. Завдання в тому, щоб йому стало зрозуміліше.</p>
+        </div>
+        <figure class="spreads reveal">
+          <picture>
+            <source type="image/webp" srcset="assets/images/interior-spreads-900.webp 900w, assets/images/interior-spreads-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw">
+            <img src="assets/images/interior-spreads-1600.jpg" alt="Приклади внутрішніх розворотів книги та воркбуку з таблицями і діагностичними картами" loading="lazy">
+          </picture>
+        </figure>
+      </div>
 
-        <footer id="contact" class="footer section">
-            <div class="container footer-grid">
-                <div class="footer-info">
-                    <div class="logo">BC<span>.</span></div>
-                    <p class="footer-desc">High-stakes environments require analytics that holds under pressure.</p>
-                    <div class="social-modern">
-                        <a href="#" class="social-circle">TG</a>
-                        <a href="#" class="social-circle">WA</a>
-                        <a href="https://linkedin.com/in/sergiy-belyakov" class="social-circle">LI</a>
-                    </div>
-                </div>
-                
-                <div class="footer-form">
-                    <form class="glass-form glow-border-form" action="https://formspree.io/f/xykwoaql" method="POST">
-                        <h3>Request a diagnostic</h3>
-                        <div class="form-row">
-                            <input type="text" name="name" placeholder="Full Name" required />
-                        </div>
-                        <div class="form-row">
-                            <input type="email" name="email" placeholder="Professional Email" required />
-                        </div>
-                        <div class="form-row">
-                            <textarea name="message" placeholder="Context or urgency" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-glow">Start assessment</button>
-                    </form>
-                </div>
-            </div>
-        </footer>
-    </main>
+      <div class="container feature-row reveal">
+        <article><h3>Книга</h3><p>Базові принципи, які не підлаштовуються під твої очікування.</p></article>
+        <article><h3>Воркбук</h3><p>Метод подвійної діагностики, таблиці, матриці й контрольні питання.</p></article>
+        <article><h3>Цифровий доступ</h3><p>PDF-матеріали, калькулятор самообману і майбутні оновлення електронних продуктів.</p></article>
+        <article><h3>Перший тираж</h3><p>Нумерований сертифікат і обмежена партія для ранніх читачів.</p></article>
+      </div>
+    </section>
+
+    <section class="section-pad black-panel">
+      <div class="container">
+        <div class="panel-grid reveal">
+          <div>
+            <p class="eyebrow">Для кого</p>
+            <h2>Це не книга для тих, хто шукає заспокоєння.</h2>
+          </div>
+          <div class="audience-list">
+            <p>Для людей, які вивозять багато, але вже підозрюють, що ціна вже занадто висока.</p>
+            <p>Для тих, хто плутає зайнятість із рухом уперед і хоче перевірити це без самообману.</p>
+            <p>Для читачів, яким потрібна структура, а не ще одна порція натхнення.</p>
+            <p>Для тих, хто хоче вийти з режиму реакції й повернути собі керуваність власного життя.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="author">
+      <div class="container author-grid">
+        <figure class="author-photo reveal">
+          <picture>
+            <source type="image/webp" srcset="assets/images/author-sergiy-belyakov-480.webp 480w, assets/images/author-sergiy-belyakov-900.webp 900w" sizes="(max-width: 900px) 90vw, 420px">
+            <img src="assets/images/author-sergiy-belyakov-900.jpg" alt="Сергій Бєляков, автор книги" loading="lazy">
+          </picture>
+        </figure>
+        <div class="author-copy reveal">
+          <p class="eyebrow">Автор</p>
+          <h2>Сергій Бєляков</h2>
+          <p>Автор працює на перетині аналітики, державних систем, соціальної політики, цифрової трансформації та управління складними рішеннями. Його професійний досвід пов’язаний із побудовою аналітичних підходів, роботою з даними, розробкою рішень для великих систем і пошуком відповіді на одне практичне питання: що насправді підтверджується фактами, а що є лише зручною внутрішньою легендою.
+
+«Базові речі, про які мені не сказали при народженні» виросли не з бажання написати ще одну мотиваційну книгу. Це спроба зібрати тверезий мануал для людини, яка втомилася від красивих пояснень, хаотичних ривків і нескінченного очікування правильного моменту.
+</p>
+          <p>Авторський підхід побудований на простій, але неприємній логіці: якщо життя просідає, його треба не романтизувати, а діагностувати. Не шукати виправдання, а бачити систему. Не чекати натхнення, а рахувати факти, виявляти слабкі місця й робити перший конкретний крок.
+
+Ця книга говорить прямою мовою, бо деякі речі не мають сенсу пом’якшувати. Реальність не стає зручнішою від того, що її красиво пояснили. Вона змінюється лише тоді, коли людина перестає підлаштовувати факти під власну історію і починає діяти відповідно до того, що є насправді.</p>
+        </div>
+      </div>
+    </section>
+
+<section class="section-pad section-border social-section" id="social">
+  <div class="container">
+    <div class="social-heading reveal">
+      <p class="eyebrow">Соцмережі</p>
+      <h2>Слідкуйте за розвитком проєкту в соціальних мережах</h2>
+      <p class="section-intro">
+        Соцмережі — це не додаток до книги, а жива частина проєкту. Тут будуть оновлення щодо передзамовлення, фрагменти з книги та воркбуку, закулісся створення друкованого видання, PDF-матеріали, цифрові матеріали, чат-бот, застосунки, анонси запуску і прямий контакт з аудиторією. Якщо книга — це зібрана система, то соцмережі — це місце, де ця система розгортається в реальному часі через думки, спостереження, приклади, питання й чесні розмови.
+      </p>
+    </div>
+
+    <div class="social-network-grid reveal" aria-label="Соціальні мережі проєкту">
+      <a class="social-card social-card-instagram" href="#" target="_blank" rel="noopener noreferrer" aria-label="Перейти в Instagram">
+        <span class="social-index">01</span>
+        <span class="social-name">Instagram</span>
+        <strong>@yourhandle</strong>
+        <small>Короткі фрагменти книги, візуальні цитати, процес створення видання.</small>
+      </a>
+
+      <a class="social-card social-card-telegram"
+         href="https://t.me/+08ifG_FEwNw2Njky"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Перейти в Telegram-канал">
+        <span class="social-index">02</span>
+        <span class="social-name">Telegram</span>
+        <strong>@manual_life_book</strong>
+        <small>Оновлення передзамовлення, анонси PDF і прямий канал для аудиторії.</small>
+      </a>
+
+      <a class="social-card social-card-linkedin" href="#" target="_blank" rel="noopener noreferrer" aria-label="Перейти в LinkedIn">
+        <span class="social-index">03</span>
+        <span class="social-name">LinkedIn</span>
+        <strong>Author / Project page</strong>
+        <small>Експертна рамка, репутація автора і довіра для дорослої аудиторії.</small>
+      </a>
+
+      <a class="social-card social-card-email" href="mailto:hello@example.com" aria-label="Написати на email">
+        <span class="social-index">04</span>
+        <span class="social-name">Email</span>
+        <strong>hello@example.com</strong>
+        <small>Для партнерств, запитів медіа і прямого контакту щодо тиражу.</small>
+      </a>
+    </div>
+  </div>
+</section>
+
+    <section class="section-pad section-border" id="preorder">
+      <div class="container preorder-grid">
+        <div class="preorder-card reveal">
+          <p class="eyebrow">Передзамовлення</p>
+          <h2>Перший тираж має бути обмеженим. Інакше це не преміальний продукт, а ще один друкований файл.</h2>
+          <p>Зараз лендінг готовий для збору попиту. Реальні посилання на оплату, Telegram, PDF і CRM треба підставити перед запуском.</p>
+          <div class="price-box">
+            <span>Орієнтир продукту</span>
+            <strong>Книга + воркбук + набір</strong>
+            <small>Фінальна ціна залежить від друкарні, матеріалів, коробки й накладу.</small>
+          </div>
+          <div class="button-stack">
+            <!-- TODO: замінити href на checkout LiqPay/WayForPay/Stripe або сторінку оплати. -->
+            <a class="btn btn-primary" href="#lead-form">Стати в список передзамовлення</a>
+            <!-- TODO: замінити href на Telegram-канал або бот передзамовлення. -->
+            <a class="btn btn-secondary" href="#lead-form">Отримати PDF-прев’ю</a>
+          </div>
+        </div>
+        <form class="lead-form reveal" id="lead-form" novalidate>
+          <h3>Залиш контакт</h3>
+          <p>Форма зараз працює як фронтенд-заглушка. Після підключення CRM вона може передавати заявки в SendPulse, Mailchimp, Google Sheets, Telegram bot або іншу систему.</p>
+          <label>Ім’я<input type="text" name="name" required placeholder="Ваше ім’я"></label>
+          <label>Email<input type="email" name="email" required placeholder="name@email.com"></label>
+          <label>Telegram, необов’язково<input type="text" name="telegram" placeholder="@username"></label>
+          <label class="check"><input type="checkbox" name="consent" required><span>Погоджуюся отримати матеріали щодо книги, воркбуку та передзамовлення.</span></label>
+          <!-- TODO: інтеграція форми: SendPulse, Mailchimp, Google Sheets, Telegram bot, CRM webhook. -->
+          <button class="btn btn-primary" type="submit">Надіслати заявку</button>
+          <div class="form-status" data-form-status role="status"></div>
+        </form>
+      </div>
+    </section>
+
+<section class="section-pad faq-section">
+  <div class="container faq-grid">
+    <div class="section-head reveal">
+      <p class="eyebrow">Питання</p>
+      <h2>Відповіді на основні питання.</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <details open>
+        <summary>Де можна придбати книгу?</summary>
+        <p>Електронна версія книги та воркбуку буде доступна через онлайн-платформи після офіційного запуску. Друковану преміальну версію можна буде замовити через цей сайт після відкриття передзамовлення. До старту продажів можна залишити контакт, щоб отримати PDF-прев’ю, оновлення щодо тиражу і першими дізнатися про запуск.</p>
+      </details>
+
+      <details>
+        <summary>Що входить у преміальне видання?</summary>
+        <p>Преміальне видання задумане як повноцінний набір: книга, воркбук, друковані діагностичні матеріали, доступ до цифрових інструментів, PDF-матеріалів і калькулятора самообману. У подарунковому форматі також можуть бути коробка, лясе, ручка, сертифікат першого тиражу та інші елементи, які підсилюють тактильний досвід.</p>
+      </details>
+
+      <details>
+        <summary>Чим ця книга відрізняється від мотиваційних книг?</summary>
+        <p>Це не книга про натхнення, позитивне мислення або “кращу версію себе”. Вона побудована як інструмент тверезої самодіагностики: побачити, де життя просідає, які проблеми повторюються, що давно стало нормою і яку ціну людина платить за відкладені рішення.</p>
+      </details>
+
+      <details>
+        <summary>Для кого ця книга?</summary>
+        <p>Для людей, які багато тягнуть, працюють, ухвалюють рішення і зовні можуть виглядати функціональними, але вже відчувають, що ціна такого режиму стала занадто високою. Це книга для тих, кому потрібна не ще одна порція натхнення, а структура, чесний аудит і перший конкретний крок.</p>
+      </details>
+
+      <details>
+        <summary>Для кого ця книга не підходить?</summary>
+        <p>Вона не підходить тим, хто шукає м’яке заспокоєння, красиві афірмації або швидке відчуття, що “все буде добре”. Якщо людина не готова дивитися на факти, визнавати слабкі місця і робити хоча б один конкретний крок, ця книга стане просто дорогим предметом на полиці.</p>
+      </details>
+
+      <details>
+        <summary>Навіщо окремий калькулятор самообману?</summary>
+        <p>Калькулятор працює як коротка діагностика перед повним воркбуком. Людина оцінює 10 сфер життя, бачить найслабші місця, отримує тип результату, головний патерн самообману і перший крок на 72 години. Це не медична або психологічна діагностика, а авторський інструмент самоаналізу.</p>
+      </details>
+
+      <details>
+        <summary>Чи замінює книга психолога, лікаря або фінансового консультанта?</summary>
+        <p>Ні. Книга, воркбук і калькулятор не замінюють консультацію лікаря, психолога, психотерапевта, фінансового або юридичного фахівця. Це інструменти самоаналізу, структурування думок, рішень і життєвих сфер. Якщо є серйозні медичні, психологічні, фінансові або юридичні проблеми, треба звертатися до профільного спеціаліста.</p>
+      </details>
+
+      <details>
+        <summary>Який результат після проходження воркбуку?</summary>
+        <p>Головний результат — не гарний настрій, а зрозуміліша карта власного життя. Що тримається. Що просідає. Де є самообман. Яка сфера тягне вниз інші. Яка прихована ціна бездіяльності. І що треба зробити першим, щоб повернути собі керування.</p>
+      </details>
+
+      <details>
+        <summary>Чи буде електронна версія?</summary>
+        <p>Так, електронна версія або PDF-матеріали будуть частиною продукту. Але проєкт не зводиться лише до PDF. Його сила в поєднанні книги, воркбуку, цифрових інструментів і фізичного преміального досвіду.</p>
+      </details>
+
+      <details>
+        <summary>Чи буде англійська або німецька версія?</summary>
+        <p>Так, проєкт закладається як багатомовний. Українська версія є базовою для тестування продукту, аудиторії, позиціонування і ціни. Англійська та німецька версії мають бути не механічним перекладом, а повноцінною адаптацією під відповідні ринки.</p>
+      </details>
+
+      <details>
+        <summary>Коли відкриється передзамовлення?</summary>
+        <p>Передзамовлення відкриється після фіналізації друкованого макета, тестового примірника, складу набору і розрахунку собівартості. До цього можна залишити контакт, щоб отримати оновлення, PDF-прев’ю і першим дізнатися про старт продажів.</p>
+      </details>
+
+      <details>
+        <summary>Чи можна купити книгу як подарунок?</summary>
+        <p>Так. Саме преміальний формат робить її придатною для подарунка. Але це не “мила книга для натхнення”. Це подарунок людині, яка готова дивитися на себе доросло. Дарувати її варто не всім, а тим, хто не образиться на чесність.</p>
+      </details>
+    </div>
+  </div>
+</section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Базові речі</strong>
+        <p>Мануал життя для людини. Преміальне видання книги та воркбуку.</p>
+      </div>
+      <div class="footer-links">
+        <a href="calculator.html">Калькулятор</a>
+        <a href="#social">Соцмережі</a>
+        <a href="#preorder">Передзамовлення</a>
+        <a href="#top">Вгору</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

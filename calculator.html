@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Калькулятор самообману — діагностика життєвої системи</title>
+  <meta name="description" content="5-хвилинна діагностика 10 сфер життя: де система просідає, який самообман керує рішеннями і який перший крок зробити за 72 години.">
+  <meta property="og:title" content="Калькулятор самообману — діагностика життєвої системи">
+  <meta property="og:description" content="5-хвилинна діагностика 10 сфер життя: де система просідає, який самообман керує рішеннями і який перший крок зробити за 72 години.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0d0d0f">
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --panel: #151519;
+      --panel-2: #1d1d23;
+      --text: #f4f0e8;
+      --muted: #b9b0a3;
+      --subtle: #80766b;
+      --line: rgba(244, 240, 232, 0.12);
+      --accent: #c8842f;
+      --accent-2: #7b1f1f;
+      --danger: #d65252;
+      --success: #c8842f;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --max: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(200, 132, 47, 0.15), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(123, 31, 31, 0.20), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: center;
+      padding: 84px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(46px, 8vw, 92px);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      max-width: 900px;
+    }
+
+    .lead {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: clamp(18px, 2.2vw, 25px);
+      line-height: 1.32;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      color: #d8d0c5;
+      font-size: 17px;
+      margin-bottom: 30px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(244, 240, 232, 0.08), rgba(244, 240, 232, 0.03));
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(200, 132, 47, 0.14), transparent);
+      transform: translateX(-70%);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 76px;
+      line-height: 1;
+      letter-spacing: -0.08em;
+      margin-bottom: 14px;
+    }
+
+    .hero-card span {
+      color: var(--muted);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 1px solid rgba(200, 132, 47, 0.55);
+      background: var(--accent);
+      color: #111;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 20px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: #e09a43;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .btn.secondary:hover {
+      border-color: rgba(244, 240, 232, 0.32);
+      background: rgba(244, 240, 232, 0.06);
+    }
+
+    .micro {
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: var(--subtle);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin-bottom: 16px;
+    }
+
+    .section-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 28px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step {
+      min-height: 188px;
+      border: 1px solid var(--line);
+      background: rgba(244, 240, 232, 0.04);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+      background: rgba(200, 132, 47, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(200, 132, 47, 0.35);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      font-size: 20px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .calculator-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .progress-panel {
+      position: sticky;
+      top: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.88);
+      backdrop-filter: blur(14px);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(244, 240, 232, 0.10);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      border-radius: inherit;
+      transition: width 0.22s ease;
+    }
+
+    .scale-note {
+      color: var(--subtle);
+      font-size: 13px;
+      margin: 16px 0 0;
+    }
+
+    .sphere-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.82);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .sphere-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px 24px 10px;
+    }
+
+    .sphere-title {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .sphere-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      white-space: nowrap;
+      padding-top: 7px;
+    }
+
+    .question {
+      padding: 18px 24px 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .question.missing {
+      background: rgba(214, 82, 82, 0.07);
+      outline: 1px solid rgba(214, 82, 82, 0.28);
+      outline-offset: -1px;
+    }
+
+    .question-text {
+      margin: 0 0 14px;
+      color: #eee7dc;
+      font-weight: 650;
+    }
+
+    .rating {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(32px, 1fr));
+      gap: 7px;
+    }
+
+    .score-button {
+      min-height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(244, 240, 232, 0.14);
+      background: rgba(244, 240, 232, 0.05);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+    }
+
+    .score-button:hover,
+    .score-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(200, 132, 47, 0.65);
+      color: var(--text);
+      outline: none;
+    }
+
+    .score-button.active {
+      color: #111;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .index-card {
+      border-color: rgba(123, 31, 31, 0.46);
+      background: linear-gradient(145deg, rgba(123, 31, 31, 0.18), rgba(21, 21, 25, 0.92));
+    }
+
+    .validation-message,
+    .form-message,
+    .copy-message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(214, 82, 82, 0.35);
+      background: rgba(214, 82, 82, 0.10);
+      color: #ffd9d9;
+    }
+
+    .validation-message.show,
+    .form-message.show,
+    .copy-message.show {
+      display: block;
+    }
+
+    .form-message.success,
+    .copy-message.success {
+      border-color: rgba(200, 132, 47, 0.45);
+      background: rgba(200, 132, 47, 0.12);
+      color: #ffe7c5;
+    }
+
+    .actions-panel {
+      padding: 6px 0 0;
+    }
+
+    .actions-panel .btn {
+      width: 100%;
+    }
+
+    .results {
+      padding: 72px 0;
+    }
+
+    .results[hidden] {
+      display: none;
+    }
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .result-card,
+    .lead-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.88);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .score-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(244, 240, 232, 0.04);
+    }
+
+    .score-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .score-box strong {
+      display: block;
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .result-badge {
+      display: inline-flex;
+      margin-bottom: 14px;
+      border: 1px solid rgba(200, 132, 47, 0.40);
+      border-radius: 999px;
+      background: rgba(200, 132, 47, 0.12);
+      color: #ffd8a5;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .result-card h3,
+    .lead-card h3 {
+      font-size: 28px;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .result-card p {
+      color: var(--muted);
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .result-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(244, 240, 232, 0.035);
+    }
+
+    .result-item span {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .result-item strong,
+    .result-item p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 7px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(244, 240, 232, 0.10);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width 0.35s ease;
+    }
+
+    .cta-box {
+      margin-top: 18px;
+      border: 1px solid rgba(200, 132, 47, 0.35);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: rgba(200, 132, 47, 0.08);
+    }
+
+    .cta-box p {
+      color: #f1dfc5;
+      margin-bottom: 18px;
+    }
+
+    .lead-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .field label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 7px;
+      font-weight: 750;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"] {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(244, 240, 232, 0.06);
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: rgba(200, 132, 47, 0.72);
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check input {
+      margin-top: 4px;
+      accent-color: var(--accent);
+    }
+
+    .footer-note {
+      padding: 34px 0 52px;
+      color: var(--subtle);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .calculator-shell,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-panel {
+        position: static;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 22px, var(--max));
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 54px;
+      }
+
+      .hero-card strong {
+        font-size: 54px;
+      }
+
+      .steps,
+      .score-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sphere-header {
+        display: block;
+      }
+
+      .sphere-kicker {
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      .question,
+      .sphere-header,
+      .result-card,
+      .lead-card {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .rating {
+        grid-template-columns: repeat(5, minmax(42px, 1fr));
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" style="position:fixed;left:14px;bottom:14px;z-index:9999;border:1px solid rgba(200,132,47,.45);background:rgba(13,13,15,.86);color:#f4f0e8;padding:10px 14px;border-radius:999px;text-decoration:none;font:700 12px system-ui;text-transform:uppercase;letter-spacing:.08em;backdrop-filter:blur(10px)">← До лендінгу</a>
+  <main>
+    <section class="hero page" id="top">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Авторський інструмент самоаналізу</div>
+          <h1>Калькулятор самообману</h1>
+          <p class="lead">5 хвилин, 10 сфер, один чесний результат: де твоє життя вже бере з тебе приховану плату.</p>
+          <p class="hero-copy">Це не тест на щастя і не колесо балансу. Це коротка діагностика 10 сфер життя, яка показує, де саме система вже просідає, що ти можеш називати нормою і яку ціну за це платиш.</p>
+          <div class="btn-row">
+            <button class="btn" type="button" id="startButton">Почати діагностику</button>
+            <a class="btn secondary" href="#how">Як це працює</a>
+          </div>
+          <p class="micro">Цей інструмент не є медичною або психологічною діагностикою. Це авторський інструмент самоаналізу на основі логіки воркбуку.</p>
+        </div>
+        <aside class="hero-card" aria-label="Короткий опис діагностики">
+          <strong>38</strong>
+          <span>оцінок без прикрашання. 30 питань по сферах життя і 8 маркерів самообману. Результат не гладить по голові. Він показує, де рахунок уже відкритий.</span>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section page" id="how">
+      <h2 class="section-title">Як це працює</h2>
+      <p class="section-copy">Тут немає обіцянки гармонії. Є короткий аудит системи: що тримається, що сиплеться і що ти вже занадто довго пояснюєш замість виправлення.</p>
+      <div class="steps">
+        <article class="step">
+          <div class="step-number">1</div>
+          <h3>Оціни 10 сфер життя.</h3>
+          <p>Не ідеальну картинку. Поточну реальність.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">2</div>
+          <h3>Побач слабкі місця системи.</h3>
+          <p>Бо те, що не виміряне, легко назвати нормою.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">3</div>
+          <h3>Отримай тип самообману.</h3>
+          <p>Не ярлик. Робочу гіпотезу, яку треба перевірити дією.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">4</div>
+          <h3>Забери перший крок на 72 години.</h3>
+          <p>Не план на нове життя. Один хід, який знімає туман.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section page" id="diagnostic">
+      <h2 class="section-title">Діагностика</h2>
+      <p class="section-copy">Оцінюй кожне твердження від 1 до 10. 1 означає “зовсім ні / провал”. 10 означає “повністю так / стабільно”. У блоці індексу самообману високий бал означає вищий рівень самообману.</p>
+
+      <div class="calculator-shell">
+        <div>
+          <p class="validation-message" id="validationMessage" role="status"></p>
+          <div id="questionsContainer"></div>
+        </div>
+
+        <aside class="progress-panel" aria-label="Прогрес проходження тесту">
+          <div class="progress-top">
+            <span>Прогрес</span>
+            <strong id="progressText">0/38</strong>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="scale-note">Не відповідай “як має бути”. Відповідай так, як є зараз. Самообман починається там, де оцінка стає презентацією.</p>
+          <div class="actions-panel">
+            <button class="btn" type="button" id="calculateButton">Показати результат</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="results page" id="results" hidden>
+      <h2 class="section-title">Результат</h2>
+      <p class="section-copy">Це не вирок і не діагноз. Це зріз системи на зараз. Найгірше, що можна зробити після такого результату, це перетворити його на ще одну цікаву інформацію без дії.</p>
+
+      <div class="result-layout">
+        <article class="result-card">
+          <div class="score-grid">
+            <div class="score-box">
+              <span>Life System Score</span>
+              <strong id="lifeScore">0/100</strong>
+            </div>
+            <div class="score-box">
+              <span>Індекс самообману</span>
+              <strong id="deceptionScore">0/100</strong>
+            </div>
+          </div>
+
+          <div class="result-badge" id="resultBadge">Тип результату</div>
+          <h3 id="resultTypeTitle">Назва типу</h3>
+          <p id="resultTypeDescription">Опис результату.</p>
+
+          <div class="result-list">
+            <div class="result-item">
+              <span>Три найслабші сфери</span>
+              <strong id="weakestSpheres">—</strong>
+            </div>
+            <div class="result-item">
+              <span>Найсильніша сфера</span>
+              <strong id="strongestSphere">—</strong>
+            </div>
+            <div class="result-item">
+              <span>Головний самообман</span>
+              <p id="mainDeception">—</p>
+            </div>
+            <div class="result-item">
+              <span>Прихована ціна</span>
+              <p id="hiddenPrice">—</p>
+            </div>
+            <div class="result-item">
+              <span>Перший крок на 72 години</span>
+              <p id="firstStep">—</p>
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top: 18px;">
+            <button class="btn secondary" type="button" id="copyButton">Скопіювати результат</button>
+            <button class="btn secondary" type="button" id="shareButton">Поділитися результатом</button>
+            <button class="btn secondary" type="button" id="resetButton">Пройти ще раз</button>
+          </div>
+          <p class="copy-message success" id="copyMessage" role="status"></p>
+        </article>
+
+        <aside class="result-card">
+          <h3>Профіль 10 сфер</h3>
+          <p>Горизонтальні лінії показують не “успішність”, а рівень поточної опори в кожній сфері. Найнижчі значення зазвичай і створюють найбільшу приховану плату.</p>
+          <div class="bars" id="barsContainer"></div>
+
+          <div class="cta-box">
+            <h3>Повний воркбук</h3>
+            <p>Цей результат — не вирок. Це карта. Повна діагностика з таблицями, матрицями рішень, кризовими протоколами й планом першого кроку є у воркбуку.</p>
+            <div class="btn-row">
+              <!-- TODO: замінити href="#" на посилання на оплату, checkout або сторінку продукту. -->
+              <a class="btn" href="#">Отримати повний воркбук</a>
+              <!-- TODO: замінити href="#" на посилання на форму передзамовлення або Telegram. -->
+              <a class="btn secondary" href="#">Стати в список передзамовлення</a>
+              <!-- TODO: замінити href="#" на посилання на PDF або автоматичну генерацію PDF-розшифровки. -->
+              <a class="btn secondary" href="#">Отримати PDF-розшифровку</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="lead-card" style="margin-top: 22px;">
+        <h3>Надіслати результат собі</h3>
+        <p class="section-copy" style="margin-bottom: 10px;">Залиш контакт, щоб у реальній версії отримати розшифровку, PDF або доступ до воркбуку. Зараз це демонстраційна форма без бекенду.</p>
+        <form class="lead-form" id="leadForm">
+          <div class="field">
+            <label for="leadName">Ім’я</label>
+            <input id="leadName" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="leadEmail">Email</label>
+            <input id="leadEmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="leadTelegram">Telegram username, необов’язково</label>
+            <input id="leadTelegram" name="telegram" type="text" autocomplete="off" placeholder="@username">
+          </div>
+          <label class="check">
+            <input id="leadConsent" name="consent" type="checkbox" required>
+            <span>Я погоджуюся отримати матеріали, пов’язані з результатом, воркбуком і передзамовленням.</span>
+          </label>
+          <!-- TODO: тут підключити API SendPulse, Mailchimp, Google Sheets, Telegram bot або CRM. -->
+          <button class="btn" type="submit">Надіслати результат собі</button>
+          <p class="form-message success" id="formMessage" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-note page">
+    Це авторський інструмент самоаналізу. Він не замінює консультацію лікаря, психолога, психотерапевта, фінансового або юридичного фахівця.
+  </footer>
+
+  <script>
+    const spheres = [
+      {
+        key: "body",
+        title: "Тіло",
+        questions: [
+          "Я сплю достатньо, щоб нормально функціонувати, а не просто виживати.",
+          "У мене є регулярний рух, тренування або фізична активність.",
+          "Моє тіло зараз дає мені енергію, а не постійно забирає її."
+        ]
+      },
+      {
+        key: "psyche",
+        title: "Психіка",
+        questions: [
+          "Я вмію відрізняти емоцію від факту.",
+          "Я не ухвалюю ключові рішення в стані паніки, виснаження або образи.",
+          "Я розумію свої повторювані патерни, а не просто знову в них падаю."
+        ]
+      },
+      {
+        key: "thinking",
+        title: "Мислення",
+        questions: [
+          "Я перевіряю свої пояснення фактами, а не тільки внутрішньою правотою.",
+          "Я можу визнати, що помилявся, без руйнування самооцінки.",
+          "Я не плутаю складні пояснення з реальним вирішенням проблеми."
+        ]
+      },
+      {
+        key: "money",
+        title: "Гроші",
+        questions: [
+          "Я чесно знаю свої доходи, витрати, борги й фінансові ризики.",
+          "Мої витрати не з’їдають майбутню свободу заради поточного комфорту.",
+          "У мене є хоча б мінімальна фінансова подушка або план її створення."
+        ]
+      },
+      {
+        key: "work",
+        title: "Робота",
+        questions: [
+          "Моя робота дає мені не лише втому, а й гроші, навички, статус або доступ.",
+          "Я розумію свою ринкову цінність і не живу тільки роллю “зручного виконавця”.",
+          "Я не плутаю зайнятість із реальним професійним ростом."
+        ]
+      },
+      {
+        key: "relationships",
+        title: "Стосунки",
+        questions: [
+          "Після ключових стосунків у моєму житті я не почуваюся системно виснаженим.",
+          "Я вмію ставити межі без постійного почуття провини.",
+          "Поруч зі мною є люди, які піднімають мій стандарт, а не нормалізують моє просідання."
+        ]
+      },
+      {
+        key: "time",
+        title: "Час",
+        questions: [
+          "Мій календар хоча б частково відображає мої реальні пріоритети.",
+          "Я не живу так, ніби вся чужа терміновість важливіша за моє життя.",
+          "У мене є захищений час для роботи, тіла, відпочинку або стратегічних рішень."
+        ]
+      },
+      {
+        key: "reputation",
+        title: "Репутація",
+        questions: [
+          "Люди розуміють, у чому моя сила, цінність або експертність.",
+          "Я не ховаюся за скромністю там, де насправді боюся видимості.",
+          "Моя поведінка створює довіру швидше, ніж мої пояснення."
+        ]
+      },
+      {
+        key: "risk",
+        title: "Ризик і рішення",
+        questions: [
+          "Я не відкладаю важливі рішення тільки тому, що боюся наслідків.",
+          "Я відрізняю обережність від страху провалу або оцінки.",
+          "У моєму житті є рішення, які рухають мене вперед, а не тільки зменшують дискомфорт."
+        ]
+      },
+      {
+        key: "meaning",
+        title: "Сенс",
+        questions: [
+          "Я розумію, заради чого витрачаю свої сили, час і увагу.",
+          "Моє життя не зводиться тільки до роботи, побуту й гасіння пожеж.",
+          "Я не живу нижче власного масштабу тільки тому, що так безпечніше."
+        ]
+      }
+    ];
+
+    const deceptionQuestions = [
+      "Я часто кажу “зараз складний період”, хоча цей період давно став стилем життя.",
+      "Я знаю, що треба змінити, але продовжую збирати інформацію замість першого кроку.",
+      "Я називаю обережністю те, що насправді є страхом оцінки, конфлікту або провалу.",
+      "Я підтримую стосунки або робочі формати, після яких мені треба відновлюватися.",
+      "Я плутаю зайнятість із рухом уперед.",
+      "Я відкладаю тіло, ніби воно має чекати без наслідків.",
+      "Я не рахую гроші так чесно, як мав би.",
+      "Я хочу більшого масштабу, але поводжуся так, щоб залишатися невидимим."
+    ];
+
+    const resultTypes = {
+      emergency: {
+        title: "Аварійний режим",
+        description: "Тобі зараз не потрібна велика трансформація. Тобі потрібна стабілізація. Не нова ціль, не ще один ривок, не героїчний план на рік. Спочатку треба зупинити кровотечу: тіло, сон, гроші, час і базову психічну стійкість."
+      },
+      chaos: {
+        title: "Функціональний хаос",
+        description: "Ти ще вивозиш. Але це не означає, що система здорова. Частина життя вже працює в борг: тіло терпить, психіка адаптується, час розсипається, а ти можеш називати це відповідальністю або складним періодом."
+      },
+      facade: {
+        title: "Сильний фасад, слабка база",
+        description: "Зовні система може виглядати нормально або навіть сильно. Але база вже просідає. Є результат, зайнятість, функціональність, можливо навіть статус. Питання в ціні. Якщо головний актив — ти, а ти працюєш на знос, це не стратегія. Це красиво оформлене виснаження."
+      },
+      delayed: {
+        title: "Відкладене життя",
+        description: "Ти не стоїш на місці. Ти платиш за нерухомість. Просто рахунок приходить не одразу, а у вигляді втрачених можливостей, невидимості й внутрішньої фрази: ‘я міг би’. Найдорожче тут не помилка. Найдорожче — роки, які минули без рішення."
+      },
+      managed: {
+        title: "Керована система з ризиком сліпих зон",
+        description: "Система тримається. Але сильні люди часто програють не там, де все очевидно погано, а там, де вони занадто довго не переглядають власні правила. Тобі потрібна не мотивація. Тобі потрібен регулярний аудит, щоб сила не стала інерцією."
+      }
+    };
+
+    const mainDeceptionBySphere = {
+      body: "Ти називаєш виснаження відповідальністю.",
+      money: "Ти називаєш фінансовий туман складним періодом.",
+      time: "Ти називаєш чужу терміновість своєю відповідальністю.",
+      work: "Ти плутаєш зайнятість із цінністю.",
+      relationships: "Ти називаєш виснажливу близькість складним характером людей.",
+      risk: "Ти називаєш страх обережністю.",
+      reputation: "Ти називаєш невидимість скромністю.",
+      meaning: "Ти називаєш виживання дорослим життям.",
+      psyche: "Ти називаєш внутрішній хаос складним періодом.",
+      thinking: "Ти називаєш пояснення рішенням."
+    };
+
+    const hiddenPriceBySphere = {
+      body: "Наступними почнуть сипатися робота, психіка й стосунки, бо вони тримаються на енергії, якої вже бракує.",
+      money: "Поки цифри в тумані, ти ухвалюєш рішення не з свободи, а зі страху.",
+      time: "Якщо твій календар належить усім, крім тебе, твоє життя поступово стає сервісом для чужих задач.",
+      work: "Зайнятість без росту створює втому, але не створює свободу.",
+      relationships: "Якщо після близькості тобі треба відновлюватися, це вже не просто складна динаміка. Це витік ресурсу.",
+      risk: "Відкладене рішення не стоїть на місці. Воно щомісяця дорожчає.",
+      reputation: "Якщо сильні сторони невидимі, ринок і люди оцінюють не твій потенціал, а твою присутність.",
+      meaning: "Без сенсу навіть правильне життя поступово стає добре організованою втомою.",
+      psyche: "Неврегульована психіка буде керувати рішеннями, навіть якщо ти називатимеш це логікою.",
+      thinking: "Пояснення без дії створює ілюзію контролю, але не змінює траєкторію."
+    };
+
+    const firstStepBySphere = {
+      body: "Заплануй два вечори без роботи після 21:00 і один сон не менше 7,5 годин. Не для балансу. Для повернення базового управління.",
+      money: "Випиши всі регулярні витрати, борги й обов’язкові платежі. Без прикрашання. Фінансова свобода починається не з доходу, а з чесної таблиці.",
+      time: "Заблокуй у календарі один 90-хвилинний відрізок, який не належить чужій терміновості.",
+      work: "Випиши, що твоя робота дає тобі зараз: гроші, навички, статус, доступ або лише втому. Якщо лише втому — це вже відповідь.",
+      relationships: "Назви одну межу, яку ти давно здаєш. І один раз не пояснюй її зайвими вибаченнями.",
+      risk: "Випиши рішення, яке відкладаєш. Поруч напиши не ‘що буде, якщо я зроблю’, а ‘що буде, якщо я ще рік не зроблю’.",
+      reputation: "Опублікуй або сформулюй один доказ своєї цінності: кейс, думку, результат, позицію. Невидимість рідко буває нейтральною.",
+      meaning: "Запиши три речі, заради яких тобі справді не шкода витрачати сили. Потім порівняй це зі своїм календарем.",
+      psyche: "Випиши 3 думки, які зараз керують твоїм станом, і поруч — факти, які їх підтверджують або спростовують.",
+      thinking: "Візьми одну проблему й напиши: факт, інтерпретація, страх, дія. Не змішуй це в одну красиву кашу."
+    };
+
+    const questionsContainer = document.getElementById("questionsContainer");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const validationMessage = document.getElementById("validationMessage");
+    const totalQuestions = spheres.length * 3 + deceptionQuestions.length;
+    let lastResult = null;
+
+    function renderQuestions() {
+      const sphereMarkup = spheres.map((sphere, sphereIndex) => {
+        const questionsMarkup = sphere.questions.map((question, questionIndex) => {
+          const questionId = `${sphere.key}_${questionIndex + 1}`;
+          return renderQuestion(questionId, question, "sphere", sphere.key);
+        }).join("");
+
+        return `
+          <article class="sphere-card">
+            <div class="sphere-header">
+              <h3 class="sphere-title">Сфера ${sphereIndex + 1}. ${sphere.title}</h3>
+              <div class="sphere-kicker">3 оцінки</div>
+            </div>
+            ${questionsMarkup}
+          </article>
+        `;
+      }).join("");
+
+      const deceptionMarkup = deceptionQuestions.map((question, index) => {
+        return renderQuestion(`deception_${index + 1}`, question, "deception", "deception");
+      }).join("");
+
+      questionsContainer.innerHTML = `
+        ${sphereMarkup}
+        <article class="sphere-card index-card">
+          <div class="sphere-header">
+            <h3 class="sphere-title">Індекс самообману</h3>
+            <div class="sphere-kicker">8 оцінок</div>
+          </div>
+          ${deceptionMarkup}
+        </article>
+      `;
+    }
+
+    function renderQuestion(questionId, text, kind, sphereKey) {
+      const buttons = Array.from({ length: 10 }, (_, index) => {
+        const value = index + 1;
+        return `<button class="score-button" type="button" data-question-id="${questionId}" data-value="${value}" aria-pressed="false">${value}</button>`;
+      }).join("");
+
+      return `
+        <div class="question" data-question-block="${questionId}">
+          <p class="question-text">${text}</p>
+          <div class="rating" role="group" aria-label="Оцінка від 1 до 10">
+            ${buttons}
+          </div>
+          <input type="hidden" data-question="true" data-kind="${kind}" data-sphere-key="${sphereKey}" id="${questionId}" name="${questionId}" value="">
+        </div>
+      `;
+    }
+
+    function updateProgress() {
+      const answered = getAllAnswerInputs().filter(input => input.value !== "").length;
+      const percent = Math.round((answered / totalQuestions) * 100);
+      progressText.textContent = `${answered}/${totalQuestions}`;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    function getAllAnswerInputs() {
+      return Array.from(document.querySelectorAll("input[data-question='true']"));
+    }
+
+    function setScore(questionId, value) {
+      const input = document.getElementById(questionId);
+      const questionBlock = document.querySelector(`[data-question-block="${questionId}"]`);
+      input.value = value;
+      questionBlock.classList.remove("missing");
+
+      document.querySelectorAll(`[data-question-id="${questionId}"]`).forEach(button => {
+        const isActive = button.dataset.value === String(value);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+
+      validationMessage.classList.remove("show");
+      updateProgress();
+    }
+
+    function validateAnswers() {
+      const unanswered = getAllAnswerInputs().filter(input => input.value === "");
+      document.querySelectorAll(".question.missing").forEach(block => block.classList.remove("missing"));
+
+      if (unanswered.length === 0) {
+        validationMessage.classList.remove("show");
+        return true;
+      }
+
+      unanswered.forEach(input => {
+        const block = document.querySelector(`[data-question-block="${input.id}"]`);
+        if (block) block.classList.add("missing");
+      });
+
+      validationMessage.textContent = `Не вистачає відповідей: ${unanswered.length}. Результат не рахується, поки є порожні місця. Це не бюрократія. Неповна діагностика створює красивий шум замість висновку.`;
+      validationMessage.classList.add("show");
+
+      const firstMissing = document.querySelector(".question.missing");
+      if (firstMissing) {
+        firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      return false;
+    }
+
+    function average(values) {
+      return values.reduce((sum, value) => sum + value, 0) / values.length;
+    }
+
+    function calculateResults() {
+      if (!validateAnswers()) return;
+
+      const sphereScores = spheres.map(sphere => {
+        const values = Array.from(document.querySelectorAll(`input[data-kind="sphere"][data-sphere-key="${sphere.key}"]`))
+          .map(input => Number(input.value));
+        return {
+          key: sphere.key,
+          title: sphere.title,
+          average: average(values)
+        };
+      });
+
+      const deceptionValues = Array.from(document.querySelectorAll("input[data-kind='deception']"))
+        .map(input => Number(input.value));
+
+      const lifeRaw = average(sphereScores.map(item => item.average)) * 10;
+      const deceptionRaw = average(deceptionValues) * 10;
+      const lifeScore = Math.round(lifeRaw);
+      const deceptionScore = Math.round(deceptionRaw);
+      const sortedByWeakness = [...sphereScores].sort((a, b) => a.average - b.average);
+      const weakestThree = sortedByWeakness.slice(0, 3);
+      const weakest = sortedByWeakness[0];
+      const strongest = [...sphereScores].sort((a, b) => b.average - a.average)[0];
+      const type = determineResultType(lifeRaw, sphereScores);
+
+      lastResult = {
+        lifeScore,
+        deceptionScore,
+        type,
+        weakestThree,
+        strongest,
+        weakest,
+        sphereScores,
+        mainDeception: mainDeceptionBySphere[weakest.key],
+        hiddenPrice: hiddenPriceBySphere[weakest.key],
+        firstStep: firstStepBySphere[weakest.key]
+      };
+
+      renderResults(lastResult);
+    }
+
+    function determineResultType(lifeRaw, sphereScores) {
+      const scoreByKey = Object.fromEntries(sphereScores.map(item => [item.key, item.average]));
+
+      if (lifeRaw < 40) return resultTypes.emergency;
+
+      if (
+        lifeRaw >= 60 &&
+        lifeRaw < 75 &&
+        (scoreByKey.body < 5 || scoreByKey.psyche < 5 || scoreByKey.meaning < 5)
+      ) {
+        return resultTypes.facade;
+      }
+
+      if (
+        lifeRaw >= 60 &&
+        lifeRaw < 75 &&
+        (scoreByKey.risk < 6 || scoreByKey.meaning < 6 || scoreByKey.reputation < 6)
+      ) {
+        return resultTypes.delayed;
+      }
+
+      if (lifeRaw >= 40 && lifeRaw < 60) return resultTypes.chaos;
+      if (lifeRaw >= 75) return resultTypes.managed;
+
+      // Страхувальний випадок для проміжних результатів 60–74 без заданих слабких тригерів.
+      return resultTypes.managed;
+    }
+
+    function renderResults(result) {
+      document.getElementById("lifeScore").textContent = `${result.lifeScore}/100`;
+      document.getElementById("deceptionScore").textContent = `${result.deceptionScore}/100`;
+      document.getElementById("resultBadge").textContent = "Тип результату";
+      document.getElementById("resultTypeTitle").textContent = result.type.title;
+      document.getElementById("resultTypeDescription").textContent = result.type.description;
+      document.getElementById("weakestSpheres").textContent = result.weakestThree
+        .map(item => `${item.title} ${item.average.toFixed(1)}/10`)
+        .join(", ");
+      document.getElementById("strongestSphere").textContent = `${result.strongest.title} ${result.strongest.average.toFixed(1)}/10`;
+      document.getElementById("mainDeception").textContent = result.mainDeception;
+      document.getElementById("hiddenPrice").textContent = result.hiddenPrice;
+      document.getElementById("firstStep").textContent = result.firstStep;
+
+      renderBars(result.sphereScores);
+
+      const resultsSection = document.getElementById("results");
+      resultsSection.hidden = false;
+      resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderBars(sphereScores) {
+      const barsContainer = document.getElementById("barsContainer");
+      barsContainer.innerHTML = sphereScores.map(item => {
+        const percent = Math.max(0, Math.min(100, item.average * 10));
+        return `
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>${item.title}</span>
+              <strong>${item.average.toFixed(1)}/10</strong>
+            </div>
+            <div class="bar-track" aria-hidden="true">
+              <div class="bar-fill" style="width: ${percent}%"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+    }
+
+    function showCopyMessage(message) {
+      const copyMessage = document.getElementById("copyMessage");
+      copyMessage.textContent = message;
+      copyMessage.classList.add("show", "success");
+      window.setTimeout(() => copyMessage.classList.remove("show"), 2800);
+    }
+
+    function buildFullResultText() {
+      if (!lastResult) return "";
+      return [
+        "Калькулятор самообману",
+        `Life System Score: ${lastResult.lifeScore}/100`,
+        `Індекс самообману: ${lastResult.deceptionScore}/100`,
+        `Тип: ${lastResult.type.title}`,
+        `Три найслабші сфери: ${lastResult.weakestThree.map(item => `${item.title} ${item.average.toFixed(1)}/10`).join(", ")}`,
+        `Найсильніша сфера: ${lastResult.strongest.title} ${lastResult.strongest.average.toFixed(1)}/10`,
+        `Головний самообман: ${lastResult.mainDeception}`,
+        `Прихована ціна: ${lastResult.hiddenPrice}`,
+        `Перший крок на 72 години: ${lastResult.firstStep}`
+      ].join("\n");
+    }
+
+    function buildShareText() {
+      if (!lastResult) return "";
+      return `Мій результат у Калькуляторі самообману: ${lastResult.lifeScore}/100. Тип: ${lastResult.type.title}. Головний самообман: ${lastResult.mainDeception}`;
+    }
+
+    function resetDiagnostic() {
+      getAllAnswerInputs().forEach(input => {
+        input.value = "";
+      });
+      document.querySelectorAll(".score-button.active").forEach(button => {
+        button.classList.remove("active");
+        button.setAttribute("aria-pressed", "false");
+      });
+      document.querySelectorAll(".question.missing").forEach(block => block.classList.remove("missing"));
+      validationMessage.classList.remove("show");
+      document.getElementById("results").hidden = true;
+      lastResult = null;
+      updateProgress();
+      document.getElementById("diagnostic").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.addEventListener("click", event => {
+      const scoreButton = event.target.closest(".score-button");
+      if (scoreButton) {
+        setScore(scoreButton.dataset.questionId, scoreButton.dataset.value);
+      }
+    });
+
+    document.getElementById("startButton").addEventListener("click", () => {
+      document.getElementById("diagnostic").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("calculateButton").addEventListener("click", calculateResults);
+
+    document.getElementById("copyButton").addEventListener("click", async () => {
+      await copyText(buildFullResultText());
+      showCopyMessage("Результат скопійовано. Тепер головне не зробити з нього ще один файл, який ніколи не відкриється.");
+    });
+
+    document.getElementById("shareButton").addEventListener("click", async () => {
+      await copyText(buildShareText());
+      showCopyMessage("Короткий текст для поширення скопійовано в буфер.");
+    });
+
+    document.getElementById("resetButton").addEventListener("click", resetDiagnostic);
+
+    document.getElementById("leadForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const message = document.getElementById("formMessage");
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      message.textContent = "Готово. У реальній версії тут буде інтеграція з email-сервісом або CRM.";
+      message.classList.add("show", "success");
+      form.reset();
+    });
+
+    renderQuestions();
+    updateProgress();
+  </script>
+</body>
+</html>
