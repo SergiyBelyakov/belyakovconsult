@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Deception Calculator — life system diagnosis</title>
+  <meta name="description" content="A 5-minute diagnosis of 10 life areas: where the system is slipping, which self-deception drives decisions and what first step to take within 72 hours.">
+  <meta property="og:title" content="Self-Deception Calculator — life system diagnosis">
+  <meta property="og:description" content="A 5-minute diagnosis of 10 life areas: where the system is slipping, which self-deception drives decisions and what first step to take within 72 hours.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0d0d0f">
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --panel: #151519;
+      --panel-2: #1d1d23;
+      --text: #f4f0e8;
+      --muted: #b9b0a3;
+      --subtle: #80766b;
+      --line: rgba(244, 240, 232, 0.12);
+      --accent: #c8842f;
+      --accent-2: #7b1f1f;
+      --danger: #d65252;
+      --success: #c8842f;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --max: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(200, 132, 47, 0.15), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(123, 31, 31, 0.20), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: center;
+      padding: 84px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(46px, 8vw, 92px);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      max-width: 900px;
+    }
+
+    .lead {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: clamp(18px, 2.2vw, 25px);
+      line-height: 1.32;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      color: #d8d0c5;
+      font-size: 17px;
+      margin-bottom: 30px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(244, 240, 232, 0.08), rgba(244, 240, 232, 0.03));
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(200, 132, 47, 0.14), transparent);
+      transform: translateX(-70%);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 76px;
+      line-height: 1;
+      letter-spacing: -0.08em;
+      margin-bottom: 14px;
+    }
+
+    .hero-card span {
+      color: var(--muted);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 1px solid rgba(200, 132, 47, 0.55);
+      background: var(--accent);
+      color: #111;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 20px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: #e09a43;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .btn.secondary:hover {
+      border-color: rgba(244, 240, 232, 0.32);
+      background: rgba(244, 240, 232, 0.06);
+    }
+
+    .micro {
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: var(--subtle);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin-bottom: 16px;
+    }
+
+    .section-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 28px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step {
+      min-height: 188px;
+      border: 1px solid var(--line);
+      background: rgba(244, 240, 232, 0.04);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+      background: rgba(200, 132, 47, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(200, 132, 47, 0.35);
+      font-weight: 900;
+    }
+
+    .step h3 {
+      font-size: 20px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .calculator-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .progress-panel {
+      position: sticky;
+      top: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.88);
+      backdrop-filter: blur(14px);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(244, 240, 232, 0.10);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      border-radius: inherit;
+      transition: width 0.22s ease;
+    }
+
+    .scale-note {
+      color: var(--subtle);
+      font-size: 13px;
+      margin: 16px 0 0;
+    }
+
+    .sphere-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.82);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .sphere-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px 24px 10px;
+    }
+
+    .sphere-title {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .sphere-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      white-space: nowrap;
+      padding-top: 7px;
+    }
+
+    .question {
+      padding: 18px 24px 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .question.missing {
+      background: rgba(214, 82, 82, 0.07);
+      outline: 1px solid rgba(214, 82, 82, 0.28);
+      outline-offset: -1px;
+    }
+
+    .question-text {
+      margin: 0 0 14px;
+      color: #eee7dc;
+      font-weight: 650;
+    }
+
+    .rating {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(32px, 1fr));
+      gap: 7px;
+    }
+
+    .score-button {
+      min-height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(244, 240, 232, 0.14);
+      background: rgba(244, 240, 232, 0.05);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+    }
+
+    .score-button:hover,
+    .score-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(200, 132, 47, 0.65);
+      color: var(--text);
+      outline: none;
+    }
+
+    .score-button.active {
+      color: #111;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .index-card {
+      border-color: rgba(123, 31, 31, 0.46);
+      background: linear-gradient(145deg, rgba(123, 31, 31, 0.18), rgba(21, 21, 25, 0.92));
+    }
+
+    .validation-message,
+    .form-message,
+    .copy-message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(214, 82, 82, 0.35);
+      background: rgba(214, 82, 82, 0.10);
+      color: #ffd9d9;
+    }
+
+    .validation-message.show,
+    .form-message.show,
+    .copy-message.show {
+      display: block;
+    }
+
+    .form-message.success,
+    .copy-message.success {
+      border-color: rgba(200, 132, 47, 0.45);
+      background: rgba(200, 132, 47, 0.12);
+      color: #ffe7c5;
+    }
+
+    .actions-panel {
+      padding: 6px 0 0;
+    }
+
+    .actions-panel .btn {
+      width: 100%;
+    }
+
+    .results {
+      padding: 72px 0;
+    }
+
+    .results[hidden] {
+      display: none;
+    }
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .result-card,
+    .lead-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(21, 21, 25, 0.88);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .score-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(244, 240, 232, 0.04);
+    }
+
+    .score-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .score-box strong {
+      display: block;
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .result-badge {
+      display: inline-flex;
+      margin-bottom: 14px;
+      border: 1px solid rgba(200, 132, 47, 0.40);
+      border-radius: 999px;
+      background: rgba(200, 132, 47, 0.12);
+      color: #ffd8a5;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .result-card h3,
+    .lead-card h3 {
+      font-size: 28px;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .result-card p {
+      color: var(--muted);
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .result-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(244, 240, 232, 0.035);
+    }
+
+    .result-item span {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .result-item strong,
+    .result-item p {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 7px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(244, 240, 232, 0.10);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      transition: width 0.35s ease;
+    }
+
+    .cta-box {
+      margin-top: 18px;
+      border: 1px solid rgba(200, 132, 47, 0.35);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: rgba(200, 132, 47, 0.08);
+    }
+
+    .cta-box p {
+      color: #f1dfc5;
+      margin-bottom: 18px;
+    }
+
+    .lead-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .field label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 7px;
+      font-weight: 750;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"] {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(244, 240, 232, 0.06);
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: rgba(200, 132, 47, 0.72);
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check input {
+      margin-top: 4px;
+      accent-color: var(--accent);
+    }
+
+    .footer-note {
+      padding: 34px 0 52px;
+      color: var(--subtle);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .calculator-shell,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-panel {
+        position: static;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 22px, var(--max));
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 54px;
+      }
+
+      .hero-card strong {
+        font-size: 54px;
+      }
+
+      .steps,
+      .score-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sphere-header {
+        display: block;
+      }
+
+      .sphere-kicker {
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      .question,
+      .sphere-header,
+      .result-card,
+      .lead-card {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .rating {
+        grid-template-columns: repeat(5, minmax(42px, 1fr));
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="en.html" style="position:fixed;left:14px;bottom:14px;z-index:9999;border:1px solid rgba(200,132,47,.45);background:rgba(13,13,15,.86);color:#f4f0e8;padding:10px 14px;border-radius:999px;text-decoration:none;font:700 12px system-ui;text-transform:uppercase;letter-spacing:.08em;backdrop-filter:blur(10px)">← Back to landing</a>
+  <main>
+    <section class="hero page" id="top">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Author’s self-analysis tool</div>
+          <h1>Self-Deception Calculator</h1>
+          <p class="lead">5 minutes, 10 areas, one honest result: where your life is already charging you a hidden price.</p>
+          <p class="hero-copy">This is not a happiness test and not a balance wheel. It is a short diagnosis of 10 life areas that shows exactly where the system is already slipping, what you may be calling normal and what price you pay for it.</p>
+          <div class="btn-row">
+            <button class="btn" type="button" id="startButton">Start diagnosis</button>
+            <a class="btn secondary" href="#how">How it works</a>
+          </div>
+          <p class="micro">This tool is not a medical or psychological diagnosis. It is an author’s self-analysis tool based on the logic of the workbook.</p>
+        </div>
+        <aside class="hero-card" aria-label="Short description of the diagnosis">
+          <strong>38</strong>
+          <span>ratings without decoration. 30 questions across life areas and 8 self-deception markers. The result does not pat you on the head. It shows where the bill is already open.</span>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section page" id="how">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-copy">There is no promise of harmony here. There is a short audit of the system: what holds, what is falling apart and what you have been explaining for too long instead of fixing.</p>
+      <div class="steps">
+        <article class="step">
+          <div class="step-number">1</div>
+          <h3>Rate 10 areas of life.</h3>
+          <p>Not the ideal picture. The current reality.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">2</div>
+          <h3>See the weak points of the system.</h3>
+          <p>Because what is not measured is easy to call normal.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">3</div>
+          <h3>Get your self-deception type.</h3>
+          <p>Not a label. A working hypothesis that must be tested through action.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">4</div>
+          <h3>Take the first 72-hour step.</h3>
+          <p>Not a plan for a new life. One move that removes the fog.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section page" id="diagnostic">
+      <h2 class="section-title">Diagnosis</h2>
+      <p class="section-copy">Rate each statement from 1 to 10. 1 means “not at all / failing”. 10 means “fully true / stable”. In the self-deception index block, a high score means a higher level of self-deception.</p>
+
+      <div class="calculator-shell">
+        <div>
+          <p class="validation-message" id="validationMessage" role="status"></p>
+          <div id="questionsContainer"></div>
+        </div>
+
+        <aside class="progress-panel" aria-label="Test progress">
+          <div class="progress-top">
+            <span>Progress</span>
+            <strong id="progressText">0/38</strong>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="scale-note">Do not answer “as it should be”. Answer as it is right now. Self-deception begins where assessment becomes presentation.</p>
+          <div class="actions-panel">
+            <button class="btn" type="button" id="calculateButton">Show result</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="results page" id="results" hidden>
+      <h2 class="section-title">Result</h2>
+      <p class="section-copy">This is not a verdict and not a diagnosis. It is a snapshot of the system right now. The worst thing you can do after this result is turn it into another interesting piece of information without action.</p>
+
+      <div class="result-layout">
+        <article class="result-card">
+          <div class="score-grid">
+            <div class="score-box">
+              <span>Life System Score</span>
+              <strong id="lifeScore">0/100</strong>
+            </div>
+            <div class="score-box">
+              <span>Self-Deception Index</span>
+              <strong id="deceptionScore">0/100</strong>
+            </div>
+          </div>
+
+          <div class="result-badge" id="resultBadge">Result type</div>
+          <h3 id="resultTypeTitle">Type name</h3>
+          <p id="resultTypeDescription">Result description.</p>
+
+          <div class="result-list">
+            <div class="result-item">
+              <span>Three weakest areas</span>
+              <strong id="weakestSpheres">—</strong>
+            </div>
+            <div class="result-item">
+              <span>Strongest area</span>
+              <strong id="strongestSphere">—</strong>
+            </div>
+            <div class="result-item">
+              <span>Main self-deception</span>
+              <p id="mainDeception">—</p>
+            </div>
+            <div class="result-item">
+              <span>Hidden price</span>
+              <p id="hiddenPrice">—</p>
+            </div>
+            <div class="result-item">
+              <span>First step for 72 hours</span>
+              <p id="firstStep">—</p>
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top: 18px;">
+            <button class="btn secondary" type="button" id="copyButton">Copy result</button>
+            <button class="btn secondary" type="button" id="shareButton">Share result</button>
+            <button class="btn secondary" type="button" id="resetButton">Take it again</button>
+          </div>
+          <p class="copy-message success" id="copyMessage" role="status"></p>
+        </article>
+
+        <aside class="result-card">
+          <h3>Profile of 10 areas</h3>
+          <p>The horizontal lines do not show “success”; they show the current level of support in each area. The lowest values usually create the greatest hidden price.</p>
+          <div class="bars" id="barsContainer"></div>
+
+          <div class="cta-box">
+            <h3>Full workbook</h3>
+            <p>This result is not a verdict. It is a map. The full diagnosis with tables, decision matrices, crisis protocols and a first-step plan is in the workbook.</p>
+            <div class="btn-row">
+              <!-- TODO: replace href="#" with payment, checkout or product-page link. -->
+              <a class="btn" href="#">Get the full workbook</a>
+              <!-- TODO: replace href="#" with a pre-order form or Telegram link. -->
+              <a class="btn secondary" href="#">Join the pre-order list</a>
+              <!-- TODO: replace href="#" with a PDF link or automatic PDF interpretation generation. -->
+              <a class="btn secondary" href="#">Get the PDF interpretation</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="lead-card" style="margin-top: 22px;">
+        <h3>Send the result to yourself</h3>
+        <p class="section-copy" style="margin-bottom: 10px;">Leave your contact to receive the interpretation, PDF or workbook access in the real version. For now, this is a demo form without a backend.</p>
+        <form class="lead-form" id="leadForm">
+          <div class="field">
+            <label for="leadName">Name</label>
+            <input id="leadName" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="leadEmail">Email</label>
+            <input id="leadEmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="leadTelegram">Telegram username, optional</label>
+            <input id="leadTelegram" name="telegram" type="text" autocomplete="off" placeholder="@username">
+          </div>
+          <label class="check">
+            <input id="leadConsent" name="consent" type="checkbox" required>
+            <span>I agree to receive materials related to the result, workbook and pre-order.</span>
+          </label>
+          <!-- TODO: connect SendPulse, Mailchimp, Google Sheets, Telegram bot or CRM API here. -->
+          <button class="btn" type="submit">Send the result to yourself</button>
+          <p class="form-message success" id="formMessage" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-note page">
+    This is an author’s self-analysis tool. It does not replace consultation with a doctor, psychologist, psychotherapist, financial or legal specialist.
+  </footer>
+
+  <script>
+    const spheres = [
+      {
+        key: "body",
+        title: "Body",
+        questions: [
+          "I sleep enough to function normally, not just survive.",
+          "I have regular movement, training or physical activity.",
+          "My body currently gives me energy instead of constantly taking it away."
+        ]
+      },
+      {
+        key: "psyche",
+        title: "Psyche",
+        questions: [
+          "I can distinguish an emotion from a fact.",
+          "I do not make key decisions in a state of panic, exhaustion or resentment.",
+          "I understand my recurring patterns instead of simply falling into them again."
+        ]
+      },
+      {
+        key: "thinking",
+        title: "Thinking",
+        questions: [
+          "I check my explanations against facts, not only against my inner sense of being right.",
+          "I can admit I was wrong without destroying my self-esteem.",
+          "I do not confuse complex explanations with actually solving the problem."
+        ]
+      },
+      {
+        key: "money",
+        title: "Money",
+        questions: [
+          "I honestly know my income, expenses, debts and financial risks.",
+          "My expenses do not eat future freedom for the sake of current comfort.",
+          "I have at least a minimal financial cushion or a plan to create one."
+        ]
+      },
+      {
+        key: "work",
+        title: "Work",
+        questions: [
+          "My work gives me not only fatigue, but also money, skills, status or access.",
+          "I understand my market value and do not live only in the role of a “convenient executor”.",
+          "I do not confuse busyness with real professional growth."
+        ]
+      },
+      {
+        key: "relationships",
+        title: "Relationships",
+        questions: [
+          "After the key relationships in my life, I do not feel systematically drained.",
+          "I can set boundaries without constant guilt.",
+          "There are people around me who raise my standard instead of normalizing my decline."
+        ]
+      },
+      {
+        key: "time",
+        title: "Time",
+        questions: [
+          "My calendar at least partly reflects my real priorities.",
+          "I do not live as if everyone else’s urgency is more important than my life.",
+          "I have protected time for work, body, rest or strategic decisions."
+        ]
+      },
+      {
+        key: "reputation",
+        title: "Reputation",
+        questions: [
+          "People understand where my strength, value or expertise is.",
+          "I do not hide behind modesty where I am actually afraid of visibility.",
+          "My behavior creates trust faster than my explanations."
+        ]
+      },
+      {
+        key: "risk",
+        title: "Risk and decisions",
+        questions: [
+          "I do not postpone important decisions only because I fear the consequences.",
+          "I distinguish caution from fear of failure or judgment.",
+          "There are decisions in my life that move me forward, not only reduce discomfort."
+        ]
+      },
+      {
+        key: "meaning",
+        title: "Meaning",
+        questions: [
+          "I understand what I spend my strength, time and attention for.",
+          "My life is not reduced only to work, chores and putting out fires.",
+          "I do not live below my own scale only because it feels safer."
+        ]
+      }
+    ];
+
+    const deceptionQuestions = [
+      "I often say “this is a difficult period”, although this period has long become a lifestyle.",
+      "I know what needs to change, but I keep collecting information instead of taking the first step.",
+      "I call something caution when it is actually fear of judgment, conflict or failure.",
+      "I maintain relationships or work formats after which I need to recover.",
+      "I confuse busyness with forward movement.",
+      "I postpone the body as if it can wait without consequences.",
+      "I do not count money as honestly as I should.",
+      "I want a larger scale, but behave in a way that keeps me invisible."
+    ];
+
+    const resultTypes = {
+      emergency: {
+        title: "Emergency mode",
+        description: "You do not need a major transformation right now. You need stabilization. Not a new goal, not another push, not a heroic plan for the year. First, the bleeding has to be stopped: body, sleep, money, time and basic psychological stability."
+      },
+      chaos: {
+        title: "Functional chaos",
+        description: "You are still carrying it. But that does not mean the system is healthy. Part of life is already working on credit: the body endures, the psyche adapts, time falls apart, and you may call it responsibility or a difficult period."
+      },
+      facade: {
+        title: "Strong facade, weak base",
+        description: "From the outside, the system may look normal or even strong. But the base is already slipping. There may be results, busyness, functionality, perhaps even status. The question is the price. If the main asset is you, and you are working yourself down, this is not a strategy. It is beautifully packaged exhaustion."
+      },
+      delayed: {
+        title: "Postponed life",
+        description: "You are not standing still. You are paying for immobility. The bill simply does not arrive immediately; it arrives as lost opportunities, invisibility and the inner phrase: “I could have”. The most expensive thing here is not a mistake. The most expensive thing is the years that passed without a decision."
+      },
+      managed: {
+        title: "Managed system with blind-spot risk",
+        description: "The system holds. But strong people often lose not where everything is obviously bad, but where they have not reviewed their own rules for too long. You do not need motivation. You need regular audit so that strength does not become inertia."
+      }
+    };
+
+    const mainDeceptionBySphere = {
+      body: "You call exhaustion responsibility.",
+      money: "You call financial fog a difficult period.",
+      time: "You call other people’s urgency your responsibility.",
+      work: "You confuse busyness with value.",
+      relationships: "You call draining closeness people’s difficult character.",
+      risk: "You call fear caution.",
+      reputation: "You call invisibility modesty.",
+      meaning: "You call survival adult life.",
+      psyche: "You call inner chaos a difficult period.",
+      thinking: "You call explanation a solution."
+    };
+
+    const hiddenPriceBySphere = {
+      body: "Work, psyche and relationships will begin to crumble next, because they depend on energy that is already insufficient.",
+      money: "While the numbers are in fog, you make decisions not from freedom, but from fear.",
+      time: "If your calendar belongs to everyone except you, your life gradually becomes a service for other people’s tasks.",
+      work: "Busyness without growth creates fatigue, but does not create freedom.",
+      relationships: "If you need to recover after closeness, it is no longer just a complicated dynamic. It is a resource leak.",
+      risk: "A postponed decision does not stand still. It becomes more expensive every month.",
+      reputation: "If your strengths are invisible, the market and people evaluate not your potential, but your presence.",
+      meaning: "Without meaning, even a correct life gradually becomes well-organized fatigue.",
+      psyche: "An unregulated psyche will govern decisions even if you call it logic.",
+      thinking: "Explanation without action creates the illusion of control, but does not change the trajectory."
+    };
+
+    const firstStepBySphere = {
+      body: "Schedule two evenings without work after 21:00 and one night of at least 7.5 hours of sleep. Not for balance. For the return of basic control.",
+      money: "Write down all regular expenses, debts and mandatory payments. Without decoration. Financial freedom begins not with income, but with an honest table.",
+      time: "Block one 90-minute slot in your calendar that does not belong to someone else’s urgency.",
+      work: "Write down what your work gives you now: money, skills, status, access or only fatigue. If only fatigue, that is already an answer.",
+      relationships: "Name one boundary you have been giving up for a long time. And once, do not explain it with unnecessary apologies.",
+      risk: "Write down the decision you are postponing. Next to it, write not “what will happen if I do it”, but “what will happen if I do not do it for another year”.",
+      reputation: "Publish or formulate one proof of your value: a case, thought, result or position. Invisibility is rarely neutral.",
+      meaning: "Write down three things you truly do not mind spending energy on. Then compare them with your calendar.",
+      psyche: "Write down 3 thoughts that currently govern your state, and next to them, the facts that confirm or refute them.",
+      thinking: "Take one problem and write: fact, interpretation, fear, action. Do not mix it all into one beautiful mess."
+    };
+
+    const questionsContainer = document.getElementById("questionsContainer");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const validationMessage = document.getElementById("validationMessage");
+    const totalQuestions = spheres.length * 3 + deceptionQuestions.length;
+    let lastResult = null;
+
+    function renderQuestions() {
+      const sphereMarkup = spheres.map((sphere, sphereIndex) => {
+        const questionsMarkup = sphere.questions.map((question, questionIndex) => {
+          const questionId = `${sphere.key}_${questionIndex + 1}`;
+          return renderQuestion(questionId, question, "sphere", sphere.key);
+        }).join("");
+
+        return `
+          <article class="sphere-card">
+            <div class="sphere-header">
+              <h3 class="sphere-title">Area ${sphereIndex + 1}. ${sphere.title}</h3>
+              <div class="sphere-kicker">3 ratings</div>
+            </div>
+            ${questionsMarkup}
+          </article>
+        `;
+      }).join("");
+
+      const deceptionMarkup = deceptionQuestions.map((question, index) => {
+        return renderQuestion(`deception_${index + 1}`, question, "deception", "deception");
+      }).join("");
+
+      questionsContainer.innerHTML = `
+        ${sphereMarkup}
+        <article class="sphere-card index-card">
+          <div class="sphere-header">
+            <h3 class="sphere-title">Self-Deception Index</h3>
+            <div class="sphere-kicker">8 ratings</div>
+          </div>
+          ${deceptionMarkup}
+        </article>
+      `;
+    }
+
+    function renderQuestion(questionId, text, kind, sphereKey) {
+      const buttons = Array.from({ length: 10 }, (_, index) => {
+        const value = index + 1;
+        return `<button class="score-button" type="button" data-question-id="${questionId}" data-value="${value}" aria-pressed="false">${value}</button>`;
+      }).join("");
+
+      return `
+        <div class="question" data-question-block="${questionId}">
+          <p class="question-text">${text}</p>
+          <div class="rating" role="group" aria-label="Rating from 1 to 10">
+            ${buttons}
+          </div>
+          <input type="hidden" data-question="true" data-kind="${kind}" data-sphere-key="${sphereKey}" id="${questionId}" name="${questionId}" value="">
+        </div>
+      `;
+    }
+
+    function updateProgress() {
+      const answered = getAllAnswerInputs().filter(input => input.value !== "").length;
+      const percent = Math.round((answered / totalQuestions) * 100);
+      progressText.textContent = `${answered}/${totalQuestions}`;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    function getAllAnswerInputs() {
+      return Array.from(document.querySelectorAll("input[data-question='true']"));
+    }
+
+    function setScore(questionId, value) {
+      const input = document.getElementById(questionId);
+      const questionBlock = document.querySelector(`[data-question-block="${questionId}"]`);
+      input.value = value;
+      questionBlock.classList.remove("missing");
+
+      document.querySelectorAll(`[data-question-id="${questionId}"]`).forEach(button => {
+        const isActive = button.dataset.value === String(value);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+
+      validationMessage.classList.remove("show");
+      updateProgress();
+    }
+
+    function validateAnswers() {
+      const unanswered = getAllAnswerInputs().filter(input => input.value === "");
+      document.querySelectorAll(".question.missing").forEach(block => block.classList.remove("missing"));
+
+      if (unanswered.length === 0) {
+        validationMessage.classList.remove("show");
+        return true;
+      }
+
+      unanswered.forEach(input => {
+        const block = document.querySelector(`[data-question-block="${input.id}"]`);
+        if (block) block.classList.add("missing");
+      });
+
+      validationMessage.textContent = `Missing answers: ${unanswered.length}. The result cannot be calculated while there are empty fields. This is not bureaucracy. An incomplete diagnosis creates beautiful noise instead of a conclusion.`;
+      validationMessage.classList.add("show");
+
+      const firstMissing = document.querySelector(".question.missing");
+      if (firstMissing) {
+        firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      return false;
+    }
+
+    function average(values) {
+      return values.reduce((sum, value) => sum + value, 0) / values.length;
+    }
+
+    function calculateResults() {
+      if (!validateAnswers()) return;
+
+      const sphereScores = spheres.map(sphere => {
+        const values = Array.from(document.querySelectorAll(`input[data-kind="sphere"][data-sphere-key="${sphere.key}"]`))
+          .map(input => Number(input.value));
+        return {
+          key: sphere.key,
+          title: sphere.title,
+          average: average(values)
+        };
+      });
+
+      const deceptionValues = Array.from(document.querySelectorAll("input[data-kind='deception']"))
+        .map(input => Number(input.value));
+
+      const lifeRaw = average(sphereScores.map(item => item.average)) * 10;
+      const deceptionRaw = average(deceptionValues) * 10;
+      const lifeScore = Math.round(lifeRaw);
+      const deceptionScore = Math.round(deceptionRaw);
+      const sortedByWeakness = [...sphereScores].sort((a, b) => a.average - b.average);
+      const weakestThree = sortedByWeakness.slice(0, 3);
+      const weakest = sortedByWeakness[0];
+      const strongest = [...sphereScores].sort((a, b) => b.average - a.average)[0];
+      const type = determineResultType(lifeRaw, sphereScores);
+
+      lastResult = {
+        lifeScore,
+        deceptionScore,
+        type,
+        weakestThree,
+        strongest,
+        weakest,
+        sphereScores,
+        mainDeception: mainDeceptionBySphere[weakest.key],
+        hiddenPrice: hiddenPriceBySphere[weakest.key],
+        firstStep: firstStepBySphere[weakest.key]
+      };
+
+      renderResults(lastResult);
+    }
+
+    function determineResultType(lifeRaw, sphereScores) {
+      const scoreByKey = Object.fromEntries(sphereScores.map(item => [item.key, item.average]));
+
+      if (lifeRaw < 40) return resultTypes.emergency;
+
+      if (
+        lifeRaw >= 60 &&
+        lifeRaw < 75 &&
+        (scoreByKey.body < 5 || scoreByKey.psyche < 5 || scoreByKey.meaning < 5)
+      ) {
+        return resultTypes.facade;
+      }
+
+      if (
+        lifeRaw >= 60 &&
+        lifeRaw < 75 &&
+        (scoreByKey.risk < 6 || scoreByKey.meaning < 6 || scoreByKey.reputation < 6)
+      ) {
+        return resultTypes.delayed;
+      }
+
+      if (lifeRaw >= 40 && lifeRaw < 60) return resultTypes.chaos;
+      if (lifeRaw >= 75) return resultTypes.managed;
+
+      // Fallback case for intermediate results 60–74 without predefined weak triggers.
+      return resultTypes.managed;
+    }
+
+    function renderResults(result) {
+      document.getElementById("lifeScore").textContent = `${result.lifeScore}/100`;
+      document.getElementById("deceptionScore").textContent = `${result.deceptionScore}/100`;
+      document.getElementById("resultBadge").textContent = "Result type";
+      document.getElementById("resultTypeTitle").textContent = result.type.title;
+      document.getElementById("resultTypeDescription").textContent = result.type.description;
+      document.getElementById("weakestSpheres").textContent = result.weakestThree
+        .map(item => `${item.title} ${item.average.toFixed(1)}/10`)
+        .join(", ");
+      document.getElementById("strongestSphere").textContent = `${result.strongest.title} ${result.strongest.average.toFixed(1)}/10`;
+      document.getElementById("mainDeception").textContent = result.mainDeception;
+      document.getElementById("hiddenPrice").textContent = result.hiddenPrice;
+      document.getElementById("firstStep").textContent = result.firstStep;
+
+      renderBars(result.sphereScores);
+
+      const resultsSection = document.getElementById("results");
+      resultsSection.hidden = false;
+      resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderBars(sphereScores) {
+      const barsContainer = document.getElementById("barsContainer");
+      barsContainer.innerHTML = sphereScores.map(item => {
+        const percent = Math.max(0, Math.min(100, item.average * 10));
+        return `
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>${item.title}</span>
+              <strong>${item.average.toFixed(1)}/10</strong>
+            </div>
+            <div class="bar-track" aria-hidden="true">
+              <div class="bar-fill" style="width: ${percent}%"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+    }
+
+    function showCopyMessage(message) {
+      const copyMessage = document.getElementById("copyMessage");
+      copyMessage.textContent = message;
+      copyMessage.classList.add("show", "success");
+      window.setTimeout(() => copyMessage.classList.remove("show"), 2800);
+    }
+
+    function buildFullResultText() {
+      if (!lastResult) return "";
+      return [
+        "Self-Deception Calculator",
+        `Life System Score: ${lastResult.lifeScore}/100`,
+        `Self-Deception Index: ${lastResult.deceptionScore}/100`,
+        `Type: ${lastResult.type.title}`,
+        `Three weakest areas: ${lastResult.weakestThree.map(item => `${item.title} ${item.average.toFixed(1)}/10`).join(", ")}`,
+        `Strongest area: ${lastResult.strongest.title} ${lastResult.strongest.average.toFixed(1)}/10`,
+        `Main self-deception: ${lastResult.mainDeception}`,
+        `Hidden price: ${lastResult.hiddenPrice}`,
+        `First step for 72 hours: ${lastResult.firstStep}`
+      ].join("\n");
+    }
+
+    function buildShareText() {
+      if (!lastResult) return "";
+      return `My result in the Self-Deception Calculator: ${lastResult.lifeScore}/100. Type: ${lastResult.type.title}. Main self-deception: ${lastResult.mainDeception}`;
+    }
+
+    function resetDiagnostic() {
+      getAllAnswerInputs().forEach(input => {
+        input.value = "";
+      });
+      document.querySelectorAll(".score-button.active").forEach(button => {
+        button.classList.remove("active");
+        button.setAttribute("aria-pressed", "false");
+      });
+      document.querySelectorAll(".question.missing").forEach(block => block.classList.remove("missing"));
+      validationMessage.classList.remove("show");
+      document.getElementById("results").hidden = true;
+      lastResult = null;
+      updateProgress();
+      document.getElementById("diagnostic").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.addEventListener("click", event => {
+      const scoreButton = event.target.closest(".score-button");
+      if (scoreButton) {
+        setScore(scoreButton.dataset.questionId, scoreButton.dataset.value);
+      }
+    });
+
+    document.getElementById("startButton").addEventListener("click", () => {
+      document.getElementById("diagnostic").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("calculateButton").addEventListener("click", calculateResults);
+
+    document.getElementById("copyButton").addEventListener("click", async () => {
+      await copyText(buildFullResultText());
+      showCopyMessage("Result copied. Now the main thing is not to turn it into another file that will never be opened.");
+    });
+
+    document.getElementById("shareButton").addEventListener("click", async () => {
+      await copyText(buildShareText());
+      showCopyMessage("Short sharing text copied to clipboard.");
+    });
+
+    document.getElementById("resetButton").addEventListener("click", resetDiagnostic);
+
+    document.getElementById("leadForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const message = document.getElementById("formMessage");
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      message.textContent = "Done. In the real version, this will be integrated with an email service or CRM.";
+      message.classList.add("show", "success");
+      form.reset();
+    });
+
+    renderQuestions();
+    updateProgress();
+  </script>
+</body>
+</html>
