@@ -227,35 +227,115 @@
   </div>
 </section>
 
-    <section class="section-pad section-border" id="preorder">
-      <div class="container preorder-grid">
-        <div class="preorder-card reveal">
-          <p class="eyebrow">Передзамовлення</p>
-          <h2>Тираж обмежений.</h2>
-          <p>Не через створення штучного ажіотажу. Це книга, яка здатна змінити життя, для усвідомленого читання наодинці.</p>
-            <strong>Книга + діагностичний том + набір</strong>
-            <small>Щодо вартості та умов придбання - прошу звертатися через наявні контатки.</small>
-          </div>
-          <div class="button-stack">
-            <href="mailto:manual@belyakovconsult.com">
-            <a class="btn btn-primary" href="#lead-form">Стати в список передзамовлення</a>
-            <href="https://t.me/+08ifG_FEwNw2Njky">
-            <a class="btn btn-secondary" href="#lead-form">Отримати PDF-прев’ю</a>
-          </div>
-        </div>
-        <form class="lead-form reveal" id="lead-form" novalidate>
-          <h3>Залиш контакт</h3>
-          <p>Дуже дякуємо за зацікавленіть.</p>
-          <label>Ім’я<input type="text" name="name" required placeholder="Ваше ім’я"></label>
-          <label>Email<input type="email" name="email" required placeholder="manual@belyakovconsult.com"></label>
-          <label>Telegram, необов’язково<input type="text" name="telegram" placeholder="@manual_life_book"></label>
-          <label class="check"><input type="checkbox" name="consent" required><span>Погоджуюся отримати матеріали щодо книги, воркбуку та передзамовлення.</span></label>
-          <!-- TODO: інтеграція форми: SendPulse, Mailchimp, Google Sheets, Telegram bot, CRM webhook. -->
-          <button class="btn btn-primary" type="submit">Надіслати заявку</button>
-          <div class="form-status" data-form-status role="status"></div>
-        </form>
+<section class="section-pad section-border" id="preorder">
+  <div class="container preorder-grid">
+
+    <div class="preorder-card reveal">
+      <p class="eyebrow">Передзамовлення</p>
+
+      <h2>Тираж обмежений.</h2>
+
+      <p>
+        Не через штучний ажіотаж. Це видання для усвідомленого читання,
+        чесної самодіагностики та роботи із власним життям.
+      </p>
+
+      <div class="preorder-offer">
+        <strong>Книга + діагностичний том + преміальний набір</strong>
+
+        <small>
+          Інформацію щодо вартості та умов придбання можна отримати
+          електронною поштою
+          <a href="mailto:manual@belyakovconsult.com">
+            manual@belyakovconsult.com
+          </a>
+          або через Telegram.
+        </small>
       </div>
-    </section>
+
+      <div class="button-stack">
+        <a class="btn btn-primary" href="#lead-form">
+          Стати до списку передзамовлення
+        </a>
+
+        <a
+          class="btn btn-secondary"
+          href="https://t.me/+08ifG_FEwNw2Njky"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Отримати PDF-прев’ю
+        </a>
+      </div>
+    </div>
+
+    <form class="lead-form reveal" id="lead-form" novalidate>
+      <h3>Залиште контакт</h3>
+
+      <p>
+        Ми надішлемо інформацію про вихід книги, вартість видання
+        та умови передзамовлення.
+      </p>
+
+      <label>
+        <span>Ім’я</span>
+        <input
+          type="text"
+          name="name"
+          required
+          autocomplete="name"
+          placeholder="Ваше ім’я"
+        >
+      </label>
+
+      <label>
+        <span>Email</span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="name@example.com"
+        >
+      </label>
+
+      <label>
+        <span>Telegram, необов’язково</span>
+        <input
+          type="text"
+          name="telegram"
+          autocomplete="off"
+          placeholder="@username"
+        >
+      </label>
+
+      <label class="check">
+        <input type="checkbox" name="consent" required>
+        <span>
+          Погоджуюся отримувати матеріали щодо книги, діагностичного тому
+          та передзамовлення.
+        </span>
+      </label>
+
+      <!--
+        TODO: інтегрувати форму із SendPulse, Mailchimp,
+        Google Sheets, Telegram-ботом або CRM.
+      -->
+
+      <button class="btn btn-primary" type="submit">
+        Надіслати заявку
+      </button>
+
+      <div
+        class="form-status"
+        data-form-status
+        role="status"
+        aria-live="polite"
+      ></div>
+    </form>
+
+  </div>
+</section>
 
 <section class="section-pad faq-section">
   <div class="container faq-grid">
