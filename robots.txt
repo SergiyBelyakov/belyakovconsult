@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://belyakovconsult.com/sitemap.xml
