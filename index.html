@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Belyakov Consult | Аналітика та якість даних</title>
+    <meta name="description" content="Допомагаю розібратися, чому цифри не сходяться, знайти причину в даних і побудувати аналітику, на яку можна спиратися." />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="style.css" />
+<script src="script.js" defer></script><link rel="alternate" hreflang="uk" href="index.html" /><link rel="alternate" hreflang="en" href="en/index.html" /><link rel="alternate" hreflang="pt-PT" href="pt/index.html" /><link rel="alternate" hreflang="x-default" href="index.html" /><link rel="icon" type="image/svg+xml" href="assets/favicon.svg" /><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" /><link rel="icon" href="favicon.ico" sizes="any" /><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" /></head>
+<body>
+
+    <header class="header glass">
+        <div class="container nav">
+            <a class="logo" href="#hero" aria-label="Belyakov Consult">BC<span class="logo-dot" aria-hidden="true"></span></a>
+            
+            <nav class="nav-links" id="main-nav" aria-label="Головна навігація">
+                <a href="#about">Проблеми</a>
+                <a href="#services">Послуги</a>
+                <a href="#cases">Приклади</a>
+                <a href="#contact">Контакти</a>
+            </nav>
+
+            <div class="nav-actions"><button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false">Меню</button>
+                <div class="lang-switch" aria-label="Мова"><a class="active" aria-current="page" href="index.html" lang="uk">UA</a><a href="en/index.html" lang="en">EN</a><a href="pt/index.html" lang="pt">PT</a></div>
+                <div class="social-top">
+                    <a href="https://www.linkedin.com/in/sergiy-belyakov" class="icon-circle" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero" class="hero">
+            <div class="hero-bg">
+                <img src="assets/hero.webp" alt="" width="1964" height="801" fetchpriority="high" />
+            </div>
+            <div class="container">
+                <div class="badge">Державні системи · Донорські програми</div>
+                <h1 class="hero-title">Рішення починаються <br><span class="text-gradient">з довіри до даних.</span></h1>
+                <p class="hero-lead">
+                    Допомагаю розібратися, чому цифри не сходяться, знайти причину в даних і побудувати аналітику, на яку можна спиратися.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#contact">Обговорити задачу</a>
+                    <a class="btn btn-secondary" href="#services">Як я працюю</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHALLENGES (8 TILE GRID) -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">Коли звітів багато, а ясності немає</h2>
+                <div class="grid grid-4">
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">01</span>
+                        <h3>Показники не сходяться</h3>
+                        <p>На дашборді все добре, але команда бачить іншу картину. Потрібно зрозуміти, де саме виникає розбіжність.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">02</span>
+                        <h3>Правила змінюються</h3>
+                        <p>Той самий показник у різні періоди рахують по-різному. Порівнювати такі результати без перевірки не можна.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">03</span>
+                        <h3>У кожного свій Excel</h3>
+                        <p>Підрозділи ведуть окремі таблиці. На нарадах доводиться з’ясовувати, чия версія цифр правильна.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">04</span>
+                        <h3>Помилки накопичуються</h3>
+                        <p>Дублікати, пропуски й невдалі перетворення потрапляють у звіти. За підсумковими цифрами їх уже не видно.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">05</span>
+                        <h3>Джерело загубилося</h3>
+                        <p>Цифра є, але ніхто не може показати, з яких записів і за якими правилами її отримали.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">06</span>
+                        <h3>Ручні виправлення</h3>
+                        <p>Перед кожним звітом хтось коригує дані вручну. Знання про ці зміни залишаються в однієї людини.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">07</span>
+                        <h3>Звіт треба обґрунтувати</h3>
+                        <p>Партнерам і донорам потрібні джерела, розрахунки та підтвердження. Самого дашборда недостатньо.</p>
+                    </div>
+                    <div class="glass-card interactive-card">
+                        <span class="card-num">08</span>
+                        <h3>Дані не допомагають</h3>
+                        <p>Коли цифрам не довіряють, рішення ухвалюють за відчуттям. Аналітика стає ще одним звітом для архіву.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" class="section bg-darker">
+            <div class="container">
+                <h2 class="section-title">Від перевірки до робочої системи</h2>
+                <div class="grid grid-3">
+                    <div class="service-card interactive-card">
+                        <span class="service-tag">Діагностика</span>
+                        <h3>Знайти причину розбіжностей</h3>
+                        <p>Перевіряю визначення показників, запити й джерела. Ви отримуєте перелік проблем, їхній вплив на звіти та порядок виправлення.</p>
+                    </div>
+                    <div class="service-card interactive-card">
+                        <span class="service-tag">Архітектура</span>
+                        <h3>Налагодити роботу з даними</h3>
+                        <p>Проєктую моделі даних, зв’язки й перевірки якості. Мета: зрозумілий шлях від джерела до звіту та менше ручної роботи.</p>
+                    </div>
+                    <div class="service-card interactive-card">
+                        <span class="service-tag">Моніторинг та оцінювання</span>
+                        <h3>Підготувати доказову звітність</h3>
+                        <p>Допомагаю узгодити індикатори, збір даних і підтвердні матеріали. Щоб команда могла пояснити кожен результат у звіті.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CASES (3 CASES) -->
+        <section id="cases" class="section">
+            <div class="container">
+                <h2 class="section-title">Приклади задач</h2>
+                <div class="grid grid-3">
+                    <article class="case-card">
+                        <div class="case-media">
+                            <img src="assets/case-social.webp" alt="Соціальна політика" loading="lazy" decoding="async" width="1536" height="1024">
+                        </div>
+                        <div class="case-body">
+<h3>Соціальна політика</h3>
+<p>Розробляю інформаційно-аналітичні системи, налаштовую менеджмент якості даних і фрод-аналіз. Це допомагає знаходити помилки, виявляти підозрілі закономірності та визначати записи, які потребують додаткової перевірки.</p>
+<div class="result case-result">Фокус: надійність даних, контроль якості та аналіз ризиків шахрайства.</div>
+                        </div>
+                    </article>
+                    <article class="case-card">
+                        <div class="case-media">
+                            <img src="assets/case-health.webp" alt="Доступність медичних послуг" loading="lazy" decoding="async" width="1536" height="1024">
+                        </div>
+                        <div class="case-body">
+<h3>Доступність медичних послуг</h3>
+<p>Розробляю інформаційно-аналітичні дашборди та забезпечую аналітичний супровід впровадження ЕСОЗ (eHealth) для первинної й екстреної медичної допомоги. Проводжу геопросторовий аналіз національної мережі закладів охорони здоров’я та формую інтегральну оцінку закладів за 44 показниками.</p>
+<div class="result case-result">Напрями: дашборди, eHealth, геопросторовий аналіз та оцінювання за 44 показниками.</div>
+                        </div>
+                    </article>
+                    <article class="case-card">
+                        <div class="case-media">
+                            <img src="assets/case-monitoring.webp" alt="Моніторинг програм" loading="lazy" decoding="async" width="1536" height="1024">
+                        </div>
+                        <div class="case-body">
+                            <h3>Моніторинг програм</h3>
+                            <p>Дані про виконання програми розкидані між файлами й командами. Завдання: пов’язати індикатори, звіти та підтвердні документи.</p>
+                            <div class="result case-result">На виході: простежуваний шлях від джерела до результату.</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <footer id="contact" class="footer section">
+            <div class="container footer-grid">
+                <div class="footer-info">
+                    <div class="logo" aria-label="Belyakov Consult">BC<span class="logo-dot" aria-hidden="true"></span></div>
+                    <p class="footer-desc">Опишіть, де виникають сумніви в даних. Почнемо з вашої задачі, наявних джерел і того, яке рішення потрібно ухвалити.</p>
+                    
+                    <div class="premium-contacts">
+                        <a href="mailto:hello@belyakovconsult.com" class="contact-link">
+                            <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                            hello@belyakovconsult.com
+                        </a>
+                        <a href="tel:+380936859779" class="contact-link">
+                            <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+                            +380 93 685 97 79
+                        </a>
+                    </div>
+
+                    <div class="social-modern">
+                        <a href="https://t.me/+380936859779" class="social-circle" aria-label="Telegram">TG</a>
+                        <a href="https://wa.me/380936859779" class="social-circle" aria-label="WhatsApp">WA</a>
+                        <a href="https://linkedin.com/in/sergiy-belyakov" class="social-circle" aria-label="LinkedIn">LI</a>
+                    </div>
+                </div>
+                
+                <div class="footer-form">
+                    <form class="glass-form glow-border-form" action="https://formspree.io/f/xykwoaql" method="POST">
+                        <h3>З чим потрібна допомога?</h3>
+                        <div class="form-row">
+                            <label for="name">Ваше ім’я</label><input id="name" autocomplete="name" type="text" name="name" placeholder="Ваше ім’я" required />
+                        </div>
+                        <div class="form-row">
+                            <label for="email">Робоча електронна пошта</label><input id="email" autocomplete="email" type="email" name="email" placeholder="Робоча електронна пошта" required />
+                        </div>
+                        <div class="form-row">
+                            <label for="message">Ваша задача</label><textarea id="message" name="message" placeholder="Що не сходиться в даних? Які системи використовуєте та що хочете отримати?" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Надіслати запит</button>
+                    <p class="form-note">Натискаючи «Надіслати запит», ви передаєте дані форми через Formspree для відповіді на ваше звернення. Не додавайте конфіденційних даних.</p></form>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
