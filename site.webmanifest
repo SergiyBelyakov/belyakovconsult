@@ -1,0 +1,24 @@
+{
+  "name": "Belyakov Consult",
+  "short_name": "Belyakov Consult",
+  "description": "Data strategy, BI, data architecture, Data Governance, Data Quality and geospatial analytics.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#05070A",
+  "theme_color": "#05070A",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

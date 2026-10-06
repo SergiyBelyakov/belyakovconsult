@@ -1,18 +1,31 @@
-BELYAKOV CONSULT | UA / EN / PT
+BELYAKOV CONSULT | SEO-OPTIMIZED UA / EN / PT
 
-Розпакуйте весь архів і відкрийте index.html. Стартова мова — українська.
-Англійська версія: en/index.html.
-Португальська версія для Португалії: pt/index.html. Перемикач працює через відносні посилання.
-Для розміщення на хостингу завантажте вміст цієї папки зі збереженням структури.
+Стартова сторінка: index.html
+Англійська: en/index.html
+Португальська: pt/index.html
 Збірка, npm і встановлення залежностей не потрібні.
 
-style.css — стилі. script.js — мобільне меню та анімація появи.
-assets/hero.webp — наданий hero, оптимізований для вебу.
-assets/case-*.webp — три згенеровані ілюстрації.
+Що оптимізовано:
+- canonical для www-версії та взаємні hreflang uk / en / pt-PT / x-default;
+- прибрано дублікати hreflang з попередньої версії;
+- SEO Title і meta description для кожної мовної версії;
+- robots/googlebot directives для повних сніпетів і великих image previews;
+- Open Graph і Twitter Card;
+- social preview assets/og-belyakov-consult.jpg 1200×630;
+- JSON-LD: WebSite, Organization, Person, WebPage та каталог послуг;
+- sitemap.xml з hreflang і lastmod;
+- robots.txt;
+- site.webmanifest та іконки 192/512;
+- виправлено intrinsic width/height hero-зображення для зменшення CLS;
+- service-*.png конвертовано у WebP та HTML переведено на WebP;
+- hero preload та fetchpriority=high;
+- додано 404.html з noindex;
+- LinkedIn профіль позначено rel=me;
+- прибрано стрілочки після «Результат / Results» у картках напрямів.
 
-Google Fonts завантажуються через інтернет; без мережі працюють системні шрифти.
-Форма використовує адресу Formspree з вихідного HTML. Її активність і доставку повідомлень не перевірено. Перед публікацією надішліть власний тестовий запит і перевірте отримання. Контактні посилання збережено з наданого файлу.
-
-Описи соціального та медичного напрямів оновлено за наданою інформацією.
-Favicon: SVG, ICO, PNG 32×32; Apple Touch Icon 180×180. Після заміни сайту браузер може кешувати стару іконку.
-Локальні шляхи до ресурсів і синтаксис JavaScript перевірено. Візуальний браузерний тест не виконано: середовище не змогло завантажити Chromium.
+Після завантаження на сервер:
+1. Залишити Cloudflare 301: https://belyakovconsult.com/* → https://www.belyakovconsult.com/${1}.
+2. Перевірити /robots.txt та /sitemap.xml.
+3. У Search Console повторно подати sitemap.xml та URL /, /en/, /pt/ на індексацію.
+4. Перевірити social preview через LinkedIn Post Inspector / Facebook Sharing Debugger.
+5. Надіслати тестову форму Formspree і перевірити доставку.

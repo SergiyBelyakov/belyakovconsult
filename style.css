@@ -765,10 +765,6 @@ textarea { resize:vertical; min-height:140px; }
     font-weight:700;
 }
 
-.domain-result strong::after{
-    content:' →';
-}
-
 @media(max-width:1050px){
     .domains-grid{
         grid-template-columns:1fr;
@@ -851,3 +847,11 @@ textarea { resize:vertical; min-height:140px; }
     }
 }
 
+
+
+/* SEO / performance display refinements */
+html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+img { max-width:100%; }
+.hero-bg img, .service-visual img, .domain-visual img { display:block; }
+::selection { background:rgba(176,0,0,.72); color:#fff; }
+@media (prefers-reduced-data: reduce) { .btn-primary::after { animation:none; } }
