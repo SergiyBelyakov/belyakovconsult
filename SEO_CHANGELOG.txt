@@ -36,3 +36,9 @@ POST-DEPLOY
 - Verify /robots.txt and /sitemap.xml.
 - Resubmit sitemap and /, /en/, /pt/ in Google Search Console.
 - Re-scrape the domain in LinkedIn Post Inspector after deployment to refresh social previews.
+
+
+2026-10-06 — SEO CONTENT EXPANSION
+Added dedicated indexable pages: data-strategy, data-governance, data-quality, data-architecture, business-intelligence, geospatial-analysis, cases, insights, sergiy-belyakov.
+Added per-page canonical, OG/Twitter metadata, Service/Profile/CollectionPage schemas, BreadcrumbList, internal links and updated sitemap.
+Home service cards now link to dedicated service pages. No arrow marks added near Result/Результат labels.

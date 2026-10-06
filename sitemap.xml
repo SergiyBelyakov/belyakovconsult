@@ -2,26 +2,212 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.belyakovconsult.com/</loc>
-    <lastmod>2026-10-06</lastmod>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/" />
-    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://www.belyakovconsult.com/pt/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/data-strategy/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-strategy/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/business-intelligence/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/business-intelligence/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/data-architecture/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-architecture/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/data-quality/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-quality/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/data-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-governance/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/geospatial-analysis/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/cases/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/cases/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/cases/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/cases/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/cases/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/insights/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/insights/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/insights/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/insights/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/insights/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/sergiy-belyakov/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
   </url>
   <url>
     <loc>https://www.belyakovconsult.com/en/</loc>
-    <lastmod>2026-10-06</lastmod>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/" />
-    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://www.belyakovconsult.com/pt/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/data-strategy/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-strategy/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/business-intelligence/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/business-intelligence/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/data-architecture/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-architecture/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/data-quality/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-quality/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/data-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-governance/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/geospatial-analysis/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/cases/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/cases/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/cases/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/cases/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/cases/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/insights/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/insights/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/insights/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/insights/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/insights/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/en/sergiy-belyakov/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
   </url>
   <url>
     <loc>https://www.belyakovconsult.com/pt/</loc>
-    <lastmod>2026-10-06</lastmod>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/" />
-    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://www.belyakovconsult.com/pt/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/data-strategy/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-strategy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-strategy/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/business-intelligence/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/business-intelligence/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/business-intelligence/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/data-architecture/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-architecture/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/data-quality/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-quality/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-quality/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/data-governance/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/data-governance/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/data-governance/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/geospatial-analysis/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/geospatial-analysis/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/geospatial-analysis/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/cases/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/cases/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/cases/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/cases/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/cases/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/insights/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/insights/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/insights/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/insights/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/insights/"/>
+  </url>
+  <url>
+    <loc>https://www.belyakovconsult.com/pt/sergiy-belyakov/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.belyakovconsult.com/en/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.belyakovconsult.com/pt/sergiy-belyakov/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.belyakovconsult.com/sergiy-belyakov/"/>
   </url>
 </urlset>
