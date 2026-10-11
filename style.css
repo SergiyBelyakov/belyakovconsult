@@ -912,7 +912,7 @@ img { max-width:100%; }
 .logo-original-image{
     display:block;
     width:auto;
-    height:42px;
+    height:50px;
     max-width:none;
     object-fit:contain;
     object-position:left center;
@@ -926,12 +926,12 @@ img { max-width:100%; }
 }
 
 .footer-info .logo.logo-original .logo-original-image{
-    height:58px;
+    height:64px;
 }
 
 @media(max-width:768px){
     .logo-original-image{
-        height:36px;
+        height:46px;
     }
 
     .footer-info .logo.logo-original .logo-original-image{
@@ -946,14 +946,14 @@ img { max-width:100%; }
    Master BC. artwork + B1 compact header lockup
    ========================================================= */
 .brand-lockup{display:inline-flex;align-items:center;gap:12px;text-decoration:none;min-width:max-content}
-.brand-lockup .logo-original-image{height:42px;width:auto;object-fit:contain}
+.brand-lockup .logo-original-image{height:52px;width:auto;object-fit:contain}
 .brand-lockup-divider{width:1px;height:34px;background:rgba(168,176,188,.34)}
 .brand-lockup-copy{display:flex;flex-direction:column;gap:3px;line-height:1}
 .brand-lockup-name{font-family:var(--font-h);font-weight:600;font-size:.82rem;color:#F4F6F8;letter-spacing:-.01em}
 .brand-lockup-signature{font-family:var(--font-b);font-size:.56rem;color:#A8B0BC;letter-spacing:.04em;white-space:nowrap}
 .logo span{background:none!important;-webkit-text-fill-color:initial!important;filter:none!important;animation:none!important}
-@media(max-width:1120px){.brand-lockup-signature{display:none}.brand-lockup-divider{height:28px}.brand-lockup-name{font-size:.76rem}.brand-lockup .logo-original-image{height:38px}}
-@media(max-width:850px){.brand-lockup-copy,.brand-lockup-divider{display:none}.brand-lockup .logo-original-image{height:36px}}
+@media(max-width:1120px){.brand-lockup-signature{display:none}.brand-lockup-divider{height:32px}.brand-lockup-name{font-size:.76rem}.brand-lockup .logo-original-image{height:48px}}
+@media(max-width:850px){.brand-lockup-copy,.brand-lockup-divider{display:none}.brand-lockup .logo-original-image{height:46px}}
 
 /* Brandbook matte technical glass: low radius, restrained motion and glow. */
 .service-card.service-card-premium,.domain-card,.detail-card,.expertise-grid a,.related-link{border-radius:0!important}
