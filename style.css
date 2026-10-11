@@ -965,8 +965,9 @@ img { max-width:100%; }
 .domains-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
 .domains-grid>.domain-card{grid-column:span 2}
 .domains-grid>.domain-card:nth-last-child(-n+2){grid-column:span 3}
-.domain-visual.is-data-viz img{filter:none;object-fit:cover}
-.domain-visual.is-data-viz::after{background:linear-gradient(180deg,rgba(4,7,11,.01),rgba(4,7,11,.08) 60%,rgba(4,7,11,.50))}
+.domain-visual.is-data-viz img{object-fit:cover;filter:brightness(.76) saturate(.88) contrast(1.04)}
+.domain-visual.is-data-viz::after{background:linear-gradient(180deg,rgba(4,7,11,.05),rgba(4,7,11,.12) 56%,rgba(4,7,11,.70) 100%),radial-gradient(circle at 74% 20%,rgba(217,4,41,.10),transparent 28%)}
+.domain-card:hover .domain-visual.is-data-viz img{filter:brightness(.82) saturate(.96) contrast(1.05)}
 @media(max-width:1050px){.domains-grid{grid-template-columns:1fr!important}.domains-grid>.domain-card,.domains-grid>.domain-card:nth-last-child(-n+2){grid-column:auto}}
 
 /* Data Analysis service visual is a flat functional visualization layer. */
