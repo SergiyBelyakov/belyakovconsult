@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 116" role="img" aria-label="BC.">
+  <defs>
+    <radialGradient id="dot" cx="31%" cy="27%" r="75%">
+      <stop offset="0" stop-color="#ff8b91"/>
+      <stop offset=".18" stop-color="#ff4651"/>
+      <stop offset=".58" stop-color="#dd1324"/>
+      <stop offset="1" stop-color="#790008"/>
+    </radialGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+  <rect width="310" height="116" fill="none"/>
+  <text x="4" y="91" fill="#fff" font-family="Arial Black,Arial,sans-serif" font-size="99" font-weight="900" letter-spacing="-7">BC</text>
+  <circle cx="259" cy="80" r="21" fill="#b60010" opacity=".24" filter="url(#glow)"/>
+  <circle cx="259" cy="80" r="16.5" fill="url(#dot)"/>
+  <circle cx="253.5" cy="74.2" r="3" fill="#ffd9db" opacity=".72"/>
+</svg>
