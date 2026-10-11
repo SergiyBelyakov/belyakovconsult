@@ -1,25 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <title>Сторінку не знайдено | Belyakov Consult</title>
-  <meta name="robots" content="noindex,follow" />
-  <meta name="theme-color" content="#05070A" />
-
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-  <link rel="stylesheet" href="/style.css" />
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Сторінку не знайдено | Belyakov Consult</title>
+<meta content="noindex,follow" name="robots"/>
+<meta content="#05070A" name="theme-color"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/style.css" rel="stylesheet"/>
+<style>
     :root{
       --error-bg:#05070A;
       --error-surface:rgba(255,255,255,.045);
       --error-border:rgba(255,255,255,.10);
       --error-text:#F4F6F8;
       --error-muted:#94A3B8;
-      --error-red:#B00000;
-      --error-red-light:#FF4D4D;
+      --error-red:#D90429;
+      --error-red-light:#D90429;
     }
 
     body{
@@ -53,7 +51,7 @@
       height:420px;
       top:-150px;
       right:-120px;
-      background:rgba(176,0,0,.18);
+      background:rgba(217,4,41,.18);
     }
 
     .error-shell::after{
@@ -140,7 +138,7 @@
       inset:0 auto auto 0;
       width:100%;
       height:1px;
-      background:linear-gradient(90deg, transparent, rgba(255,77,77,.65), transparent);
+      background:linear-gradient(90deg, transparent, rgba(217,4,41,.65), transparent);
     }
 
     .error-kicker{
@@ -160,7 +158,7 @@
 
     .error-code span{
       color:var(--error-red-light);
-      text-shadow:0 0 28px rgba(255,77,77,.22);
+      text-shadow:0 0 28px rgba(217,4,41,.22);
     }
 
     .error-title{
@@ -209,12 +207,12 @@
     .error-btn-primary{
       color:#fff;
       background:linear-gradient(180deg, #BF1010, #850000);
-      border:1px solid rgba(255,77,77,.45);
-      box-shadow:0 10px 30px rgba(176,0,0,.24);
+      border:1px solid rgba(217,4,41,.45);
+      box-shadow:0 10px 30px rgba(217,4,41,.24);
     }
 
     .error-btn-primary:hover{
-      box-shadow:0 14px 36px rgba(176,0,0,.32);
+      box-shadow:0 14px 36px rgba(217,4,41,.32);
     }
 
     .error-btn-secondary{
@@ -273,44 +271,35 @@
     }
   </style>
 </head>
-
 <body>
-  <div class="error-shell">
-    <div class="error-grid" aria-hidden="true"></div>
-
-    <header class="error-header">
-      <a class="error-brand" href="/" aria-label="Belyakov Consult">
-        <span class="error-brand-mark">BC<span class="error-brand-dot">.</span></span>
-        <span class="error-brand-name">Belyakov Consult</span>
-      </a>
-
-      <a class="error-btn error-btn-secondary" href="/">На головну</a>
-    </header>
-
-    <main class="error-main">
-      <section class="error-card" aria-labelledby="error-title">
-        <p class="error-kicker">Belyakov Consult · системи · дані · рішення</p>
-
-        <div class="error-code" aria-hidden="true">404<span>.</span></div>
-
-        <h1 class="error-title" id="error-title">Цієї сторінки немає</h1>
-
-        <p class="error-copy">
+<div class="error-shell">
+<div aria-hidden="true" class="error-grid"></div>
+<header class="error-header">
+<a aria-label="Belyakov Consult" class="error-brand" href="/">
+<img src="/assets/logo-original.png" alt="BC." style="height:42px;width:auto;display:block">
+<span class="error-brand-name">Belyakov Consult</span>
+</a>
+<a class="error-btn error-btn-secondary" href="/">На головну</a>
+</header>
+<main class="error-main">
+<section aria-labelledby="error-title" class="error-card">
+<p class="error-kicker">Belyakov Consult · системи · дані · рішення</p>
+<div aria-hidden="true" class="error-code">404<span>.</span></div>
+<h1 class="error-title" id="error-title">Цієї сторінки немає</h1>
+<p class="error-copy">
           Можливо, адреса змінилася або сторінку було видалено.
           Поверніться на головну або відкрийте напрями роботи Belyakov Consult.
         </p>
-
-        <div class="error-actions">
-          <a class="error-btn error-btn-primary" href="/">Повернутися на головну</a>
-          <a class="error-btn error-btn-secondary" href="/#services">Переглянути напрями роботи</a>
-        </div>
-
-        <div class="error-meta">
-          <span><strong>Belyakov Consult</strong></span>
-          <span>BI · Data Architecture · Data Governance</span>
-        </div>
-      </section>
-    </main>
-  </div>
+<div class="error-actions">
+<a class="error-btn error-btn-primary" href="/">Повернутися на головну</a>
+<a class="error-btn error-btn-secondary" href="/#services">Переглянути напрями роботи</a>
+</div>
+<div class="error-meta">
+<span><strong>Belyakov Consult</strong></span>
+<span>BI · Data Architecture · Data Governance</span>
+</div>
+</section>
+</main>
+</div>
 </body>
 </html>

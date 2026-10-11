@@ -1,0 +1,12 @@
+Belyakov Consult · Brandbook alignment build · 2026-10-11
+
+1. Official palette applied: Graphite Black #05070A, Deep Midnight #090D14, Dark Steel #10151D, Soft White #F4F6F8, Slate Silver #A8B0BC, Ruby Red #D90429.
+2. The header now uses the master BC. artwork extracted from the supplied brandbook and a B1 Compact-style text lockup. The mark is not recreated with CSS or typography.
+3. Large ruby glow fields were reduced. UI states remain restrained.
+4. Added Data Analysis / Аналіз даних / Análise de dados as a full service in UA, EN and PT.
+5. Added service pages /data-analysis/, /en/data-analysis/, /pt/data-analysis/ with canonical, hreflang, Service schema and internal linking.
+6. Added Financial Analytics and Management Analytics to the application-area section in UA, EN and PT.
+7. Added two original flat analytical visualisations that use the approved dashboard palette and do not represent real client data.
+8. Updated home-page metadata, service catalog JSON-LD, profile expertise and sitemap.xml.
+9. Updated favicon/icon assets from the master compact mark.
+10. Preserved competence signature: BI • Data Architecture • Data Governance.

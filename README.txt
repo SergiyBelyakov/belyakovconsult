@@ -12,3 +12,7 @@ Changes in this build:
 9. Sitemap expanded with multilingual hreflang alternatives.
 
 After deployment, resubmit sitemap.xml in Google Search Console and request indexing for the new EN and PT pages.
+
+
+BRANDBOOK BUILD 2026-10-11
+See BRANDBOOK_CHANGELOG.txt. After deployment, resubmit sitemap.xml and request indexing for the three Data Analysis pages.
