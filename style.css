@@ -890,3 +890,52 @@ img { max-width:100%; }
 .about-compact p{max-width:850px;color:#b9c4cf;font-size:1.08rem;line-height:1.9;margin:-22px 0 30px}
 .about-compact .section-title{max-width:900px}
 @media(max-width:768px){.about-compact p{font-size:1rem;line-height:1.78;margin-top:-14px}}
+
+/* =========================================================
+   ORIGINAL BC. LOGO
+   Source: user-supplied original mark. Do not recreate with type/CSS.
+   ========================================================= */
+.logo.logo-original{
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-start;
+    flex:0 0 auto;
+    padding:0;
+    margin:0;
+    line-height:1;
+    font-size:0;
+    letter-spacing:0;
+    background:none;
+    overflow:visible;
+}
+
+.logo-original-image{
+    display:block;
+    width:auto;
+    height:42px;
+    max-width:none;
+    object-fit:contain;
+    object-position:left center;
+    filter:none;
+    transform:none;
+}
+
+.logo.logo-original:hover .logo-original-image{
+    filter:none;
+    transform:none;
+}
+
+.footer-info .logo.logo-original .logo-original-image{
+    height:58px;
+}
+
+@media(max-width:768px){
+    .logo-original-image{
+        height:36px;
+    }
+
+    .footer-info .logo.logo-original .logo-original-image{
+        height:50px;
+    }
+}
+
