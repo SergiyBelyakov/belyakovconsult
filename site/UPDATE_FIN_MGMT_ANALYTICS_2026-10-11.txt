@@ -1,0 +1,19 @@
+Updated Belyakov Consult build:
+- Replaced Data Analysis service illustration with premium 3D glass icon.
+- Added Financial Analytics and Management Analytics detail pages in UA/EN/PT.
+- Replaced financial and management domain visuals with city-background glass dashboard visuals.
+- Made domain cards clickable and linked from Data Analysis pages.
+- Updated sitemap with new URLs.
+
+2026-10-11 approval update:
+- Replaced Financial Analytics and Management Analytics application-area visuals with versions closer to the existing project references: glass dashboards, subtle red accents, and night city background.
+
+Final content update:
+- Added Financial Analytics and Management Analytics to Ways to work together in UA/EN/PT.
+- Updated application-area descriptions: financial flows, donor funding, accounts receivable; internal enterprise processes for management analytics.
+- Expanded detailed Financial Analytics and Management Analytics page scope in UA/EN/PT.
+- Updated homepage Organization/OfferCatalog structured data with both services.
+
+2026-10-12:
+- Verified and kept UA, EN and PT sections aligned for Financial Analytics and Management Analytics across home pages and detail pages.
+- Unified the visual tonality of the five application-area cards by darkening the Financial Analytics and Management Analytics images and strengthening the overlay for better balance with the existing three reference cards.
