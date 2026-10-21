@@ -1,5 +1,0 @@
-Generated using the built-in image generation tool; supplied hero used as style reference.
-Shared direction: landscape 3:2 cinematic analytical noir, photoreal black glass command center, blurred night skyline, silver-blue light, restrained metallic red accents. No text, logos or watermarks.
-case-social.webp: transparent glass analysis desk with interconnected abstract citizen record panels and database structures, pale blue links and sparse red anomaly nodes.
-case-health.webp: angled glass terrain map with towns, hospital symbols, road networks, blue service coverage zones and isolated red underserved areas. Conceptual illustration, not real GIS data.
-case-monitoring.webp: transparent glass desk with evidence records and document panels linked to program milestones and red checkpoints. Conceptual illustration, not actual program results.
