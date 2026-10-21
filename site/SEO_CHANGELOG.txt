@@ -1,0 +1,44 @@
+BELYAKOV CONSULT — SEO / DISPLAY UPDATE — 2026-10-06
+
+SEO / INDEXING
+- One canonical URL per language page, all on https://www.belyakovconsult.com/.
+- Reciprocal hreflang: uk, en, pt-PT, x-default.
+- Removed duplicated relative hreflang declarations from the previous HTML.
+- Reworked Title and meta description for UA / EN / PT around BI, Data Strategy, Data Architecture, Data Governance, Data Quality and geospatial analytics.
+- Added robots and googlebot directives with max-image-preview:large.
+- Expanded sitemap.xml with lastmod and hreflang alternates.
+- robots.txt points to the canonical sitemap.
+
+ENTITY / STRUCTURED DATA
+- JSON-LD graph for WebSite, Organization, Person and WebPage.
+- Belyakov Consult service catalogue added to structured data.
+- Sergiy Belyakov / Сергій Бєляков connected to the site and LinkedIn profile.
+- LinkedIn profile links marked rel=me.
+
+SOCIAL / SEARCH DISPLAY
+- Open Graph metadata for all language versions.
+- Twitter Card metadata for all language versions.
+- New 1200×630 social image: assets/og-belyakov-consult.jpg.
+- Manifest and 192×192 / 512×512 icons added.
+- Custom noindex 404 page added.
+
+PERFORMANCE / CORE WEB VITALS
+- Corrected hero intrinsic dimensions to 1672×941 to reduce layout shift.
+- Hero image explicitly preloaded and marked fetchpriority=high.
+- Six service PNG images converted to WebP; HTML now loads WebP versions.
+- Existing below-the-fold lazy loading retained.
+
+VISUAL CHANGE REQUESTED
+- Removed arrow generated after “Результат / Results” in focus-area cards.
+
+POST-DEPLOY
+- Keep Cloudflare 301 from non-www to www.
+- Verify /robots.txt and /sitemap.xml.
+- Resubmit sitemap and /, /en/, /pt/ in Google Search Console.
+- Re-scrape the domain in LinkedIn Post Inspector after deployment to refresh social previews.
+
+
+2026-10-06 — SEO CONTENT EXPANSION
+Added dedicated indexable pages: data-strategy, data-governance, data-quality, data-architecture, business-intelligence, geospatial-analysis, cases, insights, sergiy-belyakov.
+Added per-page canonical, OG/Twitter metadata, Service/Profile/CollectionPage schemas, BreadcrumbList, internal links and updated sitemap.
+Home service cards now link to dedicated service pages. No arrow marks added near Result/Результат labels.

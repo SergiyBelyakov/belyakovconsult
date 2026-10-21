@@ -1,0 +1,6 @@
+Belyakov Consult multilingual parity validation
+UA pages: 13
+EN pages: 13
+PT pages: 13
+Total sitemap URLs: 39
+Errors: 0
