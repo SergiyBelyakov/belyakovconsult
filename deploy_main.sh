@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE="$HERE/site"
-REMOTE="https://github.com/SergiyBelyakov/belyakovconsult_digital.git"
+REMOTE="https://github.com/SergiyBelyakov/belyakovconsult.git"
 
 if ! command -v git >/dev/null 2>&1; then
   echo "Git is required. Install Xcode Command Line Tools (xcode-select --install)." >&2
@@ -55,4 +55,4 @@ git push origin HEAD:main
 echo "Published successfully."
 echo "Previous commit: $BEFORE"
 echo "New commit: $(git rev-parse HEAD)"
-echo "Repository: https://github.com/SergiyBelyakov/belyakovconsult_digital"
+echo "Repository: https://github.com/SergiyBelyakov/belyakovconsult"
