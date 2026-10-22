@@ -111,3 +111,15 @@ body.map-open #visual .detail{
  #visual[data-renderer=canvas3d] .render-mode{left:6%;right:6%;top:108px;max-width:none;font-size:7px}
  .trace{top:132px}
 }
+
+/* Fullscreen retains the live scene, selection, camera and stage navigation. */
+.scene-fullscreen{position:absolute;z-index:12;right:8%;bottom:58px;border:1px solid #ffffff35;border-radius:4px;padding:8px 12px;background:#090d14e8;color:#f4f6f8;font-size:10px;backdrop-filter:blur(12px)}
+.scene-fullscreen:hover{border-color:#d90429;background:#210911}
+body.scene-expanded{overflow:hidden}
+body.scene-expanded #visual,#visual:fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;max-width:none!important;z-index:2000!important;background-color:#05070a}
+body.scene-expanded #visual:before{display:none}
+body.scene-expanded #visual .stage-nav{position:absolute;left:50%;right:auto;bottom:22px;top:auto;transform:translateX(-50%);z-index:15;display:flex;gap:16px;background:#090d14ed;padding:10px 16px;border:1px solid #ffffff25;border-radius:6px;width:auto}
+body.scene-expanded .scene-fullscreen{bottom:22px}
+body.scene-expanded .visual-foot{display:none}
+body.scene-expanded #scene{touch-action:none}
+@media(max-width:600px){.scene-fullscreen{right:6%;bottom:44px;font-size:9px}body.scene-expanded .scene-fullscreen{top:12px;bottom:auto;right:12px}body.scene-expanded .scene-top{top:62px}body.scene-expanded .scene-tools{top:88px}body.scene-expanded #visual .inspect-controls{top:122px!important}body.scene-expanded #visual .render-mode{top:162px}body.scene-expanded #visual .trace{top:190px}}

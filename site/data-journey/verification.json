@@ -59,7 +59,7 @@
     "physicalMobileDevice": "not verified"
   },
   "webglLightingUpdate": {
-    "revision": "ruby-studio-20261022",
+    "revision": "ruby-neon-fullscreen-20261022",
     "sharedLanguages": [
       "uk",
       "en"
@@ -69,11 +69,11 @@
     "exposure": 0.85,
     "environmentIntensity": 0.65,
     "materialEnvironmentIntensity": 0.8,
-    "rubyCoreEmissionIntensity": 0.65,
+    "rubyCoreEmissionIntensity": 1.25,
     "bloom": {
-      "threshold": 0.65,
-      "extractionCap": 0.7,
-      "strength": 0.22,
+      "threshold": 0.48,
+      "extractionCap": 1.05,
+      "strength": 0.38,
       "withoutFloatRenderTargets": "direct tone-mapped render, bloom disabled"
     },
     "checks": {
@@ -84,6 +84,20 @@
       "UAAndENBrowserLoading": "passed in Canvas fallback",
       "GPUShaderCompilation": "not verified",
       "nativeGPUAppearance": "not verified; WebGL2 unavailable in QA browser"
-    }
+    },
+    "rubyGlassEmissionIntensity": 0.16
+  },
+  "finalUpdate": {
+    "canonicalLocalizedContactFooters": 42,
+    "footerMarkupParity": "passed",
+    "duplicateHTMLIds": 0,
+    "localResourceLinks": "passed",
+    "fullscreen": {
+      "viewportExpansion": "passed in QA browser",
+      "nextStageWhileExpanded": "passed",
+      "exitAndStagePreservation": "passed",
+      "nativeFullscreenAPI": "not available in QA browser; viewport fallback verified"
+    },
+    "nativeGPUAppearance": "not verified; WebGL2 unavailable"
   }
 }

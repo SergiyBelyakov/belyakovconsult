@@ -14,8 +14,8 @@ window.BCNeonBloom = class {
       uniforms:{source:{value:this.sceneTarget.texture},stepSize:{value:new T.Vector2(1,0)}},vertexShader,
       fragmentShader:`uniform sampler2D source; uniform vec2 stepSize; varying vec2 vUv;
        vec3 redOnly(vec2 uv){vec3 c=texture2D(source,clamp(uv,0.0,1.0)).rgb;
-         float excess=max(0.,c.r-max(c.g,c.b)*2.0-.65);
-         float r=min(excess,.7);
+         float excess=max(0.,c.r-max(c.g,c.b)*2.0-.48);
+         float r=min(excess,1.05);
          return vec3(r,r*.008,r*.065);}
        void main(){vec3 b=redOnly(vUv)*.227027;
          b+=(redOnly(vUv+stepSize)+redOnly(vUv-stepSize))*.194595;
@@ -32,7 +32,7 @@ window.BCNeonBloom = class {
            b+=(g(vUv+stepSize*2.)+g(vUv-stepSize*2.))*.121622;
            b+=(g(vUv+stepSize*3.)+g(vUv-stepSize*3.))*.054054;
            b+=(g(vUv+stepSize*4.)+g(vUv-stepSize*4.))*.016216;
-           gl_FragColor=vec4(texture2D(source,vUv).rgb+b*.22,1.);
+           gl_FragColor=vec4(texture2D(source,vUv).rgb+b*.38,1.);
            #include <tonemapping_fragment>
            #include <colorspace_fragment>
          }`});

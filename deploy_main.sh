@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE="$HERE/site"
-REMOTE="https://github.com/SergiyBelyakov/belyakovconsult"
+REMOTE="https://github.com/SergiyBelyakov/belyakovconsult.git"
 
 if ! command -v git >/dev/null 2>&1; then
   echo "Git is required. Install Xcode Command Line Tools (xcode-select --install)." >&2

@@ -2,7 +2,7 @@
  * dark surroundings, bounded ruby emission; independent of Canvas previews. */
 'use strict';
 window.BCStudioLighting = {
-  revision: 'ruby-studio-20261022',
+  revision: 'ruby-neon-fullscreen-20261022',
   configureRenderer(renderer) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     // Reinhard avoids the ACES colour-mixing matrix shifting saturated ruby highlights.
@@ -51,8 +51,12 @@ window.BCStudioLighting = {
     material.toneMapped = true;
     if ((material.name || '').includes('internal ruby')) {
       material.emissive.setRGB(1, .001, .012);
-      material.emissiveIntensity = .65;
+      material.emissiveIntensity = 1.25;
       material.color.setRGB(.32, .001, .008);
+    }
+    if ((material.name || '').includes('ruby') && material.transmission > 0) {
+      material.emissive.setRGB(1, .002, .025);
+      material.emissiveIntensity = .16;
     }
     material.needsUpdate = true;
     return material;
