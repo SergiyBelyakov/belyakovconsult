@@ -1,9 +1,9 @@
 """Refresh the static model registry after rebuilding GLBs and previews."""
 from pathlib import Path
-import json,hashlib
+import json,hashlib,os
 from PIL import Image
 from pygltflib import GLTF2
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(os.environ.get('BC_JOURNEY_ROOT',Path(__file__).resolve().parents[3]/'site/data-journey'))
 path=ROOT/'assets/glass/catalog.generated.json'
 if not path.exists(): path=ROOT/'assets/glass/catalog.json'
 records=json.loads(path.read_text())
@@ -24,5 +24,5 @@ for i,n in enumerate([21,49,4,3,50,1,5,6,7]):
  with Image.open(ROOT/'assets/glass/previews'/by[n]['file'].replace('.glb','.webp')) as image:
   image=image.convert('RGB').resize((480,360),Image.Resampling.LANCZOS)
   canvas.paste(image,(i%3*480,i//3*360))
-canvas.save(ROOT/'assets/glass/services.webp',quality=91,method=6)
+canvas.save(ROOT/'assets/glass/components.webp',quality=91,method=6)
 print('Refreshed',len(records),'models')

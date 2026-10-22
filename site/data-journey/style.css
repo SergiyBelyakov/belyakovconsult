@@ -95,3 +95,19 @@ body.map-open #visual .detail{
   #visual .detail-actions{gap:8px}
   .scene-tools{right:6%;max-width:65%;flex-wrap:wrap}
 }
+
+/* Text controls replace directional glyphs. */
+.stage-nav button{width:auto;min-width:48px;padding:5px 9px;font-size:9px}
+#pause,#reset{width:auto;min-width:44px;padding:5px 8px}
+@media(max-width:600px){.scene-tools{gap:4px;max-width:76%}.scene-tools button{font-size:8px;padding:5px 7px}.visual-foot>span:last-child{display:none}}
+/* Keep the route tools and camera controls in separate spaces. */
+.scene-tools{left:10%;right:8%;max-width:none;padding-right:225px;flex-wrap:wrap;pointer-events:none}
+.scene-tools button{pointer-events:auto}
+#pause{margin-left:0}
+.inspect-controls,#visual[data-view=model] .inspect-controls{right:8%;top:60px!important;padding:5px 7px;gap:5px}
+@media(max-width:1000px){
+ .scene-tools{left:6%;right:6%;top:34px;padding-right:0;max-width:none;gap:5px}
+ .inspect-controls,#visual[data-view=model] .inspect-controls{right:6%;top:68px!important;padding:3px 5px}
+ #visual[data-renderer=canvas3d] .render-mode{left:6%;right:6%;top:108px;max-width:none;font-size:7px}
+ .trace{top:132px}
+}

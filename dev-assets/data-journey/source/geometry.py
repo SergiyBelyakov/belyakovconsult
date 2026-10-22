@@ -2,18 +2,18 @@
 
 Y-up, front +Z, metres (relative icon units). No image planes or textures.
 Install: pip install numpy trimesh shapely mapbox-earcut pygltflib
-Run: python source/build_icons.py
+Run from project root: python dev-assets/data-journey/source/build_ruby_iron.py
 """
 from pathlib import Path
-import math, json, struct, csv
+import math, json, struct, csv, os
 import numpy as np
 import trimesh as tm
 from shapely.geometry import Polygon, Point
 from trimesh.visual.material import PBRMaterial
 from pygltflib import GLTF2, BufferView, Accessor, Animation, AnimationSampler, AnimationChannel, AnimationChannelTarget, Node
 
-ROOT=Path(__file__).resolve().parents[1]
-MODELS=ROOT/'assets/glass/models'; MODELS.mkdir(exist_ok=True)
+ROOT=Path(os.environ.get('BC_JOURNEY_ROOT',Path(__file__).resolve().parents[3]/'site/data-journey'))
+MODELS=ROOT/'assets/glass/models'; MODELS.mkdir(exist_ok=True,parents=True)
 TAU=math.tau
 MATERIALS={
  'silver':PBRMaterial(name='Soft silver',baseColorFactor=[.67,.71,.78,1],metallicFactor=.91,roughnessFactor=.24),

@@ -29,7 +29,7 @@ window.BCNeonBloom = class {
            b+=(g(vUv+stepSize*2.)+g(vUv-stepSize*2.))*.121622;
            b+=(g(vUv+stepSize*3.)+g(vUv-stepSize*3.))*.054054;
            b+=(g(vUv+stepSize*4.)+g(vUv-stepSize*4.))*.016216;
-           gl_FragColor=vec4(texture2D(source,vUv).rgb+b*1.40,1.);
+           gl_FragColor=vec4(texture2D(source,vUv).rgb+b*.72,1.);
            #include <tonemapping_fragment>
            #include <colorspace_fragment>
          }`});

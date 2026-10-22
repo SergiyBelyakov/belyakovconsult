@@ -67,31 +67,14 @@ window.BCModels = (() => {
     return models.get(asset.id);
   }
 
-  // Calibrate the PBR materials against the approved dark-metal/red-neon reference.
-  // Keep the actual GLB geometry, normal maps, and independent depth/rotation.
+  // GLB files own the material palette, including their enclosed light sources.
   function calibrateMaterial(original){
     if(!original) return original;
-    const m=original.clone(),name=(m.name||'').toLowerCase();
-    if(name.includes('neon red')){
-      m.color.set('#ac001a');m.emissive.set('#ff002d');m.emissiveIntensity=4.25;
-      m.transmission=0;m.metalness=.16;m.roughness=.23;
-      m.clearcoat=.68;m.clearcoatRoughness=.13;
-    }else if(name.includes('ruby')){
-      m.color.set('#83000e');m.emissive.set('#bf001e');m.emissiveIntensity=.58;
-      m.transmission=.35;m.roughness=.11;m.metalness=.12;
-      m.thickness=.13;m.attenuationColor.set('#a30a24');
-    }else if(name.includes('clear optical glass')){
-      m.color.set('#455463');m.transmission=.72;
-      m.thickness=.04;m.roughness=.07;
-      m.attenuationColor.set('#9eabbc');m.attenuationDistance=1.5;
-    }else if(name.includes('dark brushed')){
-      m.color.set('#151d27');m.metalness=.91;m.roughness=.31;
-    }else if(name.includes('satin silver')){
-      m.color.set('#566270');m.metalness=.97;m.roughness=.27;
-    }else if(name.includes('polished silver')){
-      m.color.set('#9aa8b8');m.metalness=1;m.roughness=.19;
-    }
-    m.needsUpdate=true;return m;
+    const material=original.clone();
+    material.envMapIntensity=1.1;
+    if((material.name||'').includes('internal ruby')) material.toneMapped=false;
+    material.needsUpdate=true;
+    return material;
   }
 
   function create(kind, id) {

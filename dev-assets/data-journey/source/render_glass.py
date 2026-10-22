@@ -1,6 +1,6 @@
 """Ray-traced previews of the shipped GLB meshes; no drawn substitute icons."""
 from pathlib import Path
-import tempfile,math,json,argparse
+import tempfile,math,json,argparse,os
 import numpy as np
 import mitsuba as mi
 import drjit as dr
@@ -9,7 +9,7 @@ from PIL import Image
 from scipy.ndimage import gaussian_filter, median_filter
 mi.set_variant('llvm_ad_rgb');dr.set_thread_count(4)
 FORCE=False
-ROOT=Path(__file__).resolve().parents[1];(ROOT/'assets/glass/previews').mkdir(exist_ok=True)
+ROOT=Path(os.environ.get('BC_JOURNEY_ROOT',Path(__file__).resolve().parents[3]/'site/data-journey'));(ROOT/'assets/glass/previews').mkdir(exist_ok=True,parents=True)
 def render(item,width=480,height=360,spp=128,yaw=.23):
  dest=ROOT/'assets/glass/previews'/item['file'].replace('.glb','.webp')
  if dest.exists() and not FORCE:return str(dest)
@@ -21,15 +21,14 @@ def render(item,width=480,height=360,spp=128,yaw=.23):
    file=Path(td)/f'{i}.ply';mesh.export(file)
    if 'glass' in mat.name:
     red='ruby' in mat.name or 'neon' in mat.name
-    bsdf={'type':'roughdielectric','int_ior':1.46,'ext_ior':1.0,'distribution':'ggx','alpha':.012,'specular_transmittance':{'type':'rgb','value':[1,.24,.30] if red else [.97,.99,1]}}
+    bsdf={'type':'roughdielectric','int_ior':1.5,'ext_ior':1.0,'distribution':'ggx','alpha':.015,'specular_transmittance':{'type':'rgb','value':[.76,.055,.12] if red else [.97,.99,1]}}
    else:
     color=np.array(mat.baseColorFactor[:3])/255
     bsdf={'type':'principled','base_color':{'type':'rgb','value':color.tolist()},'metallic':float(mat.metallicFactor or 0),'roughness':float(mat.roughnessFactor or .24)}
    part={'type':'ply','filename':str(file),'bsdf':bsdf}
-   if 'neon' in mat.name:part['emitter']={'type':'area','radiance':{'type':'rgb','value':[3.5,.0025,.0315]}}
-   elif 'ruby' in mat.name:part['emitter']={'type':'area','radiance':{'type':'rgb','value':[.10,.0003,.002]}}
+   if 'internal ruby' in mat.name:part['emitter']={'type':'area','radiance':{'type':'rgb','value':[1.35,.001,.014]}}
    scene[f'part{i}']=part
-  lights=[([-4,5,3],[.5,1.6,1],[3,3,3]),([4,2,4],[.6,3,1],[2.5,2.5,2.5]),([-5,3,-3],[.65,1.5,1],[5,5,5]),([5,2,-3],[.5,1.4,1],[2,.025,.07]),([0,5,-1],[2,1,1],[2,2,2]),([0,2,12],[6,4,1],[.35,.35,.35])]
+  lights=[([-4,5,3],[1.3,2.5,1],[4,4,4]),([4,2,4],[1,3,1],[3.4,3.4,3.4]),([-5,3,-3],[.65,1.5,1],[4,4,4]),([5,2,-3],[.5,1.4,1],[1.2,.006,.025]),([0,5,-1],[2,1,1],[3,3,3]),([0,2,12],[6,4,1],[.6,.6,.6])]
   for i,(pos,scale,radiance) in enumerate(lights):scene[f'softbox{i}']={'type':'rectangle','to_world':T.look_at(origin=pos,target=[0,0,0],up=[0,1,0])@T.scale(scale),'bsdf':{'type':'diffuse','reflectance':0},'emitter':{'type':'area','radiance':{'type':'rgb','value':radiance}}}
   scene['floor']={'type':'rectangle','to_world':T.translate([0,b[0][1]-.06,0])@T.rotate([1,0,0],-90)@T.scale([100,100,100]),'bsdf':{'type':'principled','base_color':{'type':'rgb','value':[.004,.004,.006]},'metallic':0.0,'specular':.08,'roughness':.5}}
   x=np.asarray(mi.render(mi.load_dict(scene),spp=spp,seed=27))*.95
