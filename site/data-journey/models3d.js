@@ -67,14 +67,9 @@ window.BCModels = (() => {
     return models.get(asset.id);
   }
 
-  // GLB files own the material palette, including their enclosed light sources.
+  // Preserve GLB geometry and palette; use the shared display calibration.
   function calibrateMaterial(original){
-    if(!original) return original;
-    const material=original.clone();
-    material.envMapIntensity=1.1;
-    if((material.name||'').includes('internal ruby')) material.toneMapped=false;
-    material.needsUpdate=true;
-    return material;
+    return original ? BCStudioLighting.calibrateMaterial(original) : original;
   }
 
   function create(kind, id) {

@@ -1,0 +1,20 @@
+# WebGL lighting update · 2026-10-22
+
+The Ukrainian and English data journeys now share `site/data-journey/studio-lighting.js`.
+
+- Dark studio environment with narrow softboxes replaces the white RoomEnvironment.
+- Reinhard tone mapping, exposure 0.85; lower direct lighting and environment reflections.
+- Ruby core emission reduced to 0.65. Glass transmission and model geometry remain intact.
+- Ruby-only HDR bloom now has a higher threshold, bounded extraction and lower strength.
+- Devices without floating-point render targets render directly with tone mapping; no clipped 8-bit HDR intermediate.
+- Entry HTML and dynamic scripts use the revision ruby-studio-20261022 to refresh cached code.
+
+## Publication
+
+Publish the complete contents of `site/` to the existing static website. Include both data-journey entry pages, bootstrap.mjs and the new studio-lighting.js together. Source generators remain in dev-assets. No production deployment was performed for this archive rebuild.
+
+## Validation limits
+
+Both language pages loaded successfully in the QA browser. All 50 GLBs loaded with the bundled GLTFLoader; calibration was checked across 249 mesh materials including 50 ruby cores. HDR and non-HDR control flow was checked with a renderer double. Six edited scripts passed syntax checks.
+
+WebGL2 is unavailable in the QA browser. GPU shader compilation and the final GPU appearance have NOT been visually verified. Canvas previews are not evidence of live WebGL appearance. Compare the live architecture, BI and quality components after publication on a WebGL2 device; identical pixels to the separately ray-traced thumbnails are not guaranteed.
