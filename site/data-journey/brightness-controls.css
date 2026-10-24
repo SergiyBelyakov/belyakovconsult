@@ -1,0 +1,11 @@
+/* Scene brightness control, visually consistent with Belyakov Consult dark glass. */
+.bc-light-control{position:absolute;z-index:14;left:50%;top:150px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;padding:8px 12px;max-width:calc(100% - 18px);border:1px solid rgba(168,176,188,.23);border-radius:7px;background:rgba(9,13,20,.91);backdrop-filter:blur(18px);box-shadow:0 10px 34px rgba(0,0,0,.35);color:#f4f6f8;font:500 10px Inter,Arial,sans-serif;white-space:nowrap;}
+.bc-light-control label{color:#bfc7d2;letter-spacing:.03em;}
+.bc-light-control input[type=range]{width:116px;min-width:65px;max-width:25vw;height:16px;accent-color:#ff4d4d;cursor:pointer;}
+.bc-light-control output{min-width:37px;font-variant-numeric:tabular-nums;text-align:right;color:#f4f6f8;}
+.bc-light-control button{display:grid;place-items:center;min-height:26px;min-width:26px;background:rgba(255,255,255,.05);border:1px solid rgba(168,176,188,.25);border-radius:5px;font-size:16px;color:#f4f6f8;cursor:pointer;}
+.bc-light-control button:hover{border-color:#ff4d4d;color:#ff4d4d;}
+#visual[data-view=model] .bc-light-control{top:112px;}
+body.scene-expanded #visual .bc-light-control{top:152px;}
+@media(max-width:1000px){.bc-light-control{top:75px;left:50%;gap:5px;padding:5px 7px;font-size:9px;}.bc-light-control input[type=range]{width:72px;}#visual[data-view=model] .bc-light-control{top:75px;}body.scene-expanded #visual .bc-light-control{top:134px;}}
+@media(max-width:480px){.bc-light-control{top:68px;left:8px;transform:none;max-width:calc(100% - 16px);}#visual[data-view=model] .bc-light-control{top:68px;}body.scene-expanded #visual .bc-light-control{top:126px;left:8px;}}
