@@ -2,12 +2,29 @@
  * dark surroundings, bounded ruby emission; independent of Canvas previews. */
 'use strict';
 window.BCStudioLighting = {
-  revision: 'ruby-neon-fullscreen-20261022',
+  revision: 'balanced-ruby-lighting-20261024',
+  baseExposure: 1.28,
+  currentLevel: 1.35,
+  _lighting: new WeakMap(),
+  setBrightness(level, renderer, scene) {
+    const value = Math.min(2.2, Math.max(.55, Number(level) || 1.35));
+    this.currentLevel=value;
+    if (renderer && !renderer.isCPU) renderer.toneMappingExposure=this.baseExposure * value / 1.35;
+    const lights=scene && this._lighting.get(scene);
+    if (lights) {
+      lights.ambient.intensity=.33 * value / 1.35;
+      lights.key.intensity=1.3 * value / 1.35;
+      lights.rim.intensity=.65 * value / 1.35;
+      lights.fill.intensity=.7 * value / 1.35;
+      scene.environmentIntensity=.93 * value / 1.35;
+    }
+    document.dispatchEvent(new CustomEvent('bc-lighting-updated',{detail:{value}}));
+  },
   configureRenderer(renderer) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     // Reinhard avoids the ACES colour-mixing matrix shifting saturated ruby highlights.
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    renderer.toneMappingExposure = .85;
+    renderer.toneMappingExposure = this.baseExposure;
   },
   install(renderer, scene) {
     const T = THREE, studio = new T.Scene();
@@ -33,21 +50,25 @@ window.BCStudioLighting = {
     const generator = new T.PMREMGenerator(renderer);
     const environment = generator.fromScene(studio, .02, .1, 100);
     scene.environment = environment.texture;
-    scene.environmentIntensity = .65;
+    scene.environmentIntensity = .93;
     scene.background = new T.Color(0x05070a);
     generator.dispose(); geometry.dispose(); materials.forEach(m => m.dispose());
-    const ambient = new T.HemisphereLight(0xe2e5eb, 0x080308, .10);
-    const key = new T.DirectionalLight(0xffffff, .65);
+    const ambient = new T.HemisphereLight(0xf4f6f8, 0x161923, .33);
+    const key = new T.DirectionalLight(0xffffff, 1.3);
     key.position.set(-6, 8, 10);
-    const rim = new T.DirectionalLight(0xe5e8ee, .25);
+    const rim = new T.DirectionalLight(0xe5e8ee, .65);
     rim.position.set(7, 2, -7);
-    scene.add(ambient, key, rim);
+    const fill = new T.DirectionalLight(0xf1f4ff, .7);
+    fill.position.set(2, 3, 9);
+    scene.add(ambient, key, rim, fill);
+    this._lighting.set(scene,{ambient,key,rim,fill});
+    this.setBrightness(this.currentLevel,renderer,scene);
     // Keep the render target alive for the lifetime of its environment texture.
     return () => { scene.environment = null; environment.dispose(); };
   },
   calibrateMaterial(original) {
     const material = original.clone();
-    material.envMapIntensity = .8;
+    material.envMapIntensity = 1.05;
     material.toneMapped = true;
     if ((material.name || '').includes('internal ruby')) {
       material.emissive.setRGB(1, .001, .012);
