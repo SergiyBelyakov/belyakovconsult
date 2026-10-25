@@ -1,7 +1,7 @@
 ---
 channel: telegram
 lang: en
-publish_at: 2026-10-25 21:00
+publish_at: 2026-10-25 20:50
 link: false
 ---
 **ТЕСТ TELEGRAM**
