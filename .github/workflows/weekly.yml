@@ -1,0 +1,48 @@
+# Щопонеділка: дайджест у Telegram-адмінку і продовження токена Threads.
+name: Щотижневий дайджест
+
+on:
+  schedule:
+    - cron: "43 5 * * 1"   # понеділок, 08:43 за Києвом (взимку 07:43)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    # Дайджест і токени — лише в продакшн-репозиторії.
+    if: github.repository == 'SergiyBelyakov/belyakovconsult'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HAS_PAT: ${{ secrets.GH_PAT != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+
+      - name: Продовжити токен Threads (якщо є GH_PAT)
+        if: env.HAS_PAT == 'true'
+        env:
+          THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          python scripts/refresh_threads.py "$RUNNER_TEMP/threads_token"
+          if [ -s "$RUNNER_TEMP/threads_token" ]; then
+            gh secret set THREADS_TOKEN < "$RUNNER_TEMP/threads_token"
+            gh variable set THREADS_TOKEN_DATE --body "$(date -u +%Y-%m-%d)"
+            rm -f "$RUNNER_TEMP/threads_token"
+          fi
+
+      - name: Надіслати дайджест
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+          LINKEDIN_TOKEN_DATE: ${{ vars.LINKEDIN_TOKEN_DATE }}
+          THREADS_TOKEN_DATE: ${{ vars.THREADS_TOKEN_DATE }}
+        run: python scripts/digest.py

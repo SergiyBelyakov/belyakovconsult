@@ -1,0 +1,9 @@
+<section class="detail-hero compact-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="{{ home }}">{{ site.name }}</a><span>/</span><span>{{ L.insights_title }}</span></nav>
+<span class="section-kicker">{{ L.insights_title }}</span>
+<h1>{{ L.insights_heading }}</h1>
+<p>{{ L.insights_lead }}</p>
+</div></div></section>
+<section class="section bg-darker"><div class="container"><div class="insight-nav-grid bc-list">
+{% for item in items %}<a href="{{ item.href }}"><span><time datetime="{{ item.a.date.isoformat() }}">{{ item.date_human }}</time> · {{ item.a.read_minutes }} {{ L.read_time }}</span><strong>{{ item.a.title }}</strong><em>{{ item.a.description }}</em></a>
+{% endfor %}</div></div></section>

@@ -1,0 +1,17 @@
+<section class="detail-hero compact-hero bc-article-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="{{ home }}">{{ site.name }}</a><span>/</span><a href="{{ insights_home }}">{{ L.insights_title }}</a><span>/</span><span>{{ a.title }}</span></nav>
+<span class="section-kicker">{{ L.insights_title }}</span>
+<h1>{{ a.title }}</h1>
+<p>{{ a.description }}</p>
+<div class="bc-meta"><time datetime="{{ a.date.isoformat() }}">{{ date_human }}</time><span>{{ a.read_minutes }} {{ L.read_time }}</span><span>{{ L.author }}</span></div>
+</div></div></section>
+<article class="section insight-article bc-article"><div class="container prose">
+{{ html | safe }}
+{% if services %}<div class="bc-chips">{% for name, href in services %}<a class="text-link" href="{{ href }}">{{ name }}</a>{% endfor %}</div>{% endif %}
+</div></article>
+<section class="section bg-darker bc-cta"><div class="container prose">
+<h2>{{ L.cta_title }}</h2>
+<p>{{ L.cta_text }}</p>
+<a class="btn btn-primary" href="#contact">{{ L.cta_button }}</a>
+<p class="bc-back"><a class="text-link" href="{{ insights_home }}">{{ L.all_articles }}</a></p>
+</div></section>

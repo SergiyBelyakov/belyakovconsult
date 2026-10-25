@@ -1,0 +1,38 @@
+# Перевірка запиту на зміни: тексти, ліміти, розклад, тестова збірка сайту.
+# Звіт видно у вкладці «Checks» → Summary. Збірку можна завантажити й переглянути.
+name: Перевірка контенту
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: pip install -r scripts/requirements.txt
+      - name: Перевірити статті й дописи
+        run: python scripts/validate.py
+      - name: Тестова збірка (включно з майбутніми датами)
+        env:
+          PIPELINE_NOW: "2100-01-01 00:00"
+        run: python scripts/build_site.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-site
+          path: |
+            site/insights
+            site/en/insights
+            site/pt/insights
+            site/assets/insights
+          retention-days: 7

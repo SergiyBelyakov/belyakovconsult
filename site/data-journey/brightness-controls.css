@@ -1,0 +1,21 @@
+/* Scene brightness control. Docked inside the 3D navigation panel (#inspectControls),
+   so it sits in the toolbar row and never covers the scheme. */
+.bc-light-control{display:flex;align-items:center;gap:7px;margin-left:4px;padding-left:10px;border-left:1px solid rgba(168,176,188,.22);color:#f4f6f8;font:500 10px Inter,Arial,sans-serif;white-space:nowrap}
+.bc-light-control label{color:#bfc7d2;letter-spacing:.03em;cursor:pointer}
+.bc-light-control input[type=range]{width:92px;height:16px;margin:0;accent-color:#ff4d4d;cursor:pointer}
+.bc-light-control output{min-width:34px;font-variant-numeric:tabular-nums;text-align:right;color:#f4f6f8}
+.bc-light-control button{display:grid;place-items:center;min-height:26px;min-width:26px;padding:0;background:rgba(255,255,255,.05);border:1px solid rgba(168,176,188,.25);border-radius:3px;font-size:14px;color:#f4f6f8;cursor:pointer}
+.bc-light-control button:hover{border-color:#ff4d4d;color:#ff4d4d}
+/* Narrower screens: a sun icon instead of the word, so the panel stays in one compact row. */
+@media(max-width:1500px){
+ .bc-light-control label{font-size:0;line-height:0}
+ .bc-light-control label::before{content:'';display:block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4d4d 0 34%,transparent 36%),conic-gradient(from 0deg,#ff4d4d 0 6%,transparent 6% 12.5%,#ff4d4d 12.5% 18.5%,transparent 18.5% 25%,#ff4d4d 25% 31%,transparent 31% 37.5%,#ff4d4d 37.5% 43.5%,transparent 43.5% 50%,#ff4d4d 50% 56%,transparent 56% 62.5%,#ff4d4d 62.5% 68.5%,transparent 68.5% 75%,#ff4d4d 75% 81%,transparent 81% 87.5%,#ff4d4d 87.5% 93.5%,transparent 93.5%);-webkit-mask:radial-gradient(circle,#000 0 72%,transparent 74%);mask:radial-gradient(circle,#000 0 72%,transparent 74%)}
+}
+@media(max-width:1000px){.bc-light-control{gap:5px;margin-left:2px;padding-left:6px;font-size:9px}.bc-light-control input[type=range]{width:70px}.bc-light-control output{min-width:30px}.bc-light-control button{min-height:24px;min-width:24px;font-size:12px}}
+@media(max-width:600px){.bc-light-control input[type=range]{width:58px}.bc-light-control output{font-size:8px;min-width:27px}}
+/* Medium desktop: keep the panel in the toolbar row without touching the scene buttons. */
+@media(min-width:1001px) and (max-width:1440px){.bc-light-control output{display:none}.bc-light-control input[type=range]{width:74px}}
+@media(min-width:1001px) and (max-width:1180px){#inspectControls .orbit-label{display:none}.bc-light-control input[type=range]{width:62px}}
+/* Tablet: the toolbar has room, so the panel joins its row instead of sitting on the scene. */
+@media(min-width:680px) and (max-width:1000px){#visual .inspect-controls,#visual[data-view=model] .inspect-controls{top:34px!important}}
+@media(min-width:1001px) and (max-width:1060px){.bc-light-control input[type=range]{width:44px}.bc-light-control{padding-left:7px;margin-left:2px}}

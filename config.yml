@@ -1,0 +1,119 @@
+# Налаштування конвеєра Belyakov Consult.
+# Усе, що можна змінювати без програмування, зібрано тут.
+
+# dry-run — нічого не публікується в соцмережі, лише пишеться в журнал і приходить у Telegram-адмінку.
+# live    — справжня публікація. Перемикайте після перевірки першого тижня.
+mode: dry-run
+
+timezone: Europe/Kyiv
+
+# Якщо допис «прострочений» більше ніж на стільки годин (наприклад, конвеєр був вимкнений),
+# його не публікуємо автоматично, а надсилаємо нагадування.
+max_late_hours: 48
+
+site:
+  base_url: https://www.belyakovconsult.com
+  name: Belyakov Consult
+  tagline: BI • Data Architecture • Data Governance
+  # Папка сайту в цьому репозиторії. Шапка, підвал і стилі статей беруться зі сторінки cases/ цього сайту.
+  output_dir: site
+  # Шлях розділу статей (однаковий для всіх мов, мовний префікс додається автоматично).
+  insights_path: /insights/
+  theme_color: "#05070A"
+  accent_color: "#D90429"
+  email: hello@belyakovconsult.com
+  phone: "+380 93 685 97 79"
+  links:
+    linkedin: https://www.linkedin.com/in/sergiy-belyakov
+    instagram: https://www.instagram.com/belyakovconsult/
+    threads: https://www.threads.com/@belyakovconsult
+    telegram: https://t.me/+380936859779
+
+languages:
+  uk:
+    prefix: ""
+    label: UA
+    locale: uk_UA
+    author: Сергій Бєляков
+    insights_title: Матеріали
+    insights_heading: Нотатки про дані без теорії заради теорії
+    insights_lead: Пишу про ситуації, де слабке визначення, невдала модель або погана якість даних змінюють висновок. Тут важлива не термінологія, а наслідок для рішення.
+    insights_page_title: Матеріали про дані, BI та управління
+    insights_description: Практичні матеріали про якість даних, BI, архітектуру, управління даними та GovTech без теорії заради теорії.
+    nav: {services: Послуги, cases: Кейси, insights: Матеріали, about: Про мене, contact: Контакти}
+    cta_title: Схожа задача у вашій команді?
+    cta_text: Опишіть ситуацію кількома реченнями. Відповім, з чого я б почав і чи можу допомогти.
+    cta_button: Обговорити задачу
+    read_time: хв читання
+    related: Напрям
+    all_articles: Усі матеріали
+    published: Опубліковано
+  en:
+    prefix: /en
+    label: EN
+    locale: en_GB
+    author: Sergiy Belyakov
+    insights_title: Articles
+    insights_heading: Notes on data without theory for its own sake
+    insights_lead: I write about situations where a weak definition, a poor model or bad data quality changes the conclusion. The terminology matters less than the decision it affects.
+    insights_page_title: Articles on data, BI and governance
+    insights_description: Practical notes on data quality, BI, architecture, governance and GovTech, written around real decision problems.
+    nav: {services: Services, cases: Cases, insights: Articles, about: About, contact: Contact}
+    cta_title: A similar problem in your team?
+    cta_text: Describe the situation in a few sentences. I will reply with where I would start and whether I can help.
+    cta_button: Discuss your project
+    read_time: min read
+    related: Service
+    all_articles: All articles
+    published: Published
+  pt:
+    prefix: /pt
+    label: PT
+    locale: pt_PT
+    author: Sergiy Belyakov
+    insights_title: Artigos
+    insights_heading: Notas sobre dados sem teoria pela teoria
+    insights_lead: Escrevo sobre situações em que uma definição fraca, um modelo mal desenhado ou má qualidade dos dados altera a conclusão. A terminologia importa menos do que a decisão afetada.
+    insights_page_title: Artigos sobre dados, BI e governação
+    insights_description: Notas práticas sobre qualidade dos dados, BI, arquitetura, governação e GovTech, centradas em problemas reais de decisão.
+    nav: {services: Serviços, cases: Casos, insights: Artigos, about: Sobre, contact: Contacto}
+    cta_title: Um problema semelhante na sua equipa?
+    cta_text: Descreva a situação em poucas frases. Respondo por onde começaria e se posso ajudar.
+    cta_button: Falar sobre o projeto
+    read_time: min de leitura
+    related: Serviço
+    all_articles: Todos os artigos
+    published: Publicado
+
+# Сторінки послуг, на які статті ставлять внутрішні посилання (ключ використовується у статтях).
+services:
+  data-strategy: {path: /data-strategy/, uk: Стратегія даних (Data Strategy), en: Data Strategy, pt: Estratégia de dados}
+  data-analysis: {path: /data-analysis/, uk: Аналіз даних (Data Analysis), en: Data Analysis, pt: Análise de dados}
+  business-intelligence: {path: /business-intelligence/, uk: Бізнес-аналітика (BI), en: Business Intelligence, pt: Business Intelligence}
+  financial-analytics: {path: /financial-analytics/, uk: Фінансова аналітика, en: Financial Analytics, pt: Análise financeira}
+  management-analytics: {path: /management-analytics/, uk: Управлінська аналітика, en: Management Analytics, pt: Análise de gestão}
+  data-architecture: {path: /data-architecture/, uk: Архітектура даних (Data Architecture), en: Data Architecture, pt: Arquitetura de dados}
+  data-quality: {path: /data-quality/, uk: Якість даних (Data Quality), en: Data Quality, pt: Qualidade de dados}
+  data-governance: {path: /data-governance/, uk: Управління даними (Data Governance), en: Data Governance, pt: Governação de dados}
+  geospatial-analysis: {path: /geospatial-analysis/, uk: Геопросторовий аналіз, en: Geospatial Analysis, pt: Análise geoespacial}
+
+channels:
+  linkedin:
+    enabled: true
+    max_chars: 3000
+    api_version: "202608"   # заголовок LinkedIn-Version; оновлюйте раз на рік
+  threads:
+    enabled: true
+    max_chars: 500
+  telegram:
+    enabled: true
+    max_chars: 4096
+  instagram:
+    enabled: true
+    max_chars: 2200
+    auto: false             # Instagram публікуєте вручну: конвеєр надсилає підпис і картки в Telegram-адмінку
+
+# Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
+utm:
+  enabled: true
+  medium: social
