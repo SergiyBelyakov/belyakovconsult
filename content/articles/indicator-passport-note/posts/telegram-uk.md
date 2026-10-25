@@ -1,7 +1,7 @@
 ---
 channel: telegram
 lang: uk
-publish_at: 2026-10-25 22:50
+publish_at: 2026-10-26 10:00
 link: false
 ---
 **Скільки у вас отримувачів послуг?**
