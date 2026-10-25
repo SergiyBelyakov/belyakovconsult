@@ -3,26 +3,24 @@ channel: linkedin
 lang: en
 publish_at: 2026-10-29 16:00
 ---
-98% complete sounds like good news.
+The “document number” field is 98% complete. The quality report glows green, and technically it is not lying.
 
-But completeness answers only one question: is there anything in the field at all?
+The catch: completeness answers only one question. Is there anything in the field at all? And “anything” covers a lot. In an illustrative register, the same 98% happily includes:
 
-The same 98% includes:
-— “0” and “-” in the document number field
-— a date instead of a number
-— a series typed into the number field
-— six values where the reference list allows two
+• “0” and “-”, typed so the form would finally agree to save
+• a date where the number should be
+• a document series typed into the number field
+• six values where the reference list allows two
 
-Many of these records cannot be used to match registers, find duplicates or check eligibility for a payment. The report still says all is well.
+Completeness is like checking that an envelope has a sheet of paper inside. It says nothing about what is written on it. (The analogy has limits: in data, the sheet is sometimes in someone else’s envelope, meaning the record belongs to the wrong person.) What we actually care about is fitness for use.
 
-What helps in practice:
-1. Start from the decision made with this data.
-2. Write the business rule for each critical field in plain words.
-3. Count “fit for use” separately from “filled in”.
-4. Decide who fixes errors at the source, not in the report.
+How to check your own data in half an hour:
+1. Pick one field a decision depends on: a payment, a register match, coverage.
+2. Write down, in plain words, the rule a valid value must follow.
+3. Count two numbers: “filled in” and “passes the rule”.
 
-The gap between “filled in” and “fit for use” is the real amount of data quality work.
+If the second is noticeably smaller, you have just found the real size of your data quality work. And probably a place where the report says something other than what leadership thinks it says.
 
-Examples and checks in more detail: {{link}}
+Examples and checks: {{link}}
 
 #DataQuality #DataGovernance #PublicSector

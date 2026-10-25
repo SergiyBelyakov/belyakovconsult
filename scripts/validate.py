@@ -64,6 +64,8 @@ def main() -> int:
             warns.append(f"{where}: допис ({p.publish_at:%Y-%m-%d}) раніше за статтю ({a.date}) — він чекатиме на неї")
         if p.link and "{{link}}" not in p.body:
             warns.append(f"{where}: у тексті немає {{{{link}}}} — посилання на статтю не буде")
+        if any(ch in p.body for ch in "\u2013\u2014"):
+            warns.append(f"{where}: є тире «—» або «–»; за профілем голосу їх не використовуємо (список: «•» або 1., 2.)")
         limit = cfg["channels"][p.channel]["max_chars"]
         parts = [render_post_text(p, cfg, x) for x in p.parts()]
         if p.channel == "threads":
