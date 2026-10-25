@@ -19,7 +19,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import channels  # noqa: E402
 from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
-                    load_state, now, render_post_text, save_state, social_asset_dir)
+                    load_state, now, render_post_text, save_state, social_asset_dir,
+                    social_asset_url)
 
 MAX_ATTEMPTS = 3
 NAMES = {"linkedin": "LinkedIn", "linkedinpage": "LinkedIn (сторінка Belyakov Consult)", "threads": "Threads", "telegram": "Telegram", "instagram": "Instagram"}
@@ -45,6 +46,8 @@ def admin(text: str, photos: list[Path] | None = None) -> None:
 def manual_reason(post, cfg) -> str | None:
     if post.channel == "instagram" and not cfg["channels"]["instagram"].get("auto"):
         return "Instagram публікується вручну"
+    if post.channel == "instagram" and not os.environ.get("INSTAGRAM_TOKEN"):
+        return "немає секрету INSTAGRAM_TOKEN"
     need = {"linkedin": ["LINKEDIN_TOKEN"], "linkedinpage": ["LINKEDIN_ORG_ID"], "threads": ["THREADS_TOKEN"],
             "telegram": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHANNEL_ID"]}.get(post.channel, [])
     missing = [k for k in need if not os.environ.get(k)]
@@ -60,6 +63,10 @@ def send(post, parts, cfg) -> dict:
         return channels.publish_threads(parts)
     if post.channel == "linkedin":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"])
+    if post.channel == "instagram":
+        slides = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
+        urls = [social_asset_url(cfg, post.slug, p.name) for p in slides]
+        return channels.publish_instagram("\n\n".join(parts), urls, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "linkedinpage":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True)
     raise channels.ChannelError(f"Невідомий канал {post.channel}")

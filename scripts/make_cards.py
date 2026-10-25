@@ -151,6 +151,7 @@ def carousel(cfg, article) -> list[Path]:
         d.text((M, H - 90), "→" if i < total else host, font=font("semi", 30), fill=MUTED)
         p = out / f"slide-{i}.png"
         img.save(p, optimize=True)
+        img.save(out / f"slide-{i}.jpg", "JPEG", quality=92, optimize=True, progressive=False)  # для API Instagram
         paths.append(p)
     return paths
 

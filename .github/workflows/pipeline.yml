@@ -44,6 +44,7 @@ jobs:
           LINKEDIN_PAGE_TOKEN: ${{ secrets.LINKEDIN_PAGE_TOKEN }}
           LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
           THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
         run: python scripts/publish.py ${{ github.repository != 'SergiyBelyakov/belyakovconsult' && '--dry-run' || '' }}
 
       - name: Зберегти сайт і журнал публікацій

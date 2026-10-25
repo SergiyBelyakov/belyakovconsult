@@ -124,7 +124,8 @@ channels:
   instagram:
     enabled: true
     max_chars: 2200
-    auto: false             # Instagram публікуєте вручну: конвеєр надсилає підпис і картки в Telegram-адмінку
+    auto: true              # з секретом INSTAGRAM_TOKEN карусель публікується сама; без нього підпис і картки йдуть вам у Telegram
+    api_version: v26.0
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

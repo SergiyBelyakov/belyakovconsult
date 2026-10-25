@@ -1,6 +1,6 @@
 """Продовжує токен Threads ще на 60 днів і записує новий токен у файл (не в журнал).
 
-Запуск: python scripts/refresh_threads.py <файл-для-нового-токена>
+Запуск: python scripts/refresh_threads.py <файл-для-нового-токена> [threads|instagram]
 Використовується щотижневим workflow; сам секрет оновлює `gh secret set`.
 """
 from __future__ import annotations
@@ -14,19 +14,22 @@ import channels  # noqa: E402
 
 
 def main() -> int:
-    token = os.environ.get("THREADS_TOKEN")
+    network = sys.argv[2] if len(sys.argv) > 2 else "threads"
+    var, name, fn = {"threads": ("THREADS_TOKEN", "Threads", channels.threads_refresh),
+                     "instagram": ("INSTAGRAM_TOKEN", "Instagram", channels.instagram_refresh)}[network]
+    token = os.environ.get(var)
     if not token or len(sys.argv) < 2:
-        print("Немає THREADS_TOKEN або шляху до файлу — пропускаю.")
+        print(f"Немає {var} або шляху до файлу — пропускаю.")
         return 0
-    data = channels.threads_refresh(token)
+    data = fn(token)
     new = data.get("access_token")
     if not new:
-        print("Threads не повернув новий токен.")
+        print(f"{name} не повернув новий токен.")
         return 1
     print(f"::add-mask::{new}")
     Path(sys.argv[1]).write_text(new, encoding="utf-8")
     days = int(data.get("expires_in", 0)) // 86400
-    print(f"Токен Threads продовжено, діє ще {days} дн.")
+    print(f"Токен {name} продовжено, діє ще {days} дн.")
     return 0
 
 

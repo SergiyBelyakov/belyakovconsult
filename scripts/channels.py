@@ -167,3 +167,66 @@ def publish_linkedin(parts: list[str], version: str, as_page: bool = False) -> d
     post_id = r.headers.get("x-restli-id") or r.headers.get("X-RestLi-Id")
     url = f"https://www.linkedin.com/feed/update/{post_id}/" if post_id else None
     return {"id": post_id, "url": url}
+
+
+# ---------------------------------------------------------------- Instagram (API with Instagram Login)
+
+IG_API = "https://graph.instagram.com"
+
+
+def _ig_wait(container_id: str, token: str, version: str, limit: int = 300) -> None:
+    deadline = time.time() + limit
+    while time.time() < deadline:
+        r = requests.get(f"{IG_API}/{version}/{container_id}", timeout=TIMEOUT,
+                         params={"fields": "status_code,status", "access_token": token})
+        data = _check(r, "Instagram (статус)")
+        code = data.get("status_code")
+        if code in (None, "FINISHED"):
+            return
+        if code in ("ERROR", "EXPIRED"):
+            raise ChannelError(f"Instagram: контейнер {code}: {data.get('status')}")
+        time.sleep(5)
+    raise ChannelError("Instagram: контейнер не готовий за 5 хвилин")
+
+
+def publish_instagram(caption: str, image_urls: list[str], version: str) -> dict:
+    """Одне фото або карусель (2–20 JPEG за публічними адресами)."""
+    if not image_urls:
+        raise ChannelError("Instagram: немає зображень для публікації")
+    token = os.environ["INSTAGRAM_TOKEN"]
+    base = f"{IG_API}/{version}"
+    me = _check(requests.get(f"{base}/me", timeout=TIMEOUT,
+                             params={"fields": "user_id,username", "access_token": token}), "Instagram (профіль)")
+    ig_id = os.environ.get("INSTAGRAM_USER_ID") or me.get("user_id") or me.get("id")
+    for u in image_urls:
+        h = requests.head(u, timeout=TIMEOUT, allow_redirects=True)
+        if h.status_code >= 300:
+            raise ChannelError(f"Instagram: зображення ще недоступне на сайті ({h.status_code}): {u}")
+    if len(image_urls) == 1:
+        c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data={
+            "image_url": image_urls[0], "caption": caption, "access_token": token}), "Instagram (контейнер)")
+        creation = c["id"]
+    else:
+        children = []
+        for u in image_urls[:20]:
+            c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data={
+                "image_url": u, "is_carousel_item": "true", "access_token": token}), "Instagram (слайд)")
+            children.append(c["id"])
+        for cid in children:
+            _ig_wait(cid, token, version)
+        c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data={
+            "media_type": "CAROUSEL", "children": ",".join(children), "caption": caption,
+            "access_token": token}), "Instagram (карусель)")
+        creation = c["id"]
+    _ig_wait(creation, token, version)
+    p = _check(requests.post(f"{base}/{ig_id}/media_publish", timeout=TIMEOUT,
+                             data={"creation_id": creation, "access_token": token}), "Instagram (публікація)")
+    media_id = p.get("id")
+    info = requests.get(f"{base}/{media_id}", timeout=TIMEOUT, params={"fields": "permalink", "access_token": token})
+    return {"id": media_id, "url": (info.json() if info.ok else {}).get("permalink")}
+
+
+def instagram_refresh(token: str) -> dict:
+    r = requests.get(f"{IG_API}/refresh_access_token", timeout=TIMEOUT,
+                     params={"grant_type": "ig_refresh_token", "access_token": token})
+    return _check(r, "Instagram (оновлення токена)")

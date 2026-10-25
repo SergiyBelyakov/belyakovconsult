@@ -39,10 +39,24 @@ jobs:
             rm -f "$RUNNER_TEMP/threads_token"
           fi
 
+      - name: Продовжити токен Instagram (якщо є GH_PAT)
+        if: env.HAS_PAT == 'true'
+        env:
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          python scripts/refresh_threads.py "$RUNNER_TEMP/ig_token" instagram
+          if [ -s "$RUNNER_TEMP/ig_token" ]; then
+            gh secret set INSTAGRAM_TOKEN < "$RUNNER_TEMP/ig_token"
+            gh variable set INSTAGRAM_TOKEN_DATE --body "$(date -u +%Y-%m-%d)"
+            rm -f "$RUNNER_TEMP/ig_token"
+          fi
+
       - name: Надіслати дайджест
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
           LINKEDIN_TOKEN_DATE: ${{ vars.LINKEDIN_TOKEN_DATE }}
           THREADS_TOKEN_DATE: ${{ vars.THREADS_TOKEN_DATE }}
+          INSTAGRAM_TOKEN_DATE: ${{ vars.INSTAGRAM_TOKEN_DATE }}
         run: python scripts/digest.py
