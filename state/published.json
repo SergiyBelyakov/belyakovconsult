@@ -1,4 +1,10 @@
 {
+  "channel-intro/telegram-uk": {
+    "at": "2026-10-25 22:33",
+    "id": 3,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/3"
+  },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
