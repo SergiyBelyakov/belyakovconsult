@@ -7,7 +7,7 @@ mode: dry-run
 
 # Канали, які публікуються по-справжньому навіть у режимі dry-run.
 # Додавайте мережу сюди, коли її ключі налаштовані й перевірені.
-live_channels: [telegram]
+live_channels: []   # після створення каналу: [telegram]
 
 timezone: Europe/Kyiv
 
