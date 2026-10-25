@@ -10,8 +10,8 @@ content/articles/<slug>/
   uk.md                 стаття українською (головна)
   en.md                 стаття англійською (для важливих тем)
   posts/
-    linkedin-uk.md      допис LinkedIn, укр.
-    linkedin-en.md      допис LinkedIn, англ. (якщо є en.md)
+    linkedinpage-uk.md  допис для сторінки Belyakov Consult у LinkedIn, укр.
+    linkedinpage-en.md  те саме англійською (якщо є en.md)
     threads-uk.md       тред з 2–4 частин
     telegram-uk.md      допис для Telegram-каналу
     instagram-uk.md     підпис до каруселі
@@ -42,7 +42,7 @@ carousel:                 # лише в uk.md, 4–6 слайдів для Insta
 
 ```yaml
 ---
-channel: linkedin        # linkedin | threads | telegram | instagram
+channel: linkedinpage    # linkedinpage | threads | telegram | instagram
 lang: uk
 publish_at: 2026-10-28 09:30   # час за Києвом
 link: false              # лише для instagram (без посилання на статтю)
@@ -62,10 +62,10 @@ link: false              # лише для instagram (без посилання 
 
 | День | Що виходить |
 | --- | --- |
-| Середа 09:30 | стаття на сайті + LinkedIn UA |
+| Середа 09:30 | стаття на сайті + сторінка LinkedIn UA |
 | Середа 12:00 | Threads |
 | Четвер 10:00 | Telegram |
-| Четвер 16:00 | LinkedIn EN |
+| Четвер 16:00 | сторінка LinkedIn EN |
 | П’ятниця 12:00 | Instagram |
 
 Допис не вийде раніше, ніж з’явиться стаття, навіть якщо час настав.

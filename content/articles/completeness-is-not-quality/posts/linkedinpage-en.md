@@ -1,5 +1,5 @@
 ---
-channel: linkedin
+channel: linkedinpage
 lang: en
 publish_at: 2026-10-29 16:00
 ---
