@@ -11,6 +11,13 @@
     "at": "2026-10-25 21:00",
     "status": "dry-run"
   },
+  "pipeline-test/telegram-pt": {
+    "at": "2026-10-25 21:01",
+    "attempts": 1,
+    "error": "Telegram: HTTP 403 {\"ok\":false,\"error_code\":403,\"description\":\"Forbidden: the bot can't send messages to the bot\"}",
+    "publish_at": "2026-10-25 21:00",
+    "status": "retry"
+  },
   "pipeline-test/telegram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
