@@ -41,6 +41,8 @@ jobs:
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
           LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+          LINKEDIN_PAGE_TOKEN: ${{ secrets.LINKEDIN_PAGE_TOKEN }}
+          LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
           THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
         run: python scripts/publish.py ${{ github.repository != 'SergiyBelyakov/belyakovconsult' && '--dry-run' || '' }}
 

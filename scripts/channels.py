@@ -144,12 +144,18 @@ def linkedin_author(token: str, version: str) -> str:
     return f"urn:li:person:{sub}"
 
 
-def publish_linkedin(parts: list[str], version: str) -> dict:
-    token = os.environ["LINKEDIN_TOKEN"]
+def publish_linkedin(parts: list[str], version: str, as_page: bool = False) -> dict:
+    """as_page=True публікує від імені сторінки компанії (потрібен доступ Community Management API)."""
+    if as_page:
+        token = os.environ.get("LINKEDIN_PAGE_TOKEN") or os.environ["LINKEDIN_TOKEN"]
+        author = f"urn:li:organization:{os.environ['LINKEDIN_ORG_ID']}"
+    else:
+        token = os.environ["LINKEDIN_TOKEN"]
+        author = None
     headers = {"Authorization": f"Bearer {token}", "LinkedIn-Version": version,
                "X-Restli-Protocol-Version": "2.0.0", "Content-Type": "application/json"}
     body = {
-        "author": linkedin_author(token, version),
+        "author": author or linkedin_author(token, version),
         "commentary": linkedin_commentary("\n\n".join(parts)),
         "visibility": "PUBLIC",
         "distribution": {"feedDistribution": "MAIN_FEED", "targetEntities": [], "thirdPartyDistributionChannels": []},

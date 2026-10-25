@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "articles"
 STATE_FILE = ROOT / "state" / "published.json"
 
-CHANNELS = ("linkedin", "threads", "telegram", "instagram")
+CHANNELS = ("linkedin", "linkedinpage", "threads", "telegram", "instagram")
 NEXT_MARK = "<!-- next -->"  # розділювач частин треду в Threads
 
 

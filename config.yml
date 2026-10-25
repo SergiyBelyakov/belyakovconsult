@@ -110,6 +110,11 @@ channels:
     enabled: true
     max_chars: 3000
     api_version: "202608"   # заголовок LinkedIn-Version; оновлюйте раз на рік
+  # Сторінка компанії Belyakov Consult. Потрібні секрети LINKEDIN_ORG_ID і LINKEDIN_PAGE_TOKEN
+  # (токен застосунку з продуктом Community Management API, дозвіл w_organization_social).
+  linkedinpage:
+    enabled: true
+    max_chars: 3000
   threads:
     enabled: true
     max_chars: 500
