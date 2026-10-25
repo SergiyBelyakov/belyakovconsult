@@ -13,5 +13,6 @@
 <h2>{{ L.cta_title }}</h2>
 <p>{{ L.cta_text }}</p>
 <a class="btn btn-primary" href="#contact">{{ L.cta_button }}</a>
+{% if site.links.telegram_channel %}<p class="bc-channel">{{ L.channel_text }}: <a class="text-link" href="{{ site.links.telegram_channel }}" rel="noopener">@{{ site.links.telegram_channel.rsplit("/",1)[-1] }}</a></p>{% endif %}
 <p class="bc-back"><a class="text-link" href="{{ insights_home }}">{{ L.all_articles }}</a></p>
 </div></section>

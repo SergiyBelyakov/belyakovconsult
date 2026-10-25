@@ -3,6 +3,7 @@
 <span class="section-kicker">{{ L.insights_title }}</span>
 <h1>{{ L.insights_heading }}</h1>
 <p>{{ L.insights_lead }}</p>
+{% if site.links.telegram_channel %}<p class="bc-channel">{{ L.channel_text }}: <a class="text-link" href="{{ site.links.telegram_channel }}" rel="noopener">@{{ site.links.telegram_channel.rsplit("/",1)[-1] }}</a></p>{% endif %}
 </div></div></section>
 <section class="section bg-darker"><div class="container"><div class="insight-nav-grid bc-list">
 {% for item in items %}<a href="{{ item.href }}"><span><time datetime="{{ item.a.date.isoformat() }}">{{ item.date_human }}</time> · {{ item.a.read_minutes }} {{ L.read_time }}</span><strong>{{ item.a.title }}</strong><em>{{ item.a.description }}</em></a>

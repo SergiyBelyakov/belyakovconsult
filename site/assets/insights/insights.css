@@ -21,6 +21,7 @@
 .bc-cta h2{font-size:clamp(1.7rem,3vw,2.4rem)}
 .bc-cta .btn{display:inline-block;margin-top:6px}
 .bc-back{margin-top:40px!important}
+.bc-channel{margin:18px 0 0!important;color:#9ca7b5!important;font-size:.98rem!important}
 .bc-list{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .bc-list a{gap:18px}
 .bc-list span{letter-spacing:.12em;text-transform:uppercase}

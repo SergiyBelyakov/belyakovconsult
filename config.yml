@@ -7,7 +7,7 @@ mode: dry-run
 
 # Канали, які публікуються по-справжньому навіть у режимі dry-run.
 # Додавайте мережу сюди, коли її ключі налаштовані й перевірені.
-live_channels: []   # після створення каналу: [telegram]
+live_channels: [telegram]
 
 timezone: Europe/Kyiv
 
@@ -32,6 +32,7 @@ site:
     instagram: https://www.instagram.com/belyakovconsult/
     threads: https://www.threads.com/@belyakovconsult
     telegram: https://t.me/+380936859779
+    telegram_channel: https://t.me/belyakovconsult
 
 languages:
   uk:
@@ -51,6 +52,7 @@ languages:
     read_time: хв читання
     related: Напрям
     all_articles: Усі матеріали
+    channel_text: Короткі розбори про дані щотижня в Telegram-каналі
     published: Опубліковано
   en:
     prefix: /en
@@ -69,6 +71,7 @@ languages:
     read_time: min read
     related: Service
     all_articles: All articles
+    channel_text: Short weekly notes on data in the Telegram channel (in Ukrainian)
     published: Published
   pt:
     prefix: /pt
@@ -87,6 +90,7 @@ languages:
     read_time: min de leitura
     related: Serviço
     all_articles: Todos os artigos
+    channel_text: Notas semanais sobre dados no canal do Telegram (em ucraniano)
     published: Publicado
 
 # Сторінки послуг, на які статті ставлять внутрішні посилання (ключ використовується у статтях).
