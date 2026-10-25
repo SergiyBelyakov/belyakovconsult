@@ -65,7 +65,10 @@ def send(post, parts, cfg) -> dict:
 
 def main() -> int:
     cfg = load_config()
-    dry = cfg.get("mode") != "live" or "--dry-run" in sys.argv
+    forced_dry = "--dry-run" in sys.argv
+    live_channels = set(cfg.get("live_channels") or [])
+    is_dry = lambda ch: forced_dry or (cfg.get("mode") != "live" and ch not in live_channels)  # noqa: E731
+    dry = forced_dry or (cfg.get("mode") != "live" and not live_channels)
     t = now(cfg)
     state = load_state()
     live_articles = {(a.slug, a.lang) for a in load_articles(cfg, include_drafts=True) if is_live(a, cfg)}
@@ -96,7 +99,7 @@ def main() -> int:
         photos = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1])) \
             if post.channel == "instagram" else []
 
-        if dry:
+        if is_dry(post.channel):
             state[post.key] = {"status": "dry-run", "at": fmt_dt(t)}
             admin(f"🧪 Тестовий режим. Зараз вийшов би допис у {name} ({post.slug}):\n\n" + "\n\n— — —\n\n".join(parts),
                   photos or None)
@@ -126,7 +129,8 @@ def main() -> int:
                   + ("\nБільше спроб не буде — перевірте токен або текст." if attempts >= MAX_ATTEMPTS else ""))
 
     save_state(state)
-    summary = f"Режим: {'dry-run' if dry else 'live'}. Оброблено дописів: {done}. Час: {fmt_dt(t)}"
+    mode_txt = "dry-run" if dry else ("live" if cfg.get("mode") == "live" else f"live лише для: {', '.join(sorted(live_channels))}")
+    summary = f"Режим: {mode_txt}. Оброблено дописів: {done}. Час: {fmt_dt(t)}"
     print(summary)
     write_report(summary, dry)
     return 0
