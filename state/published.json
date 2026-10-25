@@ -7,6 +7,10 @@
     "at": "2026-10-25 03:03",
     "status": "dry-run"
   },
+  "pipeline-test/telegram-en": {
+    "at": "2026-10-25 21:00",
+    "status": "dry-run"
+  },
   "pipeline-test/telegram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
