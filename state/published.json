@@ -5,6 +5,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/3"
   },
+  "indicator-passport-note/telegram-uk": {
+    "at": "2026-10-25 22:55",
+    "id": 4,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/4"
+  },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
