@@ -70,9 +70,35 @@ def telegram_send_photos(chat_id: str, paths: list[Path], caption: str | None = 
         _check(r, "Telegram (фото)")
 
 
-def publish_telegram(parts: list[str]) -> dict:
+def telegram_video(chat_id: str, video_url: str, caption: str | None = None, reply_to: int | None = None) -> dict:
+    token = os.environ["TELEGRAM_BOT_TOKEN"]
+    payload = {"chat_id": chat_id, "video": video_url, "supports_streaming": True,
+               "width": 1080, "height": 1920}
+    if caption:
+        payload.update(caption=md_to_telegram_html(caption), parse_mode="HTML")
+    if reply_to:
+        payload["reply_parameters"] = {"message_id": reply_to}
+    data = _check(requests.post(f"https://api.telegram.org/bot{token}/sendVideo", json=payload, timeout=120), "Telegram (відео)")
+    msg = data.get("result", {})
+    chat = msg.get("chat", {})
+    url = f"https://t.me/{chat['username']}/{msg.get('message_id')}" if chat.get("username") else None
+    return {"id": msg.get("message_id"), "url": url}
+
+
+TG_CAPTION_LIMIT = 1024
+
+
+def publish_telegram(parts: list[str], video_url: str | None = None) -> dict:
     chat = os.environ["TELEGRAM_CHANNEL_ID"]
-    return telegram_send(chat, "\n\n".join(parts))
+    text = "\n\n".join(parts)
+    if not video_url:
+        return telegram_send(chat, text)
+    if len(md_to_telegram_html(text)) <= TG_CAPTION_LIMIT:
+        return telegram_video(chat, video_url, caption=text)
+    # Текст довший за підпис до відео: спершу текст, відео відповіддю на нього
+    first = telegram_send(chat, text, preview=False)
+    telegram_video(chat, video_url, reply_to=first["id"])
+    return first
 
 
 # ---------------------------------------------------------------- Threads
@@ -80,7 +106,7 @@ def publish_telegram(parts: list[str]) -> dict:
 THREADS_API = "https://graph.threads.net/v1.0"
 
 
-def _threads_wait(container_id: str, token: str, limit: int = 60) -> None:
+def _threads_wait(container_id: str, token: str, limit: int = 300) -> None:
     deadline = time.time() + limit
     while time.time() < deadline:
         r = requests.get(f"{THREADS_API}/{container_id}", timeout=TIMEOUT,
@@ -95,12 +121,14 @@ def _threads_wait(container_id: str, token: str, limit: int = 60) -> None:
     raise ChannelError("Threads: контейнер не готовий за 60 секунд")
 
 
-def publish_threads(parts: list[str]) -> dict:
+def publish_threads(parts: list[str], video_url: str | None = None) -> dict:
     token = os.environ["THREADS_TOKEN"]
     first_id = first_url = None
     reply_to = None
-    for text in parts:
+    for i, text in enumerate(parts):
         params = {"media_type": "TEXT", "text": text, "access_token": token}
+        if i == 0 and video_url:
+            params.update(media_type="VIDEO", video_url=video_url)
         if reply_to:
             params["reply_to_id"] = reply_to
         c = _check(requests.post(f"{THREADS_API}/me/threads", params=params, timeout=TIMEOUT), "Threads (контейнер)")
@@ -185,8 +213,8 @@ def _ig_wait(container_id: str, token: str, version: str, limit: int = 300) -> N
             return
         if code in ("ERROR", "EXPIRED"):
             raise ChannelError(f"Instagram: контейнер {code}: {data.get('status')}")
-        time.sleep(5)
-    raise ChannelError("Instagram: контейнер не готовий за 5 хвилин")
+        time.sleep(10)
+    raise ChannelError(f"Instagram: контейнер не готовий за {limit // 60} хв")
 
 
 def publish_instagram(caption: str, image_urls: list[str], version: str) -> dict:
@@ -221,6 +249,26 @@ def publish_instagram(caption: str, image_urls: list[str], version: str) -> dict
     _ig_wait(creation, token, version)
     p = _check(requests.post(f"{base}/{ig_id}/media_publish", timeout=TIMEOUT,
                              data={"creation_id": creation, "access_token": token}), "Instagram (публікація)")
+    media_id = p.get("id")
+    info = requests.get(f"{base}/{media_id}", timeout=TIMEOUT, params={"fields": "permalink", "access_token": token})
+    return {"id": media_id, "url": (info.json() if info.ok else {}).get("permalink")}
+
+
+def publish_instagram_reel(caption: str, video_url: str, version: str) -> dict:
+    token = os.environ["INSTAGRAM_TOKEN"]
+    base = f"{IG_API}/{version}"
+    me = _check(requests.get(f"{base}/me", timeout=TIMEOUT,
+                             params={"fields": "user_id,username", "access_token": token}), "Instagram (профіль)")
+    ig_id = os.environ.get("INSTAGRAM_USER_ID") or me.get("user_id") or me.get("id")
+    h = requests.head(video_url, timeout=TIMEOUT, allow_redirects=True)
+    if h.status_code >= 300:
+        raise ChannelError(f"Instagram: відео ще недоступне на сайті ({h.status_code}): {video_url}")
+    c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data={
+        "media_type": "REELS", "video_url": video_url, "caption": caption, "share_to_feed": "true",
+        "thumb_offset": "2500", "access_token": token}), "Instagram (Reels)")
+    _ig_wait(c["id"], token, version, limit=900)
+    p = _check(requests.post(f"{base}/{ig_id}/media_publish", timeout=TIMEOUT,
+                             data={"creation_id": c["id"], "access_token": token}), "Instagram (публікація)")
     media_id = p.get("id")
     info = requests.get(f"{base}/{media_id}", timeout=TIMEOUT, params={"fields": "permalink", "access_token": token})
     return {"id": media_id, "url": (info.json() if info.ok else {}).get("permalink")}

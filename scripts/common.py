@@ -81,6 +81,7 @@ class Post:
     body: str
     link: bool = True
     images: list = field(default_factory=list)
+    media: str | None = None     # motion | carousel | none (за замовчуванням із config.yml)
 
     @property
     def key(self) -> str:
@@ -159,6 +160,7 @@ def load_posts(cfg: dict) -> list[Post]:
             body=body.strip(),
             link=bool(meta.get("link", True)),
             images=list(meta.get("images") or []),
+            media=meta.get("media"),
         ))
     return out
 
@@ -189,6 +191,44 @@ def service_link(cfg: dict, key: str, lang: str) -> tuple[str, str] | None:
 def render_post_text(post: Post, cfg: dict, part: str | None = None) -> str:
     text = part if part is not None else post.body
     return text.replace("{{link}}", article_url(cfg, post.lang, post.slug, post.channel))
+
+
+def signature(cfg: dict, channel: str, lang: str) -> str:
+    sig = (cfg.get("signatures") or {}).get(channel) or {}
+    if isinstance(sig, str):
+        return sig
+    return sig.get(lang) or sig.get("uk") or ""
+
+
+def _is_hashtags(par: str) -> bool:
+    words = par.split()
+    return bool(words) and all(w.startswith("#") for w in words)
+
+
+def post_parts(post: Post, cfg: dict) -> list[str]:
+    """Готові частини допису: {{link}} підставлено, підпис з посиланнями на інші канали додано.
+
+    Підпис стає перед рядком хештегів, якщо він є. У Threads підпис іде в останню частину,
+    а якщо там не вміщається, окремою частиною.
+    """
+    parts = [render_post_text(post, cfg, p) for p in post.parts()]
+    sig = signature(cfg, post.channel, post.lang)
+    if not sig or not parts:
+        return parts
+    last = parts[-1]
+    pars = last.split("\n\n")
+    if _is_hashtags(pars[-1]):
+        new_last = "\n\n".join(pars[:-1] + [sig, pars[-1]])
+    else:
+        new_last = last + "\n\n" + sig
+    limit = cfg["channels"].get(post.channel, {}).get("max_chars", 10_000)
+    if post.channel == "threads" and len(new_last) > limit:
+        return parts + [sig]
+    return parts[:-1] + [new_last]
+
+
+def media_kind(post: Post, cfg: dict) -> str:
+    return post.media or cfg["channels"].get(post.channel, {}).get("media", "none")
 
 
 def load_state() -> dict:

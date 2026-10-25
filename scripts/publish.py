@@ -19,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import channels  # noqa: E402
 from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
-                    load_state, now, render_post_text, save_state, social_asset_dir,
+                    load_state, media_kind, now, post_parts, save_state, social_asset_dir,
                     social_asset_url)
 
 MAX_ATTEMPTS = 3
@@ -56,13 +56,25 @@ def manual_reason(post, cfg) -> str | None:
     return None
 
 
+def video_url(post, cfg) -> str | None:
+    """Адреса моушн-відео статті, якщо для каналу обрано motion і відео зібране."""
+    if media_kind(post, cfg) != "motion":
+        return None
+    if (social_asset_dir(cfg, post.slug) / "motion.mp4").exists():
+        return social_asset_url(cfg, post.slug, "motion.mp4")
+    return None
+
+
 def send(post, parts, cfg) -> dict:
+    video = video_url(post, cfg)
     if post.channel == "telegram":
-        return channels.publish_telegram(parts)
+        return channels.publish_telegram(parts, video)
     if post.channel == "threads":
-        return channels.publish_threads(parts)
+        return channels.publish_threads(parts, video)
     if post.channel == "linkedin":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"])
+    if post.channel == "instagram" and video and not post.images:
+        return channels.publish_instagram_reel("\n\n".join(parts), video, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "instagram":
         slides = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
         urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name) for p in slides]
@@ -104,13 +116,15 @@ def main() -> int:
             admin(f"⏭ Пропущено прострочений допис ({late_h:.0f} год): {name}, {post.slug}. "
                   f"Змініть publish_at у {post.path.name}, якщо його треба опублікувати.")
             continue
-        parts = [render_post_text(post, cfg, p) for p in post.parts()]
-        photos = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1])) \
-            if post.channel == "instagram" else []
+        parts = post_parts(post, cfg)
+        vid = video_url(post, cfg)
+        photos = [] if vid else (sorted(social_asset_dir(cfg, post.slug).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
+                                 if post.channel == "instagram" else [])
+        media_note = f"\n\n🎬 Моушн-відео до допису: {vid}" if vid else ""
 
         if is_dry(post.channel):
             state[post.key] = {"status": "dry-run", "at": fmt_dt(t)}
-            admin(f"🧪 Тестовий режим. Зараз вийшов би допис у {name} ({post.slug}):\n\n" + "\n\n— — —\n\n".join(parts),
+            admin(f"🧪 Тестовий режим. Зараз вийшов би допис у {name} ({post.slug}):\n\n" + "\n\n— — —\n\n".join(parts) + media_note,
                   photos or None)
             done += 1
             continue
@@ -118,7 +132,7 @@ def main() -> int:
         reason = manual_reason(post, cfg)
         if reason:
             state[post.key] = {"status": "manual-sent", "at": fmt_dt(t), "reason": reason}
-            admin(f"✋ Опублікуйте вручну в {name} ({reason}). Текст нижче:\n\n" + "\n\n— — —\n\n".join(parts),
+            admin(f"✋ Опублікуйте вручну в {name} ({reason}). Текст нижче:\n\n" + "\n\n— — —\n\n".join(parts) + media_note,
                   photos or None)
             done += 1
             continue

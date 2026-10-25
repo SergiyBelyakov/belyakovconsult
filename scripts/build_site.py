@@ -20,7 +20,9 @@ import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import brand  # noqa: E402
 import make_cards  # noqa: E402
+import make_motion  # noqa: E402
 from common import (ROOT, article_path, is_live, load_articles, load_config,  # noqa: E402
                     service_link, social_asset_url, tz)
 from shell import Shell  # noqa: E402
@@ -68,6 +70,10 @@ def meta_block(cfg, lang, *, title, description, url, alternates, og_type, og_im
 
 
 def main() -> int:
+    problems = brand.check()
+    if problems:
+        print("ПОМИЛКА БРЕНДУ, збірку зупинено:\n- " + "\n- ".join(problems))
+        return 1
     cfg = load_config()
     site = cfg["site"]
     base = site["base_url"].rstrip("/")
@@ -107,6 +113,11 @@ def main() -> int:
         main_version = versions.get("uk") or next(iter(versions.values()))
         make_cards.og_image(cfg, main_version)
         make_cards.carousel(cfg, main_version)
+        if main_version.carousel:
+            mp4 = make_motion.build(cfg, main_version)
+            frames = [make_cards.Image.open(f) for f in sorted(mp4.parent.glob("motion-frame-*.jpg"),
+                                                             key=lambda x: int(x.stem.split("-")[-1]))]
+            make_cards.brand_sheet(cfg, main_version, frames)
         og = social_asset_url(cfg, slug, "og.png")
         alternates = [(l, base + article_path(cfg, l, slug)) for l in langs_cfg if l in versions]
         if len(alternates) > 1:

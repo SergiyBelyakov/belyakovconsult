@@ -14,7 +14,8 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import CHANNELS, load_articles, load_config, load_posts, render_post_text  # noqa: E402
+from common import CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
+import brand  # noqa: E402
 
 
 def main() -> int:
@@ -28,6 +29,7 @@ def main() -> int:
         return 1
 
     idx = {(a.slug, a.lang): a for a in articles}
+    errors += [f"бренд: {x}" for x in brand.check()]
     for a in articles:
         where = f"{a.slug}/{a.lang}.md"
         if not a.title:
@@ -67,7 +69,7 @@ def main() -> int:
         if any(ch in p.body for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–»; за профілем голосу їх не використовуємо (список: «•» або 1., 2.)")
         limit = cfg["channels"][p.channel]["max_chars"]
-        parts = [render_post_text(p, cfg, x) for x in p.parts()]
+        parts = post_parts(p, cfg)
         if p.channel == "threads":
             for i, x in enumerate(parts, 1):
                 if len(x) > limit:
@@ -78,6 +80,9 @@ def main() -> int:
                 errors.append(f"{where}: {total} симв., ліміт {p.channel} {limit}")
             if len(parts) > 1:
                 warns.append(f"{where}: розділювач частин має сенс лише для Threads, тут частини буде склеєно")
+        has_motion = bool((idx.get((p.slug, "uk")) or a) and (idx.get((p.slug, "uk")) or a).carousel)
+        if p.channel == "telegram" and media_kind(p, cfg) == "motion" and has_motion and len("\n\n".join(parts)) > 1000:
+            warns.append(f"{where}: текст довший за підпис до відео (~1000 симв.), відео піде окремим повідомленням-відповіддю")
         if p.channel == "instagram":
             base = idx.get((p.slug, "uk")) or a
             if not (base and base.carousel):

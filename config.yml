@@ -7,7 +7,7 @@ mode: dry-run
 
 # Канали, які публікуються по-справжньому навіть у режимі dry-run.
 # Додавайте мережу сюди, коли її ключі налаштовані й перевірені.
-live_channels: [telegram, instagram, threads]
+live_channels: [telegram, instagram, threads, linkedinpage]   # linkedinpage без секретів LinkedIn йде вам у Telegram для ручної публікації
 
 timezone: Europe/Kyiv
 
@@ -115,17 +115,37 @@ channels:
   linkedinpage:
     enabled: true
     max_chars: 3000
+    media: motion
   threads:
     enabled: true
     max_chars: 500
+    media: motion
   telegram:
     enabled: true
     max_chars: 4096
+    media: motion
   instagram:
     enabled: true
     max_chars: 2200
     auto: true              # з секретом INSTAGRAM_TOKEN карусель публікується сама; без нього підпис і картки йдуть вам у Telegram
     api_version: v26.0
+    media: motion           # motion: Reels з моушн-відео; carousel: карусель карток
+
+# Підпис з посиланнями на інші канали. Додається в кінець кожного допису (перед хештегами).
+# media у каналах: motion (моушн-відео з карток статті), carousel (лише Instagram) або none.
+signatures:
+  telegram:
+    uk: "Сайт: [belyakovconsult.com](https://www.belyakovconsult.com/?utm_source=telegram&utm_medium=social) · [Instagram](https://www.instagram.com/belyakovconsult/) · [Threads](https://www.threads.com/@belyakovconsult)"
+    en: "Website: [belyakovconsult.com](https://www.belyakovconsult.com/en/?utm_source=telegram&utm_medium=social) · [Instagram](https://www.instagram.com/belyakovconsult/) · [Threads](https://www.threads.com/@belyakovconsult)"
+  threads:
+    uk: "Сайт: belyakovconsult.com · Telegram: t.me/belyakovconsult · Instagram: @belyakovconsult"
+    en: "Website: belyakovconsult.com · Telegram: t.me/belyakovconsult · Instagram: @belyakovconsult"
+  instagram:
+    uk: "Повна стаття, сайт і Telegram-канал: посилання в профілі. Також у Threads: @belyakovconsult"
+    en: "Full article, website and Telegram channel: link in bio. Also on Threads: @belyakovconsult"
+  linkedinpage:
+    uk: "Більше розборів: сайт belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram і Threads @belyakovconsult"
+    en: "More notes: belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram and Threads @belyakovconsult"
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

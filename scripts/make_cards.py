@@ -1,171 +1,236 @@
-"""Картинки в стилі бренду: прев’ю статті (1200×630) і карусель для Instagram (1080×1350).
+"""Візуали статті в бренді Belyakov Consult.
+
+- og.png: прев'ю для сайту й соцмереж (1200×630);
+- slide-N.png / slide-N.jpg: картки каруселі (1080×1350);
+- motion.mp4: анімовані слайди (1080×1920), див. make_motion.py;
+- brand-check.png: аркуш для візуальної перевірки бренду (усі картки й кадри відео).
+
+Слайди будуються з поля `carousel` статті. Розкладка кожного слайда описана як набір
+елементів (elements), тому картки й відео мають однаковий вигляд.
 
 Запуск окремо: python scripts/make_cards.py [slug]
-Карусель будується з поля `carousel` у статті (список слайдів {title, text}).
 """
 from __future__ import annotations
 
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import ROOT, load_articles, load_config, social_asset_dir  # noqa: E402
-
-FONTS = ROOT / "fonts"
-BG = (5, 7, 10)
-PANEL = (12, 17, 23)
-LINE = (28, 37, 48)
-TEXT = (232, 237, 242)
-MUTED = (154, 167, 180)
+import brand  # noqa: E402
+from common import load_articles, load_config, social_asset_dir  # noqa: E402
 
 
-def _hex(c: str) -> tuple[int, int, int]:
-    c = c.lstrip("#")
-    return tuple(int(c[i:i + 2], 16) for i in (0, 2, 4))
+@dataclass
+class Element:
+    name: str            # kicker, num, title, rule, body, footer, lockup, logo
+    image: Image.Image   # RGBA
+    xy: tuple[int, int]
+    order: int = 0       # порядок появи в анімації
 
 
-def font(kind: str, size: int) -> ImageFont.FreeTypeFont:
-    name = {"bold": "InterDisplay-Bold.otf", "semi": "Inter-SemiBold.otf", "reg": "Inter-Regular.otf"}[kind]
-    return ImageFont.truetype(str(FONTS / name), size)
+@dataclass
+class Slide:
+    kind: str            # cover | point | cta
+    w: int
+    h: int
+    elements: list[Element] = field(default_factory=list)
 
 
-def wrap(draw: ImageDraw.ImageDraw, text: str, f, width: int) -> list[str]:
-    lines = []
-    for para in str(text).split("\n"):
-        words, cur = para.split(), ""
-        for w in words:
-            trial = f"{cur} {w}".strip()
-            if draw.textlength(trial, font=f) <= width:
-                cur = trial
-            else:
-                if cur:
-                    lines.append(cur)
-                cur = w
-        lines.append(cur)
-    return lines
-
-
-def fit(draw, text, kind, width, max_size, min_size, max_lines):
-    """Підбирає найбільший розмір шрифту, за якого текст влазить у max_lines рядків."""
-    for size in range(max_size, min_size - 1, -2):
-        f = font(kind, size)
-        lines = wrap(draw, text, f, width)
-        if len(lines) <= max_lines:
-            return f, lines
-    f = font(kind, min_size)
-    lines = wrap(draw, text, f, width)[:max_lines]
-    lines[-1] = lines[-1].rstrip(".,; ") + "…"
-    return f, lines
-
-
-def draw_lines(draw, xy, lines, f, fill, spacing=1.22):
-    x, y = xy
+def _text_block(lines, f, fill, spacing=1.2) -> Image.Image:
     step = int(f.size * spacing)
-    for ln in lines:
-        draw.text((x, y), ln, font=f, fill=fill)
-        y += step
-    return y
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    w = int(max((probe.textlength(l, font=f) for l in lines), default=1)) + 4
+    h = step * (len(lines) - 1) + int(f.size * 1.25)
+    img = Image.new("RGBA", (max(w, 1), max(h, 1)), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for i, l in enumerate(lines):
+        d.text((0, i * step), l, font=f, fill=fill)
+    return img
 
 
-def brand(draw, x, y, cfg, scale=1.0):
-    accent = _hex(cfg["site"]["accent_color"])
-    fb = font("bold", int(34 * scale))
-    draw.text((x, y), "BC", font=fb, fill=TEXT)
-    w = draw.textlength("BC", font=fb)
-    draw.text((x + w, y), ".", font=fb, fill=accent)
-    draw.text((x + w + int(22 * scale), y + int(6 * scale)), cfg["site"]["name"], font=font("semi", int(22 * scale)), fill=TEXT)
+def background(w: int, h: int, glow: tuple[float, float] = (0.82, 0.18), strength: int = 34) -> Image.Image:
+    """Графітовий фон із ледь помітною сіткою й стриманим рубіновим світлом (як hero на сайті)."""
+    img = Image.new("RGB", (w, h), brand.GRAPHITE)
+    d = ImageDraw.Draw(img)
+    step = 54
+    for x in range(0, w, step):
+        d.line([x, 0, x, h], fill=(9, 12, 17))
+    for y in range(0, h, step):
+        d.line([0, y, w, y], fill=(9, 12, 17))
+    gx, gy = int(w * glow[0]), int(h * glow[1])
+    r = int(max(w, h) * 0.55)
+    glow_img = Image.new("L", (w, h), 0)
+    gd = ImageDraw.Draw(glow_img)
+    for i in range(24, 0, -1):
+        rr = r * i // 24
+        gd.ellipse([gx - rr, gy - rr, gx + rr, gy + rr], fill=int(strength * (1 - i / 24) ** 1.6))
+    ruby = Image.new("RGB", (w, h), brand.RUBY)
+    return Image.composite(ruby, img, glow_img)
+
+
+def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: int,
+           top: int, bottom: int) -> Slide:
+    """Розкладка слайда в межах безпечної зони [top, h-bottom]."""
+    M = 88
+    k = 1.18 if h >= 1800 else 1.0          # вертикальне відео: крупніший текст
+    z = lambda v: int(round(v * k))  # noqa: E731
+    s = Slide(spec.get("kind", "point"), w, h)
+    host = cfg["site"]["base_url"].split("//")[-1].removeprefix("www.")
+    L = cfg["languages"][article.lang]
+    lock = brand.lockup(z(64))
+    s.elements.append(Element("lockup", lock, (M, top + 8), 0))
+    counter = _text_block([f"{index}/{total}"], brand.font("body-semi", z(26)), brand.SILVER)
+    s.elements.append(Element("counter", counter, (w - M - counter.width, top + 26), 0))
+
+    blocks: list[tuple[str, Image.Image, int]] = []   # (name, image, gap_after)
+    if s.kind == "cover":
+        blocks.append(("kicker", _text_block([L["insights_title"].upper()], brand.font("body-semi", z(30)), brand.RUBY), 34))
+        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(92), z(56), 6)
+        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.12), 40))
+        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(42), z(30), 6)
+        blocks.append(("body", _text_block(lines2, f2, brand.SILVER, 1.42), 0))
+    elif s.kind == "cta":
+        blocks.append(("logo", brand.logo(z(150)), 64))
+        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(72), z(48), 4)
+        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.15), 34))
+        rule = Image.new("RGBA", (120, 6), (*brand.RUBY, 255))
+        blocks.append(("rule", rule, 40))
+        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(40), z(30), 6)
+        blocks.append(("body", _text_block(lines2, f2, brand.BODY, 1.45), 48))
+        links = ["belyakovconsult.com", "Telegram  ·  Instagram  ·  Threads  ·  LinkedIn", "@belyakovconsult"]
+        blocks.append(("links", _text_block(links, brand.font("body-semi", z(34)), brand.WHITE, 1.5), 0))
+    else:
+        blocks.append(("num", _text_block([f"{index - 1:02d}"], brand.font("head", z(50)), brand.RUBY), 30))
+        f, lines = brand.fit(spec.get("title", ""), "head", w - 2 * M, z(80), z(50), 4)
+        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.15), 36))
+        rule = Image.new("RGBA", (120, 6), (*brand.RUBY, 255))
+        blocks.append(("rule", rule, 44))
+        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(50), z(32), 12)
+        blocks.append(("body", _text_block(lines2, f2, brand.BODY, 1.45), 0))
+
+    area_top, area_bottom = top + 150, h - bottom - 120
+    content_h = sum(img.height + gap for _, img, gap in blocks)
+    y = max(area_top, area_top + (area_bottom - area_top - content_h) // 2)
+    for order, (name, img, gap) in enumerate(blocks, start=1):
+        s.elements.append(Element(name, img, (M, y), order))
+        y += img.height + gap
+
+    foot_f = brand.font("body-semi", z(28))
+    foot = _text_block([brand.HANDLES], foot_f, brand.SILVER)
+    s.elements.append(Element("footer", foot, (M, h - bottom - 70), 0))
+    arrow = _text_block(["→" if index < total else ""], foot_f, brand.SILVER) if index < total else None
+    if arrow:
+        s.elements.append(Element("arrow", arrow, (w - M - arrow.width, h - bottom - 70), 0))
+    _ = host
+    return s
+
+
+def slide_specs(cfg, article) -> list[dict]:
+    L = cfg["languages"][article.lang]
+    specs = [{"kind": "cover", "title": article.title, "text": article.description}]
+    specs += [{"kind": "point", **c} for c in article.carousel]
+    specs.append({"kind": "cta", "title": L["cta_title"], "text": L["cta_text"]})
+    return specs
+
+
+def compose(slide: Slide, bg: Image.Image | None = None) -> Image.Image:
+    img = (bg or background(slide.w, slide.h)).convert("RGBA")
+    accent = Image.new("RGBA", (slide.w, 10), (*brand.RUBY, 255))
+    img.alpha_composite(accent, (0, 0))
+    for e in slide.elements:
+        img.alpha_composite(e.image, e.xy)
+    return img.convert("RGB")
 
 
 def og_image(cfg, article) -> Path:
-    accent = _hex(cfg["site"]["accent_color"])
-    W, H = 1200, 630
-    img = Image.new("RGB", (W, H), BG)
+    W, H, M = 1200, 630, 72
+    img = background(W, H, glow=(0.9, 0.1), strength=40).convert("RGBA")
+    img.alpha_composite(Image.new("RGBA", (10, H), (*brand.RUBY, 255)), (0, 0))
+    img.alpha_composite(brand.lockup(58), (M, 52))
+    kicker = _text_block([cfg["languages"][article.lang]["insights_title"].upper()], brand.font("body-semi", 22), brand.RUBY)
+    img.alpha_composite(kicker, (M, 156))
+    f, lines = brand.fit(article.title, "head", W - 2 * M, 60, 38, 4)
+    img.alpha_composite(_text_block(lines, f, brand.WHITE, 1.14), (M, 196))
     d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 10, H], fill=accent)
-    brand(d, 72, 60, cfg)
-    label = cfg["languages"][article.lang]["insights_title"].upper()
-    d.text((72, 150), label, font=font("semi", 22), fill=accent)
-    f, lines = fit(d, article.title, "bold", W - 144, 64, 40, 4)
-    draw_lines(d, (72, 196), lines, f, TEXT, 1.15)
-    d.line([72, H - 96, W - 72, H - 96], fill=LINE, width=2)
-    host = cfg["site"]["base_url"].split("//")[-1]
-    d.text((72, H - 72), f"{host}  ·  {cfg['languages'][article.lang]['author']}", font=font("reg", 24), fill=MUTED)
+    d.line([M, H - 96, W - M, H - 96], fill=brand.LINE, width=2)
+    d.text((M, H - 74), f"{brand.HANDLES}   ·   {cfg['languages'][article.lang]['author']}",
+           font=brand.font("body", 23), fill=brand.SILVER)
     out = social_asset_dir(cfg, article.slug)
     out.mkdir(parents=True, exist_ok=True)
     p = out / "og.png"
-    img.save(p, optimize=True)
+    img.convert("RGB").save(p, optimize=True)
     return p
 
 
 def carousel(cfg, article) -> list[Path]:
     if not article.carousel:
         return []
-    accent = _hex(cfg["site"]["accent_color"])
-    W, H, M = 1080, 1350, 88
-    slides = [{"title": article.title, "text": article.description, "cover": True}] + list(article.carousel)
-    host = cfg["site"]["base_url"].split("//")[-1]
-    slides.append({"title": cfg["languages"][article.lang]["cta_title"],
-                   "text": cfg['languages'][article.lang]['cta_text'], "cta": True})
+    W, H = 1080, 1350
+    specs = slide_specs(cfg, article)
     out = social_asset_dir(cfg, article.slug)
     out.mkdir(parents=True, exist_ok=True)
+    bg = background(W, H)
     paths = []
-    total = len(slides)
-    for i, s in enumerate(slides, 1):
-        img = Image.new("RGB", (W, H), BG)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, W, 10], fill=accent)
-        brand(d, M, 72, cfg)
-        d.text((W - M - 80, 80), f"{i}/{total}", font=font("semi", 26), fill=MUTED)
-        blocks = []  # (тип, дані) — спочатку міряємо, потім малюємо по центру
-        if s.get("cover"):
-            blocks.append(("label", cfg["languages"][article.lang]["insights_title"].upper()))
-            f, lines = fit(d, s["title"], "bold", W - 2 * M, 96, 56, 6)
-            blocks.append(("text", (lines, f, TEXT, 1.12, 48)))
-            f2, lines2 = fit(d, s.get("text", ""), "reg", W - 2 * M, 44, 32, 6)
-            blocks.append(("text", (lines2, f2, MUTED, 1.4, 0)))
-        else:
-            if not s.get("cta"):
-                blocks.append(("num", f"{i - 1:02d}"))
-            f, lines = fit(d, s.get("title", ""), "bold", W - 2 * M, 80, 48, 4)
-            blocks.append(("text", (lines, f, TEXT, 1.15, 36)))
-            blocks.append(("rule", None))
-            f2, lines2 = fit(d, s.get("text", ""), "reg", W - 2 * M, 48, 32, 12)
-            blocks.append(("text", (lines2, f2, (211, 218, 225), 1.45, 0)))
-        heights = {"label": 72, "num": 88, "rule": 52}
-        content_h = sum(heights.get(k, 0) if k != "text" else int(v[1].size * v[3]) * len(v[0]) + v[4] for k, v in blocks)
-        y = max(200, (H - content_h) // 2)
-        for kind, v in blocks:
-            if kind == "label":
-                d.text((M, y), v, font=font("semi", 30), fill=accent)
-            elif kind == "num":
-                d.text((M, y), v, font=font("bold", 48), fill=accent)
-            elif kind == "rule":
-                d.line([M, y, M + 120, y], fill=accent, width=5)
-            else:
-                draw_lines(d, (M, y), v[0], v[1], v[2], v[3])
-                y += int(v[1].size * v[3]) * len(v[0]) + v[4]
-                continue
-            y += heights[kind]
-        d.text((M, H - 90), "→" if i < total else host, font=font("semi", 30), fill=MUTED)
+    for i, spec in enumerate(specs, 1):
+        img = compose(layout(cfg, article, spec, i, len(specs), W, H, top=60, bottom=40), bg)
         p = out / f"slide-{i}.png"
         img.save(p, optimize=True)
-        img.save(out / f"slide-{i}.jpg", "JPEG", quality=92, optimize=True, progressive=False)  # для API Instagram
+        img.save(out / f"slide-{i}.jpg", "JPEG", quality=92, optimize=True)  # API Instagram приймає лише JPEG
         paths.append(p)
+    for extra in sorted(out.glob("slide-*.*")):   # прибрати зайві слайди, якщо їх стало менше
+        n = extra.stem.split("-")[-1]
+        if n.isdigit() and int(n) > len(specs):
+            extra.unlink()
     return paths
 
 
+def brand_sheet(cfg, article, frames: list[Image.Image] | None = None) -> Path:
+    """Аркуш для перевірки бренду: прев'ю, усі картки, кадри відео."""
+    out = social_asset_dir(cfg, article.slug)
+    tiles = [Image.open(out / "og.png")]
+    tiles += [Image.open(p) for p in sorted(out.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))]
+    tiles += frames or []
+    th = 420
+    scaled = [t.convert("RGB").resize((round(t.width * th / t.height), th)) for t in tiles]
+    row_w, rows, cur = 0, [], []
+    for t in scaled:
+        if cur and row_w + t.width > 2600:
+            rows.append(cur); cur, row_w = [], 0
+        cur.append(t); row_w += t.width + 16
+    if cur:
+        rows.append(cur)
+    W = max(sum(t.width + 16 for t in r) for r in rows) + 16
+    sheet = Image.new("RGB", (W, len(rows) * (th + 16) + 16), (40, 44, 52))
+    y = 16
+    for r in rows:
+        x = 16
+        for t in r:
+            sheet.paste(t, (x, y)); x += t.width + 16
+        y += th + 16
+    p = out / "brand-check.png"
+    sheet.save(p, optimize=True)
+    return p
+
+
 def main() -> int:
+    problems = brand.check()
+    if problems:
+        print("ПОМИЛКА БРЕНДУ:\n- " + "\n- ".join(problems))
+        return 1
     cfg = load_config()
     only = sys.argv[1] if len(sys.argv) > 1 else None
+    arts = load_articles(cfg, include_drafts=True)
     n = 0
-    for a in load_articles(cfg, include_drafts=True):
+    for a in arts:
         if only and a.slug != only:
             continue
-        if a.lang == "uk" or not any(x.slug == a.slug and x.lang == "uk" for x in load_articles(cfg, True)):
+        if a.lang == "uk" or not any(x.slug == a.slug and x.lang == "uk" for x in arts):
             og_image(cfg, a)
             n += 1 + len(carousel(cfg, a))
+            brand_sheet(cfg, a)
     print(f"Створено зображень: {n}")
     return 0
 
