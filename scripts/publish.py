@@ -65,7 +65,7 @@ def send(post, parts, cfg) -> dict:
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"])
     if post.channel == "instagram":
         slides = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
-        urls = [social_asset_url(cfg, post.slug, p.name) for p in slides]
+        urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name) for p in slides]
         return channels.publish_instagram("\n\n".join(parts), urls, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "linkedinpage":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True)
