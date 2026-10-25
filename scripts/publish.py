@@ -18,14 +18,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import channels  # noqa: E402
-from common import (fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
+from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
                     load_state, now, render_post_text, save_state, social_asset_dir)
 
 MAX_ATTEMPTS = 3
 NAMES = {"linkedin": "LinkedIn", "threads": "Threads", "telegram": "Telegram", "instagram": "Instagram"}
 
 
+REPORT: list[str] = []
+
+
 def admin(text: str, photos: list[Path] | None = None) -> None:
+    REPORT.append(text + (f"\n\n(+ {len(photos)} картки для каруселі)" if photos else ""))
     chat = os.environ.get("TELEGRAM_ADMIN_CHAT_ID")
     if not (chat and os.environ.get("TELEGRAM_BOT_TOKEN")):
         print("[адмінка] " + text.replace("\n", "\n           "))
@@ -122,8 +126,25 @@ def main() -> int:
                   + ("\nБільше спроб не буде — перевірте токен або текст." if attempts >= MAX_ATTEMPTS else ""))
 
     save_state(state)
-    print(f"Режим: {'dry-run' if dry else 'live'}. Оброблено дописів: {done}. Час: {fmt_dt(t)}")
+    summary = f"Режим: {'dry-run' if dry else 'live'}. Оброблено дописів: {done}. Час: {fmt_dt(t)}"
+    print(summary)
+    write_report(summary, dry)
     return 0
+
+
+def write_report(summary: str, dry: bool) -> None:
+    """Звіт про запуск: у підсумок GitHub Actions і, якщо щось сталося, у state/last-run.md."""
+    if not REPORT:
+        return
+    tg = "так" if os.environ.get("TELEGRAM_ADMIN_CHAT_ID") and os.environ.get("TELEGRAM_BOT_TOKEN") else "ні (секрети не задані)"
+    body = [f"# Останній запуск конвеєра", "", summary, f"Повідомлення в Telegram-адмінку: {tg}", ""]
+    for i, item in enumerate(REPORT, 1):
+        body += [f"## {i}", "", "```", item, "```", ""]
+    text = "\n".join(body)
+    (STATE_FILE.parent / "last-run.md").write_text(text, encoding="utf-8")
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+            f.write(text + "\n")
 
 
 if __name__ == "__main__":

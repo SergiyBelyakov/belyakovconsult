@@ -34,8 +34,7 @@ jobs:
         run: python scripts/build_site.py
 
       - name: Опублікувати дописи, час яких настав
-        # Публікує лише продакшн-репозиторій; тестовий тільки збирає сайт.
-        if: github.repository == 'SergiyBelyakov/belyakovconsult'
+        # Продакшн публікує за режимом із config.yml; тестовий репозиторій завжди лише в dry-run.
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
@@ -43,7 +42,7 @@ jobs:
           LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
           THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
-        run: python scripts/publish.py
+        run: python scripts/publish.py ${{ github.repository != 'SergiyBelyakov/belyakovconsult' && '--dry-run' || '' }}
 
       - name: Зберегти сайт і журнал публікацій
         run: |
