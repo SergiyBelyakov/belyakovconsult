@@ -40,5 +40,11 @@
   "pipeline-test/threads-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
+  },
+  "threads-check/threads-uk": {
+    "at": "2026-10-26 00:12",
+    "id": "17961394383230806",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/De7wJNNGFfi"
   }
 }
