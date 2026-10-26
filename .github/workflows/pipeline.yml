@@ -7,7 +7,7 @@ on:
     branches: [main]
     paths: ["content/**", "templates/**", "config.yml", "scripts/**"]
   schedule:
-    - cron: "17 * * * *"
+    - cron: "7,22,37,52 * * * *"   # кожні 15 хв: GitHub часто пропускає запуски за розкладом
   workflow_dispatch:
 
 permissions:
