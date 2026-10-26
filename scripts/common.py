@@ -153,13 +153,24 @@ def _article_date(slug: str, lang: str) -> date | None:
     return None
 
 
+def cadence_phase(cfg: dict, d: date) -> dict:
+    """Етап ритму для статті з датою d: перший етап, у якого until >= d (або без until)."""
+    cad = cfg.get("cadence") or {}
+    for ph in cad.get("phases") or []:
+        if not ph.get("until") or d <= _as_date(ph["until"], "config.yml"):
+            return {**cad, **ph}
+    return cad
+
+
 def scheduled_at(cfg: dict, slug: str, channel: str, lang: str, n: int) -> datetime | None:
     """Час допису за ритмом із config.yml (cadence): дата статті + post_days[n], час каналу й мови."""
-    cad = cfg.get("cadence") or {}
+    d = _article_date(slug, lang)
+    if not d:
+        return None
+    cad = cadence_phase(cfg, d)
     days = (cad.get("post_days") or {}).get(n)
     hhmm = ((cad.get("times") or {}).get(channel) or {}).get(lang)
-    d = _article_date(slug, lang)
-    if days is None or not hhmm or not d:
+    if days is None or not hhmm:
         return None
     h, m = (int(x) for x in str(hhmm).split(":"))
     return datetime(d.year, d.month, d.day, h, m) + timedelta(days=int(days))

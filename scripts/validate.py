@@ -14,7 +14,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import WEEKDAYS, CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
+from common import WEEKDAYS, cadence_phase, CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
 import brand  # noqa: E402
 
 
@@ -47,9 +47,9 @@ def main() -> int:
             warns.append(f"{where}: не вказано services — стаття не веде на сторінку послуги")
         if any(ch in a.body + a.title + a.description for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–». На сайті прийнято без них — замініть на двокрапку, кому чи крапку")
-        wd = (cfg.get("cadence") or {}).get("article_weekday")
-        if wd and a.carousel and a.date.weekday() != WEEKDAYS.get(wd, a.date.weekday()):
-            warns.append(f"{where}: стаття виходить {a.date:%a}, а за ритмом cadence день статті {wd}")
+        wds = cadence_phase(cfg, a.date).get("article_weekdays") or []
+        if wds and a.carousel and a.date.weekday() not in [WEEKDAYS[x] for x in wds]:
+            warns.append(f"{where}: стаття виходить {a.date:%a}, а за ритмом cadence дні статей {', '.join(wds)}")
         if a.words < 300 and not a.draft:
             warns.append(f"{where}: лише {a.words} слів (менше 300) — для пошуку краще 800+")
 
