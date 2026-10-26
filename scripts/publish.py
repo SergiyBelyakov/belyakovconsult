@@ -56,12 +56,22 @@ def manual_reason(post, cfg) -> str | None:
     return None
 
 
+def _asset_lang(post, cfg) -> str:
+    """Мова візуалів для допису: своя, якщо для неї зібрано відео чи картки, інакше українська."""
+    d = social_asset_dir(cfg, post.slug, post.lang)
+    return post.lang if d.exists() and (any(d.glob("slide-*.jpg")) or (d / "motion.mp4").exists()) else "uk"
+
+
+def _asset_dir(post, cfg):
+    return social_asset_dir(cfg, post.slug, _asset_lang(post, cfg))
+
+
 def video_url(post, cfg) -> str | None:
     """Адреса моушн-відео статті, якщо для каналу обрано motion і відео зібране."""
     if media_kind(post, cfg) != "motion":
         return None
-    if (social_asset_dir(cfg, post.slug) / "motion.mp4").exists():
-        return social_asset_url(cfg, post.slug, "motion.mp4")
+    if (_asset_dir(post, cfg) / "motion.mp4").exists():
+        return social_asset_url(cfg, post.slug, "motion.mp4", _asset_lang(post, cfg))
     return None
 
 
@@ -76,8 +86,8 @@ def send(post, parts, cfg) -> dict:
     if post.channel == "instagram" and video and not post.images:
         return channels.publish_instagram_reel("\n\n".join(parts), video, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "instagram":
-        slides = sorted(social_asset_dir(cfg, post.slug).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
-        urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name) for p in slides]
+        slides = sorted(_asset_dir(post, cfg).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
+        urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name, _asset_lang(post, cfg)) for p in slides]
         return channels.publish_instagram("\n\n".join(parts), urls, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "linkedinpage":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True)
@@ -118,7 +128,7 @@ def main() -> int:
             continue
         parts = post_parts(post, cfg)
         vid = video_url(post, cfg)
-        photos = [] if vid else (sorted(social_asset_dir(cfg, post.slug).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
+        photos = [] if vid else (sorted(_asset_dir(post, cfg).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
                                  if post.channel == "instagram" else [])
         media_note = f"\n\n🎬 Моушн-відео до допису: {vid}" if vid else ""
 

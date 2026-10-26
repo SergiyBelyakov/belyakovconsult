@@ -122,7 +122,7 @@ def build(cfg, article, force: bool = False) -> Path | None:
         return None
     if not shutil.which("ffmpeg"):
         raise RuntimeError("Немає ffmpeg: відео не зібрати")
-    out = social_asset_dir(cfg, article.slug)
+    out = social_asset_dir(cfg, article.slug, article.lang)
     out.mkdir(parents=True, exist_ok=True)
     mp4, meta = out / "motion.mp4", out / "motion.json"
     specs = make_cards.slide_specs(cfg, article)
@@ -138,7 +138,7 @@ def build(cfg, article, force: bool = False) -> Path | None:
     total_s = sum(durs)
     cuts = [sum(durs[:i]) for i in range(1, len(durs))]
     wav = out / "motion.music.tmp.wav"
-    music.generate(total_s, cuts, article.slug, wav)
+    music.generate(total_s, cuts, article.slug, wav)  # однакова музика для всіх мовних версій
     cmd = ["ffmpeg", "-y", "-loglevel", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-i", str(wav),
@@ -185,7 +185,7 @@ def main() -> int:
     cfg = load_config()
     only = sys.argv[1] if len(sys.argv) > 1 else None
     for a in load_articles(cfg, include_drafts=True):
-        if (only and a.slug != only) or a.lang != "uk":
+        if (only and a.slug != only) or not a.carousel:
             continue
         p = build(cfg, a, force=bool(only))
         if p:

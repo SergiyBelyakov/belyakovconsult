@@ -4,6 +4,28 @@ description: Two teams bring different figures, and both are right. What that mo
 date: 2026-10-26
 services: [data-governance, data-quality]
 tags: [data governance, public sector, indicators]
+carousel:
+  - title: Two numbers, and both are right
+    text: "An illustrative meeting: 41,200 recipients from one team and 38,900 from another. No calculation errors."
+    visual:
+      type: bars
+      items: [{label: "Team A", value: 41200}, {label: "Team B", value: 38900}]
+      note: "Illustrative data, same quarter"
+      thousands: ","
+  - title: Why this happens
+    text: "Different definition: person or application.\nDifferent cut-off: end of month or report date.\nDifferent source: register or working spreadsheet."
+    visual: {type: list}
+  - title: Four data governance questions
+    text: "Who sets the rule.\nWhich source is authoritative.\nWho fixes an error.\nWho approves a change."
+    visual: {type: grid}
+  - title: A policy without answers does not work
+    text: A hundred-page document will not help if nobody in the meeting can say whose number is official.
+    visual: {type: doc, label: "Policy, 100 pages", note: "Whose number is official?"}
+  - title: Check it on your last conflict
+    text: Wherever the answer is "unclear", that is where to start.
+    visual:
+      type: flow
+      items: ["Recall the last number conflict", "Answer the 4 questions", "Find the \"unclear\" answers", "Start right there"]
 ---
 
 Picture a management meeting (the example is illustrative, but familiar). Leadership is shown the number of service recipients for the quarter. One team brings 41,200, another 38,900. Both reports are carefully built, the formulas check out, and there are no calculation errors.

@@ -4,6 +4,38 @@ description: Why a high completeness rate says little about whether registry dat
 date: 2026-10-28
 services: [data-quality, data-governance]
 tags: [data quality, registries, public sector]
+carousel:
+  - title: Completeness answers only one question
+    text: Is there anything in the field. Not whether you can trust it.
+    visual:
+      type: compare
+      highlight: right
+      left: {label: "Completeness asks", value: "Is it there?"}
+      right: {label: "Quality asks", value: "Can we trust it?"}
+  - title: Filled in, but not usable
+    text: "All of this counts towards 98%. Records are illustrative."
+    visual:
+      type: fields
+      items:
+        - {value: "AB123456", ok: true, note: "usable"}
+        - {value: "0", note: "placeholder"}
+        - {value: "12.03.2019", note: "date, not a number"}
+        - {value: "123456", note: "series in another field"}
+  - title: What completeness cannot see
+    text: "Format\nAllowed values\nPlaceholders\nConsistency across fields\nUniqueness"
+    visual: {type: list}
+  - title: Start from the decision
+    text: A payment and a register match depend on different fields and different rules.
+    visual:
+      type: flow
+      items: ["Decision: payment or match", "Fields it depends on", "Rule in plain words", "Regular check"]
+  - title: Two columns instead of one percentage
+    text: The gap between them is the real amount of work.
+    visual:
+      type: compare
+      highlight: right
+      left: {label: "Filled in", value: "98%"}
+      right: {label: "Fit for use", value: "?", note: "Count it separately"}
 ---
 
 Data quality reports often open with completeness: the “document number” field is filled in 98% of records. The number looks reassuring. Yet it answers only one question: is there anything in the field at all?

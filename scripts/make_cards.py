@@ -196,7 +196,7 @@ def og_image(cfg, article) -> Path:
     d.line([M, H - 96, W - M, H - 96], fill=brand.LINE, width=2)
     d.text((M, H - 74), f"{brand.HANDLES}   ·   {cfg['languages'][article.lang]['author']}",
            font=brand.font("body", 23), fill=brand.SILVER)
-    out = social_asset_dir(cfg, article.slug)
+    out = social_asset_dir(cfg, article.slug, article.lang)
     out.mkdir(parents=True, exist_ok=True)
     p = out / "og.png"
     img.convert("RGB").save(p, optimize=True)
@@ -208,7 +208,7 @@ def carousel(cfg, article) -> list[Path]:
         return []
     W, H = 1080, 1350
     specs = slide_specs(cfg, article)
-    out = social_asset_dir(cfg, article.slug)
+    out = social_asset_dir(cfg, article.slug, article.lang)
     out.mkdir(parents=True, exist_ok=True)
     bg = background(W, H)
     paths = []
@@ -227,7 +227,7 @@ def carousel(cfg, article) -> list[Path]:
 
 def brand_sheet(cfg, article, frames: list[Image.Image] | None = None) -> Path:
     """Аркуш для перевірки бренду: прев'ю, усі картки, кадри відео."""
-    out = social_asset_dir(cfg, article.slug)
+    out = social_asset_dir(cfg, article.slug, article.lang)
     tiles = [Image.open(out / "og.png")]
     tiles += [Image.open(p) for p in sorted(out.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))]
     tiles += frames or []
@@ -265,7 +265,7 @@ def main() -> int:
     for a in arts:
         if only and a.slug != only:
             continue
-        if a.lang == "uk" or not any(x.slug == a.slug and x.lang == "uk" for x in arts):
+        if a.lang == "uk" or a.carousel or not any(x.slug == a.slug and x.lang == "uk" for x in arts):
             og_image(cfg, a)
             n += 1 + len(carousel(cfg, a))
             brand_sheet(cfg, a)

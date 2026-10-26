@@ -72,9 +72,9 @@ def _text(s, f, fill):
     return img
 
 
-def _fmt_num(v) -> str:
+def _fmt_num(v, sep: str = " ") -> str:
     if isinstance(v, (int, float)) and float(v).is_integer():
-        return f"{int(v):,}".replace(",", " ")
+        return f"{int(v):,}".replace(",", sep)
     return str(v)
 
 
@@ -132,7 +132,7 @@ def v_bars(spec, w, h, z):
     for k, it in enumerate(items):
         y = k * row_h
         parts.append(Part(_text(it["label"], label_f, brand.SILVER), (0, y), k * .25, "fade"))
-        val = _text(_fmt_num(it["value"]), value_f, brand.WHITE)
+        val = _text(_fmt_num(it["value"], spec.get("thousands", " ")), value_f, brand.WHITE)
         bw = int((w - val.width - z(24)) * float(it["value"]) / vmax)
         bar = _canvas(bw, bar_h)
         bd = ImageDraw.Draw(bar)

@@ -24,7 +24,7 @@ import brand  # noqa: E402
 import make_cards  # noqa: E402
 import make_motion  # noqa: E402
 from common import (ROOT, article_path, is_live, load_articles, load_config,  # noqa: E402
-                    service_link, social_asset_url, tz)
+                    service_link, social_asset_dir, social_asset_url, tz)
 from shell import Shell  # noqa: E402
 
 MONTHS = {
@@ -111,18 +111,23 @@ def main() -> int:
     sitemap, pages = [], 0
     for slug, versions in by_slug.items():
         main_version = versions.get("uk") or next(iter(versions.values()))
-        make_cards.og_image(cfg, main_version)
-        make_cards.carousel(cfg, main_version)
-        if main_version.carousel:
-            mp4 = make_motion.build(cfg, main_version)
-            frames = [make_cards.Image.open(f) for f in sorted(mp4.parent.glob("motion-frame-*.jpg"),
-                                                             key=lambda x: int(x.stem.split("-")[-1]))]
-            make_cards.brand_sheet(cfg, main_version, frames)
-        og = social_asset_url(cfg, slug, "og.png")
+        for v in versions.values():
+            # Українська версія завжди має візуали; інші мови, лише якщо в них є власний carousel
+            if v is not main_version and not v.carousel:
+                continue
+            make_cards.og_image(cfg, v)
+            make_cards.carousel(cfg, v)
+            if v.carousel:
+                mp4 = make_motion.build(cfg, v)
+                frames = [make_cards.Image.open(f) for f in sorted(mp4.parent.glob("motion-frame-*.jpg"),
+                                                                 key=lambda x: int(x.stem.split("-")[-1]))]
+                make_cards.brand_sheet(cfg, v, frames)
         alternates = [(l, base + article_path(cfg, l, slug)) for l in langs_cfg if l in versions]
         if len(alternates) > 1:
             alternates.append(("x-default", base + article_path(cfg, "uk" if "uk" in versions else alternates[0][0], slug)))
         for lang, a in versions.items():
+            og_lang = lang if (social_asset_dir(cfg, slug, lang) / "og.png").exists() else "uk"
+            og = social_asset_url(cfg, slug, "og.png", og_lang)
             L = langs_cfg[lang]
             url = base + article_path(cfg, lang, slug)
             body = markdown.markdown(a.body, extensions=["tables", "fenced_code", "sane_lists", "attr_list"])

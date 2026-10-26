@@ -241,12 +241,17 @@ def save_state(state: dict) -> None:
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def social_asset_dir(cfg: dict, slug: str) -> Path:
-    return ROOT / cfg["site"]["output_dir"] / "assets" / "insights" / slug
+def _lang_sub(lang: str | None) -> str:
+    return "" if not lang or lang == "uk" else f"/{lang}"
 
 
-def social_asset_url(cfg: dict, slug: str, name: str) -> str:
-    return f"{cfg['site']['base_url'].rstrip('/')}/assets/insights/{slug}/{name}"
+def social_asset_dir(cfg: dict, slug: str, lang: str | None = None) -> Path:
+    """Візуали статті: українська версія в assets/insights/<slug>/, інші мови в підпапці <slug>/<lang>/."""
+    return ROOT / cfg["site"]["output_dir"] / "assets" / "insights" / (slug + _lang_sub(lang))
+
+
+def social_asset_url(cfg: dict, slug: str, name: str, lang: str | None = None) -> str:
+    return f"{cfg['site']['base_url'].rstrip('/')}/assets/insights/{slug}{_lang_sub(lang)}/{name}"
 
 
 def fmt_dt(d: datetime) -> str:
