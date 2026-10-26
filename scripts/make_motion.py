@@ -22,13 +22,14 @@ from PIL import Image, ImageDraw
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import make_cards  # noqa: E402
+import music  # noqa: E402
 from common import load_articles, load_config, social_asset_dir  # noqa: E402
 
 W, H, FPS = 1080, 1920, 30
 TOP, BOTTOM = 230, 360          # безпечні зони під інтерфейс соцмереж
 TRANS = 0.45                    # тривалість переходу між слайдами, с
 DUR = {"cover": 4.2, "point": 4.6, "cta": 5.2}
-VERSION = "motion-v1"
+VERSION = "motion-v2"
 
 
 def ease(x: float) -> float:
@@ -80,16 +81,29 @@ def render_slide_frame(base: Image.Image, glow: Image.Image, slide, t: float, to
             a = ease(t / 0.5) if idx == 0 else 1.0
             frame.alpha_composite(with_alpha(e.image, a), e.xy)
             continue
-        start = 0.25 + (e.order - 1) * 0.28
+        start = 0.25 + (e.order - 1) * 0.28 + e.delay
         k = ease((t - start) / 0.6)
         if k <= 0:
             continue
-        if e.name == "rule":
+        x, y = e.xy
+        if e.name == "rule" or e.anim == "grow-x":
             w = max(1, int(e.image.width * k))
-            frame.alpha_composite(e.image.crop((0, 0, w, e.image.height)), e.xy)
-            continue
-        dy = int((1 - k) * 46)
-        frame.alpha_composite(with_alpha(e.image, k), (e.xy[0], e.xy[1] + dy))
+            frame.alpha_composite(e.image.crop((0, 0, w, e.image.height)), (x, y))
+        elif e.anim == "fade":
+            frame.alpha_composite(with_alpha(e.image, k), (x, y))
+        elif e.anim == "pop":
+            sc = 0.9 + 0.1 * k
+            im = e.image.resize((max(1, int(e.image.width * sc)), max(1, int(e.image.height * sc))), Image.BILINEAR)
+            frame.alpha_composite(with_alpha(im, k), (x + (e.image.width - im.width) // 2, y + (e.image.height - im.height) // 2))
+        elif e.anim == "zoom":
+            sc = 1.0 + 0.06 * min(1.0, t / dur)          # повільне наближення, як у кадрі камери
+            im = e.image.resize((int(e.image.width * sc), int(e.image.height * sc)), Image.BILINEAR)
+            ox, oy = (im.width - e.image.width) // 2, (im.height - e.image.height) // 2
+            im = im.crop((ox, oy, ox + e.image.width, oy + e.image.height))
+            frame.alpha_composite(with_alpha(im, k), (x, y))
+        else:
+            dy = int((1 - k) * 46)
+            frame.alpha_composite(with_alpha(e.image, k), (x, y + dy))
     return frame
 
 
@@ -98,7 +112,8 @@ def fingerprint(cfg, article, specs) -> str:
     h.update(json.dumps(specs, ensure_ascii=False, sort_keys=True).encode())
     for p in [brand.LOGO_MASTER, *sorted(brand.FONTS.glob("*.*"))]:
         h.update(p.name.encode()); h.update(str(p.stat().st_size).encode())
-    h.update(Path(__file__).read_bytes()); h.update(Path(make_cards.__file__).read_bytes())
+    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__)):
+        h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 
 
@@ -120,11 +135,16 @@ def build(cfg, article, force: bool = False) -> Path | None:
     slides = [make_cards.layout(cfg, article, s, i, len(specs), W, H, TOP, BOTTOM) for i, s in enumerate(specs, 1)]
     durs = [DUR.get(s.kind, 4.4) for s in slides]
     tmp = out / "motion.tmp.mp4"
+    total_s = sum(durs)
+    cuts = [sum(durs[:i]) for i in range(1, len(durs))]
+    wav = out / "motion.music.tmp.wav"
+    music.generate(total_s, cuts, article.slug, wav)
     cmd = ["ffmpeg", "-y", "-loglevel", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-           "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-           "-shortest", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
-           "-profile:v", "high", "-c:a", "aac", "-b:a", "64k", "-movflags", "+faststart", str(tmp)]
+           "-i", str(wav),
+           "-map", "0:v", "-map", "1:a", "-shortest", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+           "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "160k", "-ar", "44100",
+           "-movflags", "+faststart", str(tmp)]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     keyframes = []
     total_t = 0.0
@@ -149,6 +169,7 @@ def build(cfg, article, force: bool = False) -> Path | None:
     if code != 0:
         raise RuntimeError(f"ffmpeg завершився з кодом {code}")
     tmp.replace(mp4)
+    wav.unlink(missing_ok=True)
     meta.write_text(json.dumps({"fingerprint": fp, "seconds": round(sum(durs), 1), "size": [W, H]}, indent=2) + "\n")
     # Кадри для аркуша перевірки бренду
     for i, k in enumerate(keyframes, 1):

@@ -20,6 +20,7 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
+import visuals  # noqa: E402
 from common import load_articles, load_config, social_asset_dir  # noqa: E402
 
 
@@ -29,6 +30,8 @@ class Element:
     image: Image.Image   # RGBA
     xy: tuple[int, int]
     order: int = 0       # порядок появи в анімації
+    delay: float = 0.0   # додаткова затримка в межах свого кроку (частини схеми)
+    anim: str = "rise"   # rise | grow-x | fade | pop | zoom
 
 
 @dataclass
@@ -85,12 +88,18 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
     counter = _text_block([f"{index}/{total}"], brand.font("body-semi", z(26)), brand.SILVER)
     s.elements.append(Element("counter", counter, (w - M - counter.width, top + 26), 0))
 
-    blocks: list[tuple[str, Image.Image, int]] = []   # (name, image, gap_after)
+    blocks: list[tuple[str, object, int]] = []   # (name, image або ("visual", spec), gap_after)
+    vis_spec = spec.get("visual")
     if s.kind == "cover":
-        blocks.append(("kicker", _text_block([L["insights_title"].upper()], brand.font("body-semi", z(30)), brand.RUBY), 34))
-        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(92), z(56), 6)
-        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.12), 40))
-        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(42), z(30), 6)
+        img_src = visuals.service_image(article.services)
+        if img_src and vis_spec is None:
+            vis_spec = {"type": "image", "src": img_src}
+        if vis_spec:
+            blocks.append(("visual", vis_spec, 44))
+        blocks.append(("kicker", _text_block([L["insights_title"].upper()], brand.font("body-semi", z(30)), brand.RUBY), 30))
+        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(84), z(52), 4 if vis_spec else 6)
+        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.12), 34))
+        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(38), z(28), 4 if vis_spec else 6)
         blocks.append(("body", _text_block(lines2, f2, brand.SILVER, 1.42), 0))
     elif s.kind == "cta":
         blocks.append(("logo", brand.logo(z(150)), 64))
@@ -103,18 +112,40 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
         links = ["belyakovconsult.com", "Telegram  ·  Instagram  ·  Threads  ·  LinkedIn", "@belyakovconsult"]
         blocks.append(("links", _text_block(links, brand.font("body-semi", z(34)), brand.WHITE, 1.5), 0))
     else:
-        blocks.append(("num", _text_block([f"{index - 1:02d}"], brand.font("head", z(50)), brand.RUBY), 30))
-        f, lines = brand.fit(spec.get("title", ""), "head", w - 2 * M, z(80), z(50), 4)
-        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.15), 36))
+        if vis_spec is None:
+            vis_spec = visuals.auto(spec)
+        replaces = bool(vis_spec) and vis_spec.get("type") in visuals.TEXT_TYPES and not vis_spec.get("items")
+        blocks.append(("num", _text_block([f"{index - 1:02d}"], brand.font("head", z(50)), brand.RUBY), 26))
+        f, lines = brand.fit(spec.get("title", ""), "head", w - 2 * M, z(76), z(48), 3 if vis_spec else 4)
+        blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.15), 32))
         rule = Image.new("RGBA", (120, 6), (*brand.RUBY, 255))
-        blocks.append(("rule", rule, 44))
-        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(50), z(32), 12)
-        blocks.append(("body", _text_block(lines2, f2, brand.BODY, 1.45), 0))
+        blocks.append(("rule", rule, 40))
+        if vis_spec:
+            blocks.append(("visual", vis_spec, 36 if not replaces else 0))
+        if not replaces and spec.get("text"):
+            f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(44 if vis_spec else 50), z(28), 4 if vis_spec else 12)
+            blocks.append(("body", _text_block(lines2, f2, brand.BODY, 1.4), 0))
 
     area_top, area_bottom = top + 150, h - bottom - 120
-    content_h = sum(img.height + gap for _, img, gap in blocks)
+    text_h = sum((0 if name == "visual" else img.height) + gap for name, img, gap in blocks)
+    vis_h = 0
+    if any(name == "visual" for name, _, _ in blocks):
+        min_v = z(160) if s.kind == "cover" else z(220)
+        vis_h = max(min_v, min(z(600), area_bottom - area_top - text_h))
+        if text_h + vis_h > area_bottom - area_top:      # не залазити на підвал
+            area_top = max(top + 120, area_bottom - text_h - vis_h)
+    content_h = text_h + vis_h
     y = max(area_top, area_top + (area_bottom - area_top - content_h) // 2)
     for order, (name, img, gap) in enumerate(blocks, start=1):
+        if name == "visual":
+            vw = w - 2 * M
+            parts, _ = visuals.render(img, spec, vw, vis_h, z)
+            used_h = max((p.xy[1] + p.image.height for p in parts), default=0)
+            dy = (vis_h - used_h) // 2 if used_h < vis_h else 0
+            for p in parts:
+                s.elements.append(Element("visual", p.image, (M + p.xy[0], y + dy + p.xy[1]), order, p.delay, p.anim))
+            y += vis_h + gap
+            continue
         s.elements.append(Element(name, img, (M, y), order))
         y += img.height + gap
 
@@ -149,10 +180,17 @@ def og_image(cfg, article) -> Path:
     W, H, M = 1200, 630, 72
     img = background(W, H, glow=(0.9, 0.1), strength=40).convert("RGBA")
     img.alpha_composite(Image.new("RGBA", (10, H), (*brand.RUBY, 255)), (0, 0))
+    src = visuals.service_image(article.services)
+    if src:   # ілюстрація напряму праворуч, із плавним переходом у фон
+        iw = int(W * .42)
+        ph = visuals.v_image({"src": src}, iw, H, lambda v: v)[0].image
+        fade = Image.linear_gradient("L").rotate(90).resize((iw, H)).point(lambda v: min(255, int(v * 1.6)))
+        ph.putalpha(Image.composite(ph.getchannel("A"), Image.new("L", (iw, H), 0), fade))
+        img.alpha_composite(ph, (W - iw, 0))
     img.alpha_composite(brand.lockup(58), (M, 52))
     kicker = _text_block([cfg["languages"][article.lang]["insights_title"].upper()], brand.font("body-semi", 22), brand.RUBY)
     img.alpha_composite(kicker, (M, 156))
-    f, lines = brand.fit(article.title, "head", W - 2 * M, 60, 38, 4)
+    f, lines = brand.fit(article.title, "head", int(W * .62) - M, 58, 36, 4)
     img.alpha_composite(_text_block(lines, f, brand.WHITE, 1.14), (M, 196))
     d = ImageDraw.Draw(img)
     d.line([M, H - 96, W - M, H - 96], fill=brand.LINE, width=2)
