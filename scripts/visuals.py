@@ -221,13 +221,20 @@ def v_compare(spec, w, h, z):
         d = ImageDraw.Draw(card)
         lf = brand.font("body-semi", z(28))
         d.text((z(26), z(26)), str(side.get("label", "")), font=lf, fill=brand.SILVER)
-        vf, lines = brand.fit(str(side.get("value", "")), "head", cw - z(52), z(96), z(40), 2)
         y = z(26) + int(lf.size * 1.8)
+        nf, nl = (brand.fit(str(side["note"]), "body", cw - z(52), z(26), z(20), 3) if side.get("note") else (None, []))
+        note_h = (z(10) + sum(int(nf.size * 1.3) for _ in nl)) if nl else 0
+        room = ch - y - note_h - z(20)          # висота під значення: не виходить за низ картки
+        top = z(96)
+        while True:
+            vf, lines = brand.fit(str(side.get("value", "")), "head", cw - z(52), top, min(top, z(40)), 2)
+            if len(lines) * int(vf.size * 1.1) <= room or vf.size <= 14:
+                break
+            top = vf.size - 4
         for ln in lines:
             d.text((z(26), y), ln, font=vf, fill=brand.RUBY if hot else brand.WHITE)
             y += int(vf.size * 1.1)
-        if side.get("note"):
-            nf, nl = brand.fit(str(side["note"]), "body", cw - z(52), z(26), z(20), 3)
+        if nl:
             y += z(10)
             for ln in nl:
                 d.text((z(26), y), ln, font=nf, fill=brand.BODY)
