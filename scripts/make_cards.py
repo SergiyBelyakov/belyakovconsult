@@ -31,7 +31,8 @@ class Element:
     xy: tuple[int, int]
     order: int = 0       # порядок появи в анімації
     delay: float = 0.0   # додаткова затримка в межах свого кроку (частини схеми)
-    anim: str = "rise"   # rise | grow-x | fade | pop | zoom
+    anim: str = "rise"   # rise | grow-x | fade | pop | zoom | count
+    meta: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -51,17 +52,18 @@ def _text_block(lines, f, fill, spacing=1.2) -> Image.Image:
     d = ImageDraw.Draw(img)
     for i, l in enumerate(lines):
         d.text((0, i * step), l, font=f, fill=fill)
+    img.info["step"], img.info["lines"] = step, len(lines)   # для порядкової анімації рядків у відео
     return img
 
 
-def background(w: int, h: int, glow: tuple[float, float] = (0.82, 0.18), strength: int = 34) -> Image.Image:
+def background(w: int, h: int, glow: tuple[float, float] = (0.82, 0.18), strength: int = 34, grid: bool = True) -> Image.Image:
     """Графітовий фон із ледь помітною сіткою й стриманим рубіновим світлом (як hero на сайті)."""
     img = Image.new("RGB", (w, h), brand.GRAPHITE)
     d = ImageDraw.Draw(img)
     step = 54
-    for x in range(0, w, step):
+    for x in range(0, w, step if grid else w + 1):
         d.line([x, 0, x, h], fill=(9, 12, 17))
-    for y in range(0, h, step):
+    for y in range(0, h, step if grid else h + 1):
         d.line([0, y, w, y], fill=(9, 12, 17))
     gx, gy = int(w * glow[0]), int(h * glow[1])
     r = int(max(w, h) * 0.55)
@@ -143,7 +145,7 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
             used_h = max((p.xy[1] + p.image.height for p in parts), default=0)
             dy = (vis_h - used_h) // 2 if used_h < vis_h else 0
             for p in parts:
-                s.elements.append(Element("visual", p.image, (M + p.xy[0], y + dy + p.xy[1]), order, p.delay, p.anim))
+                s.elements.append(Element("visual", p.image, (M + p.xy[0], y + dy + p.xy[1]), order, p.delay, p.anim, p.meta))
             y += vis_h + gap
             continue
         s.elements.append(Element(name, img, (M, y), order))

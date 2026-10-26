@@ -19,7 +19,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
@@ -44,7 +44,8 @@ class Part:
     image: Image.Image
     xy: tuple[int, int]      # відносно лівого верхнього кута області візуалізації
     delay: float = 0.0       # секунди від початку появи візуалізації
-    anim: str = "rise"       # rise | grow-x | fade | pop
+    anim: str = "rise"       # rise | grow-x | fade | pop | zoom | count
+    meta: dict = field(default_factory=dict)
 
 
 def _rgba(c, a=255):
@@ -140,7 +141,8 @@ def v_bars(spec, w, h, z):
         bd.rounded_rectangle([0, 0, bw - 1, bar_h - 1], bar_h // 2, fill=_rgba(color))
         by = y + int(label_f.size * 1.45)
         parts.append(Part(bar, (0, by), k * .25 + .1, "grow-x"))
-        parts.append(Part(val, (bw + z(20), by + (bar_h - value_f.size) // 2 - z(4)), k * .25 + .55, "fade"))
+        parts.append(Part(val, (bw + z(20), by + (bar_h - value_f.size) // 2 - z(4)), k * .25 + .1, "count",
+                          {"value": float(it["value"]), "sep": spec.get("thousands", " "), "size": value_f.size}))
     if spec.get("note"):
         nf = brand.font("body", z(26))
         parts.append(Part(_text(spec["note"], nf, brand.SILVER), (0, len(items) * row_h + z(4)), .9, "fade"))
