@@ -5,11 +5,22 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/5"
   },
+  "governance-shows-in-conflict/instagram-en": {
+    "at": "2026-10-26 09:28",
+    "id": "18080475884465264",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/De8v5EkE9WK/"
+  },
   "governance-shows-in-conflict/instagram-uk": {
     "at": "2026-10-26 08:46",
     "id": "18120529034093824",
     "status": "published",
     "url": "https://www.instagram.com/reel/De8rCVaE7Q7/"
+  },
+  "governance-shows-in-conflict/linkedinpage-en": {
+    "at": "2026-10-26 09:28",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
   },
   "governance-shows-in-conflict/linkedinpage-uk": {
     "at": "2026-10-26 00:18",
@@ -20,6 +31,12 @@
     "id": 6,
     "status": "published",
     "url": "https://t.me/belyakovconsult/6"
+  },
+  "governance-shows-in-conflict/threads-en": {
+    "at": "2026-10-26 09:28",
+    "id": "18371056915211507",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/De8v9qulaDg"
   },
   "governance-shows-in-conflict/threads-uk": {
     "at": "2026-10-26 00:18",
