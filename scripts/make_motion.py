@@ -262,7 +262,7 @@ def fingerprint(cfg, article, specs) -> str:
     h.update(json.dumps(specs, ensure_ascii=False, sort_keys=True).encode())
     for p in [brand.LOGO_MASTER, *sorted(brand.FONTS.glob("*.*"))]:
         h.update(p.name.encode()); h.update(str(p.stat().st_size).encode())
-    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__)):
+    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__), Path(brand.__file__)):
         h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 

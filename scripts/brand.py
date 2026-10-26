@@ -126,10 +126,21 @@ def wrap(text: str, f: ImageFont.FreeTypeFont, width: int) -> list[str]:
 
 
 def fit(text: str, kind: str, width: int, max_size: int, min_size: int, max_lines: int):
+    """Найбільший шрифт, з яким текст вміщається в max_lines рядків і жодне слово не виходить за ширину.
+
+    Якщо довге слово не вміщається навіть на min_size, шрифт зменшується далі: слово ніколи не обрізається.
+    """
+    probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    fits = lambda f, ls: all(probe.textlength(l, font=f) <= width for l in ls)  # noqa: E731
     for size in range(max_size, min_size - 1, -2):
         f = font(kind, size)
         lines = wrap(text, f, width)
-        if len(lines) <= max_lines:
+        if len(lines) <= max_lines and fits(f, lines):
+            return f, lines
+    for size in range(min_size - 2, 9, -2):     # довге слово: зменшуємо нижче мінімуму, але не ріжемо
+        f = font(kind, size)
+        lines = wrap(text, f, width)
+        if fits(f, lines) and len(lines) <= max_lines:
             return f, lines
     f = font(kind, min_size)
     lines = wrap(text, f, width)[:max_lines]
