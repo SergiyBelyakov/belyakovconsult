@@ -297,24 +297,28 @@ def v_doc(spec, w, h, z):
     return parts
 
 
+def image_ratio(src: str) -> float | None:
+    p = ASSETS / str(src).removeprefix("assets/")
+    if not p.exists():
+        return None
+    with Image.open(p) as im:
+        return im.height / im.width
+
+
 def v_image(spec, w, h, z):
+    """Картинка цілком, без обрізання: вписується в область зі збереженням пропорцій."""
     src = spec.get("src")
     p = (ROOT / src) if src and not str(src).startswith("assets/") else ASSETS / str(src).removeprefix("assets/")
     if not p.exists():
         return []
-    im = Image.open(p).convert("RGB")
-    # cover-fit
-    r = max(w / im.width, h / im.height)
-    im = im.resize((int(im.width * r) + 1, int(im.height * r) + 1), Image.LANCZOS)
-    left, top = (im.width - w) // 2, (im.height - h) // 2
-    im = im.crop((left, top, left + w, top + h)).convert("RGBA")
-    mask = Image.new("L", (w, h), 0)
-    ImageDraw.Draw(mask).rounded_rectangle([0, 0, w - 1, h - 1], z(26), fill=255)
-    fade = Image.linear_gradient("L").resize((w, h))          # знизу затемнення в фон
-    fade = fade.point(lambda v: 255 if v < 150 else int(255 - (v - 150) * 1.6))
-    mask = Image.composite(mask, Image.new("L", (w, h), 0), fade)
-    im.putalpha(mask.filter(ImageFilter.GaussianBlur(1)))
-    return [Part(im, (0, 0), 0, "zoom")]
+    im = Image.open(p).convert("RGBA")
+    r = min(w / im.width, h / im.height)
+    nw, nh = max(1, int(im.width * r)), max(1, int(im.height * r))
+    im = im.resize((nw, nh), Image.LANCZOS)
+    mask = Image.new("L", (nw, nh), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, nw - 1, nh - 1], z(26), fill=255)
+    im.putalpha(Image.composite(im.getchannel("A"), mask, mask).filter(ImageFilter.GaussianBlur(0.6)))
+    return [Part(im, ((w - nw) // 2, (h - nh) // 2), 0, "zoom")]
 
 
 def auto(slide: dict) -> dict | None:

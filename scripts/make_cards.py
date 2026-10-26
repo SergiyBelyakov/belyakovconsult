@@ -99,9 +99,9 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
         if vis_spec:
             blocks.append(("visual", vis_spec, 44))
         blocks.append(("kicker", _text_block([L["insights_title"].upper()], brand.font("body-semi", z(30)), brand.RUBY), 30))
-        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(84), z(52), 4 if vis_spec else 6)
+        f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(72) if vis_spec else z(84), z(46), 4 if vis_spec else 6)
         blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.12), 34))
-        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(38), z(28), 4 if vis_spec else 6)
+        f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(34) if vis_spec else z(38), z(26), 4 if vis_spec else 6)
         blocks.append(("body", _text_block(lines2, f2, brand.SILVER, 1.42), 0))
     elif s.kind == "cta":
         blocks.append(("logo", brand.logo(z(150)), 64))
@@ -132,8 +132,14 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
     text_h = sum((0 if name == "visual" else img.height) + gap for name, img, gap in blocks)
     vis_h = 0
     if any(name == "visual" for name, _, _ in blocks):
-        min_v = z(160) if s.kind == "cover" else z(220)
-        vis_h = max(min_v, min(z(600), area_bottom - area_top - text_h))
+        min_v = z(360) if s.kind == "cover" else z(220)     # обкладинці картинка крупно
+        max_v = z(600)
+        vspec = next(img for name, img, _ in blocks if name == "visual")
+        if vspec.get("type") == "image":                    # картинку показуємо цілком: висота за пропорцією
+            ratio = visuals.image_ratio(vspec.get("src", ""))
+            if ratio:
+                max_v = int((w - 2 * M) * ratio)
+        vis_h = max(min_v, min(max_v, area_bottom - area_top - text_h))
         if text_h + vis_h > area_bottom - area_top:      # не залазити на підвал
             area_top = max(top + 120, area_bottom - text_h - vis_h)
     content_h = text_h + vis_h
@@ -184,15 +190,13 @@ def og_image(cfg, article) -> Path:
     img.alpha_composite(Image.new("RGBA", (10, H), (*brand.RUBY, 255)), (0, 0))
     src = visuals.service_image(article.services)
     if src:   # ілюстрація напряму праворуч, із плавним переходом у фон
-        iw = int(W * .42)
-        ph = visuals.v_image({"src": src}, iw, H, lambda v: v)[0].image
-        fade = Image.linear_gradient("L").rotate(90).resize((iw, H)).point(lambda v: min(255, int(v * 1.6)))
-        ph.putalpha(Image.composite(ph.getchannel("A"), Image.new("L", (iw, H), 0), fade))
-        img.alpha_composite(ph, (W - iw, 0))
+        iw, ih = int(W * .40), H - 200
+        part = visuals.v_image({"src": src}, iw, ih, lambda v: v)[0]     # цілком, без обрізання
+        img.alpha_composite(part.image, (W - M - iw + part.xy[0], 60 + part.xy[1]))
     img.alpha_composite(brand.lockup(58), (M, 52))
     kicker = _text_block([cfg["languages"][article.lang]["insights_title"].upper()], brand.font("body-semi", 22), brand.RUBY)
     img.alpha_composite(kicker, (M, 156))
-    f, lines = brand.fit(article.title, "head", int(W * .62) - M, 58, 36, 4)
+    f, lines = brand.fit(article.title, "head", int(W * .56) - M, 54, 34, 4)
     img.alpha_composite(_text_block(lines, f, brand.WHITE, 1.14), (M, 196))
     d = ImageDraw.Draw(img)
     d.line([M, H - 96, W - M, H - 96], fill=brand.LINE, width=2)

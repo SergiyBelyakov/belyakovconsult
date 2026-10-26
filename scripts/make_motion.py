@@ -197,11 +197,10 @@ def render_content(slide, t: float, T: float, dur: float, chrome: bool) -> Image
             im = e.image.resize((max(1, int(e.image.width * sc)), max(1, int(e.image.height * sc))), Image.BILINEAR)
             layer.alpha_composite(with_alpha(im, k), (x + (e.image.width - im.width) // 2, y + bob + (e.image.height - im.height) // 2))
         elif e.anim == "zoom":
-            sc = 1.0 + 0.09 * min(1.0, t / dur)
-            im = e.image.resize((int(e.image.width * sc), int(e.image.height * sc)), Image.BILINEAR)
-            ox, oy = (im.width - e.image.width) // 2, (im.height - e.image.height) // 2
-            im = im.crop((ox, oy, ox + e.image.width, oy + e.image.height))
-            layer.alpha_composite(with_alpha(im, k), (x, y))
+            # плавне наближення до повного розміру: картинка завжди цілком, без обрізання країв
+            sc = 0.9 + 0.1 * ease(t / (dur * 0.8))
+            im = e.image.resize((max(1, int(e.image.width * sc)), max(1, int(e.image.height * sc))), Image.BILINEAR)
+            layer.alpha_composite(with_alpha(im, k), (x + (e.image.width - im.width) // 2, y + (e.image.height - im.height) // 2))
         elif e.name == "logo":
             kb = ease_back((t - start) / 0.6)
             pulse = 1 + 0.025 * np.sin(2 * np.pi * T / (BEAT * 2)) * settled
