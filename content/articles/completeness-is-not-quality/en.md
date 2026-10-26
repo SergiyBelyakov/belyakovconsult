@@ -71,7 +71,7 @@ episodes:
         visual:
           type: compare
           highlight: right
-          left: {label: "Completeness", value: "Known"}
+          left: {label: "Completeness", value: "98%"}
           right: {label: "Usable", value: "?", note: "Count it separately"}
 ---
 

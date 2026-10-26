@@ -70,7 +70,7 @@ episodes:
         visual:
           type: compare
           highlight: right
-          left: {label: "Повнота", value: "Знаємо"}
+          left: {label: "Повнота", value: "98%"}
           right: {label: "Придатні", value: "?", note: "Порахуйте окремо"}
 ---
 
