@@ -3,3 +3,4 @@ Markdown>=3.5
 PyYAML>=6.0
 Pillow>=10.0
 requests>=2.31
+numpy>=1.26
