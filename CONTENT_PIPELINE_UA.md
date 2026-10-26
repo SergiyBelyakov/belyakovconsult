@@ -21,7 +21,7 @@
 | --- | --- |
 | `config.yml` | Усі налаштування: режим, сайт, мови, канали, послуги |
 | `content/articles/<slug>/uk.md`, `en.md` | Стаття для сайту |
-| `content/articles/<slug>/posts/*.md` | Дописи для соцмереж з датою і часом |
+| `content/articles/<slug>/posts/*.md` | Дописи для соцмереж: три на тему в кожну мережу, час за ритмом `cadence` у `config.yml` |
 | `prompts/style.md`, `prompts/content-pack.md` | Голос бренду та інструкція для Claude |
 | `scripts/build_site.py` | Сторінки статей, список, RSS, sitemap, картинки |
 | `scripts/publish.py` | Публікація в LinkedIn, Threads, Telegram; Instagram — через адмінку |

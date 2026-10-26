@@ -118,7 +118,7 @@ channels:
   # (токен застосунку з продуктом Community Management API, дозвіл w_organization_social).
   linkedinpage:
     enabled: true
-    languages: [en]
+    languages: [uk, en]
     max_chars: 3000
     media: motion
   threads:
@@ -154,6 +154,19 @@ signatures:
   linkedinpage:
     uk: "Більше розборів: сайт belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram і Threads @belyakovconsult"
     en: "More notes: belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram and Threads @belyakovconsult"
+
+# Ритм публікацій. Одна стаття на тиждень (на сайті трьома мовами), і три дописи на її тему в кожну мережу.
+# Допис N лежить у posts/<канал>-<мова>.md (N = 1) або posts/<канал>-<мова>-N.md (N = 2, 3).
+# Якщо в дописі немає publish_at, час рахується тут: дата статті + post_days[N] днів, о годині з times.
+# Допис 1 іде з основним відео статті, дописи 2 і 3 зі своїми відео з episodes у статті.
+cadence:
+  article_weekday: mon          # день виходу статті (validate.py попереджає, якщо дата інша)
+  post_days: {1: 0, 2: 2, 3: 4} # понеділок, середа, п'ятниця
+  times:
+    telegram:     {uk: "10:00"}
+    threads:      {uk: "12:00", en: "18:00"}
+    instagram:    {uk: "12:30", en: "18:30"}
+    linkedinpage: {uk: "09:30", en: "16:00"}
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

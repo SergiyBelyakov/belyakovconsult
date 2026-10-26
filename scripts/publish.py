@@ -19,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import channels  # noqa: E402
 from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
-                    load_state, media_kind, now, post_parts, save_state, social_asset_dir,
+                    episode_sub, load_state, media_kind, now, post_parts, save_state, social_asset_dir,
                     social_asset_url)
 
 MAX_ATTEMPTS = 3
@@ -66,13 +66,21 @@ def _asset_dir(post, cfg):
     return social_asset_dir(cfg, post.slug, _asset_lang(post, cfg))
 
 
+def video_file(post, cfg) -> tuple[str, str] | None:
+    """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті."""
+    for sub in dict.fromkeys([episode_sub(post.n), ""]):
+        for lang in dict.fromkeys([post.lang, "uk"]):
+            if (social_asset_dir(cfg, post.slug, lang) / sub / "motion.mp4").exists():
+                return lang, sub + "motion.mp4"
+    return None
+
+
 def video_url(post, cfg) -> str | None:
-    """Адреса моушн-відео статті, якщо для каналу обрано motion і відео зібране."""
+    """Адреса моушн-відео допису, якщо для каналу обрано motion і відео зібране."""
     if media_kind(post, cfg) != "motion":
         return None
-    if (_asset_dir(post, cfg) / "motion.mp4").exists():
-        return social_asset_url(cfg, post.slug, "motion.mp4", _asset_lang(post, cfg))
-    return None
+    found = video_file(post, cfg)
+    return social_asset_url(cfg, post.slug, found[1], found[0]) if found else None
 
 
 def send(post, parts, cfg) -> dict:

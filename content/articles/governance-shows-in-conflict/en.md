@@ -26,6 +26,44 @@ carousel:
     visual:
       type: flow
       items: ["Recall the last number conflict", "Answer the 4 questions", "Find the \"unclear\" answers", "Start right there"]
+episodes:
+  - title: Whose number is it?
+    text: Answers to the four questions only hold when real people stand behind them.
+    carousel:
+      - title: Four roles
+        text: "Data owner\nData steward\nData custodian\nData consumer"
+        visual: {type: grid}
+      - title: Who does what
+        text: "The owner approves definitions\nThe steward keeps the description and spots gaps\nThe technical team implements the rule\nThe consumer says when numbers disagree"
+        visual: {type: list}
+      - title: A small team works too
+        text: One person can hold several roles. What matters is that every indicator has a name next to it.
+        visual:
+          type: compare
+          highlight: right
+          left: {label: "Fine", value: "1 person, several roles"}
+          right: {label: "Not fine", value: "An indicator with no owner"}
+      - title: Without names, answers disappear
+        text: After the first reshuffle. So for every critical indicator, write down the owner and the steward.
+        visual: {type: doc, label: "Indicator description", note: "Owner: ?"}
+  - title: How many recipients do you have?
+    text: Three teams can give three correct answers. An indicator reference sheet turns them into one.
+    carousel:
+      - title: A recipe without grams
+        text: "\"Some flour, sugar to taste.\" Everyone gets a cake, but a different one."
+        visual:
+          type: compare
+          highlight: right
+          left: {label: "Recipe", value: "Some flour"}
+          right: {label: "Indicator", value: "Recipients", note: "People or applications?"}
+      - title: Five lines of a reference sheet
+        text: "What we count, in one sentence\nUnit: person, application or service\nPeriod and cut-off date\nSource and who is responsible for it\nA formula someone else can repeat"
+        visual: {type: list, numbered: true}
+      - title: A 10-minute task
+        text: If you had to call someone at line three, you need the sheet more than you thought.
+        visual:
+          type: flow
+          items: ["One indicator from a report", "Five lines of the sheet", "Where you had to call someone", "Start right there"]
 ---
 
 Picture a management meeting (the example is illustrative, but familiar). Leadership is shown the number of service recipients for the quarter. One team brings 41,200, another 38,900. Both reports are carefully built, the formulas check out, and there are no calculation errors.

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import is_live, load_articles, load_config, load_posts, load_state, now, tz  # noqa: E402
+from common import channel_of, is_live, load_articles, load_config, load_posts, load_state, now, tz  # noqa: E402
 from publish import NAMES, admin  # noqa: E402
 
 TOKEN_DAYS = {"LINKEDIN_TOKEN_DATE": ("LinkedIn", 60), "THREADS_TOKEN_DATE": ("Threads", 60),
@@ -35,7 +35,7 @@ def main() -> int:
         if at < week_ago:
             continue
         slug, ch = key.split("/")
-        name = NAMES.get(ch.split("-")[0], ch)
+        name = NAMES.get(channel_of(key), ch)
         if rec["status"] == "published":
             out_last.append(f"• {name}: {slug}" + (f" — {rec['url']}" if rec.get("url") else ""))
         elif rec["status"] == "dry-run":

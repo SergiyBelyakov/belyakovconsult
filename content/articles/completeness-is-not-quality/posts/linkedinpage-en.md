@@ -1,7 +1,6 @@
 ---
 channel: linkedinpage
 lang: en
-publish_at: 2026-10-28 09:30
 ---
 The “document number” field is 98% complete. The quality report glows green, and technically it is not lying.
 

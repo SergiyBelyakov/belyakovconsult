@@ -12,6 +12,7 @@
 """
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import json
 import shutil
@@ -26,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import make_cards  # noqa: E402
 import music  # noqa: E402
-from common import load_articles, load_config, social_asset_dir  # noqa: E402
+from common import ROOT, episode_sub, load_articles, load_config, social_asset_dir  # noqa: E402
 
 W, H, FPS = 1080, 1920, 30
 TOP, BOTTOM = 230, 360          # безпечні зони під інтерфейс соцмереж
@@ -266,26 +267,48 @@ def fingerprint(cfg, article, specs) -> str:
     return h.hexdigest()[:16]
 
 
-def build(cfg, article, force: bool = False) -> Path | None:
+def episode(article, n: int):
+    """Стаття-«епізод» для допису N (2, 3…): власна обкладинка й слайди з article.episodes[n-2]."""
+    ep = article.episodes[n - 2]
+    return dataclasses.replace(article, title=str(ep.get("title", article.title)),
+                               description=str(ep.get("text", "")), carousel=list(ep.get("carousel") or []), episodes=[])
+
+
+def build_all(cfg, article, force: bool = False) -> list[Path]:
+    """Основне відео статті й відео кожного епізоду (для дописів 2, 3…)."""
+    out = []
+    for n in range(1, len(article.episodes) + 2):
+        a = article if n == 1 else episode(article, n)
+        d = social_asset_dir(cfg, article.slug, article.lang) / episode_sub(n)
+        mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}")
+        if mp4:
+            frames = [Image.open(f) for f in sorted(d.glob("motion-frame-*.jpg"), key=lambda x: int(x.stem.split("-")[-1]))]
+            make_cards.brand_sheet(cfg, a, frames, out_dir=d)
+            out.append(mp4)
+    return out
+
+
+def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: str | None = None) -> Path | None:
     if not article.carousel:
         return None
     if not shutil.which("ffmpeg"):
         raise RuntimeError("Немає ffmpeg: відео не зібрати")
-    out = social_asset_dir(cfg, article.slug, article.lang)
+    out = out_dir or social_asset_dir(cfg, article.slug, article.lang)
+    seed = seed or article.slug
     out.mkdir(parents=True, exist_ok=True)
     mp4, meta = out / "motion.mp4", out / "motion.json"
     specs = make_cards.slide_specs(cfg, article)
-    fp = fingerprint(cfg, article, specs)
+    fp = fingerprint(cfg, article, specs + [{"seed": seed}])
     if not force and mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp:
         return mp4
-    scene = Scene(int(hashlib.sha256(article.slug.encode()).hexdigest()[:8], 16))
+    scene = Scene(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16))
     slides = [make_cards.layout(cfg, article, s, i, len(specs), W, H, TOP, BOTTOM) for i, s in enumerate(specs, 1)]
     durs = [DUR.get(s.kind, 4.4) for s in slides]
     tmp = out / "motion.tmp.mp4"
     total_s = sum(durs)
     cuts = [sum(durs[:i]) for i in range(1, len(durs))]
     wav = out / "motion.music.tmp.wav"
-    music.generate(total_s, cuts, article.slug, wav)  # однакова музика для всіх мовних версій
+    music.generate(total_s, cuts, seed, wav)  # однакова музика для всіх мовних версій, своя для кожного допису
     cmd = ["ffmpeg", "-y", "-loglevel", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-i", str(wav),
@@ -329,11 +352,8 @@ def main() -> int:
     for a in load_articles(cfg, include_drafts=True):
         if (only and a.slug != only) or not a.carousel:
             continue
-        p = build(cfg, a, force=bool(only))
-        if p:
-            frames = [Image.open(f) for f in sorted(p.parent.glob("motion-frame-*.jpg"), key=lambda x: int(x.stem.split("-")[-1]))]
-            make_cards.brand_sheet(cfg, a, frames)
-            print(f"{a.slug}: {p.relative_to(p.parents[4])} ({p.stat().st_size // 1024} КБ)")
+        for p in build_all(cfg, a, force=bool(only)):
+            print(f"{a.slug}: {p.relative_to(ROOT)} ({p.stat().st_size // 1024} КБ)")
     return 0
 
 

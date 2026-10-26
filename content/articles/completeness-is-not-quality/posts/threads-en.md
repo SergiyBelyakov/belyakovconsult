@@ -1,7 +1,6 @@
 ---
 channel: threads
 lang: en
-publish_at: 2026-10-28 18:00
 ---
 A field is 98% complete. The report is green, everyone is happy. But completeness only answers "is there anything in the field". And "anything" covers a lot.
 <!-- next -->

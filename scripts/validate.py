@@ -14,7 +14,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
+from common import WEEKDAYS, CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
 import brand  # noqa: E402
 
 
@@ -47,6 +47,9 @@ def main() -> int:
             warns.append(f"{where}: не вказано services — стаття не веде на сторінку послуги")
         if any(ch in a.body + a.title + a.description for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–». На сайті прийнято без них — замініть на двокрапку, кому чи крапку")
+        wd = (cfg.get("cadence") or {}).get("article_weekday")
+        if wd and a.carousel and a.date.weekday() != WEEKDAYS.get(wd, a.date.weekday()):
+            warns.append(f"{where}: стаття виходить {a.date:%a}, а за ритмом cadence день статті {wd}")
         if a.words < 300 and not a.draft:
             warns.append(f"{where}: лише {a.words} слів (менше 300) — для пошуку краще 800+")
 
@@ -92,6 +95,10 @@ def main() -> int:
         has_motion = bool((idx.get((p.slug, "uk")) or a) and (idx.get((p.slug, "uk")) or a).carousel)
         if p.channel == "telegram" and media_kind(p, cfg) == "motion" and has_motion and len("\n\n".join(parts)) > 1000:
             warns.append(f"{where}: текст довший за підпис до відео (~1000 симв.), відео піде окремим повідомленням-відповіддю")
+        if p.n > 1:
+            src = a if a and len(a.episodes) >= p.n - 1 else idx.get((p.slug, "uk"))
+            if not (src and len(src.episodes) >= p.n - 1):
+                warns.append(f"{where}: допис {p.n}, але в статті немає episodes[{p.n - 2}]: піде основне відео статті")
         if p.channel == "instagram":
             base = idx.get((p.slug, "uk")) or a
             if not (base and base.carousel):
@@ -102,7 +109,7 @@ def main() -> int:
     lines += [f"- ⚠️ {w}" for w in warns]
     lines += ["", "## Розклад", "", "| Коли | Канал | Матеріал |", "| --- | --- | --- |"]
     for p in sorted(posts, key=lambda p: p.publish_at):
-        lines.append(f"| {p.publish_at:%Y-%m-%d %H:%M} | {p.channel}-{p.lang} | {p.slug} |")
+        lines.append(f"| {p.publish_at:%Y-%m-%d %H:%M} | {p.channel}-{p.lang} | {p.slug} · допис {p.n} |")
     report = "\n".join(lines)
     print(report)
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

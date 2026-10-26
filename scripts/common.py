@@ -61,6 +61,8 @@ class Article:
     draft: bool = False
     carousel: list = field(default_factory=list)
     updated: date | None = None
+    # Додаткові відео для дописів 2, 3…: [{title, text, carousel}], episodes[0] іде до допису 2
+    episodes: list = field(default_factory=list)
 
     @property
     def words(self) -> int:
@@ -82,10 +84,12 @@ class Post:
     link: bool = True
     images: list = field(default_factory=list)
     media: str | None = None     # motion | carousel | none (за замовчуванням із config.yml)
+    n: int = 1                   # номер допису в тижні теми: 1 — основне відео статті, 2+ — episodes статті
+    auto_time: bool = False      # publish_at обчислено з cadence у config.yml
 
     @property
     def key(self) -> str:
-        return f"{self.slug}/{self.channel}-{self.lang}"
+        return f"{self.slug}/{self.channel}-{self.lang}" + (f"-{self.n}" if self.n > 1 else "")
 
     def parts(self) -> list[str]:
         return [p.strip() for p in self.body.split(NEXT_MARK) if p.strip()]
@@ -122,6 +126,7 @@ def load_articles(cfg: dict, include_drafts: bool = False) -> list[Article]:
             draft=bool(meta.get("draft", False)),
             carousel=list(meta.get("carousel") or []),
             updated=_as_date(meta["updated"], f) if meta.get("updated") else None,
+            episodes=list(meta.get("episodes") or []),
         )
         if a.draft and not include_drafts:
             continue
@@ -134,16 +139,50 @@ def is_live(a: Article, cfg: dict) -> bool:
     return not a.draft and a.date <= now(cfg).date()
 
 
+POST_NAME = re.compile(r"^(?P<channel>[a-z]+)-(?P<lang>[a-z]{2})(?:-(?P<n>\d+))?$")
+WEEKDAYS = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
+
+
+def _article_date(slug: str, lang: str) -> date | None:
+    for name in (lang, "uk"):
+        f = CONTENT / slug / f"{name}.md"
+        if f.exists():
+            meta, _ = split_front_matter(f.read_text(encoding="utf-8"), f)
+            if meta.get("date"):
+                return _as_date(meta["date"], f)
+    return None
+
+
+def scheduled_at(cfg: dict, slug: str, channel: str, lang: str, n: int) -> datetime | None:
+    """Час допису за ритмом із config.yml (cadence): дата статті + post_days[n], час каналу й мови."""
+    cad = cfg.get("cadence") or {}
+    days = (cad.get("post_days") or {}).get(n)
+    hhmm = ((cad.get("times") or {}).get(channel) or {}).get(lang)
+    d = _article_date(slug, lang)
+    if days is None or not hhmm or not d:
+        return None
+    h, m = (int(x) for x in str(hhmm).split(":"))
+    return datetime(d.year, d.month, d.day, h, m) + timedelta(days=int(days))
+
+
 def load_posts(cfg: dict) -> list[Post]:
     out = []
     for f in sorted(CONTENT.glob("*/posts/*.md")):
         meta, body = split_front_matter(f.read_text(encoding="utf-8"), f)
-        channel = meta.get("channel") or f.stem.split("-")[0]
-        lang = meta.get("lang") or f.stem.split("-")[-1]
+        m = POST_NAME.match(f.stem)
+        if not m and not (meta.get("channel") and meta.get("lang")):
+            raise ValueError(f"{f}: назва має бути <канал>-<мова>.md або <канал>-<мова>-<номер>.md")
+        channel = meta.get("channel") or m["channel"]
+        lang = meta.get("lang") or m["lang"]
+        n = int(meta.get("n") or (m and m["n"]) or 1)
+        slug = f.parent.parent.name
         raw = meta.get("publish_at")
-        if raw is None:
-            raise ValueError(f"{f}: немає publish_at")
-        if isinstance(raw, datetime):
+        auto = raw is None
+        if auto:
+            dt = scheduled_at(cfg, slug, channel, lang, n)
+            if dt is None:
+                raise ValueError(f"{f}: немає publish_at, і ритм cadence у config.yml не дає часу для {channel}-{lang}, допис {n}")
+        elif isinstance(raw, datetime):
             dt = raw
         else:
             try:
@@ -152,7 +191,7 @@ def load_posts(cfg: dict) -> list[Post]:
                 raise ValueError(f"{f}: publish_at має бути «РРРР-ММ-ДД ГГ:ХХ», отримано {raw!r}") from e
         dt = dt.replace(tzinfo=tz(cfg)) if dt.tzinfo is None else dt
         out.append(Post(
-            slug=f.parent.parent.name,
+            slug=slug,
             channel=channel,
             lang=lang,
             path=f,
@@ -161,8 +200,16 @@ def load_posts(cfg: dict) -> list[Post]:
             link=bool(meta.get("link", True)),
             images=list(meta.get("images") or []),
             media=meta.get("media"),
+            n=n,
+            auto_time=auto,
         ))
     return out
+
+
+def channel_of(key: str) -> str:
+    """Канал із ключа журналу «<slug>/<канал>-<мова>[-N]»."""
+    m = POST_NAME.match(key.split("/", 1)[1])
+    return m["channel"] if m else key.split("/", 1)[1].split("-")[0]
 
 
 def article_path(cfg: dict, lang: str, slug: str | None = None) -> str:
@@ -252,6 +299,11 @@ def social_asset_dir(cfg: dict, slug: str, lang: str | None = None) -> Path:
 
 def social_asset_url(cfg: dict, slug: str, name: str, lang: str | None = None) -> str:
     return f"{cfg['site']['base_url'].rstrip('/')}/assets/insights/{slug}{_lang_sub(lang)}/{name}"
+
+
+def episode_sub(n: int) -> str:
+    """Підпапка відео допису N: основне відео лежить у папці статті, відео дописів 2+ у e2/, e3/…"""
+    return "" if n <= 1 else f"e{n}/"
 
 
 def fmt_dt(d: datetime) -> str:

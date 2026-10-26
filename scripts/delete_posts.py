@@ -3,7 +3,7 @@
 Навіщо: замінити відео чи текст у вже опублікованому дописі. API соцмереж не дозволяють
 поміняти відео в наявному дописі, тому старий видаляється, а новий виходить заново.
 
-Формат черги: ["<slug>/<канал>-<мова>", ...]. Після обробки черга очищається.
+Формат черги: ["<slug>/<канал>-<мова>[-N]", ...]. Після обробки черга очищається.
 Що вміє видаляти сам:
 - Telegram: так (бот-адміністратор каналу);
 - Threads: так, якщо токен має дозвіл threads_delete, інакше просить видалити вручну;
@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import STATE_FILE, load_state, save_state  # noqa: E402
+from common import STATE_FILE, channel_of, load_state, save_state  # noqa: E402
 from publish import NAMES, admin  # noqa: E402
 
 QUEUE = STATE_FILE.parent / "delete-queue.json"
@@ -55,7 +55,7 @@ def main() -> int:
         rec = state.get(key)
         if not rec:
             continue
-        channel = key.split("/")[1].rsplit("-", 1)[0]
+        channel = channel_of(key)
         err = None
         if rec.get("status") == "published" and rec.get("id"):
             if channel == "telegram":

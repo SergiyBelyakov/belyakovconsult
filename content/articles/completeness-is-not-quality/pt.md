@@ -1,7 +1,7 @@
 ---
 title: 98% de completude não significa 98% de qualidade
 description: Porque uma completude elevada diz pouco sobre se os dados de um registo são utilizáveis e que verificações mostram a qualidade real.
-date: 2026-10-28
+date: 2026-11-02
 services: [data-quality, data-governance]
 tags: [qualidade de dados, registos, setor público]
 ---

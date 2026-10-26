@@ -1,7 +1,7 @@
 ---
 title: 98% complete does not mean 98% quality
 description: Why a high completeness rate says little about whether registry data is usable, and which checks reveal its real quality.
-date: 2026-10-28
+date: 2026-11-02
 services: [data-quality, data-governance]
 tags: [data quality, registries, public sector]
 carousel:
@@ -36,6 +36,43 @@ carousel:
       highlight: right
       left: {label: "Filled in", value: "98%"}
       right: {label: "Fit for use", value: "?", note: "Count it separately"}
+episodes:
+  - title: Placeholders count too
+    text: "\"0\", \"-\", \"unknown\" and 01.01.1900 formally fill the field. And honestly land in the 98%."
+    carousel:
+      - title: You can find them in 5 minutes
+        text: Sort the field values by frequency. Placeholders are almost always at the top.
+        visual:
+          type: bars
+          items: [{label: "\"0\"", value: 1840}, {label: "\"-\"", value: 960}, {label: "01.01.1900", value: 410}]
+          note: "Illustrative data: most frequent values"
+          thousands: ","
+      - title: Where they come from
+        text: "The form will not save an empty field\nThe value is not known yet at entry\nThere is no \"not applicable\" option"
+        visual: {type: list}
+      - title: What to do about it
+        text: A placeholder is not a person's mistake. It shows where the form stops people from entering the truth.
+        visual:
+          type: flow
+          items: ["List placeholders per field", "Count them as empty", "An honest \"unknown\" in the form", "Checks at data entry"]
+  - title: Show two columns
+    text: "\"Filled in\" and \"usable\". The gap between them is the real amount of work."
+    carousel:
+      - title: Where conclusions get distorted
+        text: "Coverage\nUnique recipients\nAmount paid"
+        visual: {type: grid}
+      - title: A rule instead of a percentage
+        text: For every critical field.
+        visual:
+          type: flow
+          items: ["Business rule in plain words", "A regular check", "Share that passes", "Who fixes it at the source"]
+      - title: A question for you
+        text: For your main register, do you know not only completeness but also the share of usable records?
+        visual:
+          type: compare
+          highlight: right
+          left: {label: "Completeness", value: "Known"}
+          right: {label: "Usable", value: "?", note: "Count it separately"}
 ---
 
 Data quality reports often open with completeness: the “document number” field is filled in 98% of records. The number looks reassuring. Yet it answers only one question: is there anything in the field at all?

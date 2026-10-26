@@ -118,10 +118,7 @@ def main() -> int:
             make_cards.og_image(cfg, v)
             make_cards.carousel(cfg, v)
             if v.carousel:
-                mp4 = make_motion.build(cfg, v)
-                frames = [make_cards.Image.open(f) for f in sorted(mp4.parent.glob("motion-frame-*.jpg"),
-                                                                 key=lambda x: int(x.stem.split("-")[-1]))]
-                make_cards.brand_sheet(cfg, v, frames)
+                make_motion.build_all(cfg, v)   # основне відео статті + відео дописів 2, 3… (episodes)
         alternates = [(l, base + article_path(cfg, l, slug)) for l in langs_cfg if l in versions]
         if len(alternates) > 1:
             alternates.append(("x-default", base + article_path(cfg, "uk" if "uk" in versions else alternates[0][0], slug)))

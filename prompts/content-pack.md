@@ -5,18 +5,22 @@
 
 ## Що отримати на виході
 
+Одна тема на тиждень: стаття на сайті трьома мовами і три дописи на її тему в кожну мережу.
+
 ```
 content/articles/<slug>/
-  uk.md                 стаття українською (головна)
-  en.md                 стаття англійською
-  pt.md                 стаття португальською
+  uk.md, en.md, pt.md       стаття (uk і en з carousel та episodes)
   posts/
-    linkedinpage-en.md  допис для сторінки Belyakov Consult у LinkedIn (лише англійською)
-    threads-en.md, instagram-en.md  англійські версії
-    threads-uk.md       тред з 2–4 частин
-    telegram-uk.md      допис для Telegram-каналу
-    instagram-uk.md     підпис до каруселі
+    telegram-uk.md          допис 1 (основне відео статті)
+    telegram-uk-2.md        допис 2 (відео episodes[0])
+    telegram-uk-3.md        допис 3 (відео episodes[1])
+    threads-uk[-2|-3].md, threads-en[-2|-3].md
+    instagram-uk[-2|-3].md, instagram-en[-2|-3].md
+    linkedinpage-uk[-2|-3].md, linkedinpage-en[-2|-3].md
 ```
+
+Разом 21 допис на тиждень: Telegram 3 (uk), Threads, Instagram, LinkedIn по 6 (uk і en).
+Три дописи на тему мають різні кути: 1. головна думка статті; 2. глибше в один розділ (ролі, заглушки, конкретна перевірка); 3. практичний інструмент або питання до читачів.
 
 `<slug>` — 3–5 англійських слів через дефіс, що описують тему: `completeness-is-not-quality`.
 
@@ -29,9 +33,17 @@ description: 120–160 символів, наслідок для читача, �
 date: РРРР-ММ-ДД          # день публікації на сайті
 services: [data-quality]  # 1–2 ключі з config.yml → services
 tags: [3–5 тегів]
-carousel:                 # лише в uk.md, 4–6 слайдів для Instagram
+carousel:                 # у uk.md і en.md, 4–6 слайдів основного відео (допис 1)
   - title: до 45 символів
     text: до 140 символів
+    visual: {type: list}    # див. «Візуалізація слайдів»
+episodes:                 # відео для дописів 2 і 3: обкладинка + 3–4 слайди
+  - title: до 45 символів   # обкладинка відео допису 2
+    text: до 140 символів
+    carousel: [...]         # як carousel вище
+  - title: ...              # допис 3
+    text: ...
+    carousel: [...]
 ---
 ```
 
@@ -45,7 +57,7 @@ carousel:                 # лише в uk.md, 4–6 слайдів для Insta
 ---
 channel: linkedinpage    # linkedinpage | threads | telegram | instagram
 lang: uk
-publish_at: 2026-10-28 09:30   # час за Києвом
+# publish_at не пишемо: час рахується з ритму cadence у config.yml
 link: false              # лише для instagram (без посилання на статтю)
 ---
 ```
@@ -65,20 +77,23 @@ link: false              # лише для instagram (без посилання 
 | --- | --- |
 | Сайт | uk, en, pt: кожна стаття трьома мовами (`uk.md`, `en.md`, `pt.md`) |
 | Instagram, Threads | uk і en: окремі дописи `instagram-uk.md`, `instagram-en.md` тощо |
-| LinkedIn (сторінка) | лише en: `linkedinpage-en.md` |
+| LinkedIn (сторінка) | uk і en: `linkedinpage-uk.md`, `linkedinpage-en.md` |
 | Telegram | лише uk |
 
-Для англійських дописів в Instagram і Threads потрібен `carousel` у `en.md`, тоді відео буде англійською. Дописи мовою, якої немає в списку каналу, перевірка не пропустить.
+Для англійських дописів потрібні `carousel` і `episodes` у `en.md`, тоді відео буде англійською. Дописи мовою, якої немає в списку каналу, перевірка не пропустить.
 
-## Розклад тижня (за замовчуванням)
+## Розклад тижня (cadence у config.yml)
 
-| День | Що виходить |
-| --- | --- |
-| Середа 09:30 | стаття на сайті + сторінка LinkedIn UA |
-| Середа 12:00 | Threads |
-| Четвер 10:00 | Telegram |
-| Четвер 16:00 | сторінка LinkedIn EN |
-| П’ятниця 12:00 | Instagram |
+Стаття виходить у понеділок (поле `date`). Дописи рахуються від неї: допис 1 у понеділок, 2 у середу, 3 у п'ятницю.
+
+| Канал | uk | en |
+| --- | --- | --- |
+| LinkedIn (сторінка) | 09:30 | 16:00 |
+| Telegram | 10:00 | |
+| Threads | 12:00 | 18:00 |
+| Instagram | 12:30 | 18:30 |
+
+Щоб змінити дні чи години для всіх майбутніх дописів, правте `cadence` у `config.yml`. Щоб зсунути один допис, допишіть у нього `publish_at: РРРР-ММ-ДД ГГ:ХХ`.
 
 Допис не вийде раніше, ніж з’явиться стаття, навіть якщо час настав.
 

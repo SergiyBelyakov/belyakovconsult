@@ -231,10 +231,10 @@ def carousel(cfg, article) -> list[Path]:
     return paths
 
 
-def brand_sheet(cfg, article, frames: list[Image.Image] | None = None) -> Path:
+def brand_sheet(cfg, article, frames: list[Image.Image] | None = None, out_dir: Path | None = None) -> Path:
     """Аркуш для перевірки бренду: прев'ю, усі картки, кадри відео."""
-    out = social_asset_dir(cfg, article.slug, article.lang)
-    tiles = [Image.open(out / "og.png")]
+    out = out_dir or social_asset_dir(cfg, article.slug, article.lang)
+    tiles = [Image.open(out / "og.png")] if (out / "og.png").exists() else []
     tiles += [Image.open(p) for p in sorted(out.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))]
     tiles += frames or []
     th = 420
