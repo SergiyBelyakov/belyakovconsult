@@ -34,6 +34,9 @@ site:
     telegram: https://t.me/+380936859779
     telegram_channel: https://t.me/belyakovconsult
 
+# Мови сайту: кожна стаття має бути всіма трьома (перевіряє validate.py)
+site_languages: [uk, en, pt]
+
 languages:
   uk:
     prefix: ""
@@ -106,6 +109,7 @@ services:
   geospatial-analysis: {path: /geospatial-analysis/, uk: Геопросторовий аналіз, en: Geospatial Analysis, pt: Análise geoespacial}
 
 channels:
+  # languages: якими мовами йдуть дописи в канал; дописи інших мов конвеєр не публікує
   linkedin:
     enabled: false          # особистий профіль вимкнено 25.10: публікуємо лише від сторінки компанії (linkedinpage)
     max_chars: 3000
@@ -114,18 +118,22 @@ channels:
   # (токен застосунку з продуктом Community Management API, дозвіл w_organization_social).
   linkedinpage:
     enabled: true
+    languages: [en]
     max_chars: 3000
     media: motion
   threads:
     enabled: true
+    languages: [uk, en]
     max_chars: 500
     media: motion
   telegram:
     enabled: true
+    languages: [uk]
     max_chars: 4096
     media: motion
   instagram:
     enabled: true
+    languages: [uk, en]
     max_chars: 2200
     auto: true              # з секретом INSTAGRAM_TOKEN карусель публікується сама; без нього підпис і картки йдуть вам у Telegram
     api_version: v26.0

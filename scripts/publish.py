@@ -114,8 +114,11 @@ def main() -> int:
             continue
         if status in ("skipped-late", "failed"):
             rec = {}
-        if post.publish_at > t or not cfg["channels"].get(post.channel, {}).get("enabled", False):
+        ch_cfg = cfg["channels"].get(post.channel, {})
+        if post.publish_at > t or not ch_cfg.get("enabled", False):
             continue
+        if ch_cfg.get("languages") and post.lang not in ch_cfg["languages"]:
+            continue   # мова не для цього каналу (див. channels.<канал>.languages у config.yml)
         name = NAMES.get(post.channel, post.channel)
         if post.link and (post.slug, post.lang) not in live_articles:
             print(f"Чекає на статтю: {post.key}")

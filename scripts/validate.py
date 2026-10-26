@@ -50,6 +50,12 @@ def main() -> int:
         if a.words < 300 and not a.draft:
             warns.append(f"{where}: лише {a.words} слів (менше 300) — для пошуку краще 800+")
 
+    site_langs = cfg.get("site_languages") or []
+    for slug in sorted({a.slug for a in articles if not a.draft}):
+        missing = [l for l in site_langs if (slug, l) not in idx]
+        if missing:
+            errors.append(f"{slug}: на сайті бракує мов {', '.join(missing)} (потрібні {', '.join(site_langs)})")
+
     for k, n in Counter(p.key for p in posts).items():
         if n > 1:
             errors.append(f"{k}: дубль допису")
@@ -68,6 +74,9 @@ def main() -> int:
             warns.append(f"{where}: у тексті немає {{{{link}}}} — посилання на статтю не буде")
         if any(ch in p.body for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–»; за профілем голосу їх не використовуємо (список: «•» або 1., 2.)")
+        langs = cfg["channels"][p.channel].get("languages")
+        if langs and p.lang not in langs:
+            errors.append(f"{where}: канал {p.channel} публікує лише {', '.join(langs)}, допис мовою {p.lang} не вийде")
         limit = cfg["channels"][p.channel]["max_chars"]
         parts = post_parts(p, cfg)
         if p.channel == "threads":

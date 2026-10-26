@@ -8,10 +8,11 @@
 ```
 content/articles/<slug>/
   uk.md                 стаття українською (головна)
-  en.md                 стаття англійською (для важливих тем)
+  en.md                 стаття англійською
+  pt.md                 стаття португальською
   posts/
-    linkedinpage-uk.md  допис для сторінки Belyakov Consult у LinkedIn, укр.
-    linkedinpage-en.md  те саме англійською (якщо є en.md)
+    linkedinpage-en.md  допис для сторінки Belyakov Consult у LinkedIn (лише англійською)
+    threads-en.md, instagram-en.md  англійські версії
     threads-uk.md       тред з 2–4 частин
     telegram-uk.md      допис для Telegram-каналу
     instagram-uk.md     підпис до каруселі
@@ -57,6 +58,17 @@ link: false              # лише для instagram (без посилання 
 | Threads | частини до 450 симв., розділені рядком `<!-- next -->` | 2–4 частини, кожна зрозуміла окремо; `{{link}}` в останній |
 | Telegram | 500–1200 симв. | Заголовок `**жирним**`; маркери «•»; одна практична порада; `{{link}}` |
 | Instagram | 300–700 симв. | Без посилань (вони не клікабельні); «посилання в профілі»; 4–6 хештегів |
+
+## Мови
+
+| Куди | Мови |
+| --- | --- |
+| Сайт | uk, en, pt: кожна стаття трьома мовами (`uk.md`, `en.md`, `pt.md`) |
+| Instagram, Threads | uk і en: окремі дописи `instagram-uk.md`, `instagram-en.md` тощо |
+| LinkedIn (сторінка) | лише en: `linkedinpage-en.md` |
+| Telegram | лише uk |
+
+Для англійських дописів в Instagram і Threads потрібен `carousel` у `en.md`, тоді відео буде англійською. Дописи мовою, якої немає в списку каналу, перевірка не пропустить.
 
 ## Розклад тижня (за замовчуванням)
 
