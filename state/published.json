@@ -17,8 +17,20 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/De9MgWqjLrZ/"
   },
+  "governance-shows-in-conflict/instagram-uk-2": {
+    "at": "2026-10-27 18:01",
+    "attempts": 1,
+    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"Aw7-4UDIJQLZDvVY8wU",
+    "publish_at": "2026-10-27 12:30",
+    "status": "retry"
+  },
   "governance-shows-in-conflict/linkedinpage-en": {
     "at": "2026-10-26 09:28",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
+  },
+  "governance-shows-in-conflict/linkedinpage-en-2": {
+    "at": "2026-10-27 18:01",
     "reason": "немає секретів LINKEDIN_ORG_ID",
     "status": "manual-sent"
   },
@@ -48,6 +60,12 @@
     "id": "18069927296510286",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/De9MwYjjRDU"
+  },
+  "governance-shows-in-conflict/threads-en-2": {
+    "at": "2026-10-27 18:01",
+    "id": "18080796308445089",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfAPPyhCRHI"
   },
   "governance-shows-in-conflict/threads-uk": {
     "at": "2026-10-26 13:38",
