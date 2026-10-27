@@ -26,11 +26,22 @@
     "at": "2026-10-26 00:18",
     "status": "dry-run"
   },
+  "governance-shows-in-conflict/linkedinpage-uk-2": {
+    "at": "2026-10-27 11:18",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
+  },
   "governance-shows-in-conflict/telegram-uk": {
     "at": "2026-10-26 13:38",
     "id": 7,
     "status": "published",
     "url": "https://t.me/belyakovconsult/7"
+  },
+  "governance-shows-in-conflict/telegram-uk-2": {
+    "at": "2026-10-27 11:18",
+    "id": 9,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/9"
   },
   "governance-shows-in-conflict/threads-en": {
     "at": "2026-10-26 13:38",
