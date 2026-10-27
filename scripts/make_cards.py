@@ -98,7 +98,7 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
             vis_spec = {"type": "image", "src": img_src}
         if vis_spec:
             blocks.append(("visual", vis_spec, 44))
-        blocks.append(("kicker", _text_block([L["insights_title"].upper()], brand.font("body-semi", z(30)), brand.RUBY), 30))
+        blocks.append(("kicker", _text_block([(article.kicker or L["insights_title"]).upper()], brand.font("body-semi", z(30)), brand.RUBY), 30))
         f, lines = brand.fit(spec["title"], "head", w - 2 * M, z(72) if vis_spec else z(84), z(46), 4 if vis_spec else 6)
         blocks.append(("title", _text_block(lines, f, brand.WHITE, 1.12), 34))
         f2, lines2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, z(34) if vis_spec else z(38), z(26), 4 if vis_spec else 6)
@@ -291,7 +291,8 @@ def note_cards(cfg, post) -> list[Path]:
     cover = post.cards[0]
     a = Article(slug=post.slug, lang=post.lang, path=post.path, title=str(cover.get("title", "")),
                 description=str(cover.get("text", "")), date=post.publish_at.date(), body="",
-                services=list(post.services), carousel=list(post.cards[1:]))
+                services=list(post.services), carousel=list(post.cards[1:]),
+                kicker={"uk": "Нотатки", "en": "Notes", "pt": "Notas"}.get(post.lang, "Notes"))
     out = note_asset_dir(cfg, post)
     paths = carousel(cfg, a, out_dir=out)
     brand_sheet(cfg, a, out_dir=out)

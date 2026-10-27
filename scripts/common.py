@@ -64,6 +64,7 @@ class Article:
     updated: date | None = None
     # Додаткові відео для дописів 2, 3…: [{title, text, carousel}], episodes[0] іде до допису 2
     episodes: list = field(default_factory=list)
+    kicker: str | None = None    # рубрика на обкладинці замість insights_title (для нотаток)
 
     @property
     def words(self) -> int:
