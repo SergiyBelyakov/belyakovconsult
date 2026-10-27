@@ -294,6 +294,14 @@ def note_cards(cfg, post) -> list[Path]:
                 services=list(post.services), carousel=list(post.cards[1:]),
                 kicker={"uk": "Нотатки", "en": "Notes", "pt": "Notas"}.get(post.lang, "Notes"))
     out = note_asset_dir(cfg, post)
+    import hashlib, json as _json
+    h = hashlib.sha256(_json.dumps([post.cards, post.services, post.lang], ensure_ascii=False, sort_keys=True).encode())
+    for mod in (Path(__file__), Path(visuals.__file__), Path(brand.__file__)):
+        h.update(mod.read_bytes())
+    fp, meta = h.hexdigest()[:16], out / "cards.json"
+    if meta.exists() and _json.loads(meta.read_text()).get("fingerprint") == fp:   # нічого не змінилося
+        return sorted(out.glob("slide-*.png"), key=lambda x: int(x.stem.split("-")[1]))
     paths = carousel(cfg, a, out_dir=out)
     brand_sheet(cfg, a, out_dir=out)
+    meta.write_text(_json.dumps({"fingerprint": fp}) + "\n")
     return paths
