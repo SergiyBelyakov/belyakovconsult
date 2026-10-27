@@ -8,7 +8,7 @@ on:
     paths: ["content/**", "templates/**", "config.yml", "scripts/**"]
   schedule:
     - cron: "7,22,37,52 * * * *"   # кожні 15 хв: GitHub часто пропускає запуски за розкладом
-  workflow_dispatch:
+  workflow_dispatch:              # надійний запуск кожні 15 хв дає Cloudflare Worker (tools/cron-worker)
 
 permissions:
   contents: write
@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main                  # найсвіжіший main, а не коміт, що запустив роботу (інакше журнал конфліктує)
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -75,5 +77,6 @@ jobs:
           git add state "$OUT"
           if git diff --cached --quiet; then echo "Змін немає"; exit 0; fi
           git commit -m "Конвеєр: оновлення сайту і журналу $(date -u +'%Y-%m-%d %H:%M')"
-          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          # -X theirs: при конфлікті в журналі чи картинках перемагає версія цього запуску (вона новіша)
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; git rebase --abort 2>/dev/null; sleep 5; done
           exit 1

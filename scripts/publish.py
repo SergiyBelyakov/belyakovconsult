@@ -14,6 +14,7 @@ from __future__ import annotations
 import os
 import sys
 import traceback
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -41,6 +42,11 @@ def admin(text: str, photos: list[Path] | None = None) -> None:
             channels.telegram_send_photos(chat, photos)
     except Exception as e:  # повідомлення адміну не повинно зупиняти публікацію
         print(f"Не вдалося написати в адмінку: {e}")
+
+
+def is_auth_error(e: Exception) -> bool:
+    t = str(e)
+    return any(x in t for x in ('"code":190', "OAuthException", "Invalid OAuth", "HTTP 401", "expired"))
 
 
 def manual_reason(post, cfg) -> str | None:
@@ -116,6 +122,7 @@ def main() -> int:
     state = load_state()
     live_articles = {(a.slug, a.lang) for a in load_articles(cfg, include_drafts=True) if is_live(a, cfg)}
     done = 0
+    blocked: set[str] = set()     # мережі з недійсним ключем у цьому запуску
     for post in sorted(load_posts(cfg), key=lambda p: p.publish_at):
         rec = state.get(post.key, {})
         status = rec.get("status")
@@ -126,6 +133,8 @@ def main() -> int:
             continue
         if status in ("skipped-late", "failed"):
             rec = {}
+        if post.channel in blocked:
+            continue
         ch_cfg = cfg["channels"].get(post.channel, {})
         if post.publish_at > t or not ch_cfg.get("enabled", False):
             continue
@@ -169,8 +178,19 @@ def main() -> int:
             admin(f"✅ Опубліковано в {name}: {post.slug}" + (f"\n{res['url']}" if res.get("url") else ""))
             done += 1
         except Exception as e:
-            attempts = rec.get("attempts", 0) + 1
             traceback.print_exc()
+            if is_auth_error(e):
+                # Ключ відкликано або прострочено: спроби не витрачаємо, допис чекає нового ключа.
+                blocked.add(post.channel)
+                state[post.key] = {**rec, "status": "retry", "error": str(e)[:300], "at": fmt_dt(t),
+                                   "publish_at": fmt_dt(post.publish_at), "auth_error": True}
+                last = state.setdefault("_auth_alerts", {}).get(post.channel)
+                if not last or (t - datetime.strptime(last, "%Y-%m-%d %H:%M").replace(tzinfo=t.tzinfo)).total_seconds() > 6 * 3600:
+                    state["_auth_alerts"][post.channel] = fmt_dt(t)
+                    admin(f"🔑 {name}: ключ доступу недійсний, публікації в цю мережу стоять. "
+                          f"Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.\n{str(e)[:300]}")
+                continue
+            attempts = rec.get("attempts", 0) + 1
             state[post.key] = {"status": "failed" if attempts >= MAX_ATTEMPTS else "retry",
                                "attempts": attempts, "error": str(e)[:300], "at": fmt_dt(t),
                                "publish_at": fmt_dt(post.publish_at)}
