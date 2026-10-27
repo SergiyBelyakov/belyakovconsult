@@ -19,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import channels  # noqa: E402
 from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, load_posts,  # noqa: E402
-                    episode_sub, load_state, media_kind, now, post_parts, save_state, social_asset_dir,
+                    episode_sub, load_state, media_kind, note_asset_dir, note_asset_url, now, post_parts, save_state, social_asset_dir,
                     social_asset_url)
 
 MAX_ATTEMPTS = 3
@@ -93,6 +93,10 @@ def send(post, parts, cfg) -> dict:
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"])
     if post.channel == "instagram" and video and not post.images:
         return channels.publish_instagram_reel("\n\n".join(parts), video, cfg["channels"]["instagram"].get("api_version", "v26.0"))
+    if post.channel == "instagram" and post.kind == "note":
+        slides = sorted(note_asset_dir(cfg, post).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
+        urls = list(post.images) or [note_asset_url(cfg, post, p.name) for p in slides]
+        return channels.publish_instagram("\n\n".join(parts), urls, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "instagram":
         slides = sorted(_asset_dir(post, cfg).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
         urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name, _asset_lang(post, cfg)) for p in slides]
@@ -139,7 +143,8 @@ def main() -> int:
             continue
         parts = post_parts(post, cfg)
         vid = video_url(post, cfg)
-        photos = [] if vid else (sorted(_asset_dir(post, cfg).glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
+        card_dir = note_asset_dir(cfg, post) if post.kind == "note" else _asset_dir(post, cfg)
+        photos = [] if vid else (sorted(card_dir.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
                                  if post.channel == "instagram" else [])
         media_note = f"\n\n🎬 Моушн-відео до допису: {vid}" if vid else ""
 

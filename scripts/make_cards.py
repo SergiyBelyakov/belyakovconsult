@@ -209,12 +209,12 @@ def og_image(cfg, article) -> Path:
     return p
 
 
-def carousel(cfg, article) -> list[Path]:
+def carousel(cfg, article, out_dir: Path | None = None) -> list[Path]:
     if not article.carousel:
         return []
     W, H = 1080, 1350
     specs = slide_specs(cfg, article)
-    out = social_asset_dir(cfg, article.slug, article.lang)
+    out = out_dir or social_asset_dir(cfg, article.slug, article.lang)
     out.mkdir(parents=True, exist_ok=True)
     bg = background(W, H)
     paths = []
@@ -281,3 +281,18 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def note_cards(cfg, post) -> list[Path]:
+    """Картки нотатки Instagram (1080×1350): обкладинка з cards[0], слайди з cards[1:], фінальний слайд з контактами."""
+    from common import Article, note_asset_dir
+    if not post.cards:
+        return []
+    cover = post.cards[0]
+    a = Article(slug=post.slug, lang=post.lang, path=post.path, title=str(cover.get("title", "")),
+                description=str(cover.get("text", "")), date=post.publish_at.date(), body="",
+                services=list(post.services), carousel=list(post.cards[1:]))
+    out = note_asset_dir(cfg, post)
+    paths = carousel(cfg, a, out_dir=out)
+    brand_sheet(cfg, a, out_dir=out)
+    return paths

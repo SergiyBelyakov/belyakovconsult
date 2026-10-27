@@ -64,7 +64,7 @@ def main() -> int:
             errors.append(f"{k}: дубль допису")
 
     for p in posts:
-        where = str(p.path.relative_to(p.path.parents[3]))
+        where = str(p.path.relative_to(p.path.parents[3 if p.kind == "article" else 2]))
         if p.channel not in CHANNELS:
             errors.append(f"{where}: невідомий канал «{p.channel}»")
             continue
@@ -92,14 +92,19 @@ def main() -> int:
                 errors.append(f"{where}: {total} симв., ліміт {p.channel} {limit}")
             if len(parts) > 1:
                 warns.append(f"{where}: розділювач частин має сенс лише для Threads, тут частини буде склеєно")
-        has_motion = bool((idx.get((p.slug, "uk")) or a) and (idx.get((p.slug, "uk")) or a).carousel)
+        has_motion = p.kind == "article" and bool((idx.get((p.slug, "uk")) or a) and (idx.get((p.slug, "uk")) or a).carousel)
         if p.channel == "telegram" and media_kind(p, cfg) == "motion" and has_motion and len("\n\n".join(parts)) > 1000:
             warns.append(f"{where}: текст довший за підпис до відео (~1000 симв.), відео піде окремим повідомленням-відповіддю")
-        if p.n > 1:
+        if p.kind == "note":
+            if p.channel not in ("threads", "instagram"):
+                errors.append(f"{where}: нотатки (content/notes) лише для threads та instagram")
+            if p.channel == "instagram" and len(p.cards) < 2 and not p.images:
+                errors.append(f"{where}: нотатці Instagram потрібні cards: обкладинка і хоча б один слайд")
+        if p.n > 1 and p.kind == "article":
             src = a if a and len(a.episodes) >= p.n - 1 else idx.get((p.slug, "uk"))
             if not (src and len(src.episodes) >= p.n - 1):
                 warns.append(f"{where}: допис {p.n}, але в статті немає episodes[{p.n - 2}]: піде основне відео статті")
-        if p.channel == "instagram":
+        if p.channel == "instagram" and p.kind == "article":
             base = idx.get((p.slug, "uk")) or a
             if not (base and base.carousel):
                 warns.append(f"{where}: у статті немає carousel — для Instagram не буде карток")

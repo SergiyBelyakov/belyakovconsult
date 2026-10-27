@@ -14,6 +14,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "articles"
+NOTES = ROOT / "content" / "notes"      # короткі дописи без статті: content/notes/<РРРР-ММ-ДД>/<канал>-<мова>-<слот>.md
 STATE_FILE = ROOT / "state" / "published.json"
 
 CHANNELS = ("linkedin", "linkedinpage", "threads", "telegram", "instagram")
@@ -86,6 +87,9 @@ class Post:
     media: str | None = None     # motion | carousel | none (за замовчуванням із config.yml)
     n: int = 1                   # номер допису в тижні теми: 1 — основне відео статті, 2+ — episodes статті
     auto_time: bool = False      # publish_at обчислено з cadence у config.yml
+    kind: str = "article"        # article — допис до статті; note — коротка нотатка з content/notes
+    cards: list = field(default_factory=list)   # нотатка Instagram: [обкладинка {title, text}, слайди {title, text, visual}]
+    services: list = field(default_factory=list)
 
     @property
     def key(self) -> str:
@@ -214,7 +218,50 @@ def load_posts(cfg: dict) -> list[Post]:
             n=n,
             auto_time=auto,
         ))
+    return out + load_notes(cfg)
+
+
+def note_time(cfg: dict, day: date, channel: str, lang: str, slot: int) -> datetime | None:
+    slots = (((cfg.get("notes") or {}).get("times") or {}).get(channel) or {}).get(lang) or []
+    if not 1 <= slot <= len(slots):
+        return None
+    h, m = (int(x) for x in str(slots[slot - 1]).split(":"))
+    return datetime(day.year, day.month, day.day, h, m)
+
+
+def load_notes(cfg: dict) -> list[Post]:
+    """Короткі нотатки: Threads (текст) і Instagram (карусель карток). Час: дата папки + слот із notes.times."""
+    out = []
+    for f in sorted(NOTES.glob("*/*.md")):
+        meta, body = split_front_matter(f.read_text(encoding="utf-8"), f)
+        m = POST_NAME.match(f.stem)
+        if not m:
+            raise ValueError(f"{f}: назва нотатки має бути <канал>-<мова>-<слот>.md, наприклад threads-uk-1.md")
+        day = _as_date(f.parent.name, f)
+        channel, lang, slot = m["channel"], m["lang"], int(m["n"] or 1)
+        raw = meta.get("publish_at")
+        if raw:
+            dt = raw if isinstance(raw, datetime) else datetime.strptime(str(raw), "%Y-%m-%d %H:%M")
+        else:
+            dt = note_time(cfg, day, channel, lang, slot)
+            if dt is None:
+                raise ValueError(f"{f}: немає publish_at, і notes.times у config.yml не має слота {slot} для {channel}-{lang}")
+        dt = dt.replace(tzinfo=tz(cfg)) if dt.tzinfo is None else dt
+        out.append(Post(
+            slug=f"note-{f.parent.name}", channel=channel, lang=lang, path=f, publish_at=dt, body=body.strip(),
+            link=False, images=list(meta.get("images") or []),
+            media=meta.get("media") or ("carousel" if channel == "instagram" else "none"),
+            n=slot, kind="note", cards=list(meta.get("cards") or []), services=list(meta.get("services") or []),
+        ))
     return out
+
+
+def note_asset_dir(cfg: dict, post: Post) -> Path:
+    return ROOT / cfg["site"]["output_dir"] / "assets" / "notes" / post.slug / post.path.stem
+
+
+def note_asset_url(cfg: dict, post: Post, name: str) -> str:
+    return f"{cfg['site']['base_url'].rstrip('/')}/assets/notes/{post.slug}/{post.path.stem}/{name}"
 
 
 def channel_of(key: str) -> str:

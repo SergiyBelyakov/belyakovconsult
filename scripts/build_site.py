@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import make_cards  # noqa: E402
 import make_motion  # noqa: E402
-from common import (ROOT, article_path, is_live, load_articles, load_config,  # noqa: E402
+from common import (ROOT, article_path, is_live, load_articles, load_config, load_notes,  # noqa: E402
                     service_link, social_asset_dir, social_asset_url, tz)
 from shell import Shell  # noqa: E402
 
@@ -107,6 +107,11 @@ def main() -> int:
     css_dir = out / "assets" / "insights"
     css_dir.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ROOT / "templates" / "insights.css", css_dir / "insights.css")
+
+    # Картки коротких нотаток Instagram (content/notes): рендеримо наперед, щоб адреси були доступні в час публікації
+    for post in load_notes(cfg):
+        if post.channel == "instagram" and post.cards:
+            make_cards.note_cards(cfg, post)
 
     sitemap, pages = [], 0
     for slug, versions in by_slug.items():
