@@ -11,6 +11,13 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/De9Mrw9n_Dz/"
   },
+  "governance-shows-in-conflict/instagram-en-2": {
+    "at": "2026-10-27 20:16",
+    "attempts": 1,
+    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"AiIBbYRwBHE3RxYlHDm",
+    "publish_at": "2026-10-27 18:30",
+    "status": "retry"
+  },
   "governance-shows-in-conflict/instagram-uk": {
     "at": "2026-10-26 13:38",
     "id": "18129611924493510",
@@ -18,9 +25,9 @@
     "url": "https://www.instagram.com/reel/De9MgWqjLrZ/"
   },
   "governance-shows-in-conflict/instagram-uk-2": {
-    "at": "2026-10-27 18:01",
-    "attempts": 1,
-    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"Aw7-4UDIJQLZDvVY8wU",
+    "at": "2026-10-27 20:16",
+    "attempts": 2,
+    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"Asb3vPCgVdAk1Waq62u",
     "publish_at": "2026-10-27 12:30",
     "status": "retry"
   },
