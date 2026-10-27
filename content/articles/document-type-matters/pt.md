@@ -1,7 +1,7 @@
 ---
 title: O tipo de documento pode ser mais importante do que o número
 description: Porque o número do documento não basta para uma identificação fiável na troca de dados e o que acrescentar para que uma coincidência não se torne um erro.
-date: 2026-10-29
+date: 2026-11-12
 services: [data-architecture, data-quality]
 tags: [arquitetura de dados, troca de dados, identificação, qualidade de dados]
 ---

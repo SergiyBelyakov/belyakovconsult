@@ -1,18 +1,21 @@
 ---
 ---
-Why does last month's report change? Because most operational systems store only the current state.
+Can you reproduce today the number you showed leadership a month ago?
 
-The table knows an application's status now and which region a unit belongs to now. An October report filters that state by date and recalculates October every time, with every change that has happened since.
+A 20-minute check:
+1. Take a key indicator for last month that you have already published.
+2. Calculate it today with the same report.
+3. Compare it with the published one.
+4. Try to explain the gap.
 
-It is like working out how much money you had a month ago from today's balance. For the past you need a statement. (The analogy has limits: a bank almost never changes past transactions, while in registers it is routine. So data also needs a memory of when something was corrected.)
+If you can explain the gap, that is fine. A published number simply should not change silently. Show two columns, "published" and "now", and one sentence: for example, "+47 applications entered after the cut-off date" (the number is illustrative). It helps to agree in advance on a threshold after which an official revision is needed.
 
-Three things I add to the data architecture:
-1. A snapshot on the cut-off date: the report's data as it was when the report was produced.
-2. Two dates in every record: the event date and the entry or change date. Without the second, a late record looks like any other.
-3. Published figures stored separately, with publication date and version, so they can be reproduced a year later.
+If you cannot reproduce the old number, you need a snapshot on the cut-off date and an agreement on who sets that date. Until then every analyst picks a date on their own.
 
-You do not need a big data warehouse to start. For one or two key indicators, a snapshot table filled once a month is enough.
+And one small tip that removes half of the questions: write on the report itself the date the data was counted as of.
+
+A question for you: who decides in your team which date a monthly report is counted on?
 
 Full piece: {{link}}
 
-#DataArchitecture #DataWarehouse #BusinessIntelligence
+#Reporting #DataArchitecture #BusinessIntelligence

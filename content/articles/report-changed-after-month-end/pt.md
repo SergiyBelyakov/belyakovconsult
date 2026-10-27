@@ -1,7 +1,7 @@
 ---
 title: Porque mudou o relatório do mês passado
 description: Registos tardios e mudanças de estado reescrevem relatórios passados. Como acordar uma data de corte e mostrar revisões.
-date: 2026-11-12
+date: 2026-11-16
 services: [data-architecture, business-intelligence]
 tags: [arquitetura de dados, BI, data de corte, relatórios]
 ---

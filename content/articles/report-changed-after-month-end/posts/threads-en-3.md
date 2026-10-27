@@ -1,5 +1,7 @@
 ---
 ---
-Most systems store the current state. An October report filters it by date and recalculates October every time. It is like working out last month's money from today's balance.
+A 20-minute check: calculate today an indicator you showed last month and compare it with the published one.
 <!-- next -->
-For the past you need a snapshot on the cut-off date, two dates per record (when it happened and when we learned) and published figures kept apart. A monthly snapshot table is enough to start. Full piece: {{link}}
+A gap you can explain is fine: show "published" and "now" with one sentence of explanation. If you cannot reproduce the old number, you need a snapshot and a cut-off date.
+<!-- next -->
+And who decides in your team which date a monthly report is counted on? Full piece: {{link}}

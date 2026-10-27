@@ -1,8 +1,8 @@
 ---
 link: false
 ---
-How much money was in your account a month ago? Today's balance will not tell you. Data works the same way: a current-state table does not remember yesterday.
+Can you get today the same number you showed leadership a month ago? The check takes 20 minutes.
 
-In the video: how a snapshot differs from a state table, why a record needs two dates and what to keep separately.
+In the video: four steps of the check and how to show a revision of a published number honestly. And a question for you at the end, answer in the comments.
 
-#dataarchitecture #datawarehouse #businessintelligence #dataanalytics #govtech
+#reporting #dataarchitecture #businessintelligence #dataanalytics #govtech

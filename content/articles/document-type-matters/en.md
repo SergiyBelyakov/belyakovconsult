@@ -1,7 +1,7 @@
 ---
 title: Document type can matter more than the number itself
 description: Why a document number alone is not enough for reliable identification in data exchange, and what to add so a matching number does not become an error.
-date: 2026-10-29
+date: 2026-11-12
 services: [data-architecture, data-quality]
 tags: [data architecture, data exchange, identification, data quality]
 carousel:

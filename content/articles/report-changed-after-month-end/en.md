@@ -1,7 +1,7 @@
 ---
 title: Why last month's report changed
 description: Late records and status changes quietly rewrite past reports. How to agree a cut-off date and show revisions honestly.
-date: 2026-11-12
+date: 2026-11-16
 services: [data-architecture, business-intelligence]
 tags: [data architecture, BI, cut-off date, reporting]
 carousel:
@@ -51,24 +51,6 @@ episodes:
       - title: Duplicates were merged
         text: After cleaning, one person instead of three, and past numbers go down.
         visual: {type: doc, label: "Register, October", note: "3 records became 1"}
-  - title: A state table forgets yesterday
-    text: An October report built on the current state recalculates October every time.
-    carousel:
-      - title: State and snapshot
-        text: A snapshot keeps the data as it was on the cut-off date.
-        visual:
-          type: compare
-          highlight: right
-          left: {label: "State table", value: "As now"}
-          right: {label: "Snapshot", value: "As it was"}
-      - title: Two dates in a record
-        text: When it happened and when we learned. Without the second date, a late record looks like any other.
-        visual:
-          type: grid
-          items: ["Event date", "Entry date"]
-      - title: What to keep
-        text: "A snapshot on the cut-off date\nThe change history of records\nPublished figures separately"
-        visual: {type: list}
   - title: Can you repeat your number?
     text: A 20-minute check. Can you get today what you showed a month ago?
     carousel:
