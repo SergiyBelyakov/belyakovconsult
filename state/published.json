@@ -15,11 +15,10 @@
     "url": "https://www.instagram.com/reel/De9Mrw9n_Dz/"
   },
   "governance-shows-in-conflict/instagram-en-2": {
-    "at": "2026-10-27 20:16",
-    "auth_error": true,
-    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"AiIBbYRwBHE3RxYlHDm",
-    "publish_at": "2026-10-27 18:30",
-    "status": "retry"
+    "at": "2026-10-28 09:37",
+    "id": "17948730945072272",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfB6d5bFH97/"
   },
   "governance-shows-in-conflict/instagram-uk": {
     "at": "2026-10-26 13:38",
@@ -28,11 +27,10 @@
     "url": "https://www.instagram.com/reel/De9MgWqjLrZ/"
   },
   "governance-shows-in-conflict/instagram-uk-2": {
-    "at": "2026-10-28 09:32",
-    "auth_error": true,
-    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"A6JjVDGRug-4aQr7rO4",
-    "publish_at": "2026-10-27 12:30",
-    "status": "retry"
+    "at": "2026-10-28 09:37",
+    "id": "18119488766077255",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfB6YukiZ9h/"
   },
   "governance-shows-in-conflict/linkedinpage-en": {
     "at": "2026-10-26 09:28",
@@ -105,6 +103,12 @@
     "id": "urn:li:share:7520229097789087744",
     "status": "published",
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
+  },
+  "note-2026-10-28/instagram-uk": {
+    "at": "2026-10-28 09:37",
+    "id": "18112417628239176",
+    "status": "published",
+    "url": "https://www.instagram.com/p/DfB6jxwm4HT/"
   },
   "note-2026-10-28/threads-uk": {
     "at": "2026-10-28 09:32",
