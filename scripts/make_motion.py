@@ -204,7 +204,7 @@ class Scene:
                     d.line([x + q, H, x + q + H, 0], fill=(*brand.RUBY, al))
             f.alpha_composite(ov)
         if self.cover_wave is not None and cover_k > 0:
-            f.alpha_composite(with_alpha(self.cover_wave, cover_k), (0, int(H * 0.30) - self.cover_wave.height // 2 + int(8 * np.sin(T * 0.8))))
+            f.alpha_composite(with_alpha(self.cover_wave, cover_k), (0, int(H * 0.22) - self.cover_wave.height // 2 + int(8 * np.sin(T * 0.8))))
         gx = int(W * (0.82 + 0.10 * np.sin(T * 0.23))) - self.glow.width // 2
         gy = int(H * (0.16 + 0.06 * np.sin(T * 0.31))) - self.glow.height // 2
         g = with_alpha(self.glow, 0.72 + 0.28 * beat)

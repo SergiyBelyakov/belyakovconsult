@@ -153,13 +153,13 @@
     "wave": "wave-7.jpg"
   },
   "governance-shows-in-conflict#3": {
-    "cover": "icon",
+    "cover": "wave",
     "globe": "globe-1.jpg",
-    "icon": "service-governance.webp",
+    "icon": "service-data-analysis.webp",
     "k": 3,
     "look": "beam",
     "music": "lofi",
-    "wave": "wave-3.jpg"
+    "wave": "wave-2.jpg"
   },
   "iso-8000-8-quality-in-registers#1": {
     "cover": "type",
