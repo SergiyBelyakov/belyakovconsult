@@ -1,3 +1,3 @@
 ---
 ---
-A question for anyone who owns a data quality report: what is the first metric on it? If it is completeness, what does the second one measure? I am curious how many teams go beyond "is the field filled in".
+I will put it more bluntly than usual: if your data quality report only has completeness, it is a report on form filling, not on quality. A green 98% says people typed something. It does not say what. Agree, or will you push back?

@@ -1,5 +1,5 @@
 ---
 ---
-A field is 98% complete. Sounds great until you sort its values by frequency and find "0", "-" and "unknown" at the top.
+Myth: 98% completeness means the field is nearly perfect.
 
-Completeness answers "is there anything in the field". Not "can we use it". Two different numbers, worth showing side by side.
+Fact: completeness counts whether there is anything in the field. It honestly counts "0", "-" and "unknown" too. High completeness only says people have learned to get around mandatory fields.

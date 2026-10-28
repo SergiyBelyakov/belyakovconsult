@@ -1,5 +1,5 @@
 ---
 ---
-ISO 8000-8 separates data quality into three levels: syntactic (does it match the format), semantic (does it mean what it should) and pragmatic (is it fit for the decision).
+A question for people who run registers. Does your data quality report measure whether a value has the right format, or whether you can make a decision on it?
 
-Many register quality reports cover only the first one. Format is the easiest to automate, not the most important.
+Usually the first. The mistakes that actually cost money live in the second.

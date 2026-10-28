@@ -1,5 +1,5 @@
 ---
 ---
-Myth: placeholders like "0" or "01.01.1900" are user errors.
+A question: do your quality reports count "filled in" and "usable" separately?
 
-Fact: they are form design errors. When a field is mandatory and there is no honest "unknown" option, people invent one. The fix belongs in the form, not in a training session.
+If not, try it for one field. I suspect the gap will surprise you, and it will become your best argument for a data quality budget.

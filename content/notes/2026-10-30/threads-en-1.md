@@ -1,5 +1,5 @@
 ---
 ---
-Unpopular opinion: "Is our data good?" is the wrong question.
+Myth: if a field passed the format check, it is fine.
 
-The right one is "good enough for which decision?" The same address can be fine for an annual report and useless for a monthly payment. Quality without a purpose is half a sentence.
+Fact: a community code with two digits swapped has a perfect format. It is just the code of another community (illustrative example). Format checks the shape, not the meaning.
