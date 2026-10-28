@@ -1,3 +1,3 @@
 ---
 ---
-Myth: "the format check will catch bad document numbers". Fact: a format check only knows the format you gave it. A passport number can be perfectly valid as a birth certificate number. The check has to know the document type first.
+Unpopular opinion: most "integration problems" between registers are not about the API or the exchange format. They are about two systems understanding "a person's identifier" differently. The protocol has nothing to do with it.

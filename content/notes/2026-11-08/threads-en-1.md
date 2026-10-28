@@ -1,3 +1,3 @@
 ---
 ---
-Where does data cleaning live in your team: in the source, in a shared data layer, or in each report? "All three, depending on who you ask" is also a valid answer. Just a revealing one.
+It is Sunday, so a short question. What takes more of your time with data: finding an error, or proving it really is an error and not "we have always counted it this way"? My money is on the second.

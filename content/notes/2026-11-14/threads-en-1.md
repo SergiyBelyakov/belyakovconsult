@@ -1,3 +1,3 @@
 ---
 ---
-Question for data people: what is the strangest value you have found in a "document number" field? My illustrative favourite is a date. Somebody needed to store it, the form had one free field, and the field said yes.
+Myth: "a document number is unique". Fact: it is unique only within its type, and sometimes its series. Certificates, passports and permits each have their own numbering. Put them in one field and uniqueness quietly disappears.

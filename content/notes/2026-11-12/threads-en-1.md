@@ -1,3 +1,3 @@
 ---
 ---
-A thesis: a document number without its type is not an identifier. It is a coincidence waiting to happen. Two registers can hold the same digits for a passport and a birth certificate, and a number-only match will happily call them one person.
+A question for those who set up exchanges between registers: does your exchange send the document type as a separate field, or is it "obvious from the number"? If the latter, tell me how you tell a passport from a certificate with the same digits.

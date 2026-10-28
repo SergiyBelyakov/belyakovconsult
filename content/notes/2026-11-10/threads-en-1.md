@@ -1,3 +1,3 @@
 ---
 ---
-A question for people who run registers: when you find a duplicate, who decides which record survives? If the answer is "whoever noticed it first", you probably have more duplicates than you think.
+A thesis to argue with: deduplicating in the report does more harm than good. The report gets clean, the register stays dirty, and next month someone "cleans" the same thing again. A duplicate should be removed where it was born.

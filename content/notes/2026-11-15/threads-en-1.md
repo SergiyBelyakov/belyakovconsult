@@ -1,3 +1,3 @@
 ---
 ---
-A mini breakdown of why identifiers break: a number gets reused across document types, the series moves into another field, a spreadsheet drops a leading zero. None of it looks dramatic. Together it turns a match into a guess.
+An observation from this week: almost every story about "bad data" in a register ends not with technology but with the question "who is responsible for this field". Technology shows where it hurts. An agreement is what heals it.
