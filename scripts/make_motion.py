@@ -40,7 +40,8 @@ BEAT = music.BEAT
 BG_DIR = ROOT / "brand-assets" / "bg"          # фони з дизайн-системи: червона хвиля, мережа-глобус
 STYLE_FILE = ROOT / "state" / "video-styles.json"
 LOOKS = ["grid", "wave", "globe", "beam"]       # живий фон
-COVERS = ["icon", "type", "wave"]               # обкладинка: 3D-іконка, велике число/код, великий заголовок на хвилі
+# обкладинка: 3D-іконка, велике число/код, заголовок на хвилі, велика лапка чи «?», рамка-видошукач, друкарська машинка
+COVERS = ["icon", "type", "wave", "quote", "frame", "typewriter"]
 ICONS = ["service-quality.webp", "service-architecture.webp", "service-bi.webp", "service-governance.webp",
          "service-data-analysis.webp", "service-consulting.webp", "service-financial-analytics.webp",
          "service-management-analytics.webp", "service-geospatial.webp"]
@@ -50,22 +51,40 @@ GLOBES = sorted(p.name for p in BG_DIR.glob("globe-*.jpg"))
 
 def style_for_index(k: int) -> dict:
     """k-те відео за часом виходу: сусідні відео різняться фоном, обкладинкою, іконкою й музикою."""
-    return {"look": LOOKS[k % len(LOOKS)], "cover": COVERS[k % len(COVERS)], "icon": ICONS[(k * 4) % len(ICONS)],
+    return {"look": LOOKS[k % len(LOOKS)], "cover": COVERS[(k + k // len(COVERS)) % len(COVERS)], "icon": ICONS[(k * 4) % len(ICONS)],
             "music": music.STYLE_NAMES[k % len(music.STYLE_NAMES)],
             "wave": WAVES[(k * 3) % len(WAVES)] if WAVES else None, "globe": GLOBES[k % len(GLOBES)] if GLOBES else None}
 
 
+def _services_by_slug() -> dict:
+    from common import load_articles, load_config
+    out = {}
+    for a in load_articles(load_config(), include_drafts=True):
+        if a.lang == "uk" or a.slug not in out:
+            out[a.slug] = a.services
+    return out
+
+
 def assign_styles(keys: list[str]) -> dict:
-    """Стабільно призначає вигляд кожному відео (ключ «slug#N»); нові ключі отримують наступні номери."""
+    """Стабільно призначає вигляд кожному відео (ключ «slug#N»); нові ключі отримують наступні номери.
+
+    Іконка обкладинки: спершу іконка напряму статті, якщо попередня обкладинка-іконка була іншою; інакше з ротації."""
     data = json.loads(STYLE_FILE.read_text()) if STYLE_FILE.exists() else {}
+    services = _services_by_slug()
     for key in keys:
         if key not in data:
             note = key.startswith("note-")          # каруселі нотаток мають власну чергу, щоб не збивати ротацію відео
             k = sum(1 for x in data if x.startswith("note-") == note)
             st = style_for_index(k)
             if note:
-                st["cover"] = ("icon", "type")[k % 2]
+                st["cover"] = ("icon", "quote", "type", "frame")[k % 4]
                 st["icon"] = ICONS[(k * 2 + 1) % len(ICONS)]
+            last_icons = [v.get("icon") for x, v in data.items() if x.startswith("note-") == note][-2:]
+            for sv in services.get(key.split("#")[0], []):
+                cand = make_cards.visuals.SERVICE_IMAGES.get(sv)
+                if cand and cand not in last_icons:
+                    st["icon"] = cand
+                    break
             data[key] = {"k": k, **st}
     STYLE_FILE.parent.mkdir(parents=True, exist_ok=True)
     STYLE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
@@ -244,6 +263,31 @@ def _count_img(meta: dict, k: float) -> Image.Image:
     return img
 
 
+def draw_typed(layer: Image.Image, e, t: float, start: float) -> None:
+    """Заголовок друкується зліва направо, рядок за рядком, з рубіновим курсором."""
+    step = e.image.info.get("step") or e.image.height
+    n = max(1, e.image.info.get("lines") or 1)
+    per = 0.62
+    d = ImageDraw.Draw(layer)
+    for i in range(n):
+        y0 = i * step
+        y1 = e.image.height if i == n - 1 else (i + 1) * step
+        line = e.image.crop((0, y0, e.image.width, y1))
+        bbox = line.getbbox()
+        lw = bbox[2] if bbox else line.width
+        k = min(1.0, max(0.0, (t - start - i * per) / per))
+        if k <= 0:
+            break
+        wv = max(1, int(lw * k))
+        layer.alpha_composite(line.crop((0, 0, wv, line.height)), (e.xy[0], e.xy[1] + y0))
+        done = i == n - 1 and k >= 1
+        if k < 1 or (done and int(t * 2.4) % 2 == 0):
+            cx = e.xy[0] + wv + 6
+            d.rectangle([cx, e.xy[1] + y0 + int(step * 0.12), cx + 8, e.xy[1] + y0 + int(step * 0.92)], fill=(*brand.RUBY, 255))
+        if k < 1:
+            break
+
+
 def draw_text_lines(layer: Image.Image, e, t: float, start: float) -> None:
     """Рядки виїжджають знизу зі своєї «щілини» один за одним."""
     step = e.image.info.get("step") or e.image.height
@@ -271,6 +315,9 @@ def render_content(slide, t: float, T: float, dur: float, chrome: bool) -> Image
             continue
         start = 0.2 + (e.order - 1) * 0.26 + e.delay
         x, y = e.xy
+        if e.anim == "type":
+            draw_typed(layer, e, t, start)
+            continue
         if e.name in TEXT_NAMES:
             draw_text_lines(layer, e, t, start)
             continue

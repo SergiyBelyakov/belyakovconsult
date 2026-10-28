@@ -1,24 +1,24 @@
 {
   "bi-is-not-for-fixing-sources#1": {
-    "cover": "wave",
+    "cover": "icon",
     "globe": "globe-3.jpg",
-    "icon": "service-geospatial.webp",
+    "icon": "service-bi.webp",
     "k": 11,
     "look": "beam",
     "music": "bright",
     "wave": "wave-6.jpg"
   },
   "bi-is-not-for-fixing-sources#2": {
-    "cover": "icon",
+    "cover": "wave",
     "globe": "globe-1.jpg",
-    "icon": "service-governance.webp",
+    "icon": "service-architecture.webp",
     "k": 12,
     "look": "grid",
     "music": "analytic",
     "wave": "wave-2.jpg"
   },
   "bi-is-not-for-fixing-sources#3": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-2.jpg",
     "icon": "service-management-analytics.webp",
     "k": 13,
@@ -27,7 +27,7 @@
     "wave": "wave-5.jpg"
   },
   "bi-is-not-for-fixing-sources#4": {
-    "cover": "wave",
+    "cover": "frame",
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 14,
@@ -45,16 +45,16 @@
     "wave": "wave-1.jpg"
   },
   "completeness-is-not-quality#1": {
-    "cover": "wave",
+    "cover": "quote",
     "globe": "globe-3.jpg",
-    "icon": "service-consulting.webp",
+    "icon": "service-governance.webp",
     "k": 8,
     "look": "grid",
     "music": "ambient",
     "wave": "wave-4.jpg"
   },
   "completeness-is-not-quality#2": {
-    "cover": "icon",
+    "cover": "frame",
     "globe": "globe-1.jpg",
     "icon": "service-quality.webp",
     "k": 9,
@@ -63,7 +63,7 @@
     "wave": "wave-7.jpg"
   },
   "completeness-is-not-quality#3": {
-    "cover": "type",
+    "cover": "typewriter",
     "globe": "globe-2.jpg",
     "icon": "service-data-analysis.webp",
     "k": 10,
@@ -72,25 +72,25 @@
     "wave": "wave-3.jpg"
   },
   "document-type-matters#1": {
-    "cover": "icon",
+    "cover": "quote",
     "globe": "globe-1.jpg",
-    "icon": "service-quality.webp",
+    "icon": "service-architecture.webp",
     "k": 18,
     "look": "globe",
     "music": "analytic",
     "wave": "wave-6.jpg"
   },
   "document-type-matters#2": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-2.jpg",
-    "icon": "service-data-analysis.webp",
+    "icon": "service-quality.webp",
     "k": 19,
     "look": "beam",
     "music": "pulse",
     "wave": "wave-2.jpg"
   },
   "document-type-matters#3": {
-    "cover": "wave",
+    "cover": "typewriter",
     "globe": "globe-3.jpg",
     "icon": "service-geospatial.webp",
     "k": 20,
@@ -101,32 +101,32 @@
   "document-type-matters#4": {
     "cover": "icon",
     "globe": "globe-1.jpg",
-    "icon": "service-governance.webp",
+    "icon": "service-architecture.webp",
     "k": 21,
     "look": "wave",
     "music": "lofi",
     "wave": "wave-1.jpg"
   },
   "duplicates-in-registers#1": {
-    "cover": "icon",
+    "cover": "typewriter",
     "globe": "globe-1.jpg",
-    "icon": "service-financial-analytics.webp",
+    "icon": "service-quality.webp",
     "k": 15,
     "look": "beam",
     "music": "lofi",
     "wave": "wave-4.jpg"
   },
   "duplicates-in-registers#2": {
-    "cover": "type",
+    "cover": "icon",
     "globe": "globe-2.jpg",
-    "icon": "service-architecture.webp",
+    "icon": "service-governance.webp",
     "k": 16,
     "look": "grid",
     "music": "cinematic",
     "wave": "wave-7.jpg"
   },
   "duplicates-in-registers#3": {
-    "cover": "wave",
+    "cover": "type",
     "globe": "globe-3.jpg",
     "icon": "service-consulting.webp",
     "k": 17,
@@ -162,25 +162,25 @@
     "wave": "wave-2.jpg"
   },
   "iso-8000-8-quality-in-registers#1": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-2.jpg",
-    "icon": "service-management-analytics.webp",
+    "icon": "service-quality.webp",
     "k": 4,
     "look": "grid",
     "music": "cinematic",
     "wave": "wave-6.jpg"
   },
   "iso-8000-8-quality-in-registers#2": {
-    "cover": "wave",
+    "cover": "typewriter",
     "globe": "globe-3.jpg",
-    "icon": "service-bi.webp",
+    "icon": "service-governance.webp",
     "k": 5,
     "look": "wave",
     "music": "bright",
     "wave": "wave-2.jpg"
   },
   "iso-8000-8-quality-in-registers#3": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-1.jpg",
     "icon": "service-financial-analytics.webp",
     "k": 6,
@@ -189,9 +189,9 @@
     "wave": "wave-5.jpg"
   },
   "iso-8000-8-quality-in-registers#4": {
-    "cover": "type",
+    "cover": "wave",
     "globe": "globe-2.jpg",
-    "icon": "service-architecture.webp",
+    "icon": "service-quality.webp",
     "k": 7,
     "look": "beam",
     "music": "pulse",
@@ -207,7 +207,7 @@
     "wave": "wave-1.jpg"
   },
   "note-2026-10-29#instagram-en-1": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-2.jpg",
     "icon": "service-governance.webp",
     "k": 1,
@@ -216,7 +216,7 @@
     "wave": "wave-4.jpg"
   },
   "note-2026-10-30#instagram-uk-1": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-3.jpg",
     "icon": "service-consulting.webp",
     "k": 2,
@@ -225,7 +225,7 @@
     "wave": "wave-7.jpg"
   },
   "note-2026-10-31#instagram-en-1": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-1.jpg",
     "icon": "service-management-analytics.webp",
     "k": 3,
@@ -243,7 +243,7 @@
     "wave": "wave-6.jpg"
   },
   "note-2026-11-02#instagram-uk-1": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 5,
@@ -252,7 +252,7 @@
     "wave": "wave-2.jpg"
   },
   "note-2026-11-03#instagram-en-1": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-1.jpg",
     "icon": "service-data-analysis.webp",
     "k": 6,
@@ -261,7 +261,7 @@
     "wave": "wave-5.jpg"
   },
   "note-2026-11-04#instagram-uk-1": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-2.jpg",
     "icon": "service-financial-analytics.webp",
     "k": 7,
@@ -279,7 +279,7 @@
     "wave": "wave-4.jpg"
   },
   "note-2026-11-06#instagram-uk-1": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 9,
@@ -288,7 +288,7 @@
     "wave": "wave-7.jpg"
   },
   "note-2026-11-07#instagram-en-1": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-2.jpg",
     "icon": "service-governance.webp",
     "k": 10,
@@ -297,7 +297,7 @@
     "wave": "wave-3.jpg"
   },
   "note-2026-11-08#instagram-uk-1": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-3.jpg",
     "icon": "service-consulting.webp",
     "k": 11,
@@ -315,7 +315,7 @@
     "wave": "wave-2.jpg"
   },
   "note-2026-11-10#instagram-uk-1": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-2.jpg",
     "icon": "service-quality.webp",
     "k": 13,
@@ -324,7 +324,7 @@
     "wave": "wave-5.jpg"
   },
   "note-2026-11-11#instagram-en-1": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 14,
@@ -333,7 +333,7 @@
     "wave": "wave-1.jpg"
   },
   "note-2026-11-12#instagram-uk-1": {
-    "cover": "type",
+    "cover": "frame",
     "globe": "globe-1.jpg",
     "icon": "service-data-analysis.webp",
     "k": 15,
@@ -351,7 +351,7 @@
     "wave": "wave-7.jpg"
   },
   "note-2026-11-14#instagram-uk-1": {
-    "cover": "type",
+    "cover": "quote",
     "globe": "globe-3.jpg",
     "icon": "service-geospatial.webp",
     "k": 17,
@@ -360,7 +360,7 @@
     "wave": "wave-3.jpg"
   },
   "note-2026-11-15#instagram-en-1": {
-    "cover": "icon",
+    "cover": "type",
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 18,
@@ -371,7 +371,7 @@
   "report-changed-after-month-end#1": {
     "cover": "type",
     "globe": "globe-2.jpg",
-    "icon": "service-management-analytics.webp",
+    "icon": "service-bi.webp",
     "k": 22,
     "look": "globe",
     "music": "cinematic",
@@ -387,9 +387,9 @@
     "wave": "wave-7.jpg"
   },
   "report-changed-after-month-end#3": {
-    "cover": "icon",
+    "cover": "frame",
     "globe": "globe-1.jpg",
-    "icon": "service-financial-analytics.webp",
+    "icon": "service-architecture.webp",
     "k": 24,
     "look": "grid",
     "music": "analytic",

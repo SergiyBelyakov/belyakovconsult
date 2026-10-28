@@ -76,6 +76,41 @@ def background(w: int, h: int, glow: tuple[float, float] = (0.82, 0.18), strengt
     return Image.composite(ruby, img, glow_img)
 
 
+def _cover_decor(s: Slide, cover: str, spec: dict, z, w: int, M: int) -> None:
+    """Креативні обкладинки: велика лапка чи знак питання, рамка-видошукач, друкарська машинка."""
+    title = next((e for e in s.elements if e.name == "title"), None)
+    if not title:
+        return
+    if cover == "typewriter":
+        title.anim = "type"
+    elif cover == "quote":
+        ch = "?" if str(spec.get("title", "")).rstrip().endswith("?") else "\u201c"
+        f = brand.font("head", z(640))
+        probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+        l, t_, r, b = probe.textbbox((0, 0), ch, font=f)
+        g = Image.new("RGBA", (r - l + 8, b - t_ + 8), (0, 0, 0, 0))
+        ImageDraw.Draw(g).text((-l + 4, -t_ + 4), ch, font=f, fill=(*brand.RUBY, 92))
+        gx = w - M - g.width + z(30)
+        gy = max(z(260), title.xy[1] - int(g.height * 0.72))
+        s.elements.insert(2, Element("glyph", g, (gx, gy), 0, 0.0, "zoom"))
+    elif cover == "frame":
+        kick = next((e for e in s.elements if e.name == "kicker"), None)
+        body = next((e for e in s.elements if e.name == "body"), None)
+        x0 = M - z(34)
+        y0 = (kick or title).xy[1] - z(34)
+        y1 = (body or title).xy[1] + (body or title).image.height + z(24)
+        x1 = w - M + z(34)
+        L, T = z(78), z(8)
+        for i, (cx, cy, dx, dy) in enumerate(((x0, y0, 1, 1), (x1, y0, -1, 1), (x0, y1, 1, -1), (x1, y1, -1, -1))):
+            c = Image.new("RGBA", (L, L), (0, 0, 0, 0))
+            d = ImageDraw.Draw(c)
+            hx = 0 if dx > 0 else L - T
+            hy = 0 if dy > 0 else L - T
+            d.rectangle([0, hy, L, hy + T], fill=(*brand.RUBY, 255))
+            d.rectangle([hx, 0, hx + T, L], fill=(*brand.RUBY, 255))
+            s.elements.append(Element("corner", c, (cx if dx > 0 else cx - L, cy if dy > 0 else cy - L), 1, i * 0.12, "pop"))
+
+
 def vspec_type(blocks) -> str | None:
     return next((img.get("type") for name, img, _ in blocks if name == "visual"), None)
 
@@ -101,7 +136,7 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
         cover = st.get("cover", "icon")
         hero = spec.get("hero") or (visuals.hero_token(spec.get("title", ""), spec.get("text", "")) if cover == "type" else None)
         if cover == "type" and not hero:
-            cover = "icon"
+            cover = "frame"
         img_src = f"assets/{st['icon']}" if st.get("icon") else visuals.service_image(article.services)
         if vis_spec is None and cover == "icon" and img_src:
             vis_spec = {"type": "image", "src": img_src}
@@ -169,6 +204,9 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
             continue
         s.elements.append(Element(name, img, (M, y), order))
         y += img.height + gap
+
+    if s.kind == "cover":
+        _cover_decor(s, cover, spec, z, w, M)      # cover уже з урахуванням запасного варіанта
 
     foot_f = brand.font("body-semi", z(28))
     foot = _text_block([brand.HANDLES], foot_f, brand.SILVER)
