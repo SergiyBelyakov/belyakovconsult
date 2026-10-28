@@ -1,47 +1,25 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 3. Час: 2026-10-28 12:23
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 3. Час: 2026-10-28 12:31
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✋ Опублікуйте вручну в LinkedIn (сторінка Belyakov Consult) (немає секретів LINKEDIN_ORG_ID). Текст нижче:
-
-«Скільки у вас отримувачів послуг?»
-
-Три підрозділи легко дадуть три різні відповіді, і всі будуть правильними. Один рахує людей, другий звернення, третій людей, які отримали послугу хоча б раз за рік.
-
-Це рецепт без грамів: «трохи борошна, цукор за смаком». Пиріг вийде в кожного, але різний. (Аналогія неідеальна: у пирога ніхто не питає, чому він став меншим, ніж у минулому звіті.)
-
-Інструмент проти цього простий і нудний, тому й працює: паспорт показника (indicator reference sheet). П'ять пунктів:
-1. Що саме рахуємо, одним реченням.
-2. Одиниця обліку: людина, звернення чи послуга.
-3. Період і дата, на яку рахуємо.
-4. Джерело даних і хто за нього відповідає.
-5. Формула, яку може повторити інша людина.
-
-Завдання на 10 хвилин: візьміть показник з останнього звіту і заповніть ці п'ять пунктів. Якщо на третьому довелося комусь телефонувати, паспорт вам потрібен більше, ніж здавалося.
-
-Повний розбір конфлікту цифр і чотирьох питань управління даними: https://www.belyakovconsult.com/insights/governance-shows-in-conflict/?utm_source=linkedinpage&utm_medium=social&utm_campaign=governance-shows-in-conflict
-
-Більше розборів: сайт belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram і Threads @belyakovconsult
-
-#DataGovernance #якістьданих #показники
-
-🎬 Моушн-відео до допису: https://www.belyakovconsult.com/assets/insights/governance-shows-in-conflict/e3/motion.mp4
+✅ Опубліковано в Telegram: governance-shows-in-conflict
+https://t.me/belyakovconsult/15
 ```
 
 ## 2
 
 ```
-✅ Опубліковано в Telegram: governance-shows-in-conflict
-https://t.me/belyakovconsult/13
+✅ Опубліковано в Threads: governance-shows-in-conflict
+https://www.threads.com/@belyakovconsult/post/DfCOVU-jquw
 ```
 
 ## 3
 
 ```
-✅ Опубліковано в Threads: governance-shows-in-conflict
-https://www.threads.com/@belyakovconsult/post/DfCNYHjlR2Q
+✅ Опубліковано в Instagram: governance-shows-in-conflict
+https://www.instagram.com/reel/DfCOc6PjeLr/
 ```

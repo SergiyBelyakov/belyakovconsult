@@ -32,6 +32,12 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfB6YukiZ9h/"
   },
+  "governance-shows-in-conflict/instagram-uk-3": {
+    "at": "2026-10-28 12:31",
+    "id": "18414489154089563",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfCOc6PjeLr/"
+  },
   "governance-shows-in-conflict/linkedinpage-en": {
     "at": "2026-10-26 09:28",
     "reason": "немає секретів LINKEDIN_ORG_ID",
@@ -69,10 +75,13 @@
     "url": "https://t.me/belyakovconsult/9"
   },
   "governance-shows-in-conflict/telegram-uk-3": {
-    "at": "2026-10-28 12:23",
-    "id": 13,
+    "at": "2026-10-28 12:31",
+    "extra_ids": [
+      16
+    ],
+    "id": 15,
     "status": "published",
-    "url": "https://t.me/belyakovconsult/13"
+    "url": "https://t.me/belyakovconsult/15"
   },
   "governance-shows-in-conflict/threads-en": {
     "at": "2026-10-26 13:38",
@@ -99,10 +108,10 @@
     "url": "https://www.threads.com/@belyakovconsult/post/De_pO5olVgy"
   },
   "governance-shows-in-conflict/threads-uk-3": {
-    "at": "2026-10-28 12:23",
-    "id": "18171724891476049",
+    "at": "2026-10-28 12:31",
+    "id": "17867472621677237",
     "status": "published",
-    "url": "https://www.threads.com/@belyakovconsult/post/DfCNYHjlR2Q"
+    "url": "https://www.threads.com/@belyakovconsult/post/DfCOVU-jquw"
   },
   "instagram-check/instagram-uk": {
     "at": "2026-10-25 23:54",
