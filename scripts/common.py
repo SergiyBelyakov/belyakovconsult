@@ -295,9 +295,27 @@ def service_link(cfg: dict, key: str, lang: str) -> tuple[str, str] | None:
     return s.get(lang) or s["en"], href
 
 
+def page_url(cfg: dict, lang: str, path: str, channel: str | None = None, campaign: str | None = None) -> str:
+    """Сторінка сайту мовою допису з UTM-міткою каналу (для {{<ключ>}} з post_links у config.yml)."""
+    url = cfg["site"]["base_url"].rstrip("/") + cfg["languages"][lang]["prefix"] + path
+    if channel and cfg.get("utm", {}).get("enabled"):
+        url += "?" + urlencode({"utm_source": channel, "utm_medium": cfg["utm"].get("medium", "social"),
+                                "utm_campaign": campaign or "site"})
+    return url
+
+
+def post_link_keys(cfg: dict) -> list[str]:
+    return list((cfg.get("post_links") or {}).keys())
+
+
 def render_post_text(post: Post, cfg: dict, part: str | None = None) -> str:
     text = part if part is not None else post.body
-    return text.replace("{{link}}", article_url(cfg, post.lang, post.slug, post.channel))
+    text = text.replace("{{link}}", article_url(cfg, post.lang, post.slug, post.channel))
+    for key, path in (cfg.get("post_links") or {}).items():
+        token = "{{" + key + "}}"
+        if token in text:
+            text = text.replace(token, page_url(cfg, post.lang, path, post.channel, post.slug))
+    return text
 
 
 def signature(cfg: dict, channel: str, lang: str) -> str:

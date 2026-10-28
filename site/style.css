@@ -1002,3 +1002,20 @@ img { max-width:100%; }
 .bc-social-link[aria-label^="Instagram"] svg{fill:none}
 
 .bc-social-link[aria-label^="Instagram"] rect,.bc-social-link[aria-label^="Instagram"] circle:not([fill="currentColor"]){fill:none}
+
+/* Демо дашборду: блок на сторінці кейсів і банер на головній (2026-10-28) */
+.case-demo-media{display:block;position:relative;overflow:hidden}
+.case-demo-media img{object-fit:cover;object-position:left top;transition:transform .5s ease}
+.case-demo-media:hover img{transform:scale(1.02)}
+.case-demo-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.case-demo-actions .btn-secondary{margin-left:0}
+.demo-teaser{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:40px;margin-top:56px;padding:34px 36px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(140deg,rgba(255,255,255,.045),rgba(255,255,255,.01));text-decoration:none;color:inherit;transition:border-color .25s}
+.demo-teaser:hover{border-color:rgba(217,4,41,.45)}
+.demo-teaser-copy{display:grid;gap:12px;justify-items:start}
+.demo-teaser-kicker{color:#D90429;font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase}
+.demo-teaser strong{font-family:var(--font-h);font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.15;color:#fff}
+.demo-teaser-text{color:#b2bdc9;line-height:1.7}
+.demo-teaser-cta{margin-top:6px;color:#fff;font-weight:600;border-bottom:2px solid #D90429;padding-bottom:3px}
+.demo-teaser-media{display:block;border:1px solid rgba(255,255,255,.10);overflow:hidden}
+.demo-teaser-media img{display:block;width:100%;height:auto}
+@media(max-width:900px){.demo-teaser{grid-template-columns:1fr;gap:24px;padding:24px 20px}}

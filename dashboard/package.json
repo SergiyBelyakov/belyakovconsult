@@ -1,0 +1,18 @@
+{
+  "name": "belyakov-consult-dashboard-demo",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Демо BI-дашборду якості даних для belyakovconsult.com",
+  "scripts": {
+    "build": "node build.mjs",
+    "fonts": "python3 tools/make_pdf_fonts.py"
+  },
+  "dependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
+  }
+}
