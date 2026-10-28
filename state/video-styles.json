@@ -197,6 +197,15 @@
     "music": "pulse",
     "wave": "wave-1.jpg"
   },
+  "note-2026-10-28#instagram-en-1": {
+    "cover": "frame",
+    "globe": "globe-2.jpg",
+    "icon": "service-governance.webp",
+    "k": 19,
+    "look": "beam",
+    "music": "pulse",
+    "wave": "wave-2.jpg"
+  },
   "note-2026-10-28#instagram-uk-1": {
     "cover": "icon",
     "globe": "globe-1.jpg",
@@ -214,6 +223,24 @@
     "look": "wave",
     "music": "pulse",
     "wave": "wave-4.jpg"
+  },
+  "note-2026-10-29#instagram-uk-1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-consulting.webp",
+    "k": 20,
+    "look": "grid",
+    "music": "ambient",
+    "wave": "wave-5.jpg"
+  },
+  "note-2026-10-30#instagram-en-1": {
+    "cover": "quote",
+    "globe": "globe-1.jpg",
+    "icon": "service-management-analytics.webp",
+    "k": 21,
+    "look": "wave",
+    "music": "lofi",
+    "wave": "wave-1.jpg"
   },
   "note-2026-10-30#instagram-uk-1": {
     "cover": "type",
@@ -233,6 +260,15 @@
     "music": "lofi",
     "wave": "wave-3.jpg"
   },
+  "note-2026-10-31#instagram-uk-1": {
+    "cover": "type",
+    "globe": "globe-2.jpg",
+    "icon": "service-quality.webp",
+    "k": 22,
+    "look": "globe",
+    "music": "cinematic",
+    "wave": "wave-4.jpg"
+  },
   "note-2026-11-01#instagram-en-1": {
     "cover": "icon",
     "globe": "globe-2.jpg",
@@ -241,6 +277,24 @@
     "look": "grid",
     "music": "cinematic",
     "wave": "wave-6.jpg"
+  },
+  "note-2026-11-01#instagram-uk-1": {
+    "cover": "frame",
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 23,
+    "look": "beam",
+    "music": "bright",
+    "wave": "wave-7.jpg"
+  },
+  "note-2026-11-02#instagram-en-1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-data-analysis.webp",
+    "k": 24,
+    "look": "grid",
+    "music": "analytic",
+    "wave": "wave-3.jpg"
   },
   "note-2026-11-02#instagram-uk-1": {
     "cover": "quote",
@@ -260,6 +314,24 @@
     "music": "analytic",
     "wave": "wave-5.jpg"
   },
+  "note-2026-11-03#instagram-uk-1": {
+    "cover": "quote",
+    "globe": "globe-2.jpg",
+    "icon": "service-financial-analytics.webp",
+    "k": 25,
+    "look": "wave",
+    "music": "pulse",
+    "wave": "wave-6.jpg"
+  },
+  "note-2026-11-04#instagram-en-1": {
+    "cover": "type",
+    "globe": "globe-3.jpg",
+    "icon": "service-geospatial.webp",
+    "k": 26,
+    "look": "globe",
+    "music": "ambient",
+    "wave": "wave-2.jpg"
+  },
   "note-2026-11-04#instagram-uk-1": {
     "cover": "frame",
     "globe": "globe-2.jpg",
@@ -277,6 +349,24 @@
     "look": "grid",
     "music": "ambient",
     "wave": "wave-4.jpg"
+  },
+  "note-2026-11-05#instagram-uk-1": {
+    "cover": "frame",
+    "globe": "globe-1.jpg",
+    "icon": "service-architecture.webp",
+    "k": 27,
+    "look": "beam",
+    "music": "lofi",
+    "wave": "wave-5.jpg"
+  },
+  "note-2026-11-06#instagram-en-1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-governance.webp",
+    "k": 28,
+    "look": "grid",
+    "music": "cinematic",
+    "wave": "wave-1.jpg"
   },
   "note-2026-11-06#instagram-uk-1": {
     "cover": "quote",
@@ -296,6 +386,24 @@
     "music": "cinematic",
     "wave": "wave-3.jpg"
   },
+  "note-2026-11-07#instagram-uk-1": {
+    "cover": "quote",
+    "globe": "globe-3.jpg",
+    "icon": "service-consulting.webp",
+    "k": 29,
+    "look": "wave",
+    "music": "bright",
+    "wave": "wave-4.jpg"
+  },
+  "note-2026-11-08#instagram-en-1": {
+    "cover": "type",
+    "globe": "globe-1.jpg",
+    "icon": "service-management-analytics.webp",
+    "k": 30,
+    "look": "globe",
+    "music": "analytic",
+    "wave": "wave-7.jpg"
+  },
   "note-2026-11-08#instagram-uk-1": {
     "cover": "frame",
     "globe": "globe-3.jpg",
@@ -313,6 +421,24 @@
     "look": "grid",
     "music": "analytic",
     "wave": "wave-2.jpg"
+  },
+  "note-2026-11-09#instagram-uk-1": {
+    "cover": "frame",
+    "globe": "globe-2.jpg",
+    "icon": "service-quality.webp",
+    "k": 31,
+    "look": "beam",
+    "music": "pulse",
+    "wave": "wave-3.jpg"
+  },
+  "note-2026-11-10#instagram-en-1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 32,
+    "look": "grid",
+    "music": "ambient",
+    "wave": "wave-6.jpg"
   },
   "note-2026-11-10#instagram-uk-1": {
     "cover": "quote",
@@ -332,6 +458,24 @@
     "music": "ambient",
     "wave": "wave-1.jpg"
   },
+  "note-2026-11-11#instagram-uk-1": {
+    "cover": "quote",
+    "globe": "globe-1.jpg",
+    "icon": "service-data-analysis.webp",
+    "k": 33,
+    "look": "wave",
+    "music": "lofi",
+    "wave": "wave-2.jpg"
+  },
+  "note-2026-11-12#instagram-en-1": {
+    "cover": "type",
+    "globe": "globe-2.jpg",
+    "icon": "service-financial-analytics.webp",
+    "k": 34,
+    "look": "globe",
+    "music": "cinematic",
+    "wave": "wave-5.jpg"
+  },
   "note-2026-11-12#instagram-uk-1": {
     "cover": "frame",
     "globe": "globe-1.jpg",
@@ -350,6 +494,24 @@
     "music": "cinematic",
     "wave": "wave-7.jpg"
   },
+  "note-2026-11-13#instagram-uk-1": {
+    "cover": "frame",
+    "globe": "globe-3.jpg",
+    "icon": "service-geospatial.webp",
+    "k": 35,
+    "look": "beam",
+    "music": "bright",
+    "wave": "wave-1.jpg"
+  },
+  "note-2026-11-14#instagram-en-1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-architecture.webp",
+    "k": 36,
+    "look": "grid",
+    "music": "analytic",
+    "wave": "wave-4.jpg"
+  },
   "note-2026-11-14#instagram-uk-1": {
     "cover": "quote",
     "globe": "globe-3.jpg",
@@ -367,6 +529,15 @@
     "look": "globe",
     "music": "analytic",
     "wave": "wave-6.jpg"
+  },
+  "note-2026-11-15#instagram-uk-1": {
+    "cover": "quote",
+    "globe": "globe-2.jpg",
+    "icon": "service-governance.webp",
+    "k": 37,
+    "look": "wave",
+    "music": "pulse",
+    "wave": "wave-7.jpg"
   },
   "report-changed-after-month-end#1": {
     "cover": "type",

@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 1. Час: 2026-10-28 15:00
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-10-28 15:47
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в Threads: note-2026-10-28
-https://www.threads.com/@belyakovconsult/post/DfCfY0SFt7i
+⚠️ Не вдалося опублікувати в Instagram (note-2026-10-28), спроба 1/3:
+Instagram: зображення ще недоступне на сайті (404): https://www.belyakovconsult.com/assets/notes/note-2026-10-28/instagram-en-1/slide-1.jpg
 ```

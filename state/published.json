@@ -125,6 +125,13 @@
     "status": "published",
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
+  "note-2026-10-28/instagram-en": {
+    "at": "2026-10-28 15:47",
+    "attempts": 1,
+    "error": "Instagram: зображення ще недоступне на сайті (404): https://www.belyakovconsult.com/assets/notes/note-2026-10-28/instagram-en-1/slide-1.jpg",
+    "publish_at": "2026-10-28 15:00",
+    "status": "retry"
+  },
   "note-2026-10-28/instagram-uk": {
     "at": "2026-10-28 09:37",
     "id": "18112417628239176",
