@@ -1,11 +1,40 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-10-28 07:37
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 2. Час: 2026-10-28 09:32
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-🔑 Instagram: ключ доступу недійсний, публікації в цю мережу стоять. Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.
-Instagram (профіль): HTTP 400 {"error":{"message":"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.","type":"OAuthException","code":190,"error_subcode":0,"fbtrace_id":"AgSEmX-HApUO6so5gjl
+✅ Опубліковано в Threads: note-2026-10-28
+https://www.threads.com/@belyakovconsult/post/DfB52M3lrZ3
+```
+
+## 2
+
+```
+✋ Опублікуйте вручну в LinkedIn (сторінка Belyakov Consult) (немає секретів LINKEDIN_ORG_ID). Текст нижче:
+
+«Скільки у вас отримувачів послуг?»
+
+Три підрозділи легко дадуть три різні відповіді, і всі будуть правильними. Один рахує людей, другий звернення, третій людей, які отримали послугу хоча б раз за рік.
+
+Це рецепт без грамів: «трохи борошна, цукор за смаком». Пиріг вийде в кожного, але різний. (Аналогія неідеальна: у пирога ніхто не питає, чому він став меншим, ніж у минулому звіті.)
+
+Інструмент проти цього простий і нудний, тому й працює: паспорт показника (indicator reference sheet). П'ять пунктів:
+1. Що саме рахуємо, одним реченням.
+2. Одиниця обліку: людина, звернення чи послуга.
+3. Період і дата, на яку рахуємо.
+4. Джерело даних і хто за нього відповідає.
+5. Формула, яку може повторити інша людина.
+
+Завдання на 10 хвилин: візьміть показник з останнього звіту і заповніть ці п'ять пунктів. Якщо на третьому довелося комусь телефонувати, паспорт вам потрібен більше, ніж здавалося.
+
+Повний розбір конфлікту цифр і чотирьох питань управління даними: https://www.belyakovconsult.com/insights/governance-shows-in-conflict/?utm_source=linkedinpage&utm_medium=social&utm_campaign=governance-shows-in-conflict
+
+Більше розборів: сайт belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram і Threads @belyakovconsult
+
+#DataGovernance #якістьданих #показники
+
+🎬 Моушн-відео до допису: https://www.belyakovconsult.com/assets/insights/governance-shows-in-conflict/e3/motion.mp4
 ```
