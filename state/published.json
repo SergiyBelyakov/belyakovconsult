@@ -28,9 +28,9 @@
     "url": "https://www.instagram.com/reel/De9MgWqjLrZ/"
   },
   "governance-shows-in-conflict/instagram-uk-2": {
-    "at": "2026-10-27 22:39",
+    "at": "2026-10-28 02:06",
     "auth_error": true,
-    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"AGUIv1LiMYQ8eb4MaUI",
+    "error": "Instagram (профіль): HTTP 400 {\"error\":{\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"A_IpnnWlCf0x1llMjo6",
     "publish_at": "2026-10-27 12:30",
     "status": "retry"
   },
