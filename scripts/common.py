@@ -65,6 +65,7 @@ class Article:
     # Додаткові відео для дописів 2, 3…: [{title, text, carousel}], episodes[0] іде до допису 2
     episodes: list = field(default_factory=list)
     kicker: str | None = None    # рубрика на обкладинці замість insights_title (для нотаток)
+    style: dict | None = None    # вигляд відео/обкладинки: look, cover, icon, music, bg (див. make_motion.assign_styles)
 
     @property
     def words(self) -> int:

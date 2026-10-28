@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
@@ -35,6 +35,57 @@ TRANS = 0.5                     # тривалість переходу між �
 DUR = {"cover": 4.6, "point": 5.0, "cta": 5.6}
 VERSION = "motion-v3"
 BEAT = music.BEAT
+
+# ---- Вигляд відео: щоб ролики не були однакові ----
+BG_DIR = ROOT / "brand-assets" / "bg"          # фони з дизайн-системи: червона хвиля, мережа-глобус
+STYLE_FILE = ROOT / "state" / "video-styles.json"
+LOOKS = ["grid", "wave", "globe", "beam"]       # живий фон
+COVERS = ["icon", "type", "wave"]               # обкладинка: 3D-іконка, велике число/код, великий заголовок на хвилі
+ICONS = ["service-quality.webp", "service-architecture.webp", "service-bi.webp", "service-governance.webp",
+         "service-data-analysis.webp", "service-consulting.webp", "service-financial-analytics.webp",
+         "service-management-analytics.webp", "service-geospatial.webp"]
+WAVES = sorted(p.name for p in BG_DIR.glob("wave-*.jpg"))
+GLOBES = sorted(p.name for p in BG_DIR.glob("globe-*.jpg"))
+
+
+def style_for_index(k: int) -> dict:
+    """k-те відео за часом виходу: сусідні відео різняться фоном, обкладинкою, іконкою й музикою."""
+    return {"look": LOOKS[k % len(LOOKS)], "cover": COVERS[k % len(COVERS)], "icon": ICONS[(k * 4) % len(ICONS)],
+            "music": music.STYLE_NAMES[k % len(music.STYLE_NAMES)],
+            "wave": WAVES[(k * 3) % len(WAVES)] if WAVES else None, "globe": GLOBES[k % len(GLOBES)] if GLOBES else None}
+
+
+def assign_styles(keys: list[str]) -> dict:
+    """Стабільно призначає вигляд кожному відео (ключ «slug#N»); нові ключі отримують наступні номери."""
+    data = json.loads(STYLE_FILE.read_text()) if STYLE_FILE.exists() else {}
+    for key in keys:
+        if key not in data:
+            note = key.startswith("note-")          # каруселі нотаток мають власну чергу, щоб не збивати ротацію відео
+            k = sum(1 for x in data if x.startswith("note-") == note)
+            st = style_for_index(k)
+            if note:
+                st["cover"] = ("icon", "type")[k % 2]
+                st["icon"] = ICONS[(k * 2 + 1) % len(ICONS)]
+            data[key] = {"k": k, **st}
+    STYLE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    STYLE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+    return data
+
+
+def video_order(cfg) -> list[str]:
+    """Ключі відео й каруселей нотаток у порядку першої публікації."""
+    from common import load_posts
+    first: dict[str, object] = {}
+    for p in load_posts(cfg):
+        if p.kind == "note" and p.channel == "instagram":
+            key = f"{p.slug}#{p.path.stem}"
+        elif p.kind == "article":
+            key = f"{p.slug}#{p.n}"
+        else:
+            continue
+        if key not in first or p.publish_at < first[key]:
+            first[key] = p.publish_at
+    return sorted(first, key=lambda k: first[k])
 TEXT_NAMES = {"title", "body", "kicker", "num", "links"}
 CHROME = {"lockup", "counter", "footer", "arrow"}   # не рухаються під час переходу
 
@@ -74,8 +125,35 @@ def glow_sprite(size: int = 1300, strength: int = 52) -> Image.Image:
 class Scene:
     """Живий фон: рухома сітка, частинки-«дані» з лініями зв'язку, сканувальна смуга, світло в такт."""
 
-    def __init__(self, seed: int):
-        self.base = make_cards.background(W, H, glow=(0.8, 0.12), strength=22, grid=False).convert("RGBA")
+    def __init__(self, seed: int, style: dict | None = None, beat: float = BEAT):
+        style = style or {}
+        self.look = style.get("look", "grid")
+        self.beat = beat
+        glow_at = {"grid": (0.8, 0.12), "wave": (0.15, 0.85), "globe": (0.2, 0.1), "beam": (0.5, 0.45)}.get(self.look, (0.8, 0.12))
+        self.base = make_cards.background(W, H, glow=glow_at, strength=22, grid=False).convert("RGBA")
+        self.photo = None          # фон із дизайн-системи, вписаний цілком по ширині (без обрізання)
+        name = style.get("wave") if self.look == "wave" else style.get("globe") if self.look == "globe" else None
+        if name and (BG_DIR / name).exists():
+            im = Image.open(BG_DIR / name).convert("RGB")
+            if self.look == "globe":   # тонкі лінії мережі: підсилюємо, щоб їх було видно на телефоні
+                im = ImageEnhance.Brightness(im).enhance(2.4)
+            # вписуємо цілком: по висоті кадру для глобуса, по ширині для хвилі (без обрізання)
+            sc = W / im.width * (1.0 if self.look == "wave" else 1.0)
+            im = im.resize((int(im.width * sc), int(im.height * sc)), Image.LANCZOS).convert("RGBA")
+            fade = Image.new("L", im.size, 255)
+            fd = ImageDraw.Draw(fade)
+            for i in range(200):                                  # м'який верхній край (хвиля в кадрі лишається цілою)
+                a = int(255 * (i / 200) ** 1.5)
+                fd.line([0, i, W, i], fill=a)
+                if i < 40:
+                    fd.line([0, im.height - 1 - i, W, im.height - 1 - i], fill=int(255 * (i / 40)))
+            im.putalpha(fade)
+            self.photo = im
+        self.cover_wave = None     # обкладинка «wave»: хвиля під великим заголовком першого слайда
+        if style.get("cover") == "wave" and style.get("wave") and (BG_DIR / style["wave"]).exists():
+            im = Image.open(BG_DIR / style["wave"]).convert("RGB")
+            im = im.resize((W, int(im.height * W / im.width)), Image.LANCZOS).convert("RGBA")
+            self.cover_wave = im
         self.base.alpha_composite(Image.new("RGBA", (W, 10), (*brand.RUBY, 255)), (0, 0))
         g = Image.new("RGBA", (W + 54, H + 54), (0, 0, 0, 0))
         gd = ImageDraw.Draw(g)
@@ -101,12 +179,32 @@ class Scene:
             bd.line([0, i, W, i], fill=(*brand.RUBY, a))
         self.band = band
 
-    def frame(self, T: float) -> Image.Image:
+    def frame(self, T: float, cover_k: float = 0.0) -> Image.Image:
         f = self.base.copy()
-        ox, oy = int(T * 14) % 54, int(T * 9) % 54
-        f.alpha_composite(self.grid.crop((ox, oy, ox + W, oy + H)))
-        # світло: повільний дрейф + пульсація на долю такту
-        beat = np.exp(-((T % BEAT) / 0.22))
+        beat = np.exp(-((T % self.beat) / 0.22))
+        if self.look in ("grid", "beam"):
+            ox, oy = int(T * 14) % 54, int(T * 9) % 54
+            f.alpha_composite(with_alpha(self.grid.crop((ox, oy, ox + W, oy + H)), 1.0 if self.look == "grid" else 0.5))
+        if self.photo is not None:
+            if self.look == "wave":      # хвиля в нижній третині кадру, «дихає» в такт
+                y = H - self.photo.height + 40 + int(16 * np.sin(T * 0.6))     # під текстом, біля підвалу
+                f.alpha_composite(with_alpha(self.photo, 0.85 + 0.15 * beat), (0, y))
+            else:                        # мережа-глобус: дві копії, вгорі й унизу, повільно пливуть
+                y1 = 60 + int(18 * np.sin(T * 0.35))
+                y2 = H - self.photo.height - 60 + int(18 * np.cos(T * 0.3))
+                f.alpha_composite(with_alpha(self.photo, 0.9), (0, y1))
+                f.alpha_composite(with_alpha(self.photo.transpose(Image.FLIP_LEFT_RIGHT), 0.6 + 0.2 * beat), (0, y2))
+        if self.look == "beam":          # діагональні рубінові промені, що повільно проходять кадром
+            ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            d = ImageDraw.Draw(ov)
+            for j, (spd, wdt, a) in enumerate(((150, 180, 70), (95, 90, 55), (210, 50, 80))):
+                x = int((T * spd + j * 520) % (W + H + 400)) - H - 200
+                for q in range(wdt):
+                    al = int(a * (1 - abs(q - wdt / 2) / (wdt / 2)) ** 2 * (0.8 + 0.2 * beat))
+                    d.line([x + q, H, x + q + H, 0], fill=(*brand.RUBY, al))
+            f.alpha_composite(ov)
+        if self.cover_wave is not None and cover_k > 0:
+            f.alpha_composite(with_alpha(self.cover_wave, cover_k), (0, int(H * 0.30) - self.cover_wave.height // 2 + int(8 * np.sin(T * 0.8))))
         gx = int(W * (0.82 + 0.10 * np.sin(T * 0.23))) - self.glow.width // 2
         gy = int(H * (0.16 + 0.06 * np.sin(T * 0.31))) - self.glow.height // 2
         g = with_alpha(self.glow, 0.72 + 0.28 * beat)
@@ -228,11 +326,11 @@ def progress(frame: Image.Image, idx: int, n: int, t: float, dur: float) -> None
 
 
 def render_frame(scene: Scene, slides, durs, idx: int, t: float, T: float) -> Image.Image:
-    frame = scene.frame(T)
     slide, dur = slides[idx], durs[idx]
-    drift = int(np.sin(T * 0.6) * 6)
     trans = idx + 1 < len(slides) and t > dur - TRANS
     k = ease((t - (dur - TRANS)) / TRANS) if trans else 0.0
+    frame = scene.frame(T, cover_k=(ease(t / 0.8) * (1 - k)) if idx == 0 else 0.0)
+    drift = int(np.sin(T * 0.6) * 6)
     # Локальний час слайда: наступний слайд починає анімацію ще під час переходу
     # і продовжує її без стрибка, тому до слайдів після першого додається TRANS.
     u = t + (TRANS if idx > 0 else 0.0)
@@ -274,11 +372,16 @@ def episode(article, n: int):
                                description=str(ep.get("text", "")), carousel=list(ep.get("carousel") or []), episodes=[])
 
 
-def build_all(cfg, article, force: bool = False) -> list[Path]:
+def build_all(cfg, article, force: bool = False, styles: dict | None = None) -> list[Path]:
     """Основне відео статті й відео кожного епізоду (для дописів 2, 3…)."""
+    if styles is None:
+        styles = assign_styles(video_order(cfg))
     out = []
     for n in range(1, len(article.episodes) + 2):
         a = article if n == 1 else episode(article, n)
+        st = styles.get(f"{article.slug}#{n}")
+        if st:
+            a = dataclasses.replace(a, style=st)
         d = social_asset_dir(cfg, article.slug, article.lang) / episode_sub(n)
         mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}")
         if mp4:
@@ -298,17 +401,18 @@ def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: 
     out.mkdir(parents=True, exist_ok=True)
     mp4, meta = out / "motion.mp4", out / "motion.json"
     specs = make_cards.slide_specs(cfg, article)
-    fp = fingerprint(cfg, article, specs + [{"seed": seed}])
+    style = article.style or {}
+    fp = fingerprint(cfg, article, specs + [{"seed": seed, "style": {k: v for k, v in style.items() if k != "k"}}])
     if not force and mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp:
         return mp4
-    scene = Scene(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16))
+    scene = Scene(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), style, music.beat_of(style.get("music")))
     slides = [make_cards.layout(cfg, article, s, i, len(specs), W, H, TOP, BOTTOM) for i, s in enumerate(specs, 1)]
     durs = [DUR.get(s.kind, 4.4) for s in slides]
     tmp = out / "motion.tmp.mp4"
     total_s = sum(durs)
     cuts = [sum(durs[:i]) for i in range(1, len(durs))]
     wav = out / "motion.music.tmp.wav"
-    music.generate(total_s, cuts, seed, wav)  # однакова музика для всіх мовних версій, своя для кожного допису
+    music.generate(total_s, cuts, seed, wav, style.get("music"))  # однакова музика для всіх мовних версій, своя для кожного допису
     cmd = ["ffmpeg", "-y", "-loglevel", "error",
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-i", str(wav),
@@ -349,10 +453,11 @@ def main() -> int:
         return 1
     cfg = load_config()
     only = sys.argv[1] if len(sys.argv) > 1 else None
+    styles = assign_styles(video_order(cfg))
     for a in load_articles(cfg, include_drafts=True):
         if (only and a.slug != only) or not a.carousel:
             continue
-        for p in build_all(cfg, a, force=bool(only)):
+        for p in build_all(cfg, a, force=bool(only), styles=styles):
             print(f"{a.slug}: {p.relative_to(ROOT)} ({p.stat().st_size // 1024} КБ)")
     return 0
 

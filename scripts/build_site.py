@@ -108,10 +108,11 @@ def main() -> int:
     css_dir.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ROOT / "templates" / "insights.css", css_dir / "insights.css")
 
+    styles = make_motion.assign_styles(make_motion.video_order(cfg))   # різний вигляд і музика для кожного відео
     # Картки коротких нотаток Instagram (content/notes): рендеримо наперед, щоб адреси були доступні в час публікації
     for post in load_notes(cfg):
         if post.channel == "instagram" and post.cards:
-            make_cards.note_cards(cfg, post)
+            make_cards.note_cards(cfg, post, styles.get(f"{post.slug}#{post.path.stem}"))
 
     sitemap, pages = [], 0
     for slug, versions in by_slug.items():
@@ -123,7 +124,7 @@ def main() -> int:
             make_cards.og_image(cfg, v)
             make_cards.carousel(cfg, v)
             if v.carousel:
-                make_motion.build_all(cfg, v)   # основне відео статті + відео дописів 2, 3… (episodes)
+                make_motion.build_all(cfg, v, styles=styles)   # основне відео статті + відео дописів 2, 3… (episodes)
         alternates = [(l, base + article_path(cfg, l, slug)) for l in langs_cfg if l in versions]
         if len(alternates) > 1:
             alternates.append(("x-default", base + article_path(cfg, "uk" if "uk" in versions else alternates[0][0], slug)))

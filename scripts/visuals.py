@@ -328,6 +328,32 @@ def v_image(spec, w, h, z):
     return [Part(im, ((w - nw) // 2, (h - nh) // 2), 0, "zoom")]
 
 
+def v_hero(spec, w, h, z):
+    """Велике рубінове число чи слово на обкладинці замість картинки."""
+    val = str(spec.get("value", ""))
+    f, lines = brand.fit(val, "head", w, min(z(300), h), z(90), 2)
+    lh = int(f.size * 1.02)
+    img = _canvas(w, lh * len(lines))
+    d = ImageDraw.Draw(img)
+    for i, ln in enumerate(lines):
+        d.text((0, i * lh), ln, font=f, fill=brand.RUBY)
+    bar = _canvas(z(160), z(10)); ImageDraw.Draw(bar).rectangle([0, 0, z(160), z(10)], fill=(*brand.RUBY, 255))
+    return [Part(img, (0, max(0, (h - img.height) // 2 - z(10))), 0, "pop"),
+            Part(bar, (0, min(h - z(10), (h + img.height) // 2 + z(10))), .35, "grow-x")]
+
+
+HERO_RE = re.compile(r"ISO\s?\d[\d-]*|\d[\d\s.,:/+-]*\d\s?%?|\d+\s?%?")
+
+
+def hero_token(*texts: str) -> str | None:
+    """Число чи код з назви/опису для типографічної обкладинки: «98%», «ISO 8000-8», «10»."""
+    for t in texts:
+        m = HERO_RE.search(t or "")
+        if m and len(m.group(0).strip()) <= 12:
+            return m.group(0).strip()
+    return None
+
+
 def auto(slide: dict) -> dict | None:
     text = slide.get("text", "") or ""
     lines = [l.strip(" .") for l in text.split("\n") if l.strip()]
@@ -355,7 +381,8 @@ def render(spec: dict | None, slide: dict, w: int, h: int, z) -> tuple[list[Part
     fn = {"bars": lambda: v_bars(spec, w, h, z), "list": lambda: v_list(spec, w, h, z, items),
           "grid": lambda: v_grid(spec, w, h, z, items), "flow": lambda: v_flow(spec, w, h, z, items),
           "compare": lambda: v_compare(spec, w, h, z), "fields": lambda: v_fields(spec, w, h, z),
-          "doc": lambda: v_doc(spec, w, h, z), "image": lambda: v_image(spec, w, h, z)}.get(t)
+          "doc": lambda: v_doc(spec, w, h, z), "image": lambda: v_image(spec, w, h, z),
+          "hero": lambda: v_hero(spec, w, h, z)}.get(t)
     if not fn:
         return [], False
     return fn(), replaces

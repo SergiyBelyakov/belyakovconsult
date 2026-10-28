@@ -76,6 +76,10 @@ def background(w: int, h: int, glow: tuple[float, float] = (0.82, 0.18), strengt
     return Image.composite(ruby, img, glow_img)
 
 
+def vspec_type(blocks) -> str | None:
+    return next((img.get("type") for name, img, _ in blocks if name == "visual"), None)
+
+
 def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: int,
            top: int, bottom: int) -> Slide:
     """Розкладка слайда в межах безпечної зони [top, h-bottom]."""
@@ -93,9 +97,16 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
     blocks: list[tuple[str, object, int]] = []   # (name, image або ("visual", spec), gap_after)
     vis_spec = spec.get("visual")
     if s.kind == "cover":
-        img_src = visuals.service_image(article.services)
-        if img_src and vis_spec is None:
+        st = getattr(article, "style", None) or {}
+        cover = st.get("cover", "icon")
+        hero = spec.get("hero") or (visuals.hero_token(spec.get("title", ""), spec.get("text", "")) if cover == "type" else None)
+        if cover == "type" and not hero:
+            cover = "icon"
+        img_src = f"assets/{st['icon']}" if st.get("icon") else visuals.service_image(article.services)
+        if vis_spec is None and cover == "icon" and img_src:
             vis_spec = {"type": "image", "src": img_src}
+        elif vis_spec is None and cover == "type":
+            vis_spec = {"type": "hero", "value": hero}
         if vis_spec:
             blocks.append(("visual", vis_spec, 44))
         blocks.append(("kicker", _text_block([(article.kicker or L["insights_title"]).upper()], brand.font("body-semi", z(30)), brand.RUBY), 30))
@@ -132,9 +143,11 @@ def layout(cfg: dict, article, spec: dict, index: int, total: int, w: int, h: in
     text_h = sum((0 if name == "visual" else img.height) + gap for name, img, gap in blocks)
     vis_h = 0
     if any(name == "visual" for name, _, _ in blocks):
-        min_v = z(360) if s.kind == "cover" else z(220)     # обкладинці картинка крупно
+        min_v = (z(260) if vspec_type(blocks) == "hero" else z(360)) if s.kind == "cover" else z(220)     # обкладинці картинка крупно
         max_v = z(600)
         vspec = next(img for name, img, _ in blocks if name == "visual")
+        if vspec.get("type") == "hero":
+            max_v = z(420)
         if vspec.get("type") == "image":                    # картинку показуємо цілком: висота за пропорцією
             ratio = visuals.image_ratio(vspec.get("src", ""))
             if ratio:
@@ -283,7 +296,7 @@ if __name__ == "__main__":
     sys.exit(main())
 
 
-def note_cards(cfg, post) -> list[Path]:
+def note_cards(cfg, post, style: dict | None = None) -> list[Path]:
     """Картки нотатки Instagram (1080×1350): обкладинка з cards[0], слайди з cards[1:], фінальний слайд з контактами."""
     from common import Article, note_asset_dir
     if not post.cards:
@@ -292,10 +305,11 @@ def note_cards(cfg, post) -> list[Path]:
     a = Article(slug=post.slug, lang=post.lang, path=post.path, title=str(cover.get("title", "")),
                 description=str(cover.get("text", "")), date=post.publish_at.date(), body="",
                 services=list(post.services), carousel=list(post.cards[1:]),
-                kicker={"uk": "Нотатки", "en": "Notes", "pt": "Notas"}.get(post.lang, "Notes"))
+                kicker={"uk": "Нотатки", "en": "Notes", "pt": "Notas"}.get(post.lang, "Notes"),
+                style=style)
     out = note_asset_dir(cfg, post)
     import hashlib, json as _json
-    h = hashlib.sha256(_json.dumps([post.cards, post.services, post.lang], ensure_ascii=False, sort_keys=True).encode())
+    h = hashlib.sha256(_json.dumps([post.cards, post.services, post.lang, style], ensure_ascii=False, sort_keys=True).encode())
     for mod in (Path(__file__), Path(visuals.__file__), Path(brand.__file__)):
         h.update(mod.read_bytes())
     fp, meta = h.hexdigest()[:16], out / "cards.json"
