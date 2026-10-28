@@ -9,12 +9,13 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import WEEKDAYS, cadence_phase, CHANNELS, load_articles, load_config, load_posts, media_kind, post_parts  # noqa: E402
+from common import WEEKDAYS, cadence_phase, CHANNELS, load_articles, load_config, load_posts, media_kind, post_link_keys, post_parts  # noqa: E402
 import brand  # noqa: E402
 
 
@@ -73,7 +74,8 @@ def main() -> int:
             errors.append(f"{where}: немає статті {p.slug}/{p.lang}.md, на яку веде допис")
         if a and p.publish_at.date() < a.date:
             warns.append(f"{where}: допис ({p.publish_at:%Y-%m-%d}) раніше за статтю ({a.date}) — він чекатиме на неї")
-        if p.link and "{{link}}" not in p.body:
+        extra = ["{{" + k + "}}" for k in post_link_keys(cfg)]
+        if p.link and "{{link}}" not in p.body and not any(x in p.body for x in extra):
             warns.append(f"{where}: у тексті немає {{{{link}}}} — посилання на статтю не буде")
         if any(ch in p.body for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–»; за профілем голосу їх не використовуємо (список: «•» або 1., 2.)")
@@ -82,6 +84,9 @@ def main() -> int:
             errors.append(f"{where}: канал {p.channel} публікує лише {', '.join(langs)}, допис мовою {p.lang} не вийде")
         limit = cfg["channels"][p.channel]["max_chars"]
         parts = post_parts(p, cfg)
+        left = sorted({x for x in re.findall(r"\{\{[^}]*\}\}", "\n".join(parts))})
+        if left:
+            errors.append(f"{where}: невідомі підстановки {', '.join(left)} (є {{{{link}}}} і ключі post_links у config.yml)")
         if p.channel == "threads":
             for i, x in enumerate(parts, 1):
                 if len(x) > limit:
