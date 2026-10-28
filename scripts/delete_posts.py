@@ -52,6 +52,10 @@ def main() -> int:
     state = load_state()
     manual = []
     for key in keys:
+        if key.startswith("tg:"):              # окреме повідомлення Telegram за номером, напр. «tg:12»
+            err = delete_telegram(key[3:])
+            print(f"{key}: {'видалено' if not err else err}")
+            continue
         rec = state.get(key)
         if not rec:
             continue
@@ -60,6 +64,9 @@ def main() -> int:
         if rec.get("status") == "published" and rec.get("id"):
             if channel == "telegram":
                 err = delete_telegram(rec["id"])
+                for extra in rec.get("extra_ids") or []:     # відео-відповідь до довгого тексту
+                    if extra:
+                        delete_telegram(extra)
             elif channel == "threads":
                 err = delete_threads(rec["id"])
             else:

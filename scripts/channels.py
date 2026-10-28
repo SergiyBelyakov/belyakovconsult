@@ -97,8 +97,8 @@ def publish_telegram(parts: list[str], video_url: str | None = None) -> dict:
         return telegram_video(chat, video_url, caption=text)
     # Текст довший за підпис до відео: спершу текст, відео відповіддю на нього
     first = telegram_send(chat, text, preview=False)
-    telegram_video(chat, video_url, reply_to=first["id"])
-    return first
+    vid = telegram_video(chat, video_url, reply_to=first["id"])
+    return {**first, "extra_ids": [vid.get("id")]}      # відео окремим повідомленням: id потрібен для заміни
 
 
 # ---------------------------------------------------------------- Threads
