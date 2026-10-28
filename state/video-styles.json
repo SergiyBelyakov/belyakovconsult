@@ -71,6 +71,42 @@
     "music": "cinematic",
     "wave": "wave-3.jpg"
   },
+  "data-quality-dashboard-demo#1": {
+    "cover": "typewriter",
+    "globe": "globe-2.jpg",
+    "icon": "service-quality.webp",
+    "k": 25,
+    "look": "wave",
+    "music": "pulse",
+    "wave": "wave-6.jpg"
+  },
+  "data-quality-dashboard-demo#2": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 26,
+    "look": "globe",
+    "music": "ambient",
+    "wave": "wave-2.jpg"
+  },
+  "data-quality-dashboard-demo#3": {
+    "cover": "type",
+    "globe": "globe-1.jpg",
+    "icon": "service-quality.webp",
+    "k": 27,
+    "look": "beam",
+    "music": "lofi",
+    "wave": "wave-5.jpg"
+  },
+  "data-quality-dashboard-demo#4": {
+    "cover": "wave",
+    "globe": "globe-2.jpg",
+    "icon": "service-data-analysis.webp",
+    "k": 28,
+    "look": "grid",
+    "music": "cinematic",
+    "wave": "wave-1.jpg"
+  },
   "document-type-matters#1": {
     "cover": "quote",
     "globe": "globe-1.jpg",
