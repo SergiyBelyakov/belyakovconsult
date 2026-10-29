@@ -136,6 +136,11 @@
     "status": "published",
     "url": "https://www.instagram.com/p/De7uGeViYxq/"
   },
+  "iso-8000-8-quality-in-registers/linkedinpage-uk": {
+    "at": "2026-10-29 09:31",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
+  },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
     "id": "urn:li:share:7520229097789087744",
