@@ -1,0 +1,26 @@
+{
+  "fingerprint": "2e232e3be66a198a",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "VALID",
+      "FORMAT",
+      "WRONG",
+      "MEANING"
+    ],
+    "points": [
+      "Both codes pass the format",
+      "Syntax versus semantics",
+      "What semantics needs"
+    ],
+    "hero": "service-quality.webp",
+    "sats": [
+      "service-consulting.webp",
+      "service-management-analytics.webp",
+      "service-architecture.webp",
+      "service-governance.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "fingerprint": "6149ef500b5d5e7c",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "THREE",
+      "LEVELS",
+      "DATA",
+      "QUALITY"
+    ],
+    "points": [
+      "Valid format. Wrong data",
+      "Three levels of quality in ISO 8000-8",
+      "What each level checks"
+    ],
+    "hero": "service-quality.webp",
+    "sats": [
+      "service-consulting.webp",
+      "service-management-analytics.webp",
+      "service-architecture.webp",
+      "service-governance.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "fingerprint": "694bae136b9d089f",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "WHOSE",
+      "NUMBER",
+      "IS",
+      "IT?"
+    ],
+    "points": [
+      "Four roles",
+      "Who does what",
+      "A small team works too"
+    ],
+    "hero": "service-geospatial.webp",
+    "sats": [
+      "service-quality.webp",
+      "service-bi.webp",
+      "service-data-analysis.webp",
+      "service-financial-analytics.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}
