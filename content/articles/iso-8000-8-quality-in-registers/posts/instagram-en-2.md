@@ -1,4 +1,5 @@
 ---
+publish_at: 2026-10-29 21:55   # тест нового формату Reels (обкладинка 3:4, гачок, коротке відео)
 link: false
 ---
 Two swapped digits in a community code. Both codes exist, the format is valid, the check passes. The person just lives in another community.

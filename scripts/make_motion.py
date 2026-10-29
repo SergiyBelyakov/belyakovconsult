@@ -33,6 +33,8 @@ W, H, FPS = 1080, 1920, 30
 TOP, BOTTOM = 230, 360          # безпечні зони під інтерфейс соцмереж
 TRANS = 0.5                     # тривалість переходу між слайдами, с
 DUR = {"cover": 4.6, "point": 5.0, "cta": 5.6}
+DUR_SHORT = {"cover": 2.6, "point": 3.9, "cta": 3.4}   # відео до дописів 2+: коротше, ~15–18 с
+HOOK = {"title", "visual", "glyph", "kicker"}           # на обкладинці видно з першого кадру (гачок)
 VERSION = "motion-v3"
 BEAT = music.BEAT
 
@@ -305,7 +307,7 @@ def draw_text_lines(layer: Image.Image, e, t: float, start: float) -> None:
             layer.alpha_composite(with_alpha(visible, min(1.0, k * 1.4)), (e.xy[0], e.xy[1] + y0 + off))
 
 
-def render_content(slide, t: float, T: float, dur: float, chrome: bool) -> Image.Image:
+def render_content(slide, t: float, T: float, dur: float, chrome: bool, hook: bool = False) -> Image.Image:
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     for vi, e in enumerate(slide.elements):
         if (e.name in CHROME) != chrome:
@@ -314,8 +316,10 @@ def render_content(slide, t: float, T: float, dur: float, chrome: bool) -> Image
             layer.alpha_composite(e.image, e.xy)
             continue
         start = 0.2 + (e.order - 1) * 0.26 + e.delay
+        if hook and e.name in HOOK:            # перший кадр ролика вже показує заголовок і картинку
+            start = -3.0
         x, y = e.xy
-        if e.anim == "type":
+        if e.anim == "type" and not hook:
             draw_typed(layer, e, t, start)
             continue
         if e.name in TEXT_NAMES:
@@ -381,7 +385,7 @@ def render_frame(scene: Scene, slides, durs, idx: int, t: float, T: float) -> Im
     # Локальний час слайда: наступний слайд починає анімацію ще під час переходу
     # і продовжує її без стрибка, тому до слайдів після першого додається TRANS.
     u = t + (TRANS if idx > 0 else 0.0)
-    cur = render_content(slide, u, T, dur, chrome=False)
+    cur = render_content(slide, u, T, dur, chrome=False, hook=(idx == 0))
     if trans:
         frame.alpha_composite(with_alpha(cur, 1 - k), (drift, -int(k * 150)))
         nxt = render_content(slides[idx + 1], t - (dur - TRANS), T, durs[idx + 1], chrome=False)
@@ -430,7 +434,7 @@ def build_all(cfg, article, force: bool = False, styles: dict | None = None) -> 
         if st:
             a = dataclasses.replace(a, style=st)
         d = social_asset_dir(cfg, article.slug, article.lang) / episode_sub(n)
-        mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}")
+        mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}", short=n > 1)
         if mp4:
             frames = [Image.open(f) for f in sorted(d.glob("motion-frame-*.jpg"), key=lambda x: int(x.stem.split("-")[-1]))]
             make_cards.brand_sheet(cfg, a, frames, out_dir=d)
@@ -438,7 +442,8 @@ def build_all(cfg, article, force: bool = False, styles: dict | None = None) -> 
     return out
 
 
-def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: str | None = None) -> Path | None:
+def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: str | None = None,
+          short: bool = False) -> Path | None:
     if not article.carousel:
         return None
     if not shutil.which("ffmpeg"):
@@ -449,12 +454,14 @@ def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: 
     mp4, meta = out / "motion.mp4", out / "motion.json"
     specs = make_cards.slide_specs(cfg, article)
     style = article.style or {}
-    fp = fingerprint(cfg, article, specs + [{"seed": seed, "style": {k: v for k, v in style.items() if k != "k"}}])
+    fp = fingerprint(cfg, article, specs + [{"seed": seed, "short": short, "style": {k: v for k, v in style.items() if k != "k"}}])
     if not force and mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp:
+        if not (out / "cover.jpg").exists():
+            make_cards.reel_cover(cfg, article, specs[0], out / "cover.jpg")
         return mp4
     scene = Scene(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), style, music.beat_of(style.get("music")))
     slides = [make_cards.layout(cfg, article, s, i, len(specs), W, H, TOP, BOTTOM) for i, s in enumerate(specs, 1)]
-    durs = [DUR.get(s.kind, 4.4) for s in slides]
+    durs = [(DUR_SHORT if short else DUR).get(s.kind, 4.4) for s in slides]
     tmp = out / "motion.tmp.mp4"
     total_s = sum(durs)
     cuts = [sum(durs[:i]) for i in range(1, len(durs))]
@@ -485,6 +492,7 @@ def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: 
     if code != 0:
         raise RuntimeError(f"ffmpeg завершився з кодом {code}")
     tmp.replace(mp4)
+    make_cards.reel_cover(cfg, article, specs[0], out / "cover.jpg")   # обкладинка Reels під сітку профілю 3:4
     wav.unlink(missing_ok=True)
     meta.write_text(json.dumps({"fingerprint": fp, "seconds": round(sum(durs), 1), "size": [W, H]}, indent=2) + "\n")
     # Кадри для аркуша перевірки бренду

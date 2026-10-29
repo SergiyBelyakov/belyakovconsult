@@ -357,3 +357,46 @@ def note_cards(cfg, post, style: dict | None = None) -> list[Path]:
     brand_sheet(cfg, a, out_dir=out)
     meta.write_text(_json.dumps({"fingerprint": fp}) + "\n")
     return paths
+
+
+def reel_cover(cfg, article, spec: dict, path: Path) -> Path:
+    """Обкладинка Reels 1080×1920. Instagram показує в сітці профілю центр 3:4 (y 240–1680),
+    тому все головне лише там: велика картинка або число, гачок у 2–3 рядки великим шрифтом, адреса сайту.
+    Без рубрики, опису й дрібного тексту."""
+    W, H, M = 1080, 1920, 96
+    st = getattr(article, "style", None) or {}
+    img = background(W, H, glow=(0.75, 0.32), strength=30, grid=False).convert("RGBA")
+    bg_dir = Path(__file__).resolve().parent.parent / "brand-assets" / "bg"
+    if st.get("wave") and (bg_dir / st["wave"]).exists() and st.get("look") in ("wave", "beam", "grid"):
+        wv = Image.open(bg_dir / st["wave"]).convert("RGB")
+        wv = wv.resize((W, int(wv.height * W / wv.width)), Image.LANCZOS).convert("RGBA")
+        wv.putalpha(170)
+        img.alpha_composite(wv, (0, 1680 - wv.height + 60))
+    img.alpha_composite(Image.new("RGBA", (W, 10), (*brand.RUBY, 255)), (0, 0))
+    img.alpha_composite(brand.lockup(58), (M, 280))
+    hook = str(spec.get("hook") or spec.get("title") or article.title)
+    hero = visuals.hero_token(hook, spec.get("text", "")) if st.get("cover") == "type" else None
+    top, bottom = 400, 1580
+    if hero:
+        f, lines = brand.fit(hero, "head", W - 2 * M, 300, 120, 2)
+        vis = _text_block(lines, f, brand.RUBY, 1.0)
+    else:
+        src = f"assets/{st['icon']}" if st.get("icon") else visuals.service_image(article.services)
+        parts = visuals.v_image({"src": src}, W - 2 * M, 520, lambda v: v) if src else []
+        vis = parts[0].image if parts else None
+    f, lines = brand.fit(hook, "head", W - 2 * M, 112, 64, 3)
+    title = _text_block(lines, f, brand.WHITE, 1.08)
+    gap = 56
+    total = (vis.height + gap if vis else 0) + title.height + 40 + 8
+    y = top + max(0, (bottom - top - total) // 2)
+    if vis:
+        img.alpha_composite(vis, ((W - vis.width) // 2 if not hero else M, y))
+        y += vis.height + gap
+    img.alpha_composite(title, (M, y))
+    y += title.height + 40
+    img.alpha_composite(Image.new("RGBA", (140, 8), (*brand.RUBY, 255)), (M, y))
+    foot = _text_block([cfg["site"]["base_url"].split("//")[-1].removeprefix("www.")], brand.font("body-semi", 34), brand.SILVER)
+    img.alpha_composite(foot, (M, 1600))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    img.convert("RGB").save(path, "JPEG", quality=92)
+    return path

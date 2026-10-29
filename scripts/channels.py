@@ -254,7 +254,7 @@ def publish_instagram(caption: str, image_urls: list[str], version: str) -> dict
     return {"id": media_id, "url": (info.json() if info.ok else {}).get("permalink")}
 
 
-def publish_instagram_reel(caption: str, video_url: str, version: str) -> dict:
+def publish_instagram_reel(caption: str, video_url: str, version: str, cover_url: str | None = None) -> dict:
     token = os.environ["INSTAGRAM_TOKEN"]
     base = f"{IG_API}/{version}"
     me = _check(requests.get(f"{base}/me", timeout=TIMEOUT,
@@ -263,9 +263,13 @@ def publish_instagram_reel(caption: str, video_url: str, version: str) -> dict:
     h = requests.head(video_url, timeout=TIMEOUT, allow_redirects=True)
     if h.status_code >= 300:
         raise ChannelError(f"Instagram: відео ще недоступне на сайті ({h.status_code}): {video_url}")
-    c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data={
-        "media_type": "REELS", "video_url": video_url, "caption": caption, "share_to_feed": "true",
-        "thumb_offset": "2500", "access_token": token}), "Instagram (Reels)")
+    data = {"media_type": "REELS", "video_url": video_url, "caption": caption, "share_to_feed": "true",
+            "access_token": token}
+    if cover_url:
+        data["cover_url"] = cover_url          # окрема обкладинка під сітку профілю
+    else:
+        data["thumb_offset"] = "2500"
+    c = _check(requests.post(f"{base}/{ig_id}/media", timeout=TIMEOUT, data=data), "Instagram (Reels)")
     _ig_wait(c["id"], token, version, limit=900)
     p = _check(requests.post(f"{base}/{ig_id}/media_publish", timeout=TIMEOUT,
                              data={"creation_id": c["id"], "access_token": token}), "Instagram (публікація)")

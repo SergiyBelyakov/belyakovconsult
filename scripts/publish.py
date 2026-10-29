@@ -89,6 +89,29 @@ def video_url(post, cfg) -> str | None:
     return social_asset_url(cfg, post.slug, found[1], found[0]) if found else None
 
 
+def local_video(post, cfg):
+    found = video_file(post, cfg)
+    return social_asset_dir(cfg, post.slug, found[0]) / found[1] if found else None
+
+
+def deployed(url: str, local) -> bool:
+    """Сайт уже віддає саме цю версію файлу (розмір збігається)? Інакше соцмережа забере стару."""
+    import requests
+    try:
+        h = requests.head(url, timeout=30, allow_redirects=True)
+        size = int(h.headers.get("content-length") or -1)
+        return h.ok and size == local.stat().st_size
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def cover_url(post, cfg) -> str | None:
+    v = local_video(post, cfg)
+    if v and (v.parent / "cover.jpg").exists():
+        return video_url(post, cfg).rsplit("/", 1)[0] + "/cover.jpg"
+    return None
+
+
 def send(post, parts, cfg) -> dict:
     video = video_url(post, cfg)
     if post.channel == "telegram":
@@ -98,7 +121,8 @@ def send(post, parts, cfg) -> dict:
     if post.channel == "linkedin":
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"])
     if post.channel == "instagram" and video and not post.images:
-        return channels.publish_instagram_reel("\n\n".join(parts), video, cfg["channels"]["instagram"].get("api_version", "v26.0"))
+        return channels.publish_instagram_reel("\n\n".join(parts), video, cfg["channels"]["instagram"].get("api_version", "v26.0"),
+                                               cover_url(post, cfg))
     if post.channel == "instagram" and post.kind == "note":
         slides = sorted(note_asset_dir(cfg, post).glob("slide-*.jpg"), key=lambda p: int(p.stem.split("-")[1]))
         urls = list(post.images) or [note_asset_url(cfg, post, p.name) for p in slides]
@@ -156,6 +180,13 @@ def main() -> int:
         photos = [] if vid else (sorted(card_dir.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
                                  if post.channel == "instagram" else [])
         media_note = f"\n\n🎬 Моушн-відео до допису: {vid}" if vid else ""
+
+        if vid and not is_dry(post.channel) and not manual_reason(post, cfg):
+            lv = local_video(post, cfg)
+            cv = cover_url(post, cfg)
+            if not deployed(vid, lv) or (post.channel == "instagram" and cv and not deployed(cv, lv.parent / "cover.jpg")):
+                print(f"Чекає, поки сайт оновить відео: {post.key}")   # вийде наступним запуском
+                continue
 
         if is_dry(post.channel):
             state[post.key] = {"status": "dry-run", "at": fmt_dt(t)}
