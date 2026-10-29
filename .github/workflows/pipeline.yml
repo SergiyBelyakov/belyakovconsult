@@ -79,4 +79,11 @@ jobs:
           git commit -m "Конвеєр: оновлення сайту і журналу $(date -u +'%Y-%m-%d %H:%M')"
           # -X theirs: при конфлікті в журналі чи картинках перемагає версія цього запуску (вона новіша)
           for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; git rebase --abort 2>/dev/null; sleep 5; done
+          # Запасний шлях: поки ми працювали, у main з'явилися інші коміти й rebase не вдався.
+          # Беремо свіжий main, а журнал і сайт цього запуску кладемо поверх (інакше опубліковане загубиться й вийде вдруге).
+          git fetch origin main
+          git reset --soft origin/main
+          git checkout origin/main -- . ':!state' ":!$OUT"
+          git add state "$OUT"
+          git commit -m "Конвеєр: оновлення сайту і журналу $(date -u +'%Y-%m-%d %H:%M') (після конфлікту)" && git push && exit 0
           exit 1
