@@ -435,6 +435,9 @@ def build_all(cfg, article, force: bool = False, styles: dict | None = None) -> 
             a = dataclasses.replace(a, style=st)
         d = social_asset_dir(cfg, article.slug, article.lang) / episode_sub(n)
         mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}", short=n > 1)
+        if mp4 and article.lang == "en":        # англійські Reels для Instagram: промо-шаблон (кінетична типографіка + 3D)
+            import make_promo
+            make_promo.build(cfg, a, st or {}, d, f"{article.slug}#{n}", force)
         if mp4:
             frames = [Image.open(f) for f in sorted(d.glob("motion-frame-*.jpg"), key=lambda x: int(x.stem.split("-")[-1]))]
             make_cards.brand_sheet(cfg, a, frames, out_dir=d)

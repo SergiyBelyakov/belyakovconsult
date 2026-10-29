@@ -73,7 +73,12 @@ def _asset_dir(post, cfg):
 
 
 def video_file(post, cfg) -> tuple[str, str] | None:
-    """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті."""
+    """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті.
+    Англійські Reels в Instagram беруть промо-відео (promo.mp4), якщо воно зібране."""
+    if post.channel == "instagram" and post.lang == "en":
+        for sub in dict.fromkeys([episode_sub(post.n), ""]):
+            if (social_asset_dir(cfg, post.slug, "en") / sub / "promo.mp4").exists():
+                return "en", sub + "promo.mp4"
     for sub in dict.fromkeys([episode_sub(post.n), ""]):
         for lang in dict.fromkeys([post.lang, "uk"]):
             if (social_asset_dir(cfg, post.slug, lang) / sub / "motion.mp4").exists():
@@ -116,8 +121,9 @@ def deployed(url: str, local) -> bool:
 
 def cover_url(post, cfg) -> str | None:
     v = local_video(post, cfg)
-    if v and (v.parent / "cover.jpg").exists():
-        return video_url(post, cfg).rsplit("/", 1)[0] + "/cover.jpg"
+    name = "promo-cover.jpg" if v and v.name == "promo.mp4" else "cover.jpg"
+    if v and (v.parent / name).exists():
+        return video_url(post, cfg).rsplit("/", 1)[0] + "/" + name
     return None
 
 
@@ -193,7 +199,7 @@ def main() -> int:
         if vid and not is_dry(post.channel) and not manual_reason(post, cfg):
             lv = local_video(post, cfg)
             cv = cover_url(post, cfg)
-            if not deployed(vid, lv) or (post.channel == "instagram" and cv and not deployed(cv, lv.parent / "cover.jpg")):
+            if not deployed(vid, lv) or (post.channel == "instagram" and cv and not deployed(cv, lv.parent / cv.rsplit("/", 1)[1])):
                 print(f"Чекає, поки сайт оновить відео: {post.key}")   # вийде наступним запуском
                 continue
 
