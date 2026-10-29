@@ -142,6 +142,11 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfEzG9LAawP/"
   },
+  "iso-8000-8-quality-in-registers/linkedinpage-en": {
+    "at": "2026-10-29 16:01",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
+  },
   "iso-8000-8-quality-in-registers/linkedinpage-uk": {
     "at": "2026-10-29 09:31",
     "reason": "немає секретів LINKEDIN_ORG_ID",
