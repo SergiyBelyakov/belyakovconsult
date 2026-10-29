@@ -98,9 +98,18 @@ def deployed(url: str, local) -> bool:
     """Сайт уже віддає саме цю версію файлу (розмір збігається)? Інакше соцмережа забере стару."""
     import requests
     try:
-        h = requests.head(url, timeout=30, allow_redirects=True)
-        size = int(h.headers.get("content-length") or -1)
-        return h.ok and size == local.stat().st_size
+        want = local.stat().st_size
+        h = requests.head(url, timeout=30, allow_redirects=True, headers={"Accept-Encoding": "identity"})
+        if h.ok and h.headers.get("content-length") and not h.headers.get("content-encoding"):
+            return int(h.headers["content-length"]) == want
+        # запасний шлях: перший байт і повний розмір із Content-Range
+        g = requests.get(url, timeout=30, headers={"Range": "bytes=0-0", "Accept-Encoding": "identity"}, stream=True)
+        total = (g.headers.get("content-range") or "").rsplit("/", 1)[-1]
+        g.close()
+        if total.isdigit():
+            return int(total) == want
+        print(f"Сайт не повідомив розмір {url}; публікую без перевірки")
+        return g.ok
     except Exception:  # noqa: BLE001
         return False
 
