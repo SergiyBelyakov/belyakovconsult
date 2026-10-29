@@ -141,6 +141,12 @@
     "reason": "немає секретів LINKEDIN_ORG_ID",
     "status": "manual-sent"
   },
+  "iso-8000-8-quality-in-registers/telegram-uk": {
+    "at": "2026-10-29 10:01",
+    "id": 17,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/17"
+  },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
     "id": "urn:li:share:7520229097789087744",
