@@ -1,4 +1,5 @@
 ---
+video_n: 1   # тригер-відео статті (linkedin.mp4, преміум 4:5): гачок і питання збігаються з текстом
 ---
 How do you tell whether your register works on data quality at all three levels of ISO 8000-8, not just the format? I would start with one field.
 

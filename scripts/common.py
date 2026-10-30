@@ -93,6 +93,7 @@ class Post:
     kind: str = "article"        # article — допис до статті; note — коротка нотатка з content/notes
     cards: list = field(default_factory=list)   # нотатка Instagram: [обкладинка {title, text}, слайди {title, text, visual}]
     services: list = field(default_factory=list)
+    video_n: int | None = None   # взяти відео допису N цієї статті (напр. 1: основне відео чи тригер)
 
     @property
     def key(self) -> str:
@@ -221,8 +222,63 @@ def load_posts(cfg: dict) -> list[Post]:
             media=meta.get("media"),
             n=n,
             auto_time=auto,
+            video_n=int(meta["video_n"]) if meta.get("video_n") else None,
         ))
-    return out + load_notes(cfg)
+    out += load_notes(cfg)
+    apply_channel_rules(cfg, out)
+    return out
+
+
+def apply_channel_rules(cfg: dict, posts: list) -> None:
+    """Правила каналу (cadence.channel_rules): лише будні, ліміт на день, мінімальний проміжок.
+
+    Прохід 1: допис будня, що збігся з іншим (ближче за gap), зсувається в додатковий слот свого дня.
+    Прохід 2: допис вихідних іде в найближчий будній день, де ще є місце (основний час, якщо день порожній,
+    інакше додатковий слот). Дописи з явним publish_at не рухаються ніколи."""
+    rules = (cfg.get("cadence") or {}).get("channel_rules") or {}
+    for ch, r in rules.items():
+        gap = timedelta(minutes=int(r.get("gap_minutes", 90)))
+        maxn = int(r.get("max_per_day", 2))
+        weekdays_only = bool(r.get("weekdays_only"))
+        for lang in sorted({p.lang for p in posts if p.channel == ch}):
+            group = [p for p in posts if p.channel == ch and p.lang == lang]
+            alts = [datetime.strptime(str(x), "%H:%M").time() for x in (r.get("alt_times") or {}).get(lang, [])]
+            placed = [p.publish_at for p in group if not p.auto_time]
+
+            def free(dt):
+                return all(abs(dt - x) >= gap for x in placed if x.date() == dt.date())
+
+            def count(d):
+                return sum(1 for x in placed if x.date() == d)
+
+            auto = sorted((p for p in group if p.auto_time), key=lambda p: p.publish_at)
+            weekend = [p for p in auto if weekdays_only and p.publish_at.weekday() >= 5]
+            for p in auto:                                  # прохід 1: будні
+                if p in weekend:
+                    continue
+                dt = p.publish_at
+                if not free(dt):
+                    for tm in alts:
+                        nd = datetime.combine(dt.date(), tm, tzinfo=dt.tzinfo)
+                        if free(nd):
+                            dt = nd
+                            break
+                p.publish_at = dt
+                placed.append(dt)
+            for p in weekend:                               # прохід 2: вихідні → найближчий будній з місцем
+                dt = p.publish_at
+                d = dt.date()
+                for _ in range(21):
+                    d += timedelta(days=1)
+                    if d.weekday() >= 5 or count(d) >= maxn:
+                        continue
+                    cands = ([dt.time()] + alts) if count(d) == 0 else (alts + [dt.time()])
+                    hit = next((datetime.combine(d, tm, tzinfo=dt.tzinfo) for tm in cands
+                                if free(datetime.combine(d, tm, tzinfo=dt.tzinfo))), None)
+                    if hit:
+                        p.publish_at = hit
+                        placed.append(hit)
+                        break
 
 
 def note_time(cfg: dict, day: date, channel: str, lang: str, slot: int) -> datetime | None:

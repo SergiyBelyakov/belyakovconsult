@@ -75,12 +75,13 @@ def _asset_dir(post, cfg):
 def video_file(post, cfg) -> tuple[str, str] | None:
     """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті.
     Англійські Reels в Instagram беруть промо-відео (promo.mp4), якщо воно зібране."""
+    n = post.video_n or post.n               # video_n: допис бере відео іншого допису статті (напр. тригер)
     promo = {"instagram": "promo.mp4", "linkedinpage": "linkedin.mp4"}.get(post.channel)
     if promo and post.lang == "en":          # англійські промо: Reels 9:16 для Instagram, тригер 4:5 для LinkedIn
-        for sub in dict.fromkeys([episode_sub(post.n), ""]):
+        for sub in dict.fromkeys([episode_sub(n), ""]):
             if (social_asset_dir(cfg, post.slug, "en") / sub / promo).exists():
                 return "en", sub + promo
-    for sub in dict.fromkeys([episode_sub(post.n), ""]):
+    for sub in dict.fromkeys([episode_sub(n), ""]):
         for lang in dict.fromkeys([post.lang, "uk"]):
             if (social_asset_dir(cfg, post.slug, lang) / sub / "motion.mp4").exists():
                 return lang, sub + "motion.mp4"
