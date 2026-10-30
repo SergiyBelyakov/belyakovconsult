@@ -170,6 +170,11 @@
     "reason": "немає секретів LINKEDIN_ORG_ID",
     "status": "manual-sent"
   },
+  "iso-8000-8-quality-in-registers/linkedinpage-uk-2": {
+    "at": "2026-10-30 09:31",
+    "reason": "немає секретів LINKEDIN_ORG_ID",
+    "status": "manual-sent"
+  },
   "iso-8000-8-quality-in-registers/telegram-uk": {
     "at": "2026-10-29 10:01",
     "id": 17,
