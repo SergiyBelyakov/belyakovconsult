@@ -1,0 +1,26 @@
+{
+  "fingerprint": "3252feaab8e6706a",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "MANY",
+      "RECIPIENTS",
+      "HAVE?"
+    ],
+    "points": [
+      "A recipe without grams",
+      "Five lines of a reference sheet",
+      "A 10-minute task"
+    ],
+    "hero": "service-data-analysis.webp",
+    "sats": [
+      "service-quality.webp",
+      "service-bi.webp",
+      "service-consulting.webp",
+      "service-management-analytics.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

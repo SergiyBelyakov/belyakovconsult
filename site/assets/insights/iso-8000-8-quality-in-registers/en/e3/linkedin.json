@@ -1,0 +1,26 @@
+{
+  "fingerprint": "f6e4c52094e639b0",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "FIT",
+      "FOR",
+      "WHAT?"
+    ],
+    "points": [
+      "Same data, two decisions",
+      "A threshold per decision",
+      "Who judges pragmatics"
+    ],
+    "hero": "service-financial-analytics.webp",
+    "sats": [
+      "service-data-analysis.webp",
+      "service-management-analytics.webp",
+      "service-quality.webp",
+      "service-bi.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

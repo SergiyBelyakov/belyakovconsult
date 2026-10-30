@@ -1,17 +1,27 @@
 {
-  "fingerprint": "6149ef500b5d5e7c",
+  "fingerprint": "1f1fd777269f7852",
+  "format": "reels",
   "seconds": 17.0,
   "spec": {
     "hook": [
-      "THREE",
-      "LEVELS",
-      "DATA",
-      "QUALITY"
+      "VALID",
+      "FORMAT",
+      "WRONG",
+      "PAYMENT"
     ],
     "points": [
-      "Valid format. Wrong data",
-      "Three levels of quality in ISO 8000-8",
-      "What each level checks"
+      {
+        "label": "Syntax",
+        "text": "Does the value match the format?"
+      },
+      {
+        "label": "Semantics",
+        "text": "Does it mean the right thing?"
+      },
+      {
+        "label": "Pragmatics",
+        "text": "Is it fit for the decision?"
+      }
     ],
     "hero": "service-quality.webp",
     "sats": [
@@ -20,7 +30,7 @@
       "service-architecture.webp",
       "service-governance.webp"
     ],
-    "tag": "",
-    "cta": "More data notes every week"
+    "tag": "ISO 8000-8: three levels of data quality",
+    "cta": "Which level does your register actually measure?"
   }
 }

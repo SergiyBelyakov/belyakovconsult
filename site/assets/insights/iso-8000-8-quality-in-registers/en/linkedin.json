@@ -1,0 +1,36 @@
+{
+  "fingerprint": "338310186189b447",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "VALID",
+      "FORMAT",
+      "WRONG",
+      "PAYMENT"
+    ],
+    "points": [
+      {
+        "label": "Syntax",
+        "text": "Does the value match the format?"
+      },
+      {
+        "label": "Semantics",
+        "text": "Does it mean the right thing?"
+      },
+      {
+        "label": "Pragmatics",
+        "text": "Is it fit for the decision?"
+      }
+    ],
+    "hero": "service-quality.webp",
+    "sats": [
+      "service-consulting.webp",
+      "service-management-analytics.webp",
+      "service-architecture.webp",
+      "service-governance.webp"
+    ],
+    "tag": "ISO 8000-8: three levels of data quality",
+    "cta": "Which level does your register actually measure?"
+  }
+}

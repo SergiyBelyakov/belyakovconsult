@@ -1,0 +1,26 @@
+{
+  "fingerprint": "321b67ea67338baf",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "AVERAGE",
+      "HIDES",
+      "PROBLEM"
+    ],
+    "points": [
+      "Almost everything looks fine",
+      "The segment over a year",
+      "The segment in one month"
+    ],
+    "hero": "service-bi.webp",
+    "sats": [
+      "service-data-analysis.webp",
+      "service-financial-analytics.webp",
+      "service-geospatial.webp",
+      "service-architecture.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

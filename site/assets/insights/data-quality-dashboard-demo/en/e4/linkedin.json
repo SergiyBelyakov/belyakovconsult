@@ -1,0 +1,27 @@
+{
+  "fingerprint": "0cb0c5a256163b78",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "A",
+      "REPORT",
+      "PEOPLE",
+      "READ"
+    ],
+    "points": [
+      "Three pages instead of a link",
+      "People set the target",
+      "This dashboard on your data"
+    ],
+    "hero": "service-data-analysis.webp",
+    "sats": [
+      "service-governance.webp",
+      "service-financial-analytics.webp",
+      "service-geospatial.webp",
+      "service-architecture.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "fingerprint": "dc3a73181fbac270",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "CHECK",
+      "ONE",
+      "FIELD"
+    ],
+    "points": [
+      "Three questions for a field",
+      "Where the answer is \"not sure\"",
+      "A question for you"
+    ],
+    "hero": "service-quality.webp",
+    "sats": [
+      "service-consulting.webp",
+      "service-management-analytics.webp",
+      "service-architecture.webp",
+      "service-governance.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "fingerprint": "7d40cbcde6681623",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "DATA",
+      "GOVERNANCE",
+      "WHEN",
+      "NUMBERS"
+    ],
+    "points": [
+      "Two numbers, and both are right",
+      "Why this happens",
+      "Four data governance questions"
+    ],
+    "hero": "service-data-analysis.webp",
+    "sats": [
+      "service-quality.webp",
+      "service-bi.webp",
+      "service-consulting.webp",
+      "service-management-analytics.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

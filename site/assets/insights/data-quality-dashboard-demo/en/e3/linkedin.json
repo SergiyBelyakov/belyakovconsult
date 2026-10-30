@@ -1,0 +1,27 @@
+{
+  "fingerprint": "de5ea44c1ddc83ee",
+  "format": "linkedin",
+  "seconds": 17.0,
+  "spec": {
+    "hook": [
+      "SOURCES",
+      "SEPARATE",
+      "FROM",
+      "QUALITY"
+    ],
+    "points": [
+      "Quality fine, source not",
+      "Invisible over a year again",
+      "A separate page for sources"
+    ],
+    "hero": "service-quality.webp",
+    "sats": [
+      "service-data-analysis.webp",
+      "service-financial-analytics.webp",
+      "service-geospatial.webp",
+      "service-bi.webp"
+    ],
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}
