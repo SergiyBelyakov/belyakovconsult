@@ -75,10 +75,11 @@ def _asset_dir(post, cfg):
 def video_file(post, cfg) -> tuple[str, str] | None:
     """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті.
     Англійські Reels в Instagram беруть промо-відео (promo.mp4), якщо воно зібране."""
-    if post.channel == "instagram" and post.lang == "en":
+    promo = {"instagram": "promo.mp4", "linkedinpage": "linkedin.mp4"}.get(post.channel)
+    if promo and post.lang == "en":          # англійські промо: Reels 9:16 для Instagram, тригер 4:5 для LinkedIn
         for sub in dict.fromkeys([episode_sub(post.n), ""]):
-            if (social_asset_dir(cfg, post.slug, "en") / sub / "promo.mp4").exists():
-                return "en", sub + "promo.mp4"
+            if (social_asset_dir(cfg, post.slug, "en") / sub / promo).exists():
+                return "en", sub + promo
     for sub in dict.fromkeys([episode_sub(post.n), ""]):
         for lang in dict.fromkeys([post.lang, "uk"]):
             if (social_asset_dir(cfg, post.slug, lang) / sub / "motion.mp4").exists():
@@ -121,7 +122,7 @@ def deployed(url: str, local) -> bool:
 
 def cover_url(post, cfg) -> str | None:
     v = local_video(post, cfg)
-    name = "promo-cover.jpg" if v and v.name == "promo.mp4" else "cover.jpg"
+    name = {"promo.mp4": "promo-cover.jpg", "linkedin.mp4": "linkedin-cover.jpg"}.get(v.name, "cover.jpg") if v else "cover.jpg"
     if v and (v.parent / name).exists():
         return video_url(post, cfg).rsplit("/", 1)[0] + "/" + name
     return None
@@ -195,6 +196,10 @@ def main() -> int:
         photos = [] if vid else (sorted(card_dir.glob("slide-*.png"), key=lambda p: int(p.stem.split("-")[1]))
                                  if post.channel == "instagram" else [])
         media_note = f"\n\n🎬 Моушн-відео до допису: {vid}" if vid else ""
+        if vid and post.channel == "linkedinpage":
+            cv = cover_url(post, cfg)
+            media_note = (f"\n\n🎬 Відео для LinkedIn ({'4:5, без звуку читається з екрана' if vid.endswith('linkedin.mp4') else '9:16'}): {vid}"
+                          + (f"\n🖼 Обкладинка (завантажте як thumbnail): {cv}" if cv else ""))
 
         if vid and not is_dry(post.channel) and not manual_reason(post, cfg):
             lv = local_video(post, cfg)

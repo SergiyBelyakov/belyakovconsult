@@ -4,6 +4,14 @@ description: What ISO 8000-8 says about syntactic, semantic and pragmatic qualit
 date: 2026-10-29
 services: [data-quality, data-governance]
 tags: [data quality, ISO 8000, registers, public sector]
+promo:                    # тригер-відео (LinkedIn 4:5, Instagram EN)
+  hook: "Valid format. Wrong payment."
+  tag: "ISO 8000-8: three levels of data quality"
+  points:
+    - {label: Syntax, text: "Does the value match the format?"}
+    - {label: Semantics, text: "Does it mean the right thing?"}
+    - {label: Pragmatics, text: "Is it fit for the decision?"}
+  cta: "Which level does your register actually measure?"
 carousel:
   - title: Valid format. Wrong data
     text: A value can pass every format check and still lead to the wrong decision.

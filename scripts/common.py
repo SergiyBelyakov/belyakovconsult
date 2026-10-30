@@ -66,6 +66,7 @@ class Article:
     episodes: list = field(default_factory=list)
     kicker: str | None = None    # рубрика на обкладинці замість insights_title (для нотаток)
     style: dict | None = None    # вигляд відео/обкладинки: look, cover, icon, music, bg (див. make_motion.assign_styles)
+    promo: dict | None = None    # зміст промо-роликів (Instagram EN, LinkedIn): hook, points, tag, cta
 
     @property
     def words(self) -> int:
@@ -133,6 +134,7 @@ def load_articles(cfg: dict, include_drafts: bool = False) -> list[Article]:
             carousel=list(meta.get("carousel") or []),
             updated=_as_date(meta["updated"], f) if meta.get("updated") else None,
             episodes=list(meta.get("episodes") or []),
+            promo=meta.get("promo"),
         )
         if a.draft and not include_drafts:
             continue
