@@ -24,6 +24,15 @@
     "reason": "немає секретів LINKEDIN_ORG_ID",
     "status": "manual-sent"
   },
+  "data-quality-dashboard-demo/telegram-uk": {
+    "at": "2026-10-30 19:02",
+    "extra_ids": [
+      21
+    ],
+    "id": 20,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/20"
+  },
   "data-quality-dashboard-demo/threads-uk": {
     "at": "2026-10-30 16:31",
     "id": "17944272945367904",
