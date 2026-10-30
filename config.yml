@@ -187,6 +187,7 @@ notes:
 # (utm_campaign = slug статті). {{link}} як і раніше веде на саму статтю.
 post_links:
   demo: /cases/data-quality-dashboard/
+  graph: /cases/graph-analytics/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

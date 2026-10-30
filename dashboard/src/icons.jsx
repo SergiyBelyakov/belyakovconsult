@@ -1,5 +1,6 @@
 // Лінійні іконки інтерфейсу: однакова товщина штриха, колір від тексту.
-const P = {
+// Набір іконок відкритий для розширення: інші демо додають свої через Object.assign(ICONS, …).
+export const ICONS = {
   grid: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
   chart: <path d="M3 19V9m6 10V4m6 15v-7m6 7V6" />,
   shield: <><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" /><path d="m9 11 2.2 2.2L16 8.7" /></>,
@@ -35,7 +36,7 @@ const P = {
 export function Icon({ name, size = 18, className }) {
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {P[name] || P.grid}
+      {ICONS[name] || ICONS.grid}
     </svg>
   );
 }

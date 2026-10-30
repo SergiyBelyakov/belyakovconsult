@@ -1,0 +1,21 @@
+{
+  "name": "belyakov-consult-graph-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Демо графової аналітики для belyakovconsult.com",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "d3-force": "3.0.0",
+    "d3-selection": "3.0.0",
+    "d3-transition": "3.0.1",
+    "d3-zoom": "3.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

@@ -3,3 +3,4 @@ __pycache__/
 .env
 .DS_Store
 dashboard/node_modules
+graph-demo/node_modules

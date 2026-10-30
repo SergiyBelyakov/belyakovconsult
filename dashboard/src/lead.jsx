@@ -1,4 +1,4 @@
-// Заявка «Такий дашборд на ваших даних»: та сама форма Formspree, що й на сайті, з міткою джерела.
+// Заявка з демо: та сама форма Formspree, що й на сайті, з міткою джерела (source) і місця натискання (cta).
 import { useState } from 'react';
 import { Button, Modal } from './ui.jsx';
 import { Icon } from './icons.jsx';
@@ -12,7 +12,7 @@ function utm() {
   } catch { return {}; }
 }
 
-export function LeadModal({ T, lang, where, onClose, onSent }) {
+export function LeadModal({ T, lang, where, onClose, onSent, source = 'dashboard-demo' }) {
   const [state, setState] = useState('idle');
   const submit = async e => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export function LeadModal({ T, lang, where, onClose, onSent }) {
     setState('sending');
     const data = new FormData(form);
     data.append('_subject', T.lead.subject);
-    data.append('source', 'dashboard-demo');
+    data.append('source', source);
     data.append('cta', where || 'unknown');
     data.append('lang', lang);
     data.append('page', location.origin + location.pathname + location.hash);
