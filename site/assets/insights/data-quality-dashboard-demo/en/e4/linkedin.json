@@ -1,7 +1,7 @@
 {
-  "fingerprint": "0cb0c5a256163b78",
+  "fingerprint": "e1799f67e53b3f61",
   "format": "linkedin",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "A",
@@ -14,13 +14,8 @@
       "People set the target",
       "This dashboard on your data"
     ],
-    "hero": "service-data-analysis.webp",
-    "sats": [
-      "service-governance.webp",
-      "service-financial-analytics.webp",
-      "service-geospatial.webp",
-      "service-architecture.webp"
-    ],
+    "object": "service-data-analysis.webp",
+    "wave": "wave-1.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

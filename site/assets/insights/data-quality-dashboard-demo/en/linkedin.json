@@ -1,7 +1,7 @@
 {
-  "fingerprint": "93cb3f49f79c7ccc",
+  "fingerprint": "de7d0403542d89a9",
   "format": "linkedin",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "DATA",
@@ -14,13 +14,8 @@
       "Four numbers on the first screen",
       "The average hides the problem"
     ],
-    "hero": "service-quality.webp",
-    "sats": [
-      "service-data-analysis.webp",
-      "service-financial-analytics.webp",
-      "service-geospatial.webp",
-      "service-bi.webp"
-    ],
+    "object": "service-quality.webp",
+    "wave": "wave-6.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

@@ -1,7 +1,7 @@
 {
-  "fingerprint": "91b7541caa96e17f",
+  "fingerprint": "3618ab5805db402a",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "WHOSE",
@@ -14,13 +14,8 @@
       "Who does what",
       "A small team works too"
     ],
-    "hero": "service-geospatial.webp",
-    "sats": [
-      "service-quality.webp",
-      "service-bi.webp",
-      "service-data-analysis.webp",
-      "service-financial-analytics.webp"
-    ],
+    "object": "service-geospatial.webp",
+    "wave": "wave-7.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

@@ -1,7 +1,7 @@
 {
-  "fingerprint": "1f1fd777269f7852",
+  "fingerprint": "ef1ed83bf087a516",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "VALID",
@@ -23,13 +23,8 @@
         "text": "Is it fit for the decision?"
       }
     ],
-    "hero": "service-quality.webp",
-    "sats": [
-      "service-consulting.webp",
-      "service-management-analytics.webp",
-      "service-architecture.webp",
-      "service-governance.webp"
-    ],
+    "object": "service-quality.webp",
+    "wave": "wave-6.jpg",
     "tag": "ISO 8000-8: three levels of data quality",
     "cta": "Which level does your register actually measure?"
   }

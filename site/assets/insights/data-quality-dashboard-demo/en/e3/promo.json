@@ -1,7 +1,7 @@
 {
-  "fingerprint": "5ff28fcbac7b81a8",
+  "fingerprint": "3dd107979b5a79d9",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "SOURCES",
@@ -14,13 +14,8 @@
       "Invisible over a year again",
       "A separate page for sources"
     ],
-    "hero": "service-quality.webp",
-    "sats": [
-      "service-data-analysis.webp",
-      "service-financial-analytics.webp",
-      "service-geospatial.webp",
-      "service-bi.webp"
-    ],
+    "object": "service-quality.webp",
+    "wave": "wave-5.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

@@ -1,7 +1,7 @@
 {
-  "fingerprint": "09c2f51b54cb0de3",
+  "fingerprint": "fa663799f21360c0",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "FIT",
@@ -13,13 +13,8 @@
       "A threshold per decision",
       "Who judges pragmatics"
     ],
-    "hero": "service-financial-analytics.webp",
-    "sats": [
-      "service-data-analysis.webp",
-      "service-management-analytics.webp",
-      "service-quality.webp",
-      "service-bi.webp"
-    ],
+    "object": "service-financial-analytics.webp",
+    "wave": "wave-5.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

@@ -1,7 +1,7 @@
 {
-  "fingerprint": "8dbb956fbd99d353",
+  "fingerprint": "0ae31df68db9360f",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "AVERAGE",
@@ -13,13 +13,8 @@
       "The segment over a year",
       "The segment in one month"
     ],
-    "hero": "service-bi.webp",
-    "sats": [
-      "service-data-analysis.webp",
-      "service-financial-analytics.webp",
-      "service-geospatial.webp",
-      "service-architecture.webp"
-    ],
+    "object": "service-bi.webp",
+    "wave": "wave-2.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

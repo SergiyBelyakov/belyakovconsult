@@ -1,7 +1,7 @@
 {
-  "fingerprint": "92e2ef3ea655767b",
+  "fingerprint": "490fbdd78939037d",
   "format": "linkedin",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "VALID",
@@ -14,13 +14,8 @@
       "Syntax versus semantics",
       "What semantics needs"
     ],
-    "hero": "service-quality.webp",
-    "sats": [
-      "service-consulting.webp",
-      "service-management-analytics.webp",
-      "service-architecture.webp",
-      "service-governance.webp"
-    ],
+    "object": "service-quality.webp",
+    "wave": "wave-2.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

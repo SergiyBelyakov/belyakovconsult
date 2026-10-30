@@ -1,7 +1,7 @@
 {
-  "fingerprint": "7d40cbcde6681623",
+  "fingerprint": "6cc3ce52ee338acd",
   "format": "linkedin",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "DATA",
@@ -14,13 +14,8 @@
       "Why this happens",
       "Four data governance questions"
     ],
-    "hero": "service-data-analysis.webp",
-    "sats": [
-      "service-quality.webp",
-      "service-bi.webp",
-      "service-consulting.webp",
-      "service-management-analytics.webp"
-    ],
+    "object": "service-data-analysis.webp",
+    "wave": "wave-4.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }

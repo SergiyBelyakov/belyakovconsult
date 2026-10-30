@@ -1,7 +1,7 @@
 {
-  "fingerprint": "ac0daf649444eaa7",
+  "fingerprint": "0ebd87df40b89766",
   "format": "reels",
-  "seconds": 17.0,
+  "seconds": 18.0,
   "spec": {
     "hook": [
       "MANY",
@@ -13,13 +13,8 @@
       "Five lines of a reference sheet",
       "A 10-minute task"
     ],
-    "hero": "service-data-analysis.webp",
-    "sats": [
-      "service-quality.webp",
-      "service-bi.webp",
-      "service-consulting.webp",
-      "service-management-analytics.webp"
-    ],
+    "object": "service-data-analysis.webp",
+    "wave": "wave-2.jpg",
     "tag": "",
     "cta": "More data notes every week"
   }
