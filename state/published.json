@@ -275,6 +275,12 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfH9s1fCfQ_"
   },
+  "iso-8000-8-quality-in-registers/threads-en-3": {
+    "at": "2026-10-31 18:01",
+    "id": "18099066413122104",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfKihRFjegd"
+  },
   "iso-8000-8-quality-in-registers/threads-uk": {
     "at": "2026-10-29 12:01",
     "id": "17925989475429051",
@@ -318,7 +324,7 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-10-31 17:47",
+    "at": "2026-10-31 18:01",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 15:00",
