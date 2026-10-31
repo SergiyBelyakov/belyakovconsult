@@ -74,12 +74,13 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 
 for (const [lang, t] of Object.entries(L)) {
   const url = BASE_URL + t.prefix + PATH;
+  const og = OG.replace('.jpg', lang === 'uk' ? '.jpg' : `-${lang}.jpg`); // прев'ю мовою сторінки
   const alt = Object.entries(L).map(([l, x]) => `<link rel="alternate" hreflang="${l}" href="${BASE_URL + x.prefix + PATH}"/>`).join('\n') +
     `\n<link rel="alternate" hreflang="x-default" href="${BASE_URL + PATH}"/>`;
   const ld = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'WebPage', '@id': url + '#webpage', url, name: t.title, description: t.description, inLanguage: lang, isPartOf: { '@id': BASE_URL + '/#website' }, primaryImageOfPage: BASE_URL + OG },
+      { '@type': 'WebPage', '@id': url + '#webpage', url, name: t.title, description: t.description, inLanguage: lang, isPartOf: { '@id': BASE_URL + '/#website' }, primaryImageOfPage: BASE_URL + og },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: t.crumbs[0], item: BASE_URL + t.prefix + '/' },
         { '@type': 'ListItem', position: 2, name: t.crumbs[1], item: BASE_URL + t.prefix + '/cases/' },
@@ -106,12 +107,12 @@ ${alt}
 <meta property="og:title" content="${esc(t.title)}"/>
 <meta property="og:description" content="${esc(t.description)}"/>
 <meta property="og:url" content="${url}"/>
-<meta property="og:image" content="${BASE_URL + OG}"/>
+<meta property="og:image" content="${BASE_URL + og}"/>
 <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="${esc(t.title)}"/>
 <meta name="twitter:description" content="${esc(t.description)}"/>
-<meta name="twitter:image" content="${BASE_URL + OG}"/>
+<meta name="twitter:image" content="${BASE_URL + og}"/>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>

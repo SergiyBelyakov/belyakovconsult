@@ -118,10 +118,11 @@ def main() -> int:
     for slug, versions in by_slug.items():
         main_version = versions.get("uk") or next(iter(versions.values()))
         for v in versions.values():
-            # Українська версія завжди має візуали; інші мови, лише якщо в них є власний carousel
+            # Прев'ю для соцмереж (og.png) мовою сторінки є в кожної версії: LinkedIn показує саме його
+            make_cards.og_image(cfg, v)
+            # Картки й відео: українська версія завжди, інші мови, лише якщо в них є власний carousel
             if v is not main_version and not v.carousel:
                 continue
-            make_cards.og_image(cfg, v)
             make_cards.carousel(cfg, v)
             if v.carousel:
                 make_motion.build_all(cfg, v, styles=styles)   # основне відео статті + відео дописів 2, 3… (episodes)
@@ -182,7 +183,7 @@ def main() -> int:
             L=L, site=site, home=L["prefix"] + "/",
             items=[{"a": a, "href": article_path(cfg, lang, a.slug), "date_human": human_date(a.date, lang)} for a in items])
         meta = meta_block(cfg, lang, title=f"{L['insights_page_title']} | {site['name']}", description=L["insights_description"],
-                          url=url, alternates=index_alts, og_type="website", og_image=base + "/assets/og-belyakov-consult.jpg",
+                          url=url, alternates=index_alts, og_type="website", og_image=base + (f"/assets/og/insights-{lang}.jpg" if (out / "assets" / "og" / f"insights-{lang}.jpg").exists() else "/assets/og-belyakov-consult.jpg"),
                           feed=url + "feed.xml", jsonld=jsonld)
         switch = [(l, langs_cfg[l]["label"], article_path(cfg, l), l == lang) for l in langs_cfg]
         d = out / article_path(cfg, lang).strip("/")
