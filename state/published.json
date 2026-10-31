@@ -21,6 +21,12 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfH21uglCMO/"
   },
+  "data-quality-dashboard-demo/instagram-uk-2": {
+    "at": "2026-10-31 17:01",
+    "id": "17865281424695616",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfKbpx7DojA/"
+  },
   "data-quality-dashboard-demo/linkedinpage-en": {
     "at": "2026-10-30 14:31",
     "reason": "немає секретів LINKEDIN_ORG_ID",
@@ -312,7 +318,7 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-10-31 16:46",
+    "at": "2026-10-31 17:01",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 15:00",
