@@ -233,6 +233,15 @@
     "music": "pulse",
     "wave": "wave-1.jpg"
   },
+  "management-statistics#1": {
+    "cover": "quote",
+    "globe": "globe-3.jpg",
+    "icon": "service-geospatial.webp",
+    "k": 29,
+    "look": "wave",
+    "music": "bright",
+    "wave": "wave-4.jpg"
+  },
   "note-2026-10-28#instagram-en-1": {
     "cover": "frame",
     "globe": "globe-2.jpg",
