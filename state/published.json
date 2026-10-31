@@ -15,6 +15,12 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfISSg8kWrg/"
   },
+  "data-quality-dashboard-demo/instagram-en-2": {
+    "at": "2026-10-31 21:01",
+    "id": "18114332672145476",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfK3GEnlGLe/"
+  },
   "data-quality-dashboard-demo/instagram-uk": {
     "at": "2026-10-30 17:01",
     "id": "17992481642861605",
@@ -193,7 +199,7 @@
     "url": "https://www.instagram.com/reel/DfKkU6bFU7B/"
   },
   "halloween/linkedinpage-en": {
-    "at": "2026-10-31 20:46",
+    "at": "2026-10-31 21:01",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 14:59",
@@ -486,6 +492,12 @@
     "id": "18036126926667845",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfKG_6om3Uw"
+  },
+  "note-2026-10-31/threads-en-2": {
+    "at": "2026-10-31 21:01",
+    "id": "18040134653848476",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfK3JPzGvFZ"
   },
   "note-2026-10-31/threads-uk": {
     "at": "2026-10-31 08:31",
