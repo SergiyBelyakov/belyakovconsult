@@ -94,6 +94,7 @@ class Post:
     cards: list = field(default_factory=list)   # нотатка Instagram: [обкладинка {title, text}, слайди {title, text, visual}]
     services: list = field(default_factory=list)
     video_n: int | None = None   # взяти відео допису N цієї статті (напр. 1: основне відео чи тригер)
+    promo: dict | None = None    # окремий допис із власним промо-відео (hook, tag, points, cta, icon, wave)
 
     @property
     def key(self) -> str:
@@ -223,6 +224,7 @@ def load_posts(cfg: dict) -> list[Post]:
             n=n,
             auto_time=auto,
             video_n=int(meta["video_n"]) if meta.get("video_n") else None,
+            promo=meta.get("promo"),
         ))
     out += load_notes(cfg)
     apply_channel_rules(cfg, out)

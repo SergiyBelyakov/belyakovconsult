@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import make_cards  # noqa: E402
 import make_motion  # noqa: E402
-from common import (ROOT, article_path, is_live, load_articles, load_config, load_notes,  # noqa: E402
+from common import (ROOT, article_path, is_live, load_articles, load_config, load_notes, load_posts,  # noqa: E402
                     service_link, social_asset_dir, social_asset_url, tz)
 from shell import Shell  # noqa: E402
 
@@ -109,6 +109,11 @@ def main() -> int:
     shutil.copyfile(ROOT / "templates" / "insights.css", css_dir / "insights.css")
 
     styles = make_motion.assign_styles(make_motion.video_order(cfg))   # різний вигляд і музика для кожного відео
+    # Окремі дописи з блоком promo: власне промо-відео (LinkedIn 4:5 / Reels 9:16)
+    import make_promo
+    for post in load_posts(cfg):
+        if post.promo and post.channel in ("linkedinpage", "instagram"):
+            make_promo.build_for_post(cfg, post)
     # Картки коротких нотаток Instagram (content/notes): рендеримо наперед, щоб адреси були доступні в час публікації
     for post in load_notes(cfg):
         if post.channel == "instagram" and post.cards:

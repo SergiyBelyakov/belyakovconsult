@@ -1,0 +1,31 @@
+{
+  "fingerprint": "a24ec99890f5ef1d",
+  "format": "linkedin",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "MANY",
+      "REPORTS",
+      "NO",
+      "DECISIONS"
+    ],
+    "points": [
+      {
+        "label": "Decision",
+        "text": "Which decision does this number serve?"
+      },
+      {
+        "label": "Owner",
+        "text": "Who acts when it moves?"
+      },
+      {
+        "label": "Threshold",
+        "text": "At what value do we act?"
+      }
+    ],
+    "object": "service-management-analytics.webp",
+    "wave": "wave-5.jpg",
+    "tag": "Management analytics: numbers you can manage with",
+    "cta": "How many indicators in your last report led to a decision?"
+  }
+}

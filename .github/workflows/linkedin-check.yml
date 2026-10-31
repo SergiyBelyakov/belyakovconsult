@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: repo-write
+  group: linkedin-check          # окрема черга: запуски конвеєра щочверть години її не витісняють
   cancel-in-progress: false
 
 jobs:

@@ -50,6 +50,9 @@ ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "site" / "assets"
 BG_DIR = ROOT / "brand-assets" / "bg"
 CALM_MUSIC = ("cinematic", "ambient", "analytic")      # преміальний ролик: лише спокійні стилі
+ALL_ICONS = ["service-quality.webp", "service-architecture.webp", "service-bi.webp", "service-governance.webp",
+             "service-data-analysis.webp", "service-consulting.webp", "service-financial-analytics.webp",
+             "service-management-analytics.webp", "service-geospatial.webp"]
 
 FORMATS = {
     "reels": dict(W=1080, H=1920, top=230, bottom=360, M=84, hook_cy=900, max_hook=230,
@@ -104,6 +107,29 @@ def tracked(text, size, fill, kind="head", tracking=0.0):
         d.text((x, 0), ch, font=f, fill=fill)
         x += a + tracking
     return img
+
+
+def tracked_fit(text, max_w, size=28, fill=brand.SILVER):
+    """Тег розрядкою, що гарантовано вміщається: менший кегль, потім два рядки."""
+    for sz, tr in ((size, 3.0), (size - 2, 2.5), (size - 4, 2.0), (size - 6, 1.5)):
+        im = tracked(text, sz, fill, "body-semi", tr)
+        if im.width <= max_w:
+            return im
+    words = text.split()
+    best = None
+    for i in range(1, len(words)):                         # розрив на два рядки якомога рівніше
+        a, b = " ".join(words[:i]), " ".join(words[i:])
+        ia, ib = tracked(a, size - 2, fill, "body-semi", 2.5), tracked(b, size - 2, fill, "body-semi", 2.5)
+        w = max(ia.width, ib.width)
+        if w <= max_w and (best is None or w < best[0]):
+            best = (w, ia, ib)
+    if best is None:
+        return tracked(text, size - 6, fill, "body-semi", 1.0)
+    _, ia, ib = best
+    out = Image.new("RGBA", (max(ia.width, ib.width), ia.height + ib.height + 6), (0, 0, 0, 0))
+    out.alpha_composite(ia, (0, 0))
+    out.alpha_composite(ib, (0, ia.height + 6))
+    return out
 
 
 def masked(layer, img, x, y, k, rise=1.0):
@@ -198,7 +224,7 @@ class Promo:
         self.hook_y0 = L["hook_cy"] - (self.line_h * len(hl)) // 2
         self.hook_colors = [brand.RUBY if i >= (len(hl) + 1) // 2 else brand.WHITE for i in range(len(hl))]
         self._tcache = {}
-        self.tag = tracked(spec["tag"].upper(), 30 if H > 1500 else 28, brand.SILVER, "body-semi", 3.0) if spec.get("tag") else None
+        self.tag = tracked_fit(spec["tag"].upper(), W - 2 * self.M, 30 if H > 1500 else 28) if spec.get("tag") else None
         # тези
         self.points = []
         for i, pt in enumerate(spec["points"]):
@@ -295,7 +321,7 @@ class Promo:
         n = len(self.s["hook"])
         if name == "hook":
             if self.tag is not None:                                   # тег першим, дрібно й розріджено
-                masked(f, with_alpha(self.tag, 0.95), M, self.hook_y0 - 70, expo(u / 0.9), 0.8)
+                masked(f, with_alpha(self.tag, 0.95), M, self.hook_y0 - 34 - self.tag.height, expo(u / 0.9), 0.8)
             for i in range(n):
                 k = expo((u - 0.25 - i * 0.14) / 0.9)
                 tr = self.hook_size * 0.06 * (1 - expo((u - 0.25 - i * 0.14) / 1.6))
@@ -307,7 +333,7 @@ class Promo:
             return
         # object: гачок плавно стає заголовком угорі, тег над ним тане
         if self.tag is not None and u < 0.45:
-            f.alpha_composite(with_alpha(self.tag, 1 - quint_io(u / 0.45)), (M, self.hook_y0 - 70 - int(30 * u)))
+            f.alpha_composite(with_alpha(self.tag, 1 - quint_io(u / 0.45)), (M, self.hook_y0 - 34 - self.tag.height - int(30 * u)))
         k = quint_io(u / 1.1)
         s = 1 - (1 - L["head_scale"]) * k
         y0 = self.hook_y0 * (1 - k) + L["head_y"] * k
@@ -430,3 +456,21 @@ def build(cfg, article, style: dict, out_dir: Path, seed: str, force: bool = Fal
     wav.unlink(missing_ok=True)
     meta.write_text(json.dumps({"fingerprint": fp, "format": fmt, "seconds": total, "spec": spec}, ensure_ascii=False, indent=2) + "\n")
     return mp4
+
+
+def build_for_post(cfg, post, force: bool = False) -> Path | None:
+    """Промо-відео окремого допису з блоком promo: LinkedIn 4:5 або Reels 9:16 у папці допису."""
+    from types import SimpleNamespace
+    from common import social_asset_dir
+    pr = dict(post.promo or {})
+    fmt = "linkedin" if post.channel == "linkedinpage" else "reels"
+    k = int(hashlib.sha256(post.key.encode()).hexdigest()[:6], 16)
+    waves = sorted(x.name for x in BG_DIR.glob("wave-*.jpg"))
+    style = {"icon": pr.get("icon") or ALL_ICONS[k % len(ALL_ICONS)],
+             "wave": pr.get("wave") or (waves[k % len(waves)] if waves else None),
+             "music": pr.get("music") or CALM_MUSIC[k % len(CALM_MUSIC)]}
+    art = SimpleNamespace(slug=post.slug, lang=post.lang, title=str(pr.get("hook", "")), description="",
+                          carousel=[{"title": str(x.get("text", x)) if isinstance(x, dict) else str(x)} for x in pr.get("points") or []] or [{"title": "-"}],
+                          promo=pr)
+    out = social_asset_dir(cfg, post.slug, post.lang) / post.path.stem
+    return build(cfg, art, style, out, post.key, force, fmt=fmt)
