@@ -96,6 +96,7 @@ class Post:
     video_n: int | None = None   # взяти відео допису N цієї статті (напр. 1: основне відео чи тригер)
     promo: dict | None = None    # окремий допис із власним промо-відео (hook, tag, points, cta, icon, wave)
     video: str | None = None     # готове відео допису: «<мова>/<файл>» в assets/insights/<slug>/ (обкладинка поруч: <файл>-cover.jpg)
+    max_late: float | None = None  # власна межа запізнення в годинах (святкові дописи), інакше max_late_hours з config.yml
 
     @property
     def key(self) -> str:
@@ -227,6 +228,7 @@ def load_posts(cfg: dict) -> list[Post]:
             video_n=int(meta["video_n"]) if meta.get("video_n") else None,
             promo=meta.get("promo"),
             video=meta.get("video"),
+            max_late=float(meta["max_late_hours"]) if meta.get("max_late_hours") is not None else None,
         ))
     out += load_notes(cfg)
     apply_channel_rules(cfg, out)

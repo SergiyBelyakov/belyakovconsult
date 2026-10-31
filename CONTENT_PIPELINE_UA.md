@@ -128,7 +128,9 @@
 
 ### Окремі дописи з готовим відео
 
-Допис може мати власне готове відео: поле `video: en/<файл>.mp4` (шлях від `site/assets/insights/<slug>/`, перша частина шляху задає мову). Обкладинку конвеєр бере з `<файл>-cover.jpg` поруч. Так вийшов фан-тригер «лазерні коти» (`scripts/make_fun.py`, дописи в `content/articles/laser-cats/posts/`): ролик 9:16 для Reels, 4:5 для LinkedIn, Threads і Telegram.
+Допис може мати власне готове відео: поле `video: en/<файл>.mp4` (шлях від `site/assets/insights/<slug>/`, перша частина шляху задає мову). Обкладинку конвеєр бере з `<файл>-cover.jpg` поруч. Так вийшли фан-тригер «лазерні коти» (`scripts/make_fun.py`, дописи в `content/articles/laser-cats/posts/`) і хелловінський ролик «Your register is haunted» (`scripts/make_halloween.py`, `content/articles/halloween/posts/`): 9:16 для Reels, 4:5 для LinkedIn, Threads і Telegram.
+
+Для святкових дописів поле `max_late_hours` задає власну межу запізнення: якщо допис не вийшов вчасно (наприклад, мережа чекала ключа), після цієї межі конвеєр його пропустить, а не опублікує вже неактуальним.
 
 ## Перевірка локально (необов’язково)
 

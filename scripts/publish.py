@@ -227,7 +227,7 @@ def main() -> int:
             print(f"Чекає на статтю: {post.key}")
             continue
         late_h = (t - post.publish_at).total_seconds() / 3600
-        if late_h > cfg.get("max_late_hours", 48):
+        if late_h > (post.max_late if post.max_late is not None else cfg.get("max_late_hours", 48)):
             state[post.key] = {"status": "skipped-late", "at": fmt_dt(t), "publish_at": fmt_dt(post.publish_at)}
             admin(f"⏭ Пропущено прострочений допис ({late_h:.0f} год): {name}, {post.slug}. "
                   f"Змініть publish_at у {post.path.name}, якщо його треба опублікувати.")
