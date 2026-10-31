@@ -95,6 +95,7 @@ class Post:
     services: list = field(default_factory=list)
     video_n: int | None = None   # взяти відео допису N цієї статті (напр. 1: основне відео чи тригер)
     promo: dict | None = None    # окремий допис із власним промо-відео (hook, tag, points, cta, icon, wave)
+    video: str | None = None     # готове відео допису: «<мова>/<файл>» в assets/insights/<slug>/ (обкладинка поруч: <файл>-cover.jpg)
 
     @property
     def key(self) -> str:
@@ -225,6 +226,7 @@ def load_posts(cfg: dict) -> list[Post]:
             auto_time=auto,
             video_n=int(meta["video_n"]) if meta.get("video_n") else None,
             promo=meta.get("promo"),
+            video=meta.get("video"),
         ))
     out += load_notes(cfg)
     apply_channel_rules(cfg, out)

@@ -75,6 +75,10 @@ def _asset_dir(post, cfg):
 def video_file(post, cfg) -> tuple[str, str] | None:
     """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті.
     Англійські Reels в Instagram беруть промо-відео (promo.mp4), якщо воно зібране."""
+    if post.video:                           # готове відео допису (напр. фан-тригер): «<мова>/<файл>»
+        lang, _, rel = str(post.video).partition("/")
+        if rel and (social_asset_dir(cfg, post.slug, lang) / rel).exists():
+            return lang, rel
     if post.promo:                           # окремий допис зі своїм промо-відео (папка допису)
         name = "linkedin.mp4" if post.channel == "linkedinpage" else "promo.mp4"
         if (social_asset_dir(cfg, post.slug, post.lang) / post.path.stem / name).exists():
@@ -128,9 +132,33 @@ def deployed(url: str, local) -> bool:
         return False
 
 
+def cover_name(v) -> str:
+    """Обкладинка відео: власна <назва>-cover.jpg поруч із файлом, інакше за назвою відео."""
+    if (v.parent / f"{v.stem}-cover.jpg").exists():
+        return f"{v.stem}-cover.jpg"
+    return {"promo.mp4": "promo-cover.jpg", "linkedin.mp4": "linkedin-cover.jpg"}.get(v.name, "cover.jpg")
+
+
+def last_published(state: dict, channel: str, lang: str):
+    """Час останньої публікації в канал цією мовою (за журналом стану)."""
+    import re
+    pat = re.compile(rf"^{re.escape(channel)}-{re.escape(lang)}(-\d+)?$")
+    best = None
+    for key, rec in state.items():
+        if not isinstance(rec, dict) or rec.get("status") != "published" or "/" not in key:
+            continue
+        if pat.match(key.split("/", 1)[1]):
+            try:
+                at = datetime.strptime(rec["at"], "%Y-%m-%d %H:%M")
+            except (KeyError, ValueError):
+                continue
+            best = at if best is None or at > best else best
+    return best
+
+
 def cover_url(post, cfg) -> str | None:
     v = local_video(post, cfg)
-    name = {"promo.mp4": "promo-cover.jpg", "linkedin.mp4": "linkedin-cover.jpg"}.get(v.name, "cover.jpg") if v else "cover.jpg"
+    name = cover_name(v) if v else "cover.jpg"
     if v and (v.parent / name).exists():
         return video_url(post, cfg).rsplit("/", 1)[0] + "/" + name
     return None
@@ -159,8 +187,7 @@ def send(post, parts, cfg) -> dict:
         lv = local_video(post, cfg) if video else None        # відео вантажимо з диска прямо в LinkedIn
         cover = None
         if lv:
-            cname = {"linkedin.mp4": "linkedin-cover.jpg", "promo.mp4": "promo-cover.jpg"}.get(lv.name, "cover.jpg")
-            cover = lv.parent / cname
+            cover = lv.parent / cover_name(lv)
         art = next((a for a in load_articles(cfg, include_drafts=True) if a.slug == post.slug and a.lang == post.lang), None)
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True,
                                          video=lv, thumb=cover, title=art.title if art else None)
@@ -237,6 +264,15 @@ def main() -> int:
                   photos or None)
             done += 1
             continue
+
+        # Мережі з правилами ритму (LinkedIn): між дописами однією мовою щонайменше gap_minutes,
+        # навіть якщо кілька дописів чекали (напр. поки не працював ключ) і настали одночасно.
+        rule = ((cfg.get("cadence") or {}).get("channel_rules") or {}).get(post.channel)
+        if rule:
+            last = last_published(state, post.channel, post.lang)
+            if last and (t.replace(tzinfo=None) - last).total_seconds() < int(rule.get("gap_minutes", 90)) * 60:
+                print(f"Чекає проміжку {rule.get('gap_minutes', 90)} хв після попереднього допису: {post.key}")
+                continue
 
         try:
             res = send(post, parts, cfg)
