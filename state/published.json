@@ -193,7 +193,7 @@
     "url": "https://www.instagram.com/reel/DfKkU6bFU7B/"
   },
   "halloween/linkedinpage-en": {
-    "at": "2026-10-31 18:16",
+    "at": "2026-10-31 18:31",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 14:59",
@@ -228,6 +228,12 @@
     "id": "18118599163797903",
     "status": "published",
     "url": "https://www.instagram.com/reel/DfF2FXBFek7/"
+  },
+  "iso-8000-8-quality-in-registers/instagram-en-3": {
+    "at": "2026-10-31 18:31",
+    "id": "18119829709988449",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfKl-GXnLbS/"
   },
   "iso-8000-8-quality-in-registers/instagram-uk": {
     "at": "2026-10-29 12:31",
