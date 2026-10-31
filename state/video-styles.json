@@ -233,6 +233,15 @@
     "music": "pulse",
     "wave": "wave-1.jpg"
   },
+  "laser-cats#1": {
+    "cover": "typewriter",
+    "globe": "globe-1.jpg",
+    "icon": "service-governance.webp",
+    "k": 30,
+    "look": "globe",
+    "music": "analytic",
+    "wave": "wave-7.jpg"
+  },
   "management-statistics#1": {
     "cover": "quote",
     "globe": "globe-3.jpg",

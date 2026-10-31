@@ -281,6 +281,24 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfJ5VdiEZCZ"
   },
+  "laser-cats/instagram-en": {
+    "at": "2026-10-31 16:25",
+    "id": "18034249034885924",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfKXfWHgs_6/"
+  },
+  "laser-cats/telegram-uk": {
+    "at": "2026-10-31 16:25",
+    "id": 23,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/23"
+  },
+  "laser-cats/threads-en": {
+    "at": "2026-10-31 16:25",
+    "id": "18170252023465126",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfKXkd2icBF"
+  },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
     "id": "urn:li:share:7520229097789087744",
@@ -288,7 +306,7 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-10-31 16:16",
+    "at": "2026-10-31 16:25",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 15:00",
