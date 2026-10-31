@@ -197,6 +197,15 @@
     "music": "lofi",
     "wave": "wave-2.jpg"
   },
+  "halloween#1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-management-analytics.webp",
+    "k": 31,
+    "look": "beam",
+    "music": "pulse",
+    "wave": "wave-3.jpg"
+  },
   "iso-8000-8-quality-in-registers#1": {
     "cover": "frame",
     "globe": "globe-2.jpg",
