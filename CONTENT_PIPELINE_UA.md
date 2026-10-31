@@ -71,6 +71,17 @@
 
 Токен LinkedIn діє 60 днів і автоматично не продовжується. За 14 днів до закінчення дайджест нагадає повторити крок 4. Якщо токен сплив, дописи для LinkedIn приходитимуть у Telegram для ручної публікації.
 
+### 3а. LinkedIn: сторінка компанії (автоматично, з відео)
+
+Потрібен застосунок LinkedIn із продуктом **Community Management API** (схвалено 31.10.2026).
+
+1. Номер сторінки: відкрийте сторінку Belyakov Consult як адміністратор; у адресі `linkedin.com/company/<число>/admin/` число і є **LINKEDIN_ORG_ID**.
+2. Ключ: https://www.linkedin.com/developers/tools/oauth/token-generator → застосунок із Community Management API → дозволи `w_organization_social` (і за бажанням `r_organization_social`) → **Request access token** → увійти обліковим записом адміністратора сторінки → скопіювати ключ. Він діє 60 днів.
+3. GitHub → Settings → Secrets and variables → Actions: секрети **LINKEDIN_PAGE_TOKEN** і **LINKEDIN_ORG_ID**; на вкладці Variables змінна **LINKEDIN_PAGE_TOKEN_DATE** = дата видачі ключа (бот нагадає оновити за 14 днів).
+4. Actions → **Перевірка LinkedIn** → Run workflow. Перевірка нічого не публікує; результат приходить у Telegram-адмінку й у `state/linkedin-check.md`.
+
+Після цього дописи сторінки виходять самі в найкращий час (UA 13:30, EN 17:00; лише будні) з нативним відео 4:5 і обкладинкою. Без секретів бот, як і раніше, надсилає текст і посилання на відео для ручної публікації.
+
 ### 4. Threads
 
 1. developers.facebook.com → Create app → сценарій **Access the Threads API**.

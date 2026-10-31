@@ -4,6 +4,10 @@ description: Why one person shows up in a register several times, what it does t
 date: 2026-11-09
 services: [data-quality, data-governance]
 tags: [data quality, registers, duplicates, public sector]
+promo:
+  hook: "One person. Three records."
+  tag: "Where register duplicates come from"
+  cta: "How many people in your register have more than one record?"
 carousel:
   - title: One person, three records
     text: The register says there are three recipients. In fact it is one person entered three times.

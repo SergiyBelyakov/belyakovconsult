@@ -4,6 +4,10 @@ description: Чому очищення й зшивання даних усере
 date: 2026-11-05
 services: [business-intelligence, data-architecture]
 tags: [Power BI, модель даних, BI, архітектура даних]
+promo:
+  hook: "BI не лагодить джерела"
+  tag: "Чому звіти в Power BI стають крихкими"
+  cta: "Скільки кроків у вашому Power Query лагодять джерело?"
 carousel:
   - title: Звіт лікує дані щоранку
     text: Кожне оновлення заново зводить варіанти назв і відновлює коди. Приклад умовний.

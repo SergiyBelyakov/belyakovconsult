@@ -4,6 +4,10 @@ description: Late records and status changes quietly rewrite past reports. How t
 date: 2026-11-16
 services: [data-architecture, business-intelligence]
 tags: [data architecture, BI, cut-off date, reporting]
+promo:
+  hook: "Last month changed."
+  tag: "Why last month's report shows a new number"
+  cta: "Who decides the cut-off date for your monthly report?"
 carousel:
   - title: Same number, different day
     text: The October report was opened twice. Nobody broke anything.

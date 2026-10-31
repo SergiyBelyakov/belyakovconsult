@@ -4,6 +4,10 @@ description: Why cleaning and stitching data inside Power BI makes reports fragi
 date: 2026-11-05
 services: [business-intelligence, data-architecture]
 tags: [Power BI, data model, BI, data architecture]
+promo:
+  hook: "BI won't fix sources"
+  tag: "Why Power BI reports get fragile"
+  cta: "How many of your Power Query steps repair the source?"
 carousel:
   - title: A report that repairs data daily
     text: Every refresh merges name variants and restores codes again. Illustrative example.

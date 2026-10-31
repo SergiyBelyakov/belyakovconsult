@@ -172,29 +172,103 @@ def linkedin_author(token: str, version: str) -> str:
     return f"urn:li:person:{sub}"
 
 
-def publish_linkedin(parts: list[str], version: str, as_page: bool = False) -> dict:
-    """as_page=True публікує від імені сторінки компанії (потрібен доступ Community Management API)."""
+def linkedin_headers(token: str, version: str) -> dict:
+    return {"Authorization": f"Bearer {token}", "LinkedIn-Version": version,
+            "X-Restli-Protocol-Version": "2.0.0", "Content-Type": "application/json"}
+
+
+def linkedin_page_auth() -> tuple[str, str]:
+    """(токен, автор) для сторінки компанії: секрети LINKEDIN_PAGE_TOKEN і LINKEDIN_ORG_ID."""
+    token = os.environ.get("LINKEDIN_PAGE_TOKEN") or os.environ["LINKEDIN_TOKEN"]
+    return token, f"urn:li:organization:{os.environ['LINKEDIN_ORG_ID'].strip()}"
+
+
+def linkedin_upload_video(token: str, version: str, owner: str, video: Path, thumb: Path | None = None) -> str:
+    """Завантажує відео в LinkedIn (Videos API): ініціалізація → частини → обкладинка → завершення → обробка."""
+    h = linkedin_headers(token, version)
+    size = video.stat().st_size
+    init = _check(requests.post("https://api.linkedin.com/rest/videos?action=initializeUpload", headers=h, timeout=TIMEOUT,
+                                json={"initializeUploadRequest": {"owner": owner, "fileSizeBytes": size,
+                                                                  "uploadCaptions": False, "uploadThumbnail": bool(thumb)}}),
+                  "LinkedIn (відео: ініціалізація)")["value"]
+    urn = init["video"]
+    etags = []
+    with open(video, "rb") as f:
+        for ins in init["uploadInstructions"]:
+            f.seek(ins["firstByte"])
+            chunk = f.read(ins["lastByte"] - ins["firstByte"] + 1)
+            r = requests.put(ins["uploadUrl"], data=chunk, timeout=120, headers={"Content-Type": "application/octet-stream"})
+            if r.status_code >= 300:
+                raise ChannelError(f"LinkedIn (відео: частина): HTTP {r.status_code} {r.text[:200]}")
+            etags.append(r.headers.get("etag") or r.headers.get("ETag"))
+    if thumb and init.get("thumbnailUploadUrl"):
+        r = requests.put(init["thumbnailUploadUrl"], data=thumb.read_bytes(), timeout=60,
+                         headers={"media-type-family": "STILLIMAGE", "Content-Type": "application/octet-stream"})
+        if r.status_code >= 300:      # без обкладинки допис усе одно вийде, LinkedIn візьме кадр сам
+            print(f"LinkedIn: обкладинку не прийнято (HTTP {r.status_code}), допис вийде без неї")
+    _check(requests.post("https://api.linkedin.com/rest/videos?action=finalizeUpload", headers=h, timeout=TIMEOUT,
+                         json={"finalizeUploadRequest": {"video": urn, "uploadToken": init.get("uploadToken", ""),
+                                                         "uploadedPartIds": etags}}),
+           "LinkedIn (відео: завершення)")
+    deadline = time.time() + 600
+    from urllib.parse import quote
+    while time.time() < deadline:                  # чекаємо, поки LinkedIn обробить відео
+        r = requests.get(f"https://api.linkedin.com/rest/videos/{quote(urn, safe='')}", headers=h, timeout=TIMEOUT)
+        status = (r.json() if r.ok else {}).get("status")
+        if status == "AVAILABLE":
+            return urn
+        if status == "PROCESSING_FAILED":
+            raise ChannelError("LinkedIn: відео не пройшло обробку")
+        time.sleep(10)
+    raise ChannelError("LinkedIn: відео не оброблено за 10 хв")
+
+
+def publish_linkedin(parts: list[str], version: str, as_page: bool = False,
+                     video: Path | None = None, thumb: Path | None = None, title: str | None = None) -> dict:
+    """as_page=True публікує від імені сторінки компанії (Community Management API, дозвіл w_organization_social).
+    З video допис виходить із нативним відео (і обкладинкою thumb)."""
     if as_page:
-        token = os.environ.get("LINKEDIN_PAGE_TOKEN") or os.environ["LINKEDIN_TOKEN"]
-        author = f"urn:li:organization:{os.environ['LINKEDIN_ORG_ID']}"
+        token, author = linkedin_page_auth()
     else:
         token = os.environ["LINKEDIN_TOKEN"]
-        author = None
-    headers = {"Authorization": f"Bearer {token}", "LinkedIn-Version": version,
-               "X-Restli-Protocol-Version": "2.0.0", "Content-Type": "application/json"}
+        author = linkedin_author(token, version)
+    headers = linkedin_headers(token, version)
     body = {
-        "author": author or linkedin_author(token, version),
+        "author": author,
         "commentary": linkedin_commentary("\n\n".join(parts)),
         "visibility": "PUBLIC",
         "distribution": {"feedDistribution": "MAIN_FEED", "targetEntities": [], "thirdPartyDistributionChannels": []},
         "lifecycleState": "PUBLISHED",
         "isReshareDisabledByAuthor": False,
     }
+    if video and video.exists():
+        urn = linkedin_upload_video(token, version, author, video, thumb if thumb and thumb.exists() else None)
+        body["content"] = {"media": {"id": urn, **({"title": title[:200]} if title else {})}}
     r = requests.post("https://api.linkedin.com/rest/posts", json=body, headers=headers, timeout=TIMEOUT)
     _check(r, "LinkedIn")
     post_id = r.headers.get("x-restli-id") or r.headers.get("X-RestLi-Id")
     url = f"https://www.linkedin.com/feed/update/{post_id}/" if post_id else None
     return {"id": post_id, "url": url}
+
+
+def delete_linkedin(post_id: str, version: str) -> None:
+    from urllib.parse import quote
+    token, _ = linkedin_page_auth()
+    h = linkedin_headers(token, version)
+    h["X-RestLi-Method"] = "DELETE"
+    r = requests.delete(f"https://api.linkedin.com/rest/posts/{quote(post_id, safe='')}", headers=h, timeout=TIMEOUT)
+    if r.status_code not in (200, 204, 404):
+        raise ChannelError(f"LinkedIn (видалення): HTTP {r.status_code} {r.text[:200]}")
+
+
+def linkedin_check(version: str) -> str:
+    """Перевірка без публікації: чи може ключ завантажувати медіа від імені сторінки (ініціалізація без файлу)."""
+    token, author = linkedin_page_auth()
+    r = requests.post("https://api.linkedin.com/rest/videos?action=initializeUpload", headers=linkedin_headers(token, version),
+                      timeout=TIMEOUT, json={"initializeUploadRequest": {"owner": author, "fileSizeBytes": 1024,
+                                                                          "uploadCaptions": False, "uploadThumbnail": False}})
+    _check(r, "LinkedIn (перевірка ключа)")
+    return author
 
 
 # ---------------------------------------------------------------- Instagram (API with Instagram Login)

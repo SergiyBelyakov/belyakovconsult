@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import channel_of, is_live, load_articles, load_config, load_posts, load_state, now, tz  # noqa: E402
 from publish import NAMES, admin  # noqa: E402
 
-TOKEN_DAYS = {"LINKEDIN_TOKEN_DATE": ("LinkedIn", 60), "THREADS_TOKEN_DATE": ("Threads", 60),
+TOKEN_DAYS = {"LINKEDIN_TOKEN_DATE": ("LinkedIn", 60), "LINKEDIN_PAGE_TOKEN_DATE": ("LinkedIn (сторінка)", 60), "THREADS_TOKEN_DATE": ("Threads", 60),
               "INSTAGRAM_TOKEN_DATE": ("Instagram", 60)}
 
 

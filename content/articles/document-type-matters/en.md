@@ -4,6 +4,10 @@ description: Why a document number alone is not enough for reliable identificati
 date: 2026-11-12
 services: [data-architecture, data-quality]
 tags: [data architecture, data exchange, identification, data quality]
+promo:
+  hook: "Same number. Different document."
+  tag: "Document type matters more than the number"
+  cta: "Does your data exchange send the document type as a field?"
 carousel:
   - title: One number, two documents
     text: "An illustrative example: the same digits in two registers, but two different people."

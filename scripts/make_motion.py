@@ -436,10 +436,11 @@ def build_all(cfg, article, force: bool = False, styles: dict | None = None) -> 
             a = dataclasses.replace(a, style=st)
         d = social_asset_dir(cfg, article.slug, article.lang) / episode_sub(n)
         mp4 = build(cfg, a, force, out_dir=d, seed=article.slug if n == 1 else f"{article.slug}#{n}", short=n > 1)
-        if mp4 and article.lang == "en":        # англійські промо: Reels для Instagram (9:16) і тригер для LinkedIn (4:5)
+        if mp4:                                 # промо: LinkedIn 4:5 обома мовами; Reels 9:16 лише англійською
             import make_promo
-            make_promo.build(cfg, a, st or {}, d, f"{article.slug}#{n}", force)
             make_promo.build(cfg, a, st or {}, d, f"{article.slug}#{n}", force, fmt="linkedin")
+            if article.lang == "en":
+                make_promo.build(cfg, a, st or {}, d, f"{article.slug}#{n}", force)
         if mp4:
             frames = [Image.open(f) for f in sorted(d.glob("motion-frame-*.jpg"), key=lambda x: int(x.stem.split("-")[-1]))]
             make_cards.brand_sheet(cfg, a, frames, out_dir=d)

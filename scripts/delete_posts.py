@@ -69,6 +69,14 @@ def main() -> int:
                         delete_telegram(extra)
             elif channel == "threads":
                 err = delete_threads(rec["id"])
+            elif channel == "linkedinpage":
+                try:
+                    import channels
+                    from common import load_config
+                    channels.delete_linkedin(rec["id"], load_config()["channels"]["linkedin"]["api_version"])
+                    err = None
+                except Exception as e:  # noqa: BLE001
+                    err = f"LinkedIn: {e}"[:200]
             else:
                 err = "API не дозволяє видаляти публікації"
         if err and rec.get("url"):

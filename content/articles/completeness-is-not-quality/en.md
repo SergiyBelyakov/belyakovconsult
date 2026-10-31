@@ -4,6 +4,10 @@ description: Why a high completeness rate says little about whether registry dat
 date: 2026-11-02
 services: [data-quality, data-governance]
 tags: [data quality, registries, public sector]
+promo:
+  hook: "Filled in. Still unusable."
+  tag: "Completeness is not data quality"
+  cta: "Do you count usable records, or only filled ones?"
 carousel:
   - title: Completeness answers only one question
     text: Is there anything in the field. Not whether you can trust it.

@@ -54,7 +54,7 @@ def manual_reason(post, cfg) -> str | None:
         return "Instagram публікується вручну"
     if post.channel == "instagram" and not os.environ.get("INSTAGRAM_TOKEN"):
         return "немає секрету INSTAGRAM_TOKEN"
-    need = {"linkedin": ["LINKEDIN_TOKEN"], "linkedinpage": ["LINKEDIN_ORG_ID"], "threads": ["THREADS_TOKEN"],
+    need = {"linkedin": ["LINKEDIN_TOKEN"], "linkedinpage": ["LINKEDIN_ORG_ID", "LINKEDIN_PAGE_TOKEN"], "threads": ["THREADS_TOKEN"],
             "telegram": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHANNEL_ID"]}.get(post.channel, [])
     missing = [k for k in need if not os.environ.get(k)]
     if missing:
@@ -76,11 +76,14 @@ def video_file(post, cfg) -> tuple[str, str] | None:
     """(мова, шлях від папки статті) для відео допису: своє відео допису N, інакше основне відео статті.
     Англійські Reels в Instagram беруть промо-відео (promo.mp4), якщо воно зібране."""
     n = post.video_n or post.n               # video_n: допис бере відео іншого допису статті (напр. тригер)
-    promo = {"instagram": "promo.mp4", "linkedinpage": "linkedin.mp4"}.get(post.channel)
-    if promo and post.lang == "en":          # англійські промо: Reels 9:16 для Instagram, тригер 4:5 для LinkedIn
+    if post.channel == "linkedinpage":       # LinkedIn: преміальне відео 4:5 мовою допису (UA і EN)
         for sub in dict.fromkeys([episode_sub(n), ""]):
-            if (social_asset_dir(cfg, post.slug, "en") / sub / promo).exists():
-                return "en", sub + promo
+            if (social_asset_dir(cfg, post.slug, post.lang) / sub / "linkedin.mp4").exists():
+                return post.lang, sub + "linkedin.mp4"
+    if post.channel == "instagram" and post.lang == "en":    # англійські Reels: промо 9:16
+        for sub in dict.fromkeys([episode_sub(n), ""]):
+            if (social_asset_dir(cfg, post.slug, "en") / sub / "promo.mp4").exists():
+                return "en", sub + "promo.mp4"
     for sub in dict.fromkeys([episode_sub(n), ""]):
         for lang in dict.fromkeys([post.lang, "uk"]):
             if (social_asset_dir(cfg, post.slug, lang) / sub / "motion.mp4").exists():
@@ -149,7 +152,14 @@ def send(post, parts, cfg) -> dict:
         urls = list(post.images) or [social_asset_url(cfg, post.slug, p.name, _asset_lang(post, cfg)) for p in slides]
         return channels.publish_instagram("\n\n".join(parts), urls, cfg["channels"]["instagram"].get("api_version", "v26.0"))
     if post.channel == "linkedinpage":
-        return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True)
+        lv = local_video(post, cfg) if video else None        # відео вантажимо з диска прямо в LinkedIn
+        cover = None
+        if lv:
+            cname = {"linkedin.mp4": "linkedin-cover.jpg", "promo.mp4": "promo-cover.jpg"}.get(lv.name, "cover.jpg")
+            cover = lv.parent / cname
+        art = next((a for a in load_articles(cfg, include_drafts=True) if a.slug == post.slug and a.lang == post.lang), None)
+        return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True,
+                                         video=lv, thumb=cover, title=art.title if art else None)
     raise channels.ChannelError(f"Невідомий канал {post.channel}")
 
 
@@ -202,7 +212,7 @@ def main() -> int:
             media_note = (f"\n\n🎬 Відео для LinkedIn ({'4:5, без звуку читається з екрана' if vid.endswith('linkedin.mp4') else '9:16'}): {vid}"
                           + (f"\n🖼 Обкладинка (завантажте як thumbnail): {cv}" if cv else ""))
 
-        if vid and not is_dry(post.channel) and not manual_reason(post, cfg):
+        if vid and post.channel != "linkedinpage" and not is_dry(post.channel) and not manual_reason(post, cfg):
             lv = local_video(post, cfg)
             cv = cover_url(post, cfg)
             if not deployed(vid, lv) or (post.channel == "instagram" and cv and not deployed(cv, lv.parent / cv.rsplit("/", 1)[1])):

@@ -140,7 +140,8 @@ def spec_for(cfg, article, style: dict) -> dict:
             "object": style.get("icon") or "service-quality.webp",
             "wave": style.get("wave") or "wave-2.jpg",
             "tag": p.get("tag") or (article.description if len(article.description) <= 60 else ""),
-            "cta": p.get("cta") or "More data notes every week"}
+            "cta": p.get("cta") or {"uk": "Більше розборів про дані щотижня", "pt": "Mais notas sobre dados todas as semanas"}
+                   .get(getattr(article, "lang", "en"), "More data notes every week")}
 
 
 class Promo:

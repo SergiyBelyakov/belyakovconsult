@@ -53,6 +53,8 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
           THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
+          LINKEDIN_PAGE_TOKEN: ${{ secrets.LINKEDIN_PAGE_TOKEN }}
+          LINKEDIN_ORG_ID: ${{ secrets.LINKEDIN_ORG_ID }}
         run: python scripts/delete_posts.py
 
       - name: Опублікувати дописи, час яких настав
