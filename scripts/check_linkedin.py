@@ -23,12 +23,16 @@ def main() -> int:
     if missing:
         msg = f"❌ LinkedIn: немає секретів {', '.join(missing)} (Settings → Secrets and variables → Actions)."
     else:
+        raw = os.environ["LINKEDIN_PAGE_TOKEN"]
+        tok, _ = channels.linkedin_page_auth()
+        shape = f"довжина ключа {len(tok)} симв." + (", прибрано пробіли чи перенос рядка" if tok != raw else "")
+        print(shape)
         try:
             author = channels.linkedin_check(version)
             msg = (f"✅ LinkedIn: ключ працює, публікація від імені сторінки ({author}) дозволена. "
                    "Дописи сторінки тепер виходять автоматично, з відео 4:5 і обкладинкою.")
         except Exception as e:  # noqa: BLE001
-            msg = f"❌ LinkedIn: {str(e)[:500]}"
+            msg = f"❌ LinkedIn: {str(e)[:500]} ({shape})"
     (STATE_FILE.parent / "linkedin-check.md").write_text(f"# Перевірка LinkedIn\n\n{fmt_dt(now(cfg))}\n\n{msg}\n", encoding="utf-8")
     print(msg)
     admin(msg)

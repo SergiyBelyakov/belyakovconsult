@@ -179,8 +179,11 @@ def linkedin_headers(token: str, version: str) -> dict:
 
 def linkedin_page_auth() -> tuple[str, str]:
     """(токен, автор) для сторінки компанії: секрети LINKEDIN_PAGE_TOKEN і LINKEDIN_ORG_ID."""
-    token = os.environ.get("LINKEDIN_PAGE_TOKEN") or os.environ["LINKEDIN_TOKEN"]
-    return token, f"urn:li:organization:{os.environ['LINKEDIN_ORG_ID'].strip()}"
+    token = (os.environ.get("LINKEDIN_PAGE_TOKEN") or os.environ["LINKEDIN_TOKEN"]).strip().strip('"').strip("'")
+    if token.lower().startswith("bearer "):          # іноді ключ копіюють разом зі словом Bearer
+        token = token[7:].strip()
+    org = "".join(ch for ch in os.environ["LINKEDIN_ORG_ID"] if ch.isdigit())   # лише цифри номера сторінки
+    return token, f"urn:li:organization:{org}"
 
 
 def linkedin_upload_video(token: str, version: str, owner: str, video: Path, thumb: Path | None = None) -> str:
