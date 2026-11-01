@@ -78,11 +78,10 @@
     "url": "https://www.threads.com/@belyakovconsult/post/DfKYMe_iij5"
   },
   "data-quality-dashboard-demo/threads-uk-3": {
-    "at": "2026-11-01 16:31",
-    "auth_error": true,
-    "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"Fatal\",\"type\":\"OAuthException\",\"code\":-1,\"error_subcode\":4279047,\"is_transient\":false,\"error_user_title\":\"Invalid Link Attachment\",\"error_user_msg\":\"The post you're trying to publish has an invalid link attachment.\",\"fbtrace_id\":\"A5xM698r-gkFHlsOS6",
-    "publish_at": "2026-11-01 16:30",
-    "status": "retry"
+    "at": "2026-11-01 16:47",
+    "id": "18360196822222338",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfM-waEgrVQ"
   },
   "governance-shows-in-conflict/instagram-en": {
     "at": "2026-10-26 13:38",
@@ -424,7 +423,7 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-11-01 16:31",
+    "at": "2026-11-01 16:47",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 15:00",
