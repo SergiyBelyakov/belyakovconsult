@@ -1,0 +1,21 @@
+{
+  "fingerprint": "f474cb2389414310",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "SHOW",
+      "TWO",
+      "COLUMNS"
+    ],
+    "points": [
+      "Where conclusions get distorted",
+      "A rule instead of a percentage",
+      "A question for you"
+    ],
+    "object": "service-data-analysis.webp",
+    "wave": "wave-3.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

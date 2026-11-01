@@ -1,0 +1,22 @@
+{
+  "fingerprint": "d40b2516d55ffbd1",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "FILLED",
+      "IN",
+      "STILL",
+      "UNUSABLE"
+    ],
+    "points": [
+      "Completeness answers only one question",
+      "Filled in, but not usable",
+      "What completeness cannot see"
+    ],
+    "object": "service-governance.webp",
+    "wave": "wave-4.jpg",
+    "tag": "Completeness is not data quality",
+    "cta": "Do you count usable records, or only filled ones?"
+  }
+}

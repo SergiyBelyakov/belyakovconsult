@@ -1,0 +1,21 @@
+{
+  "fingerprint": "7904b031f8058507",
+  "format": "linkedin",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "PLACEHOLDERS",
+      "COUNT",
+      "TOO"
+    ],
+    "points": [
+      "You can find them in 5 minutes",
+      "Where they come from",
+      "What to do about it"
+    ],
+    "object": "service-quality.webp",
+    "wave": "wave-7.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}
