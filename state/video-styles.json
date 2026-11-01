@@ -197,6 +197,15 @@
     "music": "lofi",
     "wave": "wave-2.jpg"
   },
+  "grwm-month-end#1": {
+    "cover": "type",
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 32,
+    "look": "grid",
+    "music": "ambient",
+    "wave": "wave-6.jpg"
+  },
   "halloween#1": {
     "cover": "icon",
     "globe": "globe-2.jpg",
