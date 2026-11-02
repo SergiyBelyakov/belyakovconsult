@@ -71,6 +71,15 @@
     "music": "cinematic",
     "wave": "wave-3.jpg"
   },
+  "completeness-is-not-quality#9": {
+    "cover": "wave",
+    "globe": "globe-1.jpg",
+    "icon": "service-quality.webp",
+    "k": 33,
+    "look": "wave",
+    "music": "lofi",
+    "wave": "wave-2.jpg"
+  },
   "data-quality-dashboard-demo#1": {
     "cover": "typewriter",
     "globe": "globe-2.jpg",
