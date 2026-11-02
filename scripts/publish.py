@@ -258,6 +258,11 @@ def main() -> int:
             continue
 
         reason = manual_reason(post, cfg)
+        if reason and reason.startswith("немає секрет"):
+            # Ключ зник (видалили чи ще не додали): допис чекає, а не позначається як «надіслано вручну».
+            print(f"Чекає на ключ ({reason}): {post.key}")
+            blocked.add(post.channel)
+            continue
         if reason:
             state[post.key] = {"status": "manual-sent", "at": fmt_dt(t), "reason": reason}
             admin(f"✋ Опублікуйте вручну в {name} ({reason}). Текст нижче:\n\n" + "\n\n— — —\n\n".join(parts) + media_note,
