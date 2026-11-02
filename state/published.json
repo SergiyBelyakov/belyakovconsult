@@ -10,6 +10,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/5"
   },
+  "completeness-is-not-quality/instagram-en": {
+    "at": "2026-11-02 18:32",
+    "id": "17991966894063329",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfPvmmRlBJG/"
+  },
   "completeness-is-not-quality/instagram-uk": {
     "at": "2026-11-02 12:32",
     "id": "18028830737869508",
@@ -266,7 +272,7 @@
     "url": "https://www.instagram.com/reel/DfMvOe-Dy6k/"
   },
   "grwm-month-end/linkedinpage-uk": {
-    "at": "2026-11-02 18:17",
+    "at": "2026-11-02 18:32",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-01 14:30",
