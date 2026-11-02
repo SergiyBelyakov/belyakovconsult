@@ -1,11 +1,18 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-11-02 10:32
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 2. Час: 2026-11-02 12:02
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-🔑 LinkedIn (сторінка Belyakov Consult): ключ доступу недійсний, публікації в цю мережу стоять. Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.
-LinkedIn (відео: ініціалізація): HTTP 401 {"status":401,"serviceErrorCode":65600,"code":"INVALID_ACCESS_TOKEN","message":"Invalid access token"}
+✅ Опубліковано в Instagram: completeness-is-not-quality
+https://www.instagram.com/p/DfPC_pHm-B4/
+```
+
+## 2
+
+```
+✅ Опубліковано в Threads: completeness-is-not-quality
+https://www.threads.com/@belyakovconsult/post/DfPDCQwFZu8
 ```

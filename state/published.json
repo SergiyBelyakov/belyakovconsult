@@ -10,6 +10,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/5"
   },
+  "completeness-is-not-quality/instagram-uk-9": {
+    "at": "2026-11-02 12:02",
+    "id": "18496035430100285",
+    "status": "published",
+    "url": "https://www.instagram.com/p/DfPC_pHm-B4/"
+  },
   "completeness-is-not-quality/telegram-uk": {
     "at": "2026-11-02 10:01",
     "extra_ids": [
@@ -18,6 +24,12 @@
     "id": 30,
     "status": "published",
     "url": "https://t.me/belyakovconsult/30"
+  },
+  "completeness-is-not-quality/threads-uk": {
+    "at": "2026-11-02 12:02",
+    "id": "17978404212133220",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfPDCQwFZu8"
   },
   "data-quality-dashboard-demo/instagram-en": {
     "at": "2026-10-30 21:01",
@@ -459,7 +471,7 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-11-02 11:53",
+    "at": "2026-11-02 12:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65600,\"code\":\"INVALID_ACCESS_TOKEN\",\"message\":\"Invalid access token\"}",
     "publish_at": "2026-10-31 15:00",
