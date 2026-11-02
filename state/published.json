@@ -272,7 +272,7 @@
     "url": "https://www.instagram.com/reel/DfMvOe-Dy6k/"
   },
   "grwm-month-end/linkedinpage-uk": {
-    "at": "2026-11-02 20:32",
+    "at": "2026-11-02 20:47",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-01 14:30",
@@ -728,11 +728,10 @@
     "url": "https://www.threads.com/@belyakovconsult/post/DfOq5BbFe7R"
   },
   "note-2026-11-02/threads-uk-2": {
-    "at": "2026-11-02 20:32",
-    "auth_error": true,
-    "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"The requested resource does not exist\",\"type\":\"OAuthException\",\"code\":24,\"error_subcode\":4279009,\"is_transient\":false,\"error_user_title\":\"Media Not Found\",\"error_user_msg\":\"The media with id 17912370831486999 cannot be found.\",\"fbtrace_id\":\"AT8ek9j",
-    "publish_at": "2026-11-02 20:30",
-    "status": "retry"
+    "at": "2026-11-02 20:47",
+    "id": "17915041416491890",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfP_CJ_D7LU"
   },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
