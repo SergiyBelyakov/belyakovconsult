@@ -458,6 +458,13 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfKXfWHgs_6/"
   },
+  "laser-cats/linkedinpage-en": {
+    "at": "2026-11-02 15:01",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-10-31 16:00",
+    "status": "retry"
+  },
   "laser-cats/telegram-uk": {
     "at": "2026-10-31 16:25",
     "id": 23,
@@ -477,11 +484,9 @@
     "url": "https://www.linkedin.com/feed/update/urn:li:share:7520229097789087744/"
   },
   "management-statistics/linkedinpage-en": {
-    "at": "2026-11-02 14:47",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-02 15:01",
     "publish_at": "2026-10-31 15:00",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "note-2026-10-28/instagram-en": {
     "at": "2026-10-28 16:01",
@@ -662,6 +667,12 @@
     "id": "18092687870236313",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfNYk8jml5v"
+  },
+  "note-2026-11-02/instagram-en": {
+    "at": "2026-11-02 15:01",
+    "id": "18104501996638702",
+    "status": "published",
+    "url": "https://www.instagram.com/p/DfPXh6dkQZ-/"
   },
   "note-2026-11-02/instagram-uk": {
     "at": "2026-11-02 09:02",
