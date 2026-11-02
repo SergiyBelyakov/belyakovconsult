@@ -1,5 +1,5 @@
 # Перевірка LinkedIn
 
-2026-11-02 13:11
+2026-11-02 13:19
 
-❌ LinkedIn: LinkedIn (перевірка ключа): HTTP 401 {"status":401,"serviceErrorCode":65600,"code":"INVALID_ACCESS_TOKEN","message":"Invalid access token"} (довжина ключа 33 симв., починається з «WP»; LinkedIn ключ не впізнає (401: неповний, відкликаний, прострочений або це не access token))
+❌ LinkedIn: LinkedIn (перевірка ключа): HTTP 400 {"message":"Organization permissions must be used when using organization as owner","status":400} (довжина ключа 350 симв., починається з «AQ»; LinkedIn ключ впізнає (403 на профіль), тобто проблема в дозволах чи сторінці; інтроспекція: active=True, status=active, scope=email,openid,profile,w_member_social, expires_at=1798802170, client_id_збігається=True)
