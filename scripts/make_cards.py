@@ -270,7 +270,7 @@ def carousel(cfg, article, out_dir: Path | None = None) -> list[Path]:
     bg = background(W, H)
     paths = []
     for i, spec in enumerate(specs, 1):
-        img = compose(layout(cfg, article, spec, i, len(specs), W, H, top=60, bottom=40), bg)
+        img = card_v2(cfg, article, spec, i, len(specs), W, H, bg)
         p = out / f"slide-{i}.png"
         img.save(p, optimize=True)
         img.save(out / f"slide-{i}.jpg", "JPEG", quality=92, optimize=True)  # API Instagram приймає лише JPEG
@@ -280,6 +280,179 @@ def carousel(cfg, article, out_dir: Path | None = None) -> list[Path]:
         if n.isdigit() and int(n) > len(specs):
             extra.unlink()
     return paths
+
+
+# ---------------------------------------------------------------- шаблон каруселі v2
+# Правила (погоджено 02.11.2026): головне крупно (порядок читання: дрібний надзаголовок, великий заголовок,
+# середнє пояснення, дрібні деталі); вертикаль 4:5 з полями, ширшими за 35 px (сітка профілю 3:4 ріже краї);
+# контраст тексту не нижче 4,5:1 (білий на темному, рубін лише фоном під білим текстом або для крупного);
+# порядок: обкладинка чіпляє, середина вчить (кроки), кінець кличе; картинка частина слайда: предмет
+# заходить на заголовок і має тінь. Останній слайд: бренд, посилання і заклик.
+CARD_TEXT = {
+    "uk": dict(swipe="ГОРТАЙТЕ", step="КРОК", bio="Посилання в шапці профілю", write="Напишіть мені"),
+    "en": dict(swipe="SWIPE", step="STEP", bio="Link in bio", write="Write to me"),
+    "pt": dict(swipe="DESLIZE", step="PASSO", bio="Link na bio", write="Escreva-me"),
+}
+
+
+def _shadowed(im: Image.Image, blur: int = 26, dy: int = 28, a: float = 0.6) -> tuple[Image.Image, int]:
+    """Предмет із м'якою тінню під ним (повертає зображення й відступ, на який воно зросло)."""
+    from PIL import ImageFilter
+    pad = blur * 3
+    out = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2 + dy), (0, 0, 0, 0))
+    sh = Image.new("RGBA", out.size, (0, 0, 0, 0))
+    alpha = Image.new("L", out.size, 0)
+    alpha.paste(im.getchannel("A").point(lambda v: int(v * a)), (pad, pad + dy))
+    sh.putalpha(alpha.filter(ImageFilter.GaussianBlur(blur)))
+    out.alpha_composite(sh)
+    out.alpha_composite(im, (pad, pad))
+    return out, pad
+
+
+def accent_title(text: str, width: int, max_size: int, min_size: int, max_lines: int, max_h: int,
+                 accent: str | None = None, caps: bool = False, kind: str = "head") -> Image.Image:
+    """Великий заголовок; одне слово (accent або останнє) білим на рубіновій плашці, як «ЧИТАЮТ» у шаблоні."""
+    text = text.upper() if caps else text
+    words = text.split()
+    acc = (accent.upper() if caps and accent else accent) or (words[-1] if words else "")
+    size = max_size
+    while True:
+        f = brand.font(kind, size)
+        pad = int(size * 0.18)
+        lines = brand.wrap(text, f, width - pad * 2)
+        lh = int(size * 1.08)
+        if (len(lines) <= max_lines and lh * len(lines) + pad <= max_h) or size <= min_size:
+            break
+        size -= 4
+    img = Image.new("RGBA", (width, lh * len(lines) + pad * 2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    done = False
+    for i, ln in enumerate(lines):
+        y = pad + i * lh
+        x = 0
+        toks = ln.split(" ")
+        for j, tok in enumerate(toks):
+            tw = d.textlength(tok, font=f)
+            is_acc = not done and acc and tok == acc and (i == len(lines) - 1 or acc != words[-1])
+            if is_acc:
+                d.rounded_rectangle([x - pad * 0.15, y - pad * 0.35, x + tw + pad * 1.7, y + size * 1.02], radius=int(size * 0.12), fill=brand.RUBY)
+                d.text((x + pad * 0.78, y), tok, font=f, fill=brand.WHITE)
+                x += pad * 1.6
+                done = True
+            else:
+                d.text((x, y), tok, font=f, fill=brand.WHITE)
+            x += tw + d.textlength(" ", font=f)
+    return img.crop((0, 0, width, img.getbbox()[3] + 4 if img.getbbox() else img.height))
+
+
+def _pill(text: str, size: int, fill, color, pad_x: int = 22, pad_y: int = 12, kind: str = "body-semi") -> Image.Image:
+    f = brand.font(kind, size)
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    w = int(probe.textlength(text, font=f)) + pad_x * 2
+    h = int(size * 1.25) + pad_y * 2
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([0, 0, w - 1, h - 1], radius=h // 2, fill=fill)
+    d.text((pad_x, pad_y + size * 0.05), text, font=f, fill=color)
+    return im
+
+
+def card_v2(cfg, article, spec: dict, index: int, total: int, w: int = 1080, h: int = 1350, bg=None) -> Image.Image:
+    M = 88
+    T = CARD_TEXT.get(article.lang, CARD_TEXT["en"])
+    L = cfg["languages"][article.lang]
+    img = (bg or background(w, h)).convert("RGBA")
+    img.alpha_composite(Image.new("RGBA", (w, 10), (*brand.RUBY, 255)), (0, 0))
+    img.alpha_composite(brand.lockup(56), (M, 64))
+    counter = _text_block([f"{index}/{total}"], brand.font("body-semi", 26), brand.SILVER)
+    img.alpha_composite(counter, (w - M - counter.width, 82))
+    kind = spec.get("kind", "point")
+    foot_y = h - 104
+    if kind == "cover":
+        y = 196
+        kick = _text_block([(article.kicker or L["insights_title"]).upper()], brand.font("body-semi", 30), brand.SILVER)
+        img.alpha_composite(kick, (M, y))
+        y += kick.height + 26
+        st = getattr(article, "style", None) or {}
+        src = f"assets/{st['icon']}" if st.get("icon") else visuals.service_image(article.services)
+        obj = None
+        if src:
+            parts = visuals.v_image({"src": src}, int(w * 0.5), 340, lambda v: v)
+            if parts:
+                bb = parts[0].image.getbbox()
+                vis = parts[0].image.crop(bb) if bb else parts[0].image
+                obj, pad = _shadowed(vis)
+        sub_f, sub_lines = brand.fit(spec.get("text", ""), "body", w - 2 * M, 40, 30, 3)
+        sub = _text_block(sub_lines, sub_f, brand.BODY, 1.38)
+        swipe = _pill(f"{T['swipe']}  →", 28, (*brand.WHITE, 255), brand.INK if hasattr(brand, "INK") else (14, 17, 23))
+        title_top = y + ((obj.height - 2 * pad - 70) if obj else 40)   # предмет заходить на перший рядок заголовка
+        max_h = foot_y - 40 - swipe.height - 40 - sub.height - 36 - title_top
+        title = accent_title(spec["title"], w - 2 * M, 124, 62, 5, max_h, spec.get("accent"), caps=True)
+        img.alpha_composite(title, (M, title_top))
+        if obj:                                         # предмет заходить на заголовок, з тінню
+            ox = w - M - obj.width + pad
+            oy = y - pad
+            img.alpha_composite(obj, (ox, oy))
+        yy = title_top + title.height + 36
+        img.alpha_composite(sub, (M, yy))
+        img.alpha_composite(swipe, (M, foot_y - 30 - swipe.height))
+    elif kind == "cta":
+        y = 190
+        logo = brand.logo(120)
+        img.alpha_composite(logo, (M, y))
+        y += logo.height + 44
+        title = accent_title(spec["title"], w - 2 * M, 84, 52, 4, 360, spec.get("accent"))
+        img.alpha_composite(title, (M, y))
+        y += title.height + 28
+        f2, l2 = brand.fit(spec.get("text", ""), "body", w - 2 * M, 38, 28, 4)
+        body = _text_block(l2, f2, brand.BODY, 1.42)
+        img.alpha_composite(body, (M, y))
+        y += body.height + 36
+        host = cfg["site"]["base_url"].split("//")[-1].removeprefix("www.")
+        links = [("W", host), ("T", "t.me/belyakovconsult"), ("I", "Instagram · Threads  @belyakovconsult"), ("in", "LinkedIn: Belyakov Consult")]
+        fl, fi = brand.font("body-semi", 32), brand.font("head", 26)
+        d = ImageDraw.Draw(img)
+        for ico, txt in links:
+            hh = 66
+            d.rounded_rectangle([M, y, w - M, y + hh], radius=20, fill=(17, 22, 31), outline=(44, 52, 66), width=2)
+            d.rounded_rectangle([M + 12, y + 11, M + 56, y + 55], radius=12, fill=brand.RUBY)
+            d.text((M + 34 - d.textlength(ico, font=fi) / 2, y + 18), ico, font=fi, fill=brand.WHITE)
+            d.text((M + 76, y + 14), txt, font=fl, fill=brand.WHITE)
+            y += hh + 10
+        btn = _pill(f"{T['bio']}  →", 34, (*brand.RUBY, 255), brand.WHITE, 34, 18, "head")
+        img.alpha_composite(btn, ((w - btn.width) // 2, y + 22))
+    else:
+        y = 190
+        num = _pill(f"{T['step']} {index - 1}", 28, (*brand.RUBY, 255), brand.WHITE, 22, 10, "head")
+        img.alpha_composite(num, (M, y))
+        y += num.height + 30
+        vis_spec = spec.get("visual") or visuals.auto(spec)
+        replaces = bool(vis_spec) and vis_spec.get("type") in visuals.TEXT_TYPES and not vis_spec.get("items")
+        title = accent_title(spec.get("title", ""), w - 2 * M, 96, 56, 3 if vis_spec else 4, 330, spec.get("accent"))
+        img.alpha_composite(title, (M, y))
+        y += title.height + 28
+        img.alpha_composite(Image.new("RGBA", (120, 6), (*brand.RUBY, 255)), (M, y))
+        y += 6 + 38
+        body = None
+        if not replaces and spec.get("text"):
+            fb, lb = brand.fit(spec.get("text", ""), "body", w - 2 * M, 46 if vis_spec else 52, 30, 4 if vis_spec else 10)
+            body = _text_block(lb, fb, brand.BODY, 1.38)
+        if vis_spec:
+            vh = foot_y - 40 - y - ((body.height + 34) if body else 0)
+            vh = max(220, min(600, vh))
+            parts, _ = visuals.render(vis_spec, spec, w - 2 * M, vh, lambda v: v)
+            used = max((p.xy[1] + p.image.height for p in parts), default=0)
+            for p_ in parts:
+                img.alpha_composite(p_.image, (M + p_.xy[0], y + p_.xy[1]))
+            y += min(vh, used) + 34
+        if body:
+            img.alpha_composite(body, (M, y))
+    foot = _text_block([brand.HANDLES], brand.font("body-semi", 26), brand.SILVER)
+    img.alpha_composite(foot, (M, foot_y))
+    if index < total and kind != "cover":
+        arrow = _text_block(["→"], brand.font("body-semi", 30), brand.SILVER)
+        img.alpha_composite(arrow, (w - M - arrow.width, foot_y))
+    return img.convert("RGB")
 
 
 def brand_sheet(cfg, article, frames: list[Image.Image] | None = None, out_dir: Path | None = None) -> Path:
