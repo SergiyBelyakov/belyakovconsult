@@ -165,6 +165,9 @@ def _article_date(slug: str, lang: str) -> date | None:
     return None
 
 
+DAY_NAMES = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+
 def cadence_phase(cfg: dict, d: date) -> dict:
     """Етап ритму для статті з датою d: перший етап, у якого until >= d (або без until)."""
     cad = cfg.get("cadence") or {}
@@ -184,8 +187,10 @@ def scheduled_at(cfg: dict, slug: str, channel: str, lang: str, n: int) -> datet
     hhmm = ((cad.get("times") or {}).get(channel) or {}).get(lang)
     if days is None or not hhmm:
         return None
+    day = d + timedelta(days=int(days))
+    hhmm = (((cad.get("times_by_weekday") or {}).get(channel) or {}).get(DAY_NAMES[day.weekday()]) or {}).get(lang) or hhmm
     h, m = (int(x) for x in str(hhmm).split(":"))
-    return datetime(d.year, d.month, d.day, h, m) + timedelta(days=int(days))
+    return datetime(day.year, day.month, day.day, h, m)
 
 
 def load_posts(cfg: dict) -> list[Post]:
@@ -288,7 +293,9 @@ def apply_channel_rules(cfg: dict, posts: list) -> None:
 
 
 def note_time(cfg: dict, day: date, channel: str, lang: str, slot: int) -> datetime | None:
-    slots = (((cfg.get("notes") or {}).get("times") or {}).get(channel) or {}).get(lang) or []
+    notes = cfg.get("notes") or {}
+    slots = (((notes.get("times_by_weekday") or {}).get(channel) or {}).get(DAY_NAMES[day.weekday()]) or {}).get(lang) \
+        or ((notes.get("times") or {}).get(channel) or {}).get(lang) or []
     if not 1 <= slot <= len(slots):
         return None
     h, m = (int(x) for x in str(slots[slot - 1]).split(":"))
