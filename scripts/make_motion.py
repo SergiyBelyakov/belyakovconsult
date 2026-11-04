@@ -25,6 +25,7 @@ from PIL import Image, ImageDraw, ImageEnhance
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
+import glass  # noqa: E402
 import make_cards  # noqa: E402
 import music  # noqa: E402
 from common import ROOT, episode_sub, load_articles, load_config, social_asset_dir  # noqa: E402
@@ -35,7 +36,7 @@ TRANS = 0.5                     # тривалість переходу між �
 DUR = {"cover": 4.6, "point": 5.0, "cta": 5.6}
 DUR_SHORT = {"cover": 2.6, "point": 3.9, "cta": 3.4}   # відео до дописів 2+: коротше, ~15–18 с
 HOOK = {"title", "visual", "glyph", "kicker"}           # на обкладинці видно з першого кадру (гачок)
-VERSION = "motion-v3"
+VERSION = "motion-v4-glass"
 BEAT = music.BEAT
 
 # ---- Вигляд відео: щоб ролики не були однакові ----
@@ -67,7 +68,7 @@ def _services_by_slug() -> dict:
     return out
 
 
-def assign_styles(keys: list[str]) -> dict:
+def assign_styles(keys: list[str], upcoming: set[str] | None = None) -> dict:
     """Стабільно призначає вигляд кожному відео (ключ «slug#N»); нові ключі отримують наступні номери.
 
     Іконка обкладинки: спершу іконка напряму статті, якщо попередня обкладинка-іконка була іншою; інакше з ротації."""
@@ -88,9 +89,39 @@ def assign_styles(keys: list[str]) -> dict:
                     st["icon"] = cand
                     break
             data[key] = {"k": k, **st}
+            if not note:                              # з 04.11.2026 усі нові відео в стилі Ruby Glass Graph
+                data[key] = to_glass(data[key])
+    for key in upcoming or ():                          # ще не опубліковані відео теж переходять на новий стиль
+        if key in data and data[key].get("look") != "glass":
+            data[key] = to_glass(data[key])
     STYLE_FILE.parent.mkdir(parents=True, exist_ok=True)
     STYLE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
     return data
+
+
+def upcoming_keys(cfg) -> set[str]:
+    """Ключі відео, перша публікація яких ще попереду: вони отримують новий стиль «glass»."""
+    from common import load_posts, now
+    t0 = now(cfg)
+    first: dict[str, object] = {}
+    for p in load_posts(cfg):
+        if p.kind == "article":
+            key = f"{p.slug}#{p.n}"
+            if key not in first or p.publish_at < first[key]:
+                first[key] = p.publish_at
+    return {k for k, v in first.items() if v > t0}
+
+
+GLASS_MUSIC = ("cinematic", "ambient", "analytic")   # гіпнотична бізнес-естетика: лише спокійні стилі
+
+
+def to_glass(st: dict) -> dict:
+    st = dict(st)
+    st["look"] = "glass"
+    st["cover"] = "icon"                               # на обкладинці замість картинки самоорганізується мережа
+    if st.get("music") not in GLASS_MUSIC:
+        st["music"] = GLASS_MUSIC[st.get("k", 0) % len(GLASS_MUSIC)]
+    return st
 
 
 def video_order(cfg) -> list[str]:
@@ -150,6 +181,13 @@ class Scene:
         style = style or {}
         self.look = style.get("look", "grid")
         self.beat = beat
+        self.seed = seed
+        self.graph = None
+        if self.look == "glass":           # Ruby Glass Graph: матовий графіт, мережа скляних куль (glass.py)
+            self.base = glass.matte(W, H, seed % 1000)
+            self.base.alpha_composite(Image.new("RGBA", (W, 10), (*brand.RUBY, 255)), (0, 0))
+            self.photo = self.cover_wave = None
+            return
         glow_at = {"grid": (0.8, 0.12), "wave": (0.15, 0.85), "globe": (0.2, 0.1), "beam": (0.5, 0.45)}.get(self.look, (0.8, 0.12))
         self.base = make_cards.background(W, H, glow=glow_at, strength=22, grid=False).convert("RGBA")
         self.photo = None          # фон із дизайн-системи, вписаний цілком по ширині (без обрізання)
@@ -200,9 +238,30 @@ class Scene:
             bd.line([0, i, W, i], fill=(*brand.RUBY, a))
         self.band = band
 
+    def setup(self, slides, durs) -> None:
+        """Для «glass»: граф із фізикою на весь ролик. На обкладинці мережа стає головним візуалом (замість
+        картинки), на інших слайдах живе у вільній смузі під текстом і просвічує крізь матове скло."""
+        if self.look != "glass":
+            return
+        cuts = [sum(durs[:i]) for i in range(1, len(durs))]
+        anchors = []
+        for i, sl in enumerate(slides):
+            vis = [e for e in sl.elements if e.name in ("visual", "glyph")] if sl.kind == "cover" else []
+            if vis:
+                sl.elements = [e for e in sl.elements if e not in vis]
+                y0 = min(e.xy[1] for e in vis); y1 = max(e.xy[1] + e.image.height for e in vis)
+                anchors.append((0.52, (y0 + y1) / 2 / H, 1.0, 0.62))
+            else:
+                anchors.append((0.5 + (0.06 if i % 2 else -0.06), 0.9, 1.0, 0.38))
+        self.panels = [content_box(s) for s in slides]
+        self.graph = glass.Graph(self.seed, W, H, sum(durs) + 1, cuts, FPS, hubs=5, leaves=(3, 6), scale=1.2, anchors=anchors)
+
     def frame(self, T: float, cover_k: float = 0.0) -> Image.Image:
         f = self.base.copy()
         beat = np.exp(-((T % self.beat) / 0.22))
+        if self.graph is not None:
+            self.graph.draw(f, T, beat * 0.6)
+            return f
         if self.look in ("grid", "beam"):
             ox, oy = int(T * 14) % 54, int(T * 9) % 54
             f.alpha_composite(with_alpha(self.grid.crop((ox, oy, ox + W, oy + H)), 1.0 if self.look == "grid" else 0.5))
@@ -252,6 +311,22 @@ class Scene:
             d.ellipse([x - r, y - r, x + r, y + r], fill=col)
         f.alpha_composite(ov)
         return f
+
+
+def content_box(slide, pad: int = 40):
+    """Межі змісту слайда (без шапки й підвалу, за реальними пікселями) під панель матового скла."""
+    boxes = []
+    for e in slide.elements:
+        if e.name in CHROME:
+            continue
+        bb = e.image.getbbox() if e.image.mode == "RGBA" else None
+        bb = bb or (0, 0, e.image.width, e.image.height)
+        boxes.append((e.xy[0] + bb[0], e.xy[1] + bb[1], e.xy[0] + bb[2], e.xy[1] + bb[3]))
+    if not boxes:
+        return (0, 0, 0, 0)
+    x0 = min(b[0] for b in boxes); y0 = min(b[1] for b in boxes)
+    x1 = max(b[2] for b in boxes); y1 = max(b[3] for b in boxes)
+    return (max(36, x0 - pad), max(TOP + 100, y0 - pad), min(W - 36, x1 + pad), min(H - BOTTOM - 70, y1 + pad))
 
 
 def _count_img(meta: dict, k: float) -> Image.Image:
@@ -381,6 +456,12 @@ def render_frame(scene: Scene, slides, durs, idx: int, t: float, T: float) -> Im
     trans = idx + 1 < len(slides) and t > dur - TRANS
     k = ease((t - (dur - TRANS)) / TRANS) if trans else 0.0
     frame = scene.frame(T, cover_k=(ease(t / 0.8) * (1 - k)) if idx == 0 else 0.0)
+    if scene.graph is not None:          # матове скло під текстом: з'являється з першими рядками, тане на переході
+        u0 = t + (TRANS if idx > 0 else 0.0)
+        pk = 1.0 if idx == 0 else ease(u0 / 0.5)
+        glass.frosted(frame, scene.panels[idx], k=pk * (1 - k))
+        if trans and k > 0:
+            glass.frosted(frame, scene.panels[idx + 1], k=k)
     drift = int(np.sin(T * 0.6) * 6)
     # Локальний час слайда: наступний слайд починає анімацію ще під час переходу
     # і продовжує її без стрибка, тому до слайдів після першого додається TRANS.
@@ -411,7 +492,7 @@ def fingerprint(cfg, article, specs) -> str:
     h.update(json.dumps(specs, ensure_ascii=False, sort_keys=True).encode())
     for p in [brand.LOGO_MASTER, *sorted(brand.FONTS.glob("*.*"))]:
         h.update(p.name.encode()); h.update(str(p.stat().st_size).encode())
-    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__), Path(brand.__file__)):
+    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__), Path(brand.__file__), Path(glass.__file__)):
         h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 
@@ -461,13 +542,15 @@ def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: 
     specs = make_cards.slide_specs(cfg, article)
     style = article.style or {}
     fp = fingerprint(cfg, article, specs + [{"seed": seed, "short": short, "style": {k: v for k, v in style.items() if k != "k"}}])
-    if not force and mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp:
+    legacy = style.get("look") != "glass" and mp4.exists() and meta.exists()   # опубліковані відео старого стилю не перебудовуються
+    if not force and (legacy or (mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp)):
         if not (out / "cover.jpg").exists():
             make_cards.reel_cover(cfg, article, specs[0], out / "cover.jpg")
         return mp4
     scene = Scene(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), style, music.beat_of(style.get("music")))
     slides = [make_cards.layout(cfg, article, s, i, len(specs), W, H, TOP, BOTTOM) for i, s in enumerate(specs, 1)]
     durs = [(DUR_SHORT if short else DUR).get(s.kind, 4.4) for s in slides]
+    scene.setup(slides, durs)
     tmp = out / "motion.tmp.mp4"
     total_s = sum(durs)
     cuts = [sum(durs[:i]) for i in range(1, len(durs))]
@@ -514,7 +597,7 @@ def main() -> int:
         return 1
     cfg = load_config()
     only = sys.argv[1] if len(sys.argv) > 1 else None
-    styles = assign_styles(video_order(cfg))
+    styles = assign_styles(video_order(cfg), upcoming_keys(cfg))
     for a in load_articles(cfg, include_drafts=True):
         if (only and a.slug != only) or not a.carousel:
             continue
