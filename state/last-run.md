@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-11-04 18:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 1. Час: 2026-11-04 18:16
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-🔑 Threads: ключ доступу недійсний, публікації в цю мережу стоять. Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.
-Threads (публікація): HTTP 400 {"error":{"message":"The requested resource does not exist","type":"OAuthException","code":24,"error_subcode":4279009,"is_transient":false,"error_user_title":"Media Not Found","error_user_msg":"The media with id 17912611734486999 cannot be found.","fbtrace_id":"ATRl0EE
+✅ Опубліковано в Threads: completeness-is-not-quality
+https://www.threads.com/@belyakovconsult/post/DfU3WG9oVJf
 ```
