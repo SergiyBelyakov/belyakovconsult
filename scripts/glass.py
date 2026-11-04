@@ -9,8 +9,9 @@
     знаходить рівновагу; мережа повільно обертається в 3D, тож кулі пливуть із паралаксом;
   • світло й глибина: дзеркальні відблиски і френелівський обідок на склі, м'яке рубінове світіння під
     хабами, розмиття далеких куль (глибина різкості), матове скло (frosted glass blur) під текстом;
-  • стриманість: жодних спалахів, тремтіння, частинок і неонових кольорів; імпульси даних ледь помітно
-    пробігають ребрами.
+  • стриманість: жодних спалахів, тремтіння і неонових кольорів; імпульси даних ледь помітно пробігають ребрами;
+  • драматургія за референсом 04.11.2026 (див. Graph): підвіска на нитках, світлові сліди-дуги, що
+    прокреслюють зв'язки, розжарений шлях аналізу графа з ореолом, повільний наїзд камери, пил у розфокусі.
 Лише Pillow і numpy, без нових залежностей для CI.
 """
 from __future__ import annotations
@@ -59,6 +60,12 @@ def sphere(r: int, kind: str = "ruby", blur: int = 0) -> Image.Image:
         col = base + np.array(PINK) * (0.55 * caus)[..., None] + np.array([255, 150, 160]) * (0.5 * fres)[..., None]
         col += 255 * (0.55 * env)[..., None]
         alpha = 0.9 + 0.1 * fres
+    elif kind == "hot":                                 # активований вузол: розжарене рубінове скло, світло зсередини
+        core = np.exp(-((nx + 0.05) ** 2 + (ny + 0.05) ** 2) / 0.35)
+        col = np.array(brand.RUBY) * (0.55 + 0.45 * diff)[..., None] + np.array([255, 170, 180]) * (0.9 * core)[..., None]
+        col += np.array([255, 235, 238]) * (0.55 * core ** 3)[..., None] + np.array([255, 150, 160]) * (0.6 * fres)[..., None]
+        col += 255 * (0.4 * env)[..., None]
+        alpha = 0.95 + 0.05 * fres
     else:
         tint = np.array([196, 204, 216])
         col = tint * (0.10 + 0.25 * diff)[..., None] + np.array(brand.RUBY) * (0.85 * caus)[..., None]
@@ -99,87 +106,170 @@ def matte(w: int, h: int, seed: int = 7) -> Image.Image:
     return Image.fromarray(base.clip(0, 255).astype(np.uint8), "RGB").convert("RGBA")
 
 
+@lru_cache(maxsize=None)
+def dust(r: int, a: int) -> Image.Image:
+    """Пилинка в розфокусі (боке): м'яке світле коло."""
+    n = r * 4 + 4
+    yy, xx = (np.mgrid[0:n, 0:n] - n / 2) / (r * 1.6)
+    m = np.clip(1 - (xx ** 2 + yy ** 2), 0, 1) ** 1.4 * a
+    img = Image.new("RGBA", (n, n), (235, 238, 244, 0))
+    img.putalpha(Image.fromarray(m.astype(np.uint8), "L"))
+    return img
+
+
+def _bezier(p0, p1, bend, steps=14):
+    """Точки дуги від p0 до p1 з вигином bend (частка довжини), для світлових слідів."""
+    (x0, y0), (x1, y1) = p0, p1
+    mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+    dx, dy = x1 - x0, y1 - y0
+    cx, cy = mx - dy * bend, my + dx * bend
+    u = np.linspace(0, 1, steps)
+    bx = (1 - u) ** 2 * x0 + 2 * (1 - u) * u * cx + u ** 2 * x1
+    by = (1 - u) ** 2 * y0 + 2 * (1 - u) * u * cy + u ** 2 * y1
+    return list(zip(bx, by))
+
+
 class Graph:
-    """Граф із force-directed фізикою. Положення всіх кадрів рахуються наперед (детерміновано від seed)."""
+    """Граф із force-directed фізикою. Положення всіх кадрів рахуються наперед (детерміновано від seed).
+
+    Драматургія (за референсом 04.11.2026): кулі спершу висять на тонких нитках і легко гойдаються; нитки
+    зникають, і світлові сліди дугами прокреслюють зв'язки; пружина вмикається лише тоді, коли слід дійшов,
+    тож кулі стягуються саме тим зв'язком, який щойно засвітився. На кожному слайді аналіз графа:
+    шлях між двома вузлами по черзі розжарюється (вузли світяться зсередини, ребра з ореолом). Камера
+    повільно наїжджає протягом слайда; у глибині пливе ледь помітний пил у розфокусі.
+    """
+
+    REVEAL = 0.75          # тривалість світлового сліду, с
 
     def __init__(self, seed: int, w: int, h: int, total: float, cuts: list[float], fps: int = 30,
                  hubs: int = 4, leaves: tuple[int, int] = (4, 7), scale: float = 1.0,
-                 anchors: list[tuple[float, float]] | None = None):
+                 anchors: list[tuple[float, float]] | None = None, intro: str = "hang", paths: bool = True):
         self.w, self.h, self.fps, self.scale = w, h, fps, scale
         rng = np.random.default_rng(seed)
         self.rng = rng
-        kind, edges, parent = [], [], []
+        self.intro = intro
+        kind, parent = [], []
+        edges = []                                         # [a, b, t_on, t_off]
+        t0 = 0.55 if intro == "hang" else 0.0
         for hh in range(hubs):
             kind.append("hub"); parent.append(-1)
+        for hh in range(hubs - 1):                         # хребет між хабами + одна поперечна зв'язка
+            edges.append([hh, hh + 1, t0 + 0.12 * hh, 1e9])
+        if hubs > 2:
+            edges.append([0, hubs - 1, t0 + 0.5, 1e9])
         for hh in range(hubs):
             for _ in range(int(rng.integers(leaves[0], leaves[1] + 1))):
                 kind.append("leaf"); parent.append(hh)
-                edges.append((hh, len(kind) - 1))
-        for hh in range(hubs - 1):                         # хребет між хабами + одна поперечна зв'язка
-            edges.append((hh, hh + 1))
-        if hubs > 2:
-            edges.append((0, hubs - 1))
+                edges.append([hh, len(kind) - 1, t0 + 0.35 + rng.uniform(0, 1.3), 1e9])
         leaves_idx = [i for i, k in enumerate(kind) if k == "leaf"]
         for _ in range(max(2, len(leaves_idx) // 7)):      # кілька зв'язків між листками різних хабів
             a, b = rng.choice(leaves_idx, 2, replace=False)
             if parent[a] != parent[b]:
-                edges.append((int(a), int(b)))
+                edges.append([int(a), int(b), t0 + 1.6 + rng.uniform(0, 0.6), 1e9])
+        if intro != "hang":
+            for e in edges:
+                e[2] = -10.0
         self.kind = kind
         self.n = n = len(kind)
         self.radius = np.array([rng.uniform(30, 40) if k == "hub" else rng.uniform(12, 21) for k in kind]) * scale
-        self.edges0 = edges
-        # перепідключення на кожній зміні слайда: листок переходить до іншого хаба
-        self.rewires = []
-        for t in cuts:
+        # перепідключення на кожній зміні слайда: листок переходить до іншого хаба новим світловим слідом
+        for tc in cuts:
             leaf = int(rng.choice(leaves_idx))
             new = int(rng.choice([x for x in range(hubs) if x != parent[leaf]]))
-            self.rewires.append((t, leaf, new))
+            for e in edges:
+                if e[3] > 1e8 and {e[0], e[1]} == {parent[leaf], leaf}:
+                    e[3] = tc + 0.3
+            edges.append([new, leaf, tc + 0.15, 1e9])
             parent[leaf] = new
+        self.edges = edges
         self.anchors = anchors or [(0.5, 0.5)]
         self.cuts = cuts
+        self.total = total
+        # шляхи аналізу: на кожному слайді свій, від листка до листка через хаби
+        self.paths = []
+        if paths:
+            bounds = [0.0] + list(cuts) + [total]
+            for i in range(len(bounds) - 1):
+                a0, a1 = bounds[i], bounds[i + 1]
+                st = a0 + (2.6 if (i == 0 and intro == "hang") else 0.7)
+                if a1 - st < 1.4:
+                    continue
+                path = self._path(st, rng)
+                if path:
+                    self.paths.append((st, a1 - 0.35, path))
+        # пил у розфокусі: екранні координати, повільний дрейф
+        m = 18
+        self.dust = [(rng.uniform(0, w), rng.uniform(0, h), rng.uniform(-6, 6), rng.uniform(-14, -3),
+                      int(rng.integers(2, 9)), int(rng.integers(18, 60))) for _ in range(m)]
         self._simulate(total)
 
-    def _edges_at(self, t: float):
-        parent = {}
-        out = []
-        for a, b in self.edges0:
-            if self.kind[a] == "hub" and self.kind[b] == "leaf":
-                parent[b] = a
-            else:
-                out.append((a, b))
-        for (tc, leaf, new) in self.rewires:
-            if t >= tc:
-                parent[leaf] = new
-        out += [(p, l) for l, p in parent.items()]
-        return out
+    def active(self, t: float):
+        return [(a, b) for a, b, on, off in self.edges if on <= t < off]
+
+    def _path(self, t: float, rng):
+        adj = {}
+        for a, b in self.active(t + 0.5):
+            adj.setdefault(a, []).append(b); adj.setdefault(b, []).append(a)
+        leaves = [i for i, k in enumerate(self.kind) if k == "leaf" and i in adj]
+        if len(leaves) < 2:
+            return None
+        best = None
+        for _ in range(6):                                  # найдовший із кількох випадкових шляхів
+            s0, s1 = rng.choice(leaves, 2, replace=False)
+            prev, q = {int(s0): None}, [int(s0)]
+            while q:
+                x = q.pop(0)
+                for y in adj.get(x, []):
+                    if y not in prev:
+                        prev[y] = x; q.append(y)
+            if int(s1) in prev:
+                p, x = [], int(s1)
+                while x is not None:
+                    p.append(x); x = prev[x]
+                if best is None or len(p) > len(best):
+                    best = p[::-1]
+        return best
 
     def _simulate(self, total: float):
         n, s = self.n, self.scale
         rng = self.rng
         frames = int(total * self.fps) + 2
-        pos = rng.normal(0, 18 * s, (n, 3))                # стартують стиснутими в центрі
+        if self.intro == "hang":                            # кулі висять рядами, як підвіска
+            pos = np.stack([rng.uniform(-430, 430, n), rng.uniform(-170, 130, n), rng.uniform(-260, 260, n)], 1) * s
+        else:
+            pos = rng.normal(0, 18 * s, (n, 3))            # стартують стиснутими в центрі
+        self.hang0 = pos.copy()
         vel = np.zeros((n, 3))
         dt, sub = 1 / self.fps, 3
         hub = np.array([k == "hub" for k in self.kind])
         mass = np.where(hub, 2.6, 1.0)[:, None]
+        phase = rng.uniform(0, 2 * np.pi, n)
         out = np.zeros((frames, n, 3))
         for f in range(frames):
             t = f / self.fps
-            E = self._edges_at(t)
-            ea = np.array([a for a, _ in E]); eb = np.array([b for _, b in E])
+            E = []
+            for a, b, on, off in self.edges:                # пружина діє, коли світловий слід дійшов до кінця
+                if on + self.REVEAL * 0.6 <= t < off:
+                    E.append((a, b))
+            if self.intro == "hang" and t < 0.55:
+                pos = self.hang0 + np.stack([np.sin(t * 2.6 + phase) * 9 * s, np.zeros(n), np.zeros(n)], 1)
+                out[f] = pos
+                continue
+            ea = np.array([a for a, _ in E], dtype=int); eb = np.array([b for _, b in E], dtype=int)
             rest = np.array([(250 if hub[a] and hub[b] else 170 if hub[a] or hub[b] else 210) * s for a, b in E])
             for _ in range(sub):
                 h = dt / sub
                 d = pos[:, None, :] - pos[None, :, :]
                 dist2 = (d ** 2).sum(-1) + (30 * s) ** 2
                 rep = (d / dist2[..., None] ** 1.5 * (2.4e6 * s ** 3)).sum(1)
-                ev = pos[eb] - pos[ea]
-                el = np.linalg.norm(ev, axis=1) + 1e-6
-                fs = ((el - rest) * 2.2 / el)[:, None] * ev
                 spring = np.zeros_like(pos)
-                np.add.at(spring, ea, fs)
-                np.add.at(spring, eb, -fs)
-                grav = -pos * np.array([0.55, 0.42, 0.9])
+                if len(E):
+                    ev = pos[eb] - pos[ea]
+                    el = np.linalg.norm(ev, axis=1) + 1e-6
+                    fs = ((el - rest) * 2.2 / el)[:, None] * ev
+                    np.add.at(spring, ea, fs)
+                    np.add.at(spring, eb, -fs)
+                grav = -pos * np.array([0.55, 0.42, 0.9]) * (0.35 if t < 1.6 and self.intro == "hang" else 1.0)
                 # ледь відчутне «дихання» системи, щоб вона ніколи не завмирала повністю
                 breath = np.stack([np.sin(t * 0.7 + np.arange(n)), np.cos(t * 0.55 + 2 * np.arange(n)),
                                    np.sin(t * 0.4 + 3 * np.arange(n))], 1) * 14 * s
@@ -192,16 +282,21 @@ class Graph:
         self.pos = out
 
     def anchor(self, t: float) -> tuple[float, float, float, float]:
-        """Центр мережі в кадрі й масштаб (x, y, sx, sy): плавно переходить між слайдами, щоб не стояти під текстом."""
+        """Центр мережі в кадрі й масштаб (x, y, sx, sy): плавно переходить між слайдами, щоб не стояти під текстом.
+        Протягом слайда камера повільно наїжджає (до +6 %)."""
         def full(a):
             return tuple(a) + (1.0, 1.0)[len(a) - 2:] if len(a) < 4 else tuple(a)
+        bounds = [0.0] + list(self.cuts) + [self.total]
         idx = sum(1 for c in self.cuts if t >= c)
+        u = (t - bounds[idx]) / max(0.1, bounds[idx + 1] - bounds[idx])
+        dolly = 1 + 0.06 * _smooth(u)
         a = full(self.anchors[min(idx, len(self.anchors) - 1)])
-        if idx == 0:
-            return a
-        prev = full(self.anchors[min(idx - 1, len(self.anchors) - 1)])
-        k = _smooth((t - self.cuts[idx - 1] + 0.5) / 1.8)   # рух починається разом із переходом слайда
-        return tuple(p + (q - p) * k for p, q in zip(prev, a))
+        if idx > 0:
+            prev = full(self.anchors[min(idx - 1, len(self.anchors) - 1)])
+            k = _smooth((t - self.cuts[idx - 1] + 0.5) / 1.8)   # рух починається разом із переходом слайда
+            a = tuple(p + (q - p) * k for p, q in zip(prev, a))
+            dolly = 1 + 0.06 * (1 - k) + (0.06 * _smooth(u)) * k
+        return (a[0], a[1], a[2] * dolly, a[3] * dolly)
 
     def project(self, t: float):
         f = min(len(self.pos) - 1, int(t * self.fps))
@@ -218,29 +313,95 @@ class Graph:
         sy = self.h * ay + y * k * fy
         return sx, sy, k, z
 
+    def heat(self, t: float):
+        """Розжарення вузлів і ребер шляху аналізу в момент t: ({вузол: 0..1}, [(a, b, від, до, сила)])."""
+        nodes, edges = {}, []
+        for st, en, path in self.paths:
+            if not (st - 0.1 <= t <= en + 0.6):
+                continue
+            out = 1 - _smooth((t - en) / 0.6)
+            step = min(0.26, (en - st - 0.6) / max(1, len(path)))
+            for i, v in enumerate(path):
+                ta = st + i * step
+                h = _smooth((t - ta) / 0.25) * out
+                if h > 0:
+                    nodes[v] = max(nodes.get(v, 0), h)
+                if i + 1 < len(path):
+                    u = (t - ta) / step                    # імпульс біжить ребром до наступного вузла
+                    if u > 0:
+                        edges.append((v, path[i + 1], 0.0, min(1.0, u), out))
+        return nodes, edges
+
     def draw(self, frame: Image.Image, t: float, beat: float = 0.0, opacity: float = 1.0) -> None:
         sx, sy, k, z = self.project(t)
         W, H = frame.size
         ss = 2
-        # ребра: згладжені лінії (малюємо вдвічі більшими й зменшуємо)
-        m = Image.new("L", (W * ss, H * ss), 0)
+        # пил у розфокусі, позаду мережі
+        for (x0, y0, vx, vy, r, a) in self.dust:
+            x = (x0 + vx * t) % W; y = (y0 + vy * t) % H
+            g = dust(r, int(a * opacity))
+            frame.alpha_composite(g, (int(x - g.width / 2), int(y - g.height / 2)))
+        m = Image.new("L", (W * ss, H * ss), 0)           # спокійні ребра (срібло)
         dm = ImageDraw.Draw(m)
-        E = self._edges_at(t)
-        for a, b in E:
+        hm = Image.new("L", (W * ss, H * ss), 0)          # яскраві світлові сліди й розжарені ребра
+        dh = ImageDraw.Draw(hm)
+        # нитки підвіски на початку
+        if self.intro == "hang" and t < 1.5:
+            ta = int(90 * (1 - _smooth((t - 0.45) / 0.9)) * opacity)
+            if ta > 0:
+                for i in range(self.n):
+                    dm.line([sx[i] * ss, 0, sx[i] * ss, (sy[i] - self.radius[i] * k[i]) * ss], fill=ta, width=2)
+        for a, b, on, off in self.edges:
+            if t < on or t >= off + 0.5:
+                continue
             depth = float(np.clip(1.15 - (z[a] + z[b]) / 2 / (520 * self.scale), 0.35, 1.0))
-            dm.line([sx[a] * ss, sy[a] * ss, sx[b] * ss, sy[b] * ss], fill=int(120 * depth * opacity), width=3)
+            fade = 1 - _smooth((t - off) / 0.5) if t >= off else 1.0
+            p = _smooth((t - on) / self.REVEAL)
+            p0, p1 = (sx[a], sy[a]), (sx[b], sy[b])
+            if p >= 1:
+                dm.line([p0[0] * ss, p0[1] * ss, p1[0] * ss, p1[1] * ss], fill=int(120 * depth * fade * opacity), width=3)
+                continue
+            # світловий слід: дуга, що випрямляється в ребро; яскрава голова й хвіст, що згасає
+            pts = _bezier(p0, p1, 0.32 * (1 - p) * (1 if (a + b) % 2 else -1))
+            nseg = len(pts) - 1
+            head = p * nseg
+            for j in range(int(head)):
+                tail = max(0.0, 1 - (head - j) / (nseg * 0.45))
+                q0, q1 = pts[j], pts[j + 1]
+                dm.line([q0[0] * ss, q0[1] * ss, q1[0] * ss, q1[1] * ss], fill=int(110 * depth * opacity), width=3)
+                if tail > 0:
+                    dh.line([q0[0] * ss, q0[1] * ss, q1[0] * ss, q1[1] * ss], fill=int(255 * tail * opacity), width=6)
+            hx, hy = pts[min(nseg, int(head))]
+            dh.ellipse([(hx - 6) * ss, (hy - 6) * ss, (hx + 6) * ss, (hy + 6) * ss], fill=int(255 * opacity))
+        hot, hedges = self.heat(t)
+        for a, b, u0, u1, strength in hedges:
+            x0, y0 = sx[a], sy[a]
+            x1, y1 = x0 + (sx[b] - x0) * u1, y0 + (sy[b] - y0) * u1
+            dh.line([x0 * ss, y0 * ss, x1 * ss, y1 * ss], fill=int(235 * strength * opacity), width=5)
         m = m.resize((W, H), Image.BOX)
+        hm = hm.resize((W, H), Image.BOX)
         lines = Image.new("RGBA", (W, H), (*brand.SILVER, 0))
         lines.putalpha(m)
-        # рубінове підсвічування під хабами (під ребрами й кулями)
+        # рубінове підсвічування під хабами й розжареними вузлами (під ребрами й кулями)
         for i in range(self.n):
-            if self.kind[i] == "hub":
-                g = halo(int(self.radius[i] * k[i] * 1.6), int(46 + 26 * beat))
+            hh = hot.get(i, 0.0)
+            if self.kind[i] == "hub" or hh > 0:
+                g = halo(int(self.radius[i] * k[i] * (1.6 + 0.6 * hh)), int((46 + 26 * beat) * (1 if self.kind[i] == "hub" else 0) + 70 * hh))
                 frame.alpha_composite(_fade(g, opacity), (int(sx[i] - g.width / 2), int(sy[i] - g.height / 2)))
         frame.alpha_composite(lines)
+        if hm.getbbox():
+            # ореол (bloom): розмитий рубіново-рожевий шар і біле ядро сліду
+            q = 4
+            bl = hm.resize((W // q, H // q), Image.BILINEAR).filter(ImageFilter.GaussianBlur(6)).resize((W, H), Image.BILINEAR)
+            glow = Image.new("RGBA", (W, H), (*PINK, 0))
+            glow.putalpha(bl.point(lambda v: min(255, int(v * 2.3))))
+            frame.alpha_composite(glow)
+            core = Image.new("RGBA", (W, H), (255, 238, 242, 0))
+            core.putalpha(hm)
+            frame.alpha_composite(core)
         # імпульси даних: ледь помітна рубінова іскра пробігає кількома ребрами
         d = ImageDraw.Draw(frame)
-        for j, (a, b) in enumerate(E):
+        for j, (a, b) in enumerate(self.active(t - self.REVEAL)):
             if j % 3:
                 continue
             u = (t * 0.45 + j * 0.37) % 1.0
@@ -256,7 +417,12 @@ class Graph:
             spr = sphere(r, "ruby" if self.kind[i] == "hub" else "clear", blur)
             if opacity < 1 or z[i] > 300 * self.scale:
                 spr = _fade(spr, opacity * float(np.clip(1.25 - z[i] / (900 * self.scale), 0.45, 1.0)))
-            frame.alpha_composite(spr, (int(sx[i] - spr.width / 2), int(sy[i] - spr.height / 2)))
+            pos = (int(sx[i] - spr.width / 2), int(sy[i] - spr.height / 2))
+            frame.alpha_composite(spr, pos)
+            hh = hot.get(i, 0.0)
+            if hh > 0.02:
+                hs = _fade(sphere(r, "hot", blur), hh * opacity)
+                frame.alpha_composite(hs, pos)
 
 
 def _fade(img: Image.Image, a: float) -> Image.Image:
