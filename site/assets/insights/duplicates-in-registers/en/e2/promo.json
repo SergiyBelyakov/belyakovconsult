@@ -1,0 +1,20 @@
+{
+  "fingerprint": "eb0def6f30d57ffc",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "FINDING",
+      "DUPLICATES"
+    ],
+    "points": [
+      "One field misleads",
+      "A key from several fields",
+      "A person decides"
+    ],
+    "object": "service-governance.webp",
+    "wave": "wave-7.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

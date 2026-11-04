@@ -1,0 +1,22 @@
+{
+  "fingerprint": "93e980ceb62f492d",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "WHERE",
+      "FALSE",
+      "MATCHES",
+      "COME"
+    ],
+    "points": [
+      "Four reasons",
+      "Excel ate the zero",
+      "Letters that only look alike"
+    ],
+    "object": "service-quality.webp",
+    "wave": "wave-2.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

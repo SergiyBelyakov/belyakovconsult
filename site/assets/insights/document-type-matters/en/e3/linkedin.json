@@ -1,0 +1,21 @@
+{
+  "fingerprint": "0a1ebcf5fc32c2f5",
+  "format": "linkedin",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "FORMAT",
+      "DEPENDS",
+      "TYPE"
+    ],
+    "points": [
+      "A rule for each type",
+      "Where to check",
+      "One rule does not work"
+    ],
+    "object": "service-geospatial.webp",
+    "wave": "wave-5.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

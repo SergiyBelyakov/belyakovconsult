@@ -1,0 +1,21 @@
+{
+  "fingerprint": "e7fe6159b1013148",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "WHICH",
+      "RECORD",
+      "MASTER?"
+    ],
+    "points": [
+      "A decision, not a button",
+      "A check at data entry",
+      "A question for you"
+    ],
+    "object": "service-consulting.webp",
+    "wave": "wave-3.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}
