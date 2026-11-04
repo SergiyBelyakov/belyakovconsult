@@ -1,11 +1,10 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 1. Час: 2026-11-04 18:32
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-11-04 19:03
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в Instagram: completeness-is-not-quality
-https://www.instagram.com/reel/DfU5PatDrOB/
+⏭ Пропущено прострочений допис (48 год): LinkedIn (сторінка Belyakov Consult), meta-duplicate. Змініть publish_at у linkedinpage-en.md, якщо його треба опублікувати.
 ```
