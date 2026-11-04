@@ -2,7 +2,7 @@
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
     "linkedinpage": "2026-11-04 17:17",
-    "threads": "2026-11-02 18:02"
+    "threads": "2026-11-04 18:02"
   },
   "channel-intro/telegram-uk": {
     "at": "2026-10-25 22:57",
@@ -94,6 +94,13 @@
     "id": "18099997901541403",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfSRBbghFWC"
+  },
+  "completeness-is-not-quality/threads-en-3": {
+    "at": "2026-11-04 18:02",
+    "auth_error": true,
+    "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"The requested resource does not exist\",\"type\":\"OAuthException\",\"code\":24,\"error_subcode\":4279009,\"is_transient\":false,\"error_user_title\":\"Media Not Found\",\"error_user_msg\":\"The media with id 17912611734486999 cannot be found.\",\"fbtrace_id\":\"ATRl0EE",
+    "publish_at": "2026-11-04 18:00",
+    "status": "retry"
   },
   "completeness-is-not-quality/threads-uk": {
     "at": "2026-11-02 12:02",
@@ -619,7 +626,7 @@
     "url": "https://www.instagram.com/reel/DfPyAPiFMhU/"
   },
   "meta-duplicate/linkedinpage-en": {
-    "at": "2026-11-04 17:47",
+    "at": "2026-11-04 18:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-02 18:50",
