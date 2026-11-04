@@ -4,34 +4,34 @@
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 11,
-    "look": "beam",
-    "music": "bright",
+    "look": "glass",
+    "music": "analytic",
     "wave": "wave-6.jpg"
   },
   "bi-is-not-for-fixing-sources#2": {
-    "cover": "wave",
+    "cover": "icon",
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 12,
-    "look": "grid",
+    "look": "glass",
     "music": "analytic",
     "wave": "wave-2.jpg"
   },
   "bi-is-not-for-fixing-sources#3": {
-    "cover": "quote",
+    "cover": "icon",
     "globe": "globe-2.jpg",
     "icon": "service-management-analytics.webp",
     "k": 13,
-    "look": "wave",
-    "music": "pulse",
+    "look": "glass",
+    "music": "ambient",
     "wave": "wave-5.jpg"
   },
   "bi-is-not-for-fixing-sources#4": {
-    "cover": "frame",
+    "cover": "icon",
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 14,
-    "look": "globe",
+    "look": "glass",
     "music": "ambient",
     "wave": "wave-1.jpg"
   },
@@ -117,29 +117,29 @@
     "wave": "wave-1.jpg"
   },
   "document-type-matters#1": {
-    "cover": "quote",
+    "cover": "icon",
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 18,
-    "look": "globe",
+    "look": "glass",
     "music": "analytic",
     "wave": "wave-6.jpg"
   },
   "document-type-matters#2": {
-    "cover": "frame",
+    "cover": "icon",
     "globe": "globe-2.jpg",
     "icon": "service-quality.webp",
     "k": 19,
-    "look": "beam",
-    "music": "pulse",
+    "look": "glass",
+    "music": "ambient",
     "wave": "wave-2.jpg"
   },
   "document-type-matters#3": {
-    "cover": "typewriter",
+    "cover": "icon",
     "globe": "globe-3.jpg",
     "icon": "service-geospatial.webp",
     "k": 20,
-    "look": "grid",
+    "look": "glass",
     "music": "ambient",
     "wave": "wave-5.jpg"
   },
@@ -148,17 +148,17 @@
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 21,
-    "look": "wave",
-    "music": "lofi",
+    "look": "glass",
+    "music": "cinematic",
     "wave": "wave-1.jpg"
   },
   "duplicates-in-registers#1": {
-    "cover": "typewriter",
+    "cover": "icon",
     "globe": "globe-1.jpg",
     "icon": "service-quality.webp",
     "k": 15,
-    "look": "beam",
-    "music": "lofi",
+    "look": "glass",
+    "music": "cinematic",
     "wave": "wave-4.jpg"
   },
   "duplicates-in-registers#2": {
@@ -166,17 +166,17 @@
     "globe": "globe-2.jpg",
     "icon": "service-governance.webp",
     "k": 16,
-    "look": "grid",
+    "look": "glass",
     "music": "cinematic",
     "wave": "wave-7.jpg"
   },
   "duplicates-in-registers#3": {
-    "cover": "type",
+    "cover": "icon",
     "globe": "globe-3.jpg",
     "icon": "service-consulting.webp",
     "k": 17,
-    "look": "wave",
-    "music": "bright",
+    "look": "glass",
+    "music": "analytic",
     "wave": "wave-3.jpg"
   },
   "governance-shows-in-conflict#1": {
@@ -630,29 +630,29 @@
     "wave": "wave-7.jpg"
   },
   "report-changed-after-month-end#1": {
-    "cover": "type",
+    "cover": "icon",
     "globe": "globe-2.jpg",
     "icon": "service-bi.webp",
     "k": 22,
-    "look": "globe",
+    "look": "glass",
     "music": "cinematic",
     "wave": "wave-4.jpg"
   },
   "report-changed-after-month-end#2": {
-    "cover": "wave",
+    "cover": "icon",
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 23,
-    "look": "beam",
-    "music": "bright",
+    "look": "glass",
+    "music": "analytic",
     "wave": "wave-7.jpg"
   },
   "report-changed-after-month-end#3": {
-    "cover": "frame",
+    "cover": "icon",
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 24,
-    "look": "grid",
+    "look": "glass",
     "music": "analytic",
     "wave": "wave-3.jpg"
   }

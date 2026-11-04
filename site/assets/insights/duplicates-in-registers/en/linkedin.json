@@ -1,0 +1,22 @@
+{
+  "fingerprint": "b67211dd9f559873",
+  "format": "linkedin",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "ONE",
+      "PERSON",
+      "THREE",
+      "RECORDS"
+    ],
+    "points": [
+      "One person, three records",
+      "Where duplicates come from",
+      "What they distort"
+    ],
+    "object": "service-quality.webp",
+    "wave": "wave-4.jpg",
+    "tag": "Where register duplicates come from",
+    "cta": "How many people in your register have more than one record?"
+  }
+}

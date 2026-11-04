@@ -1,0 +1,21 @@
+{
+  "fingerprint": "2fc62ea054b0a7b0",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "AUDIT",
+      "REPORT",
+      "MINUTES"
+    ],
+    "points": [
+      "Three piles of steps",
+      "What to move first",
+      "A question for you"
+    ],
+    "object": "service-bi.webp",
+    "wave": "wave-1.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

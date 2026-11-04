@@ -40,6 +40,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
+import glass  # noqa: E402
 import make_cards  # noqa: E402
 import music  # noqa: E402
 
@@ -214,6 +215,19 @@ class Promo:
             m *= np.clip(np.minimum(tx, 1 - tx) / 0.08, 0, 1)[None, :]        # бічні краї
             im.putalpha(Image.fromarray((m * 255).astype(np.uint8), "L"))
             self.wave = im
+        # Ruby Glass Graph (з 04.11.2026): мережа скляних куль замість хвилі й 3D-об'єкта, матове скло під тезами
+        self.graph = None
+        if style.get("look") == "glass":
+            self.wave = None
+            self.bg = glass.matte(W, H, seed % 1000)
+            cuts = list(np.cumsum([d for _, d in SCENES])[:-1])
+            band = 0.84 if H > 1500 else 0.86
+            sq = 0.5 if H > 1500 else 0.4
+            hero = L["obj_cy"] / H
+            anchors = [(0.5, band, 1.0, sq), (0.5, hero, 1.15, 0.85), (0.44, band, 1.0, sq), (0.56, band, 1.0, sq),
+                       (0.46, band, 1.0, sq), (0.5, band, 1.0, sq)]
+            self.graph = glass.Graph(seed, W, H, self.total + 1, [float(c) for c in cuts], FPS, hubs=5, leaves=(3, 6),
+                                     scale=1.2 if H > 1500 else 1.0, anchors=anchors)
         # 3D-об'єкт: без темного фону, кеш розмиття для «фокусування»
         self.obj = self._object(spec["object"], L["obj_h"])
         self._blur = {}
@@ -291,13 +305,15 @@ class Promo:
             if wa > 0:
                 dx = int(18 * np.sin(t * 0.35))
                 f.alpha_composite(with_alpha(self.wave, wa), (dx, H - self.wave.height))
+        if self.graph is not None:
+            self.graph.draw(f, t, 0.0)
         # відблиск світла проходить кадром раз на ~6 с
         sx = int(((t / 6.0) % 1.0) * (W + self.sweep.width * 2)) - self.sweep.width
         f.alpha_composite(self.sweep, (sx, (H - self.sweep.height) // 2))
 
         if name in ("hook", "object"):
             self._hook(f, t, name, u)
-        if name == "object" or (name == "p1" and u < 0.6):
+        if self.graph is None and (name == "object" or (name == "p1" and u < 0.6)):
             self._object_layer(f, name, u)
         if name == "p1" and u < 0.5:                                  # заголовок плавно відходить угору й тане
             if not hasattr(self, "_head_layer"):
@@ -379,6 +395,9 @@ class Promo:
         na = expo(u / 1.2) * (1 - out)
         if na > 0:
             f.alpha_composite(with_alpha(num, na * 0.8), (W - int(num.width * 0.62), int(L["pt_cy"] - num.height * 0.35 - 30 * u)))
+        if self.graph is not None:                                    # матове скло під тезою
+            gk = expo(u / 0.6) * (1 - out)
+            glass.frosted(f, (M - 44, y0 - 44, W - M + 44, y0 + block_h + 20), k=gk)
         masked(f, with_alpha(lab, 1 - out), M, y0, expo(u / 0.8), 0.9)
         for j, im in enumerate(imgs):
             masked(f, with_alpha(im, 1 - out), M, y0 + lab.height + 34 + j * lh, expo((u - 0.12 - j * 0.1) / 0.9))
@@ -408,7 +427,7 @@ class Promo:
 def fingerprint(spec, style, fmt) -> str:
     h = hashlib.sha256(VERSION.encode())
     h.update(json.dumps([spec, fmt, {k: v for k, v in (style or {}).items() if k != "k"}], sort_keys=True, ensure_ascii=False).encode())
-    for mod in (Path(__file__), Path(music.__file__), Path(brand.__file__)):
+    for mod in (Path(__file__), Path(music.__file__), Path(brand.__file__), Path(glass.__file__)):
         h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 
@@ -424,7 +443,8 @@ def build(cfg, article, style: dict, out_dir: Path, seed: str, force: bool = Fal
     name_mp4, name_cover, name_meta = L["files"]
     mp4, meta = out_dir / name_mp4, out_dir / name_meta
     fp = fingerprint(spec, style, fmt)
-    if not force and mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp:
+    legacy = style.get("look") != "glass" and mp4.exists() and meta.exists()   # опубліковані ролики старого стилю не перебудовуються
+    if not force and (legacy or (mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp)):
         return mp4
     pr = Promo(spec, style, int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), fmt)
     total = sum(d for _, d in SCENES)
@@ -469,6 +489,9 @@ def build_for_post(cfg, post, force: bool = False) -> Path | None:
     style = {"icon": pr.get("icon") or ALL_ICONS[k % len(ALL_ICONS)],
              "wave": pr.get("wave") or (waves[k % len(waves)] if waves else None),
              "music": pr.get("music") or CALM_MUSIC[k % len(CALM_MUSIC)]}
+    from common import now
+    if pr.get("look", "glass" if post.publish_at > now(cfg) else None) == "glass":   # ще не опубліковані: новий стиль
+        style["look"] = "glass"
     art = SimpleNamespace(slug=post.slug, lang=post.lang, title=str(pr.get("hook", "")), description="",
                           carousel=[{"title": str(x.get("text", x)) if isinstance(x, dict) else str(x)} for x in pr.get("points") or []] or [{"title": "-"}],
                           promo=pr)

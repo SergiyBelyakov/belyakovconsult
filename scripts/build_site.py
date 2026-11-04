@@ -108,7 +108,7 @@ def main() -> int:
     css_dir.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ROOT / "templates" / "insights.css", css_dir / "insights.css")
 
-    styles = make_motion.assign_styles(make_motion.video_order(cfg))   # різний вигляд і музика для кожного відео
+    styles = make_motion.assign_styles(make_motion.video_order(cfg), make_motion.upcoming_keys(cfg))   # різний вигляд і музика для кожного відео
     # Окремі дописи з блоком promo: власне промо-відео (LinkedIn 4:5 / Reels 9:16)
     import make_promo
     for post in load_posts(cfg):

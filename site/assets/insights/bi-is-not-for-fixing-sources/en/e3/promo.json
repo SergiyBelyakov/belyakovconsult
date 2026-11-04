@@ -1,0 +1,21 @@
+{
+  "fingerprint": "2e5edfd2bf294bbf",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "WHAT",
+      "KEEP",
+      "POWER"
+    ],
+    "points": [
+      "Keep in BI",
+      "Move into the data model",
+      "Send back to the source"
+    ],
+    "object": "service-management-analytics.webp",
+    "wave": "wave-5.jpg",
+    "tag": "",
+    "cta": "More data notes every week"
+  }
+}

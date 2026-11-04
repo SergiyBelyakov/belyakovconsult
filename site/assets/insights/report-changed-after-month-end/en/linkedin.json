@@ -1,0 +1,21 @@
+{
+  "fingerprint": "fff6ad814845ef5d",
+  "format": "linkedin",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "LAST",
+      "MONTH",
+      "CHANGED"
+    ],
+    "points": [
+      "Same number, different day",
+      "Why the past changes",
+      "Balance or statement"
+    ],
+    "object": "service-bi.webp",
+    "wave": "wave-4.jpg",
+    "tag": "Why last month's report shows a new number",
+    "cta": "Who decides the cut-off date for your monthly report?"
+  }
+}

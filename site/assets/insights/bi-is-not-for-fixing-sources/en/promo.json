@@ -1,0 +1,22 @@
+{
+  "fingerprint": "c88c52a77ccded8a",
+  "format": "reels",
+  "seconds": 18.0,
+  "spec": {
+    "hook": [
+      "BI",
+      "WON'T",
+      "FIX",
+      "SOURCES"
+    ],
+    "points": [
+      "A report that repairs data daily",
+      "Signs that BI is treating the sources",
+      "Why this is fragile"
+    ],
+    "object": "service-bi.webp",
+    "wave": "wave-6.jpg",
+    "tag": "Why Power BI reports get fragile",
+    "cta": "How many of your Power Query steps repair the source?"
+  }
+}
