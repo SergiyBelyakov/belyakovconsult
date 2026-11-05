@@ -2,7 +2,7 @@
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
     "linkedinpage": "2026-11-05 11:33",
-    "threads": "2026-11-04 18:02"
+    "threads": "2026-11-05 12:03"
   },
   "bi-is-not-for-fixing-sources/telegram-uk": {
     "at": "2026-11-05 10:03",
@@ -12,6 +12,13 @@
     "id": 38,
     "status": "published",
     "url": "https://t.me/belyakovconsult/38"
+  },
+  "bi-is-not-for-fixing-sources/threads-uk": {
+    "at": "2026-11-05 12:03",
+    "auth_error": true,
+    "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"Fatal\",\"type\":\"OAuthException\",\"code\":-1,\"error_subcode\":4279047,\"is_transient\":false,\"error_user_title\":\"Invalid Link Attachment\",\"error_user_msg\":\"The post you're trying to publish has an invalid link attachment.\",\"fbtrace_id\":\"AygJyPaKVv02QcftUM",
+    "publish_at": "2026-11-05 12:00",
+    "status": "retry"
   },
   "channel-intro/telegram-uk": {
     "at": "2026-10-25 22:57",
@@ -196,7 +203,7 @@
     "status": "skipped-late"
   },
   "data-quality-dashboard-demo/linkedinpage-uk-4": {
-    "at": "2026-11-05 11:47",
+    "at": "2026-11-05 12:03",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-03 13:00",
