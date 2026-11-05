@@ -1,6 +1,6 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-11-04 23:18
+Режим: live лише для: instagram, linkedinpage, telegram, threads. Оброблено дописів: 0. Час: 2026-11-05 05:33
 Повідомлення в Telegram-адмінку: так
 
 ## 1
