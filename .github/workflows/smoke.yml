@@ -1,0 +1,36 @@
+# Smoke-перевірка сайту в браузері після змін сторінок або демо.
+# Конвеєр перевіряє сайт без браузера (scripts/smoke.py) перед кожною публікацією;
+# тут додатково відкриваються ключові сторінки трьома мовами й усі демо в Chromium.
+name: Smoke-перевірка сайту
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
+  pull_request:
+    paths: ["site/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Сторінки, прев'ю, hreflang і посилання
+        run: python scripts/smoke.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Playwright і Chromium
+        run: |
+          npm i --no-save --no-package-lock playwright@1.48.2
+          npx playwright install --with-deps chromium
+      - name: Сторінки й демо в браузері
+        run: node scripts/smoke_browser.mjs

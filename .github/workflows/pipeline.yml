@@ -46,6 +46,10 @@ jobs:
       - name: Зібрати сторінки блогу і картинки
         run: python scripts/build_site.py
 
+      - name: Перевірити сайт (smoke) до публікації
+        # Якщо сторінки, прев'ю чи посилання зламані, дописи не виходять і зміни не потрапляють у main
+        run: python scripts/smoke.py
+
       - name: Видалити дописи з черги на заміну
         if: github.repository == 'SergiyBelyakov/belyakovconsult'
         env:
