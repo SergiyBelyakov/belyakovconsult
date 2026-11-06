@@ -70,6 +70,34 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfZWPsghGcs"
   },
+  "bi-is-not-for-fixing-sources/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "bi-is-not-for-fixing-sources/youtube-en-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 20:30",
+    "status": "retry"
+  },
+  "bi-is-not-for-fixing-sources/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "bi-is-not-for-fixing-sources/youtube-uk-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "channel-intro/telegram-uk": {
     "at": "2026-10-25 22:57",
     "id": 5,
@@ -211,6 +239,48 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfUMUMitWWn"
   },
+  "completeness-is-not-quality/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "completeness-is-not-quality/youtube-en-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "completeness-is-not-quality/youtube-en-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "completeness-is-not-quality/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "completeness-is-not-quality/youtube-uk-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "completeness-is-not-quality/youtube-uk-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "data-quality-dashboard-demo/instagram-en": {
     "at": "2026-10-30 21:01",
     "id": "18104560034029289",
@@ -349,6 +419,48 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfSGo7VqPIi"
   },
+  "data-quality-dashboard-demo/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "data-quality-dashboard-demo/youtube-en-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "data-quality-dashboard-demo/youtube-en-4": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "data-quality-dashboard-demo/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "data-quality-dashboard-demo/youtube-uk-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "data-quality-dashboard-demo/youtube-uk-4": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "governance-shows-in-conflict/instagram-en": {
     "at": "2026-10-26 13:38",
     "id": "18115871093018350",
@@ -471,6 +583,48 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfCOVU-jquw"
   },
+  "governance-shows-in-conflict/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "governance-shows-in-conflict/youtube-en-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "governance-shows-in-conflict/youtube-en-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "governance-shows-in-conflict/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "governance-shows-in-conflict/youtube-uk-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "governance-shows-in-conflict/youtube-uk-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "grwm-month-end/instagram-en": {
     "at": "2026-11-01 15:01",
     "id": "17917799184540546",
@@ -511,6 +665,20 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfMvT8uDiHc"
   },
+  "grwm-month-end/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "grwm-month-end/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "halloween/instagram-en": {
     "at": "2026-10-31 18:16",
     "id": "18417363376084301",
@@ -533,6 +701,13 @@
     "id": "17941265145147490",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfKkZRbkqKw"
+  },
+  "halloween/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
   },
   "instagram-check/instagram-uk": {
     "at": "2026-10-25 23:54",
@@ -619,7 +794,7 @@
     "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/linkedinpage-uk-4": {
-    "at": "2026-11-06 23:16",
+    "at": "2026-11-06 23:31",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-05 11:00",
@@ -703,6 +878,62 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfMeEdyFOOV"
   },
+  "iso-8000-8-quality-in-registers/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-en-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-en-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-en-4": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-uk": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-uk-2": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-uk-3": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
+  "iso-8000-8-quality-in-registers/youtube-uk-4": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
+  },
   "laser-cats/instagram-en": {
     "at": "2026-10-31 16:25",
     "id": "18034249034885924",
@@ -725,6 +956,13 @@
     "id": "18170252023465126",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfKXkd2icBF"
+  },
+  "laser-cats/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
   },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
@@ -759,6 +997,13 @@
     "id": "17913525117554366",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfPyE52gHHL"
+  },
+  "meta-duplicate/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 23:30",
+    "status": "retry"
   },
   "note-2026-10-28/instagram-en": {
     "at": "2026-10-28 16:01",
@@ -1161,6 +1406,13 @@
     "id": "18095998952177002",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfZuMLrPYEe"
+  },
+  "pixel-audit/youtube-en": {
+    "at": "2026-11-06 23:31",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
+    "publish_at": "2026-11-06 17:00",
+    "status": "retry"
   },
   "threads-check/threads-uk": {
     "at": "2026-10-26 00:12",
