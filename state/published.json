@@ -10,6 +10,12 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfXeF0KjNnG/"
   },
+  "bi-is-not-for-fixing-sources/instagram-en-2": {
+    "at": "2026-11-06 18:31",
+    "id": "18123363347473636",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfaCvZOCvlJ/"
+  },
   "bi-is-not-for-fixing-sources/instagram-uk": {
     "at": "2026-11-05 12:33",
     "id": "18500280004104006",
@@ -613,7 +619,7 @@
     "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/linkedinpage-uk-4": {
-    "at": "2026-11-06 18:20",
+    "at": "2026-11-06 18:31",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-05 11:00",
