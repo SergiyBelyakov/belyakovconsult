@@ -165,6 +165,9 @@ def cover_url(post, cfg) -> str | None:
     return None
 
 
+_YT_PRIVATE_NOTED = False
+
+
 def send(post, parts, cfg) -> dict:
     video = video_url(post, cfg)
     if post.channel == "telegram":
@@ -197,9 +200,12 @@ def send(post, parts, cfg) -> dict:
         if not lv:
             raise channels.ChannelError("YouTube: у допису немає вертикального відео")
         res = channels.publish_youtube(parts, lv, post.lang)
-        if res.get("privacy") and res["privacy"] != "public":
+        global _YT_PRIVATE_NOTED
+        if res.get("privacy") and res["privacy"] != "public" and not _YT_PRIVATE_NOTED:
+            _YT_PRIVATE_NOTED = True                           # одне повідомлення на запуск, а не на кожне відео
             admin(f"ℹ️ YouTube прийняв Shorts як «{res['privacy']}»: проєкт Google ще не пройшов перевірку YouTube API, "
-                  f"тож відкрийте його в YouTube Studio і зробіть публічним: {res.get('url')}")
+                  f"тож відкрийте YouTube Studio → Контент і зробіть відео публічними (перше: {res.get('url')}). "
+                  f"Після схвалення заявки на перевірку API вони виходитимуть публічними одразу.")
         return res
     raise channels.ChannelError(f"Невідомий канал {post.channel}")
 

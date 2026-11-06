@@ -254,6 +254,8 @@ def youtube_posts(cfg: dict, posts: list) -> list:
     start = yc.get("start")
     start = datetime.strptime(str(start), "%Y-%m-%d %H:%M").replace(tzinfo=tz(cfg)) if start else None
     langs = set(yc.get("languages") or ["uk", "en"])
+    backfill = yc.get("backfill_at")
+    backfill = datetime.strptime(str(backfill), "%Y-%m-%d %H:%M").replace(tzinfo=tz(cfg)) if backfill else None
     own = {(p.slug, p.lang, p.n) for p in posts if p.channel == "youtube"}
     off = timedelta(minutes=int(yc.get("offset_minutes", 30)))
     out = []
@@ -268,6 +270,10 @@ def youtube_posts(cfg: dict, posts: list) -> list:
         else:
             dt = p.publish_at + off
         if start and p.publish_at < start:
+            if not (backfill and (load_state().get(p.key) or {}).get("status") == "published"):
+                continue
+            dt, late = backfill, 48.0                  # архів: ролики, що вже вийшли в Instagram, разом у вказаний час
+            out.append(replace(p, channel="youtube", publish_at=dt, auto_time=False, max_late=late))
             continue
         out.append(replace(p, channel="youtube", publish_at=dt))
     return out
