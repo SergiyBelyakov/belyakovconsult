@@ -1113,3 +1113,6 @@ a.ev-cell:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.
 .lab-card-body small{font-size:.92rem;line-height:1.55;opacity:.78;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .lab-card-body em{font-style:normal;font-weight:600;color:var(--accent);margin-top:auto}
 @media (max-width:520px){.lab-grid{grid-template-columns:1fr;gap:16px}.lab-card-body{padding:16px 18px 18px}}
+
+/* Іконки соцмереж у підвалі як у хедері */
+.social-circle svg{width:18px;height:18px;display:block}.social-circle svg:not([fill]){fill:currentColor}

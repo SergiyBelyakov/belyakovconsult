@@ -929,3 +929,5 @@
 #contact .bc-social-link[aria-label^="Instagram"] svg,#contact:is(.bc-social-link[aria-label^="Instagram"] svg){fill:none}
 #contact .bc-social-link[aria-label^="Instagram"] rect,#contact:is(.bc-social-link[aria-label^="Instagram"] rect),#contact .bc-social-link[aria-label^="Instagram"] circle:not([fill="currentColor"]),#contact:is(.bc-social-link[aria-label^="Instagram"] circle:not([fill="currentColor"])){fill:none}
 #contact{position:relative;z-index:35;display:block;width:100%;margin:0;padding:120px 0;background:#05070a;font-size:16px;text-align:left;letter-spacing:normal;overflow:visible}#contact button{font-size:inherit}#contact .btn{font-size:.8rem}.journey-endnote{position:relative;z-index:35;background:#05070a;padding:32px 5%;display:flex;flex-wrap:wrap;gap:18px;font-size:11px;color:#a8b0bc}.journey-endnote span{max-width:650px}.journey-endnote button{border:1px solid #ffffff25;padding:8px 12px}@media(max-width:768px){#contact{padding:70px 0}}
+
+#contact .social-circle svg{width:18px;height:18px;display:block}#contact .social-circle svg:not([fill]){fill:currentColor}
