@@ -1,7 +1,7 @@
 {
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
-    "linkedinpage": "2026-11-06 11:47",
+    "linkedinpage": "2026-11-06 18:16",
     "threads": "2026-11-05 12:03"
   },
   "bi-is-not-for-fixing-sources/instagram-en": {
@@ -45,6 +45,12 @@
     "id": "18239510629321211",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfXaoCXBP3L"
+  },
+  "bi-is-not-for-fixing-sources/threads-en-2": {
+    "at": "2026-11-06 18:16",
+    "id": "18070867364508657",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfaBBU1s3z7"
   },
   "bi-is-not-for-fixing-sources/threads-uk": {
     "at": "2026-11-05 12:17",
@@ -607,7 +613,7 @@
     "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/linkedinpage-uk-4": {
-    "at": "2026-11-06 17:17",
+    "at": "2026-11-06 18:16",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-05 11:00",
