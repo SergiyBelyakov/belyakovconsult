@@ -1,0 +1,46 @@
+# Разове стиснення 3D-моделей «Шляху даних»: meshopt + квантування (gltf-transform)
+# і декодер MeshoptDecoder поруч із three.js. Запуск вручну: gh workflow run compress-models.yml
+name: Стиснення 3D-моделей
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-write
+  cancel-in-progress: false
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Інструменти
+        run: npm i --no-save --no-package-lock @gltf-transform/cli@4.1.1 three@0.180.0
+      - name: Декодер meshopt для браузера
+        run: cp node_modules/three/examples/jsm/libs/meshopt_decoder.module.js site/data-journey/assets/vendor/
+      - name: Стиснути моделі
+        run: |
+          set -e
+          before=$(du -sb site/data-journey/assets/glass/models | cut -f1)
+          for f in site/data-journey/assets/glass/models/*.glb; do
+            if npx gltf-transform inspect "$f" 2>/dev/null | grep -q EXT_meshopt_compression; then echo "вже стиснено: $f"; continue; fi
+            npx gltf-transform meshopt "$f" "$f.tmp.glb" --level medium
+            mv "$f.tmp.glb" "$f"
+          done
+          after=$(du -sb site/data-journey/assets/glass/models | cut -f1)
+          echo "Було $before байт, стало $after байт"
+      - name: Зберегти
+        run: |
+          git config user.name "content-pipeline"
+          git config user.email "content-pipeline@users.noreply.github.com"
+          git add site/data-journey
+          git diff --cached --quiet && exit 0
+          git commit -m "Шлях даних: стиснені 3D-моделі (meshopt + квантування) і декодер"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done; exit 1
