@@ -188,6 +188,59 @@
           "teaser": "Isócronas até ao centro de saúde, ao hospital e ao balcão público, cobertura da população, áreas de influência e cenários da rede."
         }
       }
+    },
+    {
+      "slug": "executive-dashboard",
+      "dir": "exec-demo",
+      "attr": "data-exec-demo",
+      "anchor": "exec-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-strategy",
+        "business-intelligence",
+        "financial-analytics",
+        "management-analytics"
+      ],
+      "stages": [
+        "finance",
+        "management"
+      ],
+      "build": {
+        "entry": "exec-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо панелі керівника | Belyakov Consult",
+          "description": "Інтерактивна панель керівника на синтетичних даних: план і факт, міст EBITDA, гроші й дебіторка, плинність і понаднормові, операційні показники, сигнали та сценарії «що буде, якщо» для виробництва й мережі послуг.",
+          "name": "Демо панелі керівника",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує фінанси, людей і операції умовної компанії на одному екрані: план і факт, міст EBITDA, гроші, плинність, сигнали та сценарії на синтетичних даних.",
+          "kind": "Фінансова й управлінська аналітика",
+          "teaser": "План і факт, міст EBITDA, гроші й дебіторка, плинність і понаднормові, сигнали та сценарії для виробництва й мережі послуг."
+        },
+        "en": {
+          "title": "Executive dashboard demo | Belyakov Consult",
+          "description": "An interactive executive dashboard on synthetic data: plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, operational measures, signals and what-if scenarios for manufacturing and a service network.",
+          "name": "Executive dashboard demo",
+          "noscript": "The demo needs JavaScript. It shows finance, people and operations of a fictional company on one screen: plan vs actual, an EBITDA bridge, cash, turnover, signals and scenarios on synthetic data.",
+          "kind": "Financial and management analytics",
+          "teaser": "Plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, signals and scenarios for manufacturing and a service network."
+        }
+      }
     }
   ]
 }

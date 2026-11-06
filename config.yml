@@ -230,6 +230,7 @@ post_links:
   demo: /cases/data-quality-dashboard/
   graph: /cases/graph-analytics/
   transport: /cases/transport-accessibility/
+  executive: /cases/executive-dashboard/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

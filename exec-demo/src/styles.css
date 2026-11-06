@@ -1,0 +1,153 @@
+/* Belyakov Consult · демо панелі керівника.
+   Основа: каркас, скло, кнопки й таблиці першого демо (дизайн-система бренду).
+   Тут лише огляд місяця, міст EBITDA, зв'язок людей і результату, сигнали, сценарії і методика. */
+@import "../../dashboard/src/styles.css";
+
+/* ——— загальне ——— */
+.page > .panel, .page > .grid, .page > .kpi-grid { margin-bottom: 14px; }
+.good { color: var(--ok); }
+.over { color: var(--bad); }
+.small { font-size: 12px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nav-count { margin-left: auto; padding: 1px 7px; border-radius: 10px; background: rgba(217, 4, 41, .2); color: #F7C5CF; font: 600 11px var(--body); }
+.page-note { margin: -4px 0 12px; }
+.axis-note { margin-top: 4px; text-align: right; }
+.topbar .segmented button { white-space: nowrap; }
+.data-table td.over { color: var(--bad); font-weight: 600; }
+.data-table.plain tbody tr { cursor: default; }
+.data-table .why { white-space: normal; min-width: 240px; font-size: 12.5px; color: var(--muted); }
+.data-table.compact { min-width: 0; }
+.data-table.compact th:not(:has(button)), .data-table.compact td { padding-left: 8px; padding-right: 8px; }
+.data-table tbody tr.picked { background: rgba(217, 4, 41, .08); box-shadow: inset 2px 0 0 var(--ruby); }
+
+/* ——— hero: стовпці, план і пульс поточного місяця ——— */
+.exec-art { width: 270px; height: 176px; perspective: none; opacity: .92; }
+.exec-art svg { width: 100%; height: 100%; overflow: visible; }
+.ea-bar { fill: rgba(156, 192, 240, .16); stroke: rgba(156, 192, 240, .45); stroke-width: 1; }
+.ea-last { fill: rgba(217, 4, 41, .16); stroke: rgba(240, 21, 59, .6); }
+.ea-plan { fill: none; stroke: #94A3B8; stroke-width: 1.4; stroke-dasharray: 5 5; }
+.ea-line { fill: none; stroke: #3B82F6; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 340; stroke-dashoffset: 340; animation: ea-draw 2.4s ease-out .3s forwards; }
+.ea-dot { fill: var(--ruby); stroke: #0E131B; stroke-width: 2; }
+.ea-pulse { fill: none; stroke: var(--ruby); stroke-width: 1.5; transform-origin: 215px 88px; animation: ea-pulse 2.4s ease-out infinite; }
+@keyframes ea-draw { to { stroke-dashoffset: 0; } }
+@keyframes ea-pulse { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
+
+/* ——— огляд місяця ——— */
+.brief { display: grid; gap: 2px; list-style: none; margin: 0; padding: 0; }
+.brief-item { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 11px 4px; border-top: 1px solid var(--line); }
+.brief-item:first-child { border-top: 0; }
+.brief-item p { font-size: 14px; line-height: 1.55; color: var(--ink); }
+.brief-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-ctl); border: 1px solid var(--line-2); color: var(--muted); }
+.tone-bad .brief-icon { color: var(--bad); border-color: rgba(255, 107, 107, .35); }
+.tone-good .brief-icon { color: var(--ok); border-color: rgba(16, 185, 129, .35); }
+.brief-item .link-btn { white-space: nowrap; margin-top: 4px; }
+.kpi-grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.kpi-grid.five .kpi { min-height: 0; padding: 14px 16px; gap: 8px; }
+.kpi-grid.five .kpi-value { font-size: clamp(22px, 1.7vw, 28px); }
+.kpi-grid.five .spark { width: 72px; }
+.mini-signals { display: grid; gap: 6px; }
+.mini-signal { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px; border: 1px solid var(--line); border-radius: var(--r-ctl); background: rgba(255, 255, 255, .02); text-align: left; color: var(--ink); transition: border-color .2s, background .2s; }
+.mini-signal:hover { border-color: rgba(217, 4, 41, .55); background: rgba(255, 255, 255, .045); }
+.mini-signal strong { display: block; font-size: 13px; font-weight: 600; }
+.mini-signal small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+/* ——— фінанси й люди ——— */
+.kpi-mini-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.kpi-mini-row.wide { grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0 0 14px; padding: 16px 18px; border: 1px solid var(--line-2); border-radius: var(--r); }
+.kpi-mini-row div { display: grid; gap: 3px; min-width: 0; }
+.kpi-mini-row span { font-size: 12px; color: var(--muted); }
+.kpi-mini-row b { font: 600 19px/1.2 var(--heading); font-variant-numeric: tabular-nums; }
+.kpi-mini-row small { font-size: 12px; color: var(--muted); }
+.kpi-mini-row small.over { color: var(--bad); } .kpi-mini-row small.good { color: var(--ok); }
+.wf-label { font-size: 11.5px; line-height: 1.25; text-align: center; color: var(--muted); padding: 0 2px; }
+.multiples.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.link-panel .mini svg { margin-top: -20px; }
+
+/* ——— сигнали ——— */
+.signal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+.signal-grid .signal { grid-template-columns: auto minmax(0, 1fr); min-height: 0; align-content: start; }
+.signal-grid .signal-body strong { min-height: 2.7em; }
+.signal-count { grid-column: 2; display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; font: 600 26px/1 var(--heading); }
+.signal-count small { font: 500 12px var(--body); color: var(--muted); }
+.signal-grid .status { grid-column: 2; justify-self: start; }
+.signal.picked { border-color: rgba(217, 4, 41, .75); background: rgba(255, 255, 255, .055); box-shadow: inset 0 -2px 0 var(--ruby); }
+.signal.zero { opacity: .62; }
+.signal-anchor { scroll-margin-top: 16px; }
+.signal-boxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: -4px 0 12px; }
+.signal-action { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border-left: 2px solid var(--ruby); background: rgba(255, 255, 255, .03); font-size: 13px; color: var(--muted); }
+.signal-action svg { flex: 0 0 auto; margin-top: 2px; color: var(--ink); }
+.signal-action b { color: var(--ink); font-weight: 600; }
+.sig-table .link-btn { white-space: nowrap; }
+
+/* ——— сценарії ——— */
+.scen-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; }
+.chip { min-height: 34px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 18px; background: rgba(255, 255, 255, .03); color: var(--muted); font-size: 12.5px; font-weight: 500; transition: border-color .2s, color .2s, background .2s; }
+.chip:hover { color: var(--ink); border-color: var(--line-3); }
+.chip.active { color: var(--ink); border-color: var(--ruby); background: rgba(217, 4, 41, .12); }
+.grid-scen { grid-template-columns: minmax(300px, 400px) minmax(0, 1fr); align-items: start; }
+.drivers { display: grid; gap: 16px; }
+.driver { display: grid; gap: 6px; }
+.driver-head { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+.driver-head b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.driver-head b.on { color: #F7C5CF; }
+.driver input { width: 100%; accent-color: var(--ruby); }
+.driver small { font-size: 11.5px; }
+.scen-out { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.scen-card { display: grid; gap: 6px; align-content: start; padding: 14px; border-radius: var(--r); }
+.scen-card > span { font-size: 12px; color: var(--muted); }
+.scen-vals { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.scen-vals small { color: var(--muted); font-size: 12.5px; }
+.scen-vals svg { color: var(--muted); }
+.scen-vals b { font: 600 19px/1.2 var(--heading); font-variant-numeric: tabular-nums; }
+.scen-card em { font-style: normal; font-size: 12.5px; font-weight: 600; }
+.scen-card em.muted { font-weight: 400; }
+
+/* ——— методика ——— */
+.method-list { display: grid; gap: 10px; margin: 0 0 14px; }
+.method-list div { display: grid; grid-template-columns: minmax(130px, 200px) minmax(0, 1fr); gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.method-list dt { font-weight: 600; font-size: 13px; }
+.method-list dd { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.method-list dd.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
+.method-limits { display: grid; gap: 8px; margin: 0; padding-left: 18px; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+
+/* ——— адаптивність ——— */
+@media (max-width: 1500px) {
+  .scen-out { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1280px) {
+  .signal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kpi-mini-row.wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .multiples.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) {
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-scen { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 1180px) and (min-width: 981px) { .kpi-grid.five .spark { display: none; } .kpi-grid.five .kpi { padding: 12px; } }
+@media (max-width: 980px) { .kpi-grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 980px) {
+  .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .signal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .signal-boxes { grid-template-columns: minmax(0, 1fr); }
+  .topbar { flex-wrap: wrap; }
+}
+@media (max-width: 680px) {
+  .kpi-grid.five { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi-grid.five .spark { display: none; }
+  .kpi-mini-row, .kpi-mini-row.wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .multiples.four { grid-template-columns: minmax(0, 1fr); }
+  .scen-out { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brief-item { grid-template-columns: 28px minmax(0, 1fr); }
+  .brief-item .link-btn { grid-column: 2; justify-self: start; margin-top: 0; }
+  .method-list div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .signal-grid .signal { padding: 12px; gap: 8px 10px; }
+  .signal-grid .signal-icon { display: none; }
+  .signal-grid .signal-count, .signal-grid .status, .signal-grid .signal-body { grid-column: 1 / -1; }
+  .signal-count { font-size: 22px; }
+  .exec-art { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ea-line { animation: none; stroke-dashoffset: 0; }
+  .ea-pulse { animation: none; opacity: 0; }
+}

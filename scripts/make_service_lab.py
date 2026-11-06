@@ -33,23 +33,30 @@ START, END = "<!-- lab:start -->", "<!-- lab:end -->"
 ANCHOR = '<section class="section detail-related">'
 
 
-def demo_info(slug: str, lang: str) -> tuple[str, str, str]:
-    s = (SITE / LANGS[lang].strip("/") / "cases" / slug / "index.html").read_text(encoding="utf-8")
+def demo_info(slug: str, lang: str) -> tuple[str, str, str, str]:
+    """Назва, опис, прев'ю й мова демо; якщо версії мовою сторінки немає, береться англійська."""
+    f = SITE / LANGS[lang].strip("/") / "cases" / slug / "index.html"
+    if not f.exists():
+        lang = "en"
+        f = SITE / "en" / "cases" / slug / "index.html"
+    s = f.read_text(encoding="utf-8")
     title = html.unescape(re.search(r"<title>(.*?)</title>", s, re.S).group(1)).split(" | ")[0].strip()
     desc = html.unescape(re.search(r'<meta name="description" content="([^"]*)"', s).group(1))
     img = f"/assets/cases/{slug}-og{'' if lang == 'uk' else '-' + lang}.jpg"
-    return title, desc, img
+    return title, desc, img, lang
 
 
 def block(service: str, lang: str) -> str:
     t, p = T[lang], LANGS[lang]
     cards = []
     for slug in MAP[service]:
-        title, desc, img = demo_info(slug, lang)
+        title, desc, img, used = demo_info(slug, lang)
+        href = f"{LANGS[used]}/cases/{slug}/"
+        mark = "" if used == lang else " (EN)"
         e = lambda x: html.escape(x, quote=True)  # noqa: E731
         cards.append(
-            f'<a class="lab-card" href="{p}/cases/{slug}/"><img alt="" loading="lazy" decoding="async" width="1200" height="630" src="{img}"/>'
-            f'<span class="lab-card-body"><strong>{e(title)}</strong><small>{e(desc)}</small><em>{t["open"]} →</em></span></a>')
+            f'<a class="lab-card" href="{href}"><img alt="" loading="lazy" decoding="async" width="1200" height="630" src="{img}"/>'
+            f'<span class="lab-card-body"><strong>{e(title)}{mark}</strong><small>{e(desc)}</small><em>{t["open"]} →</em></span></a>')
     return (f'{START}<section class="section detail-section lab-section"><div class="container"><span class="section-kicker">{t["kicker"]}</span>'
             f'<h2 class="section-title">{t["title"]}</h2><div class="lab-grid">{"".join(cards)}</div></div></section>{END}\n')
 
