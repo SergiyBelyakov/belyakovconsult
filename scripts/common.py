@@ -258,7 +258,8 @@ def youtube_posts(cfg: dict, posts: list) -> list:
     backfill = datetime.strptime(str(backfill), "%Y-%m-%d %H:%M").replace(tzinfo=tz(cfg)) if backfill else None
     own = {(p.slug, p.lang, p.n) for p in posts if p.channel == "youtube"}
     off = timedelta(minutes=int(yc.get("offset_minutes", 30)))
-    out = []
+    state = load_state() if backfill else {}
+    out, queue = [], []
     for p in posts:
         if p.channel != "instagram" or p.lang not in langs or p.images or (p.slug, p.lang, p.n) in own:
             continue
@@ -269,13 +270,20 @@ def youtube_posts(cfg: dict, posts: list) -> list:
             dt = dt.replace(tzinfo=tz(cfg)) if dt else p.publish_at + off
         else:
             dt = p.publish_at + off
+        yt = replace(p, channel="youtube", publish_at=dt)
+        done = (state.get(yt.key) or {}).get("status") == "published"
         if start and p.publish_at < start:
-            if not (backfill and (load_state().get(p.key) or {}).get("status") == "published"):
-                continue
-            dt, late = backfill, 48.0                  # архів: ролики, що вже вийшли в Instagram, разом у вказаний час
-            out.append(replace(p, channel="youtube", publish_at=dt, auto_time=False, max_late=late))
+            # архів: ролики, що вже вийшли в Instagram, ідуть у Shorts чергою з кроком backfill_every_hours
+            if backfill and (state.get(p.key) or {}).get("status") == "published":
+                queue.append(yt)
             continue
-        out.append(replace(p, channel="youtube", publish_at=dt))
+        if backfill and dt < backfill and not done:   # прострочені через ключ теж стають у чергу
+            queue.append(yt)
+            continue
+        out.append(yt)
+    step = timedelta(hours=float(yc.get("backfill_every_hours", 3)))
+    for k, p in enumerate(sorted(queue, key=lambda q: (q.publish_at, q.lang))):
+        out.append(replace(p, publish_at=backfill + k * step, auto_time=False, max_late=48.0))
     return out
 
 
