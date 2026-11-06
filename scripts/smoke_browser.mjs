@@ -35,7 +35,10 @@ const ORIGIN = `http://127.0.0.1:${server.address().port}`;
 
 const browser = await chromium.launch();
 const problems = [];
-const urls = [...LANGS.flatMap(l => PAGES.map(p => l + p)), '/data-journey/', '/en/data-journey/', ...DEMO_URLS];
+// «Шлях даних» сюди не входить: важка 3D-сцена на CI без відеокарти вантажить процесор хвилинами;
+// його сторінки перевіряє scripts/smoke.py без браузера.
+const urls = [...LANGS.flatMap(l => PAGES.map(p => l + p)), ...DEMO_URLS];
+const withTimeout = (promise, ms) => Promise.race([promise, new Promise((_, rej) => setTimeout(() => rej(new Error(`довше ${ms / 1000} с`)), ms))]);
 
 for (const path of urls) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 860 } });
@@ -44,6 +47,7 @@ for (const path of urls) {
   page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) bad.push(`console.error: ${m.text().slice(0, 160)}`); });
   page.on('response', r => { if (r.url().startsWith(ORIGIN) && r.status() >= 400) bad.push(`${r.status()} ${r.url().slice(ORIGIN.length)}`); });
   try {
+    await withTimeout((async () => {
     const resp = await page.goto(ORIGIN + path, { waitUntil: 'load', timeout: 30000 });
     if (!resp || resp.status() !== 200) bad.push(`сторінка відповіла ${resp && resp.status()}`);
     await page.waitForTimeout(800);
@@ -55,10 +59,11 @@ for (const path of urls) {
       }, null, { timeout: 15000 }).then(() => true, () => false);
       if (!ok) bad.push('демо не відмалювалося');
     } else if (!(await page.locator('h1').count())) bad.push('немає h1');
+    })(), 60000);
   } catch (e) { bad.push(`не відкрилася: ${e.message.split('\n')[0]}`); }
   if (bad.length) problems.push(`${path}\n  ${[...new Set(bad)].join('\n  ')}`);
   else console.log('ok', path);
-  await page.close();
+  await withTimeout(page.close(), 10000).catch(() => {});
 }
 
 await browser.close();
