@@ -420,6 +420,9 @@ def youtube_check() -> str:
     token = youtube_token()
     r = requests.get("https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true", timeout=TIMEOUT,
                      headers={"Authorization": f"Bearer {token}"})
+    if r.status_code == 403 and ("accessNotConfigured" in r.text or "has not been used" in r.text or "SERVICE_DISABLED" in r.text):
+        return ("❌ YouTube: ключ дійсний, але в проєкті Google Cloud не ввімкнено YouTube Data API v3. "
+                "APIs & Services → Library → YouTube Data API v3 → Enable, потім зачекайте 2–5 хвилин.")
     if r.status_code == 403:
         return ("✅ Ключ YouTube дійсний (дозвіл на вивантаження є). Назву каналу не видно, бо дозволу на читання "
                 "(youtube.readonly) ключ не має, і це нормально.")
