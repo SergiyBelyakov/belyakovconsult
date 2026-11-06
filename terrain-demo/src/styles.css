@@ -1,0 +1,55 @@
+/* Belyakov Consult · демо 3D-рельєфу громади.
+   Основа: каркас дашборду і спільні елементи інших демо. */
+@import "../../exec-demo/src/styles.css";
+@import "../../fraud-demo/src/styles.css";
+
+/* ——— hero: горизонталі рельєфу, що проступають, і вода внизу ——— */
+.terrain-art { width: 270px; height: 176px; perspective: none; opacity: .92; }
+.terrain-art svg { width: 100%; height: 100%; overflow: visible; }
+.ta-line { fill: none; stroke: rgba(201, 193, 173, .45); stroke-width: 1.2; stroke-dasharray: 320; stroke-dashoffset: 320; animation: ta-draw 2.2s ease-out forwards; }
+.ta-water { fill: none; stroke: #3f7fd8; stroke-width: 2.4; opacity: .8; }
+.ta-dot { fill: var(--ruby); }
+@keyframes ta-draw { to { stroke-dashoffset: 0; } }
+
+/* ——— сцена ——— */
+.scene-box { margin-bottom: 14px; padding: 12px; border: 1px solid var(--line-2); border-radius: var(--r); }
+.scene-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 10px; }
+.exag, .stage-ctl { display: inline-flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--muted); }
+.exag input, .stage-ctl input { width: 160px; accent-color: var(--ruby); }
+.stage-ctl input { width: 220px; }
+.exag b, .stage-ctl b { color: var(--ink); font-variant-numeric: tabular-nums; min-width: 48px; }
+.view3d { position: relative; width: 100%; border-radius: var(--r-ctl); overflow: hidden; background: radial-gradient(120% 100% at 50% 0%, rgba(59, 130, 246, .08), transparent 60%), #06090e; }
+.view3d-canvas, .view3d-canvas canvas { position: absolute; inset: 0; display: block; }
+.view3d-canvas canvas { touch-action: none; cursor: grab; }
+.view3d-canvas canvas:active { cursor: grabbing; }
+.view3d-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.v3-label { position: absolute; left: 0; top: 0; padding: 2px 7px; border-radius: 4px; background: rgba(5, 7, 10, .72); border: 1px solid rgba(255, 255, 255, .12); color: var(--ink); font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.v3-label.hot { border-color: rgba(255, 77, 99, .7); color: #ffd3da; }
+.v3-label.site { border-color: rgba(217, 4, 41, .8); background: rgba(217, 4, 41, .25); }
+.v3-label.dim { opacity: .7; }
+.map2d canvas { display: block; border-radius: var(--r-ctl); background: #06090e; }
+.scene-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 8px; }
+.legend-elev { display: inline-grid; grid-template-columns: auto 160px auto auto; align-items: center; gap: 4px 8px; font-size: 11.5px; color: var(--muted); }
+.legend-elev i { display: block; height: 8px; border-radius: 4px; }
+.legend-elev small:last-child { justify-self: end; }
+.legend-sw { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.legend-sw i { width: 14px; height: 10px; border-radius: 2px; }
+.table-scroll.short { max-height: 420px; overflow: auto; }
+.cover-bar { height: 10px; border-radius: 5px; background: rgba(255, 255, 255, .06); overflow: hidden; margin-bottom: 12px; }
+.cover-bar i { display: block; height: 100%; background: #19b3a0; border-radius: 5px; transition: width .4s; }
+.site-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.site-list li { padding: 3px 10px; border: 1px solid rgba(217, 4, 41, .5); border-radius: 12px; font-size: 12.5px; }
+.cand-chips { margin-top: 4px; }
+.suit-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.suit-bar input { width: 100%; accent-color: var(--ruby); }
+.signal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (max-width: 1180px) { .suit-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) {
+  .view3d { height: 420px !important; }
+  .stage-ctl input, .exag input { width: 120px; }
+  .suit-bar { grid-template-columns: minmax(0, 1fr); }
+  .terrain-art { display: none; }
+  .legend-elev { grid-template-columns: auto 100px auto auto; }
+}
+@media (prefers-reduced-motion: reduce) { .ta-line { animation: none; stroke-dashoffset: 0; } }

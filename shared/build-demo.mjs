@@ -48,6 +48,8 @@ export async function buildDemo(demo) {
     external: ['img/*'],
     legalComments: 'none',
     ...(demo.build.charset ? { charset: demo.build.charset } : {}),
+    // підміна пакетів шляхом у репозиторії (наприклад, three.js з папки «Шляху даних»)
+    ...(demo.build.alias ? { alias: Object.fromEntries(Object.entries(demo.build.alias).map(([k, v]) => [k, join(ROOT, v)])) } : {}),
     logLevel: 'info',
   });
   for (const [from, to] of demo.build.copy) {

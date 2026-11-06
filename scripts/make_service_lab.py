@@ -24,6 +24,8 @@ for _d in MANIFEST["demos"]:
     if _d.get("status") == "live":
         for _svc in _d["services"]:
             MAP.setdefault(_svc, []).append(_d["slug"])
+MAX_CARDS = 3                                   # не більше трьох демо на сторінці послуги (перші за маніфестом)
+MAP = {k: v[:MAX_CARDS] for k, v in MAP.items()}
 T = {
     "uk": {"kicker": "Подивитися в лабораторії", "title": "Цей напрям у дії на синтетичних даних", "open": "Відкрити демо"},
     "en": {"kicker": "See it in the lab", "title": "This service in action on synthetic data", "open": "Open the demo"},

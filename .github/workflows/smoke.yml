@@ -6,9 +6,9 @@ name: Smoke-перевірка сайту
 on:
   push:
     branches: [main]
-    paths: ["site/**", "shared/**", "exec-demo/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
+    paths: ["site/**", "shared/**", "exec-demo/**", "fraud-demo/**", "terrain-demo/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
   pull_request:
-    paths: ["site/**", "shared/**", "exec-demo/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
+    paths: ["site/**", "shared/**", "exec-demo/**", "fraud-demo/**", "terrain-demo/**", "dashboard/**", "graph-demo/**", "transport-demo/**", "scripts/smoke*"]
   workflow_dispatch:
 
 permissions:
