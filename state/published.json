@@ -1407,13 +1407,6 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfZuMLrPYEe"
   },
-  "pixel-audit/youtube-en": {
-    "at": "2026-11-06 23:53",
-    "attempts": 3,
-    "error": "YouTube (початок вивантаження): HTTP 403 {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"YouTube Data API v3 has not been used in project 601183825906 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=601183825906 t",
-    "publish_at": "2026-11-06 17:00",
-    "status": "failed"
-  },
   "threads-check/threads-uk": {
     "at": "2026-10-26 00:12",
     "id": "17961394383230806",
