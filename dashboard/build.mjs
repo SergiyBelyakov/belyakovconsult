@@ -113,8 +113,7 @@ ${alt}
 <meta name="twitter:title" content="${esc(t.title)}"/>
 <meta name="twitter:description" content="${esc(t.description)}"/>
 <meta name="twitter:image" content="${BASE_URL + og}"/>
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="icon" href="/favicon.ico" sizes="48x48"/><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"/><link rel="icon" href="/assets/favicon-192.png" sizes="192x192" type="image/png"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="${PATH}assets/app.css?v=${v.css}"/>
 <link rel="preload" as="image" href="${PATH}assets/img/wave.webp"/>
