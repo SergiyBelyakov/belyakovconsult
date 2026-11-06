@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlencode
@@ -17,7 +17,7 @@ CONTENT = ROOT / "content" / "articles"
 NOTES = ROOT / "content" / "notes"      # короткі дописи без статті: content/notes/<РРРР-ММ-ДД>/<канал>-<мова>-<слот>.md
 STATE_FILE = ROOT / "state" / "published.json"
 
-CHANNELS = ("linkedin", "linkedinpage", "threads", "telegram", "instagram")
+CHANNELS = ("linkedin", "linkedinpage", "threads", "telegram", "instagram", "youtube")
 NEXT_MARK = "<!-- next -->"  # розділювач частин треду в Threads
 
 
@@ -235,8 +235,41 @@ def load_posts(cfg: dict) -> list[Post]:
             video=meta.get("video"),
             max_late=float(meta["max_late_hours"]) if meta.get("max_late_hours") is not None else None,
         ))
+    out += youtube_posts(cfg, out)
     out += load_notes(cfg)
     apply_channel_rules(cfg, out)
+    return out
+
+
+def youtube_posts(cfg: dict, posts: list) -> list:
+    """YouTube Shorts без окремих файлів: кожен Reels-допис Instagram (відео, не карусель) стає й Shorts.
+
+    Мова та сама, текст той самий (заголовком стає перший рядок). Час: для дописів із ритму — cadence.times.youtube,
+    для дописів із явним publish_at — той самий час + channels.youtube.offset_minutes. Дописи, запланові раніше за
+    channels.youtube.start, не дублюються (щоб не вивантажувати весь архів). Свій файл posts/youtube-<мова>[-N].md
+    має пріоритет."""
+    yc = (cfg.get("channels") or {}).get("youtube") or {}
+    if not yc.get("enabled"):
+        return []
+    start = yc.get("start")
+    start = datetime.strptime(str(start), "%Y-%m-%d %H:%M").replace(tzinfo=tz(cfg)) if start else None
+    langs = set(yc.get("languages") or ["uk", "en"])
+    own = {(p.slug, p.lang, p.n) for p in posts if p.channel == "youtube"}
+    off = timedelta(minutes=int(yc.get("offset_minutes", 30)))
+    out = []
+    for p in posts:
+        if p.channel != "instagram" or p.lang not in langs or p.images or (p.slug, p.lang, p.n) in own:
+            continue
+        if (p.media or "motion") != "motion":
+            continue
+        if p.auto_time:
+            dt = scheduled_at(cfg, p.slug, "youtube", p.lang, p.n)
+            dt = dt.replace(tzinfo=tz(cfg)) if dt else p.publish_at + off
+        else:
+            dt = p.publish_at + off
+        if start and p.publish_at < start:
+            continue
+        out.append(replace(p, channel="youtube", publish_at=dt))
     return out
 
 

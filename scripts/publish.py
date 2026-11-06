@@ -24,7 +24,7 @@ from common import (STATE_FILE, fmt_dt, is_live, load_articles, load_config, loa
                     social_asset_url)
 
 MAX_ATTEMPTS = 3
-NAMES = {"linkedin": "LinkedIn", "linkedinpage": "LinkedIn (сторінка Belyakov Consult)", "threads": "Threads", "telegram": "Telegram", "instagram": "Instagram"}
+NAMES = {"linkedin": "LinkedIn", "linkedinpage": "LinkedIn (сторінка Belyakov Consult)", "threads": "Threads", "telegram": "Telegram", "instagram": "Instagram", "youtube": "YouTube Shorts"}
 
 
 REPORT: list[str] = []
@@ -55,7 +55,8 @@ def manual_reason(post, cfg) -> str | None:
     if post.channel == "instagram" and not os.environ.get("INSTAGRAM_TOKEN"):
         return "немає секрету INSTAGRAM_TOKEN"
     need = {"linkedin": ["LINKEDIN_TOKEN"], "linkedinpage": ["LINKEDIN_ORG_ID", "LINKEDIN_PAGE_TOKEN"], "threads": ["THREADS_TOKEN"],
-            "telegram": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHANNEL_ID"]}.get(post.channel, [])
+            "telegram": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHANNEL_ID"],
+            "youtube": ["YOUTUBE_CLIENT_ID", "YOUTUBE_CLIENT_SECRET", "YOUTUBE_REFRESH_TOKEN"]}.get(post.channel, [])
     missing = [k for k in need if not os.environ.get(k)]
     if missing:
         return f"немає секретів {', '.join(missing)}"
@@ -88,7 +89,7 @@ def video_file(post, cfg) -> tuple[str, str] | None:
         for sub in dict.fromkeys([episode_sub(n), ""]):
             if (social_asset_dir(cfg, post.slug, post.lang) / sub / "linkedin.mp4").exists():
                 return post.lang, sub + "linkedin.mp4"
-    if post.channel == "instagram" and post.lang == "en":    # англійські Reels: промо 9:16
+    if post.channel in ("instagram", "youtube") and post.lang == "en":    # англійські Reels і Shorts: промо 9:16
         for sub in dict.fromkeys([episode_sub(n), ""]):
             if (social_asset_dir(cfg, post.slug, "en") / sub / "promo.mp4").exists():
                 return "en", sub + "promo.mp4"
@@ -191,6 +192,15 @@ def send(post, parts, cfg) -> dict:
         art = next((a for a in load_articles(cfg, include_drafts=True) if a.slug == post.slug and a.lang == post.lang), None)
         return channels.publish_linkedin(parts, cfg["channels"]["linkedin"]["api_version"], as_page=True,
                                          video=lv, thumb=cover, title=art.title if art else None)
+    if post.channel == "youtube":                              # Shorts: те саме вертикальне відео, що й Reels
+        lv = local_video(post, cfg)
+        if not lv:
+            raise channels.ChannelError("YouTube: у допису немає вертикального відео")
+        res = channels.publish_youtube(parts, lv, post.lang)
+        if res.get("privacy") and res["privacy"] != "public":
+            admin(f"ℹ️ YouTube прийняв Shorts як «{res['privacy']}»: проєкт Google ще не пройшов перевірку YouTube API, "
+                  f"тож відкрийте його в YouTube Studio і зробіть публічним: {res.get('url')}")
+        return res
     raise channels.ChannelError(f"Невідомий канал {post.channel}")
 
 

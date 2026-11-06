@@ -359,3 +359,71 @@ def instagram_refresh(token: str) -> dict:
     r = requests.get(f"{IG_API}/refresh_access_token", timeout=TIMEOUT,
                      params={"grant_type": "ig_refresh_token", "access_token": token})
     return _check(r, "Instagram (оновлення токена)")
+
+
+# ---------------------------------------------------------------- YouTube (Shorts)
+
+def youtube_token() -> str:
+    """Короткий ключ доступу з постійного refresh-токена (OAuth-клієнт Google, дозвіл youtube.upload)."""
+    r = requests.post("https://oauth2.googleapis.com/token", timeout=TIMEOUT, data={
+        "client_id": os.environ["YOUTUBE_CLIENT_ID"], "client_secret": os.environ["YOUTUBE_CLIENT_SECRET"],
+        "refresh_token": os.environ["YOUTUBE_REFRESH_TOKEN"], "grant_type": "refresh_token"})
+    return _check(r, "YouTube (ключ)")["access_token"]
+
+
+def youtube_title(text: str) -> str:
+    """Заголовок Shorts: перше речення допису, до 100 знаків разом із #Shorts, без хештегів і розмітки."""
+    first = re.sub(r"[*_`]", "", text.strip().split("\n", 1)[0]).strip()
+    m = re.match(r"(.+?[.!?])(\s|$)", first)
+    t = (m.group(1) if m else first).strip()
+    if len(t) > 90:
+        t = t[:89].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+    return f"{t} #Shorts"
+
+
+def youtube_tags(text: str) -> list[str]:
+    tags = list(dict.fromkeys(re.findall(r"#(\w+)", text)))
+    return [t for t in tags if t.lower() != "shorts"][:15]
+
+
+def publish_youtube(parts: list[str], video: Path, lang: str) -> dict:
+    """Вивантаження Shorts (вертикальне відео до 3 хв YouTube визначає як Shorts сам)."""
+    token = youtube_token()
+    text = "\n\n".join(parts)
+    desc = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
+    desc = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r"\1: \2", desc)[:4900]
+    meta = {
+        "snippet": {"title": youtube_title(text), "description": desc, "tags": youtube_tags(text),
+                    "categoryId": "28", "defaultLanguage": lang, "defaultAudioLanguage": lang},
+        "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False, "embeddable": True,
+                   "containsSyntheticMedia": False},
+    }
+    size = video.stat().st_size
+    r = requests.post("https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
+                      timeout=TIMEOUT, json=meta, headers={
+                          "Authorization": f"Bearer {token}", "X-Upload-Content-Type": "video/mp4",
+                          "X-Upload-Content-Length": str(size)})
+    _check(r, "YouTube (початок вивантаження)")
+    loc = r.headers.get("Location")
+    if not loc:
+        raise ChannelError("YouTube: немає адреси для вивантаження")
+    r = requests.put(loc, data=video.read_bytes(), timeout=300,
+                     headers={"Authorization": f"Bearer {token}", "Content-Type": "video/mp4"})
+    data = _check(r, "YouTube (вивантаження)")
+    vid = data.get("id")
+    status = (data.get("status") or {}).get("privacyStatus")
+    return {"id": vid, "url": f"https://youtube.com/shorts/{vid}" if vid else None, "privacy": status}
+
+
+def youtube_check() -> str:
+    """Перевірка ключа: отримати токен і назву каналу (нічого не публікує)."""
+    token = youtube_token()
+    r = requests.get("https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true", timeout=TIMEOUT,
+                     headers={"Authorization": f"Bearer {token}"})
+    if r.status_code == 403:
+        return ("✅ Ключ YouTube дійсний (дозвіл на вивантаження є). Назву каналу не видно, бо дозволу на читання "
+                "(youtube.readonly) ключ не має, і це нормально.")
+    items = _check(r, "YouTube (канал)").get("items") or []
+    if not items:
+        return "⚠️ Ключ дійсний, але в цього Google-акаунта немає YouTube-каналу."
+    return f"✅ YouTube: ключ дійсний, канал «{items[0]['snippet']['title']}»."

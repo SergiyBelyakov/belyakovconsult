@@ -7,7 +7,7 @@ mode: dry-run
 
 # Канали, які публікуються по-справжньому навіть у режимі dry-run.
 # Додавайте мережу сюди, коли її ключі налаштовані й перевірені.
-live_channels: [telegram, instagram, threads, linkedinpage]   # linkedinpage без секретів LinkedIn йде вам у Telegram для ручної публікації
+live_channels: [telegram, instagram, threads, linkedinpage, youtube]   # linkedinpage без секретів LinkedIn йде вам у Telegram для ручної публікації
 
 timezone: Europe/Kyiv
 
@@ -138,6 +138,15 @@ channels:
     auto: true              # з секретом INSTAGRAM_TOKEN карусель публікується сама; без нього підпис і картки йдуть вам у Telegram
     api_version: v26.0
     media: motion           # motion: Reels з моушн-відео; carousel: карусель карток
+  # YouTube Shorts (з 06.11.2026): кожен Reels-допис Instagram автоматично йде й у Shorts тим самим відео і текстом
+  # (scripts/common.py: youtube_posts). Потрібні секрети YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN.
+  youtube:
+    enabled: true
+    languages: [uk, en]
+    max_chars: 4900
+    media: motion
+    start: "2026-11-06 15:00"   # раніші дописи в Shorts не дублюються
+    offset_minutes: 30          # для дописів із явним часом: через 30 хв після Reels
 
 # Підпис з посиланнями на інші канали. Додається в кінець кожного допису (перед хештегами).
 # media у каналах: motion (моушн-відео з карток статті), carousel (лише Instagram) або none.
@@ -151,6 +160,9 @@ signatures:
   instagram:
     uk: "Повна стаття, сайт і Telegram-канал: посилання в профілі. Також у Threads: @belyakovconsult"
     en: "Full article, website and Telegram channel: link in bio. Also on Threads: @belyakovconsult"
+  youtube:
+    uk: "Сайт: https://www.belyakovconsult.com/?utm_source=youtube&utm_medium=social\nTelegram: https://t.me/belyakovconsult\nInstagram і Threads: @belyakovconsult"
+    en: "Website: https://www.belyakovconsult.com/en/?utm_source=youtube&utm_medium=social\nTelegram: https://t.me/belyakovconsult\nInstagram and Threads: @belyakovconsult"
   linkedinpage:
     uk: "Більше розборів: сайт belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram і Threads @belyakovconsult"
     en: "More notes: belyakovconsult.com · Telegram t.me/belyakovconsult · Instagram and Threads @belyakovconsult"
@@ -165,6 +177,7 @@ cadence:
     threads:      {uk: "12:00", en: "18:00"}
     instagram:    {uk: "12:30", en: "18:30"}
     linkedinpage: {uk: "13:30", en: "17:00"}   # найкращий час за Sprout Social і Buffer 2026 (будні, обід і після обіду)
+    youtube:      {uk: "19:00", en: "20:30"}   # Shorts: вечірній пік перегляду (EN = 13:30 Нью-Йорк, 18:30 Лондон)
   # Пікові вікна Threads за статистикою акаунта (2.11.2026, час київський): нд 8–11, сб 14–17, вт 17–20.
   # У ці дні допис до статті йде в пік, нотатки зсуваються (notes.times_by_weekday) щонайменше на 90 хв.
   times_by_weekday:
