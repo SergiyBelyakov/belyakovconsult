@@ -164,3 +164,6 @@ body.scene-expanded #scene{touch-action:none}
 .rail,.stage-nav,.progress,#visual{transition:opacity .3s}
 body.static-in-view .rail,body.static-in-view .stage-nav,body.static-in-view .progress{opacity:0;pointer-events:none}
 @media (max-width:820px){body.static-in-view #visual{opacity:0;pointer-events:none}}
+
+/* «Наскрізно» тепер у меню над сценою, а не рядком поверх моделей */
+.scene-gov .scene-more-list button{min-width:132px}
