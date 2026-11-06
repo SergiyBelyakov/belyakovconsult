@@ -629,6 +629,15 @@
     "music": "pulse",
     "wave": "wave-7.jpg"
   },
+  "pixel-audit#1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-consulting.webp",
+    "k": 35,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-1.jpg"
+  },
   "report-changed-after-month-end#1": {
     "cover": "icon",
     "globe": "globe-2.jpg",
