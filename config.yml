@@ -48,7 +48,7 @@ languages:
     insights_lead: Пишу про ситуації, де слабке визначення, невдала модель або погана якість даних змінюють висновок. Тут важлива не термінологія, а наслідок для рішення.
     insights_page_title: Матеріали про дані, BI та управління
     insights_description: Практичні матеріали про якість даних, BI, архітектуру, управління даними та GovTech без теорії заради теорії.
-    nav: {services: Послуги, cases: Кейси, insights: Матеріали, about: Про мене, contact: Контакти}
+    nav: {services: Послуги, cases: Лабораторія, insights: Матеріали, about: Про мене, contact: Контакти}
     cta_title: Схожа задача у вашій команді?
     cta_text: Опишіть ситуацію кількома реченнями. Відповім, з чого я б почав і чи можу допомогти.
     cta_button: Обговорити задачу
@@ -67,7 +67,7 @@ languages:
     insights_lead: I write about situations where a weak definition, a poor model or bad data quality changes the conclusion. The terminology matters less than the decision it affects.
     insights_page_title: Articles on data, BI and governance
     insights_description: Practical notes on data quality, BI, architecture, governance and GovTech, written around real decision problems.
-    nav: {services: Services, cases: Cases, insights: Articles, about: About, contact: Contact}
+    nav: {services: Services, cases: Data Lab, insights: Articles, about: About, contact: Contact}
     cta_title: A similar problem in your team?
     cta_text: Describe the situation in a few sentences. I will reply with where I would start and whether I can help.
     cta_button: Discuss your project
@@ -86,7 +86,7 @@ languages:
     insights_lead: Escrevo sobre situações em que uma definição fraca, um modelo mal desenhado ou má qualidade dos dados altera a conclusão. A terminologia importa menos do que a decisão afetada.
     insights_page_title: Artigos sobre dados, BI e governação
     insights_description: Notas práticas sobre qualidade dos dados, BI, arquitetura, governação e GovTech, centradas em problemas reais de decisão.
-    nav: {services: Serviços, cases: Casos, insights: Artigos, about: Sobre, contact: Contacto}
+    nav: {services: Serviços, cases: Laboratório, insights: Artigos, about: Sobre, contact: Contacto}
     cta_title: Um problema semelhante na sua equipa?
     cta_text: Descreva a situação em poucas frases. Respondo por onde começaria e se posso ajudar.
     cta_button: Falar sobre o projeto

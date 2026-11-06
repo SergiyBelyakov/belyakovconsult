@@ -41,7 +41,7 @@ SERVICE = {
 }
 KICKER = {
     "": {"uk": "Аналітика даних", "en": "Data analytics", "pt": "Análise de dados"},
-    "cases": {"uk": "Кейси", "en": "Cases", "pt": "Casos"},
+    "cases": {"uk": "Лабораторія даних", "en": "Data Lab", "pt": "Laboratório de dados"},
     "sergiy-belyakov": {"uk": "Про мене", "en": "About", "pt": "Sobre mim"},
     "data-journey": {"uk": "Шлях даних", "en": "The data journey", "pt": "O percurso dos dados"},
     "insights": {"uk": "Матеріали", "en": "Insights", "pt": "Artigos"},
