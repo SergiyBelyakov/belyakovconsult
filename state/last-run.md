@@ -1,12 +1,12 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-06 23:31
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-06 23:34
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (pixel-audit), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (pixel-audit), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -18,7 +18,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 2
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -30,7 +30,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 3
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -42,7 +42,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 4
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -54,7 +54,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 5
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (bi-is-not-for-fixing-sources), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -66,7 +66,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 6
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -78,7 +78,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 7
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -90,7 +90,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 8
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -102,7 +102,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 9
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -114,7 +114,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 10
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -126,7 +126,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 11
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (completeness-is-not-quality), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -138,7 +138,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 12
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -150,7 +150,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 13
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -162,7 +162,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 14
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -174,7 +174,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 15
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -186,7 +186,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 16
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -198,7 +198,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 17
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (data-quality-dashboard-demo), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -210,7 +210,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 18
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -222,7 +222,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 19
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -234,7 +234,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 20
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -246,7 +246,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 21
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -258,7 +258,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 22
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -270,7 +270,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 23
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (governance-shows-in-conflict), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -282,7 +282,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 24
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (grwm-month-end), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (grwm-month-end), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -294,7 +294,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 25
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (grwm-month-end), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (grwm-month-end), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -306,7 +306,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 26
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (halloween), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (halloween), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -318,7 +318,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 27
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -330,7 +330,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 28
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -342,7 +342,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 29
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -354,7 +354,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 30
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -366,7 +366,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 31
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -378,7 +378,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 32
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -390,7 +390,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 33
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -402,7 +402,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 34
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (iso-8000-8-quality-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -414,7 +414,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 35
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (laser-cats), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (laser-cats), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
@@ -426,7 +426,7 @@ YouTube (початок вивантаження): HTTP 403 {
 ## 36
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (meta-duplicate), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (meta-duplicate), спроба 2/3:
 YouTube (початок вивантаження): HTTP 403 {
   "error": {
     "code": 403,
