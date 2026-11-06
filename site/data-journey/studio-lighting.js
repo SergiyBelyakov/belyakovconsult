@@ -4,7 +4,7 @@
 window.BCStudioLighting = {
   revision: 'balanced-ruby-lighting-20261024',
   baseExposure: 1.28,
-  currentLevel: 1.35,
+  currentLevel: 1.7,
   _lighting: new WeakMap(),
   setBrightness(level, renderer, scene) {
     const value = Math.min(2.2, Math.max(.55, Number(level) || 1.35));

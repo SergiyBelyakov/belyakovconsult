@@ -5,10 +5,10 @@
  const output=document.getElementById('sceneBrightnessValue');
  const reset=document.getElementById('sceneBrightnessReset');
  if(!input||!output)return;
- const DEFAULT=135;
+ const DEFAULT=170; // відкалібровано під рубінове світло сцени; повзунок прихований
  const storageKey='bc-journey-brightness-v1';
  let value=DEFAULT;
- try{const saved=Number(localStorage.getItem(storageKey));if(Number.isFinite(saved)&&saved>=55&&saved<=220)value=saved;}catch(_){}
+ try{localStorage.removeItem(storageKey);}catch(_){}
  const apply=()=>{
   const level=value/100;
   input.value=String(value);

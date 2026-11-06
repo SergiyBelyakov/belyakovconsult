@@ -123,3 +123,14 @@ body.scene-expanded .scene-fullscreen{bottom:22px}
 body.scene-expanded .visual-foot{display:none}
 body.scene-expanded #scene{touch-action:none}
 @media(max-width:600px){.scene-fullscreen{right:6%;bottom:44px;font-size:9px}body.scene-expanded .scene-fullscreen{top:12px;bottom:auto;right:12px}body.scene-expanded .scene-top{top:62px}body.scene-expanded .scene-tools{top:88px}body.scene-expanded #visual .inspect-controls{top:122px!important}body.scene-expanded #visual .render-mode{top:162px}body.scene-expanded #visual .trace{top:190px}}
+
+/* Спрощене керування сценою: другорядні дії в меню «Сцена», повзунок світла прихований */
+.bc-light-control{display:none!important}
+.scene-more{position:relative}
+.scene-more>summary{list-style:none;cursor:pointer;font-size:9px;padding:6px 10px;background:#0d131ddc;border:1px solid var(--line);border-radius:3px;color:#b0bac9;min-height:29px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.scene-more>summary::-webkit-details-marker{display:none}
+.scene-more>summary::after{content:"";width:5px;height:5px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.scene-more[open]>summary,.scene-more>summary:hover{color:#fff;border-color:#d9042988}
+.scene-more-list{position:absolute;top:calc(100% + 6px);left:0;display:flex;flex-direction:column;gap:6px;z-index:20}
+.scene-more-list button{text-align:left}
+.scene-more>summary,.scene-more-list,.scene-more-list button{pointer-events:auto}
