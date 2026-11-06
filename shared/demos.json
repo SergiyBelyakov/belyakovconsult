@@ -241,6 +241,56 @@
           "teaser": "Plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, signals and scenarios for manufacturing and a service network."
         }
       }
+    },
+    {
+      "slug": "fraud-analytics",
+      "dir": "fraud-demo",
+      "attr": "data-fraud-demo",
+      "anchor": "fraud-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-analysis",
+        "data-quality",
+        "data-governance",
+        "financial-analytics"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "fraud-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо фрод-аналітики соціальних виплат | Belyakov Consult",
+          "description": "Інтерактивне демо фрод-аналітики на синтетичних даних: правила й логістична регресія, поріг і обсяг перевірок, черга з поясненнями, мережі на спільних рахунках і перевірка справедливості моделі.",
+          "name": "Демо фрод-аналітики",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує скоринг ризику для 12 000 отримувачів соціальних виплат: правила, логістичну регресію, чергу перевірки з поясненнями, мережі на спільних рахунках і справедливість моделі на синтетичних даних.",
+          "kind": "Фрод-аналітика й скоринг",
+          "teaser": "Правила проти логістичної регресії, поріг і обсяг перевірок, черга з поясненнями, мережі на спільних рахунках і справедливість моделі."
+        },
+        "en": {
+          "title": "Social payment fraud analytics demo | Belyakov Consult",
+          "description": "An interactive fraud analytics demo on synthetic data: rules and logistic regression, threshold and review capacity, an explained review queue, networks on shared accounts and a fairness check of the model.",
+          "name": "Fraud analytics demo",
+          "noscript": "The demo needs JavaScript. It shows risk scoring for 12,000 recipients of social payments: rules, logistic regression, an explained review queue, networks on shared accounts and model fairness on synthetic data.",
+          "kind": "Fraud analytics and scoring",
+          "teaser": "Rules against logistic regression, threshold and review capacity, an explained review queue, networks on shared accounts and model fairness."
+        }
+      }
     }
   ]
 }
