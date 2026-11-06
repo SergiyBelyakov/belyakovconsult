@@ -1,0 +1,73 @@
+"""Блок «Подивитися в лабораторії» на сторінках послуг: які демо показують цей напрям у дії.
+
+Назви й описи беруться з самих сторінок демо (title і meta description), прев'ю з їхніх og-картинок.
+Блок стоїть перед «Пов'язаними напрямами» між маркерами <!-- lab:start --> і <!-- lab:end -->,
+тож повторний запуск замінює його, а не дублює.
+
+Запуск: python scripts/make_service_lab.py
+"""
+from __future__ import annotations
+
+import html
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SITE = ROOT / "site"
+LANGS = {"uk": "", "en": "/en", "pt": "/pt"}
+
+# напрям → демо (у порядку важливості); фінансова й управлінська аналітика чекають панель керівника
+MAP = {
+    "data-strategy": ["data-quality-dashboard", "graph-analytics", "transport-accessibility"],
+    "data-analysis": ["graph-analytics", "transport-accessibility"],
+    "business-intelligence": ["data-quality-dashboard", "graph-analytics"],
+    "data-architecture": ["data-quality-dashboard", "graph-analytics"],
+    "data-quality": ["data-quality-dashboard"],
+    "data-governance": ["data-quality-dashboard", "graph-analytics"],
+    "geospatial-analysis": ["transport-accessibility"],
+}
+T = {
+    "uk": {"kicker": "Подивитися в лабораторії", "title": "Цей напрям у дії на синтетичних даних", "open": "Відкрити демо"},
+    "en": {"kicker": "See it in the lab", "title": "This service in action on synthetic data", "open": "Open the demo"},
+    "pt": {"kicker": "Ver no laboratório", "title": "Este serviço em ação com dados sintéticos", "open": "Abrir a demo"},
+}
+START, END = "<!-- lab:start -->", "<!-- lab:end -->"
+ANCHOR = '<section class="section detail-related">'
+
+
+def demo_info(slug: str, lang: str) -> tuple[str, str, str]:
+    s = (SITE / LANGS[lang].strip("/") / "cases" / slug / "index.html").read_text(encoding="utf-8")
+    title = html.unescape(re.search(r"<title>(.*?)</title>", s, re.S).group(1)).split(" | ")[0].strip()
+    desc = html.unescape(re.search(r'<meta name="description" content="([^"]*)"', s).group(1))
+    img = f"/assets/cases/{slug}-og{'' if lang == 'uk' else '-' + lang}.jpg"
+    return title, desc, img
+
+
+def block(service: str, lang: str) -> str:
+    t, p = T[lang], LANGS[lang]
+    cards = []
+    for slug in MAP[service]:
+        title, desc, img = demo_info(slug, lang)
+        e = lambda x: html.escape(x, quote=True)  # noqa: E731
+        cards.append(
+            f'<a class="lab-card" href="{p}/cases/{slug}/"><img alt="" loading="lazy" decoding="async" width="1200" height="630" src="{img}"/>'
+            f'<span class="lab-card-body"><strong>{e(title)}</strong><small>{e(desc)}</small><em>{t["open"]} →</em></span></a>')
+    return (f'{START}<section class="section detail-section lab-section"><div class="container"><span class="section-kicker">{t["kicker"]}</span>'
+            f'<h2 class="section-title">{t["title"]}</h2><div class="lab-grid">{"".join(cards)}</div></div></section>{END}\n')
+
+
+def main() -> None:
+    for service in MAP:
+        for lang in LANGS:
+            f = SITE / LANGS[lang].strip("/") / service / "index.html"
+            s = f.read_text(encoding="utf-8")
+            s = re.sub(rf"{re.escape(START)}.*?{re.escape(END)}\n?", "", s, flags=re.S)
+            if ANCHOR not in s:
+                raise SystemExit(f"{f}: не знайдено місце для блоку")
+            s = s.replace(ANCHOR, block(service, lang) + ANCHOR, 1)
+            f.write_text(s, encoding="utf-8")
+            print(f.relative_to(ROOT), "←", ", ".join(MAP[service]))
+
+
+if __name__ == "__main__":
+    main()

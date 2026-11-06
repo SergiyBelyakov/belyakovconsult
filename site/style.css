@@ -1102,3 +1102,14 @@ a.ev-cell:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.
 .ev-journey{padding:20px 16px}
 }
 @media(max-width:520px){.ev-row{grid-template-columns:minmax(0,1fr)}.ev-filters button{flex:1 1 auto;padding:0 12px}}
+
+/* Блок «Подивитися в лабораторії» на сторінках послуг (scripts/make_service_lab.py) */
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:32px}
+.lab-card{display:flex;flex-direction:column;border:1px solid var(--glass-border);border-radius:18px;overflow:hidden;background:var(--glass-fill);color:inherit;text-decoration:none;transition:border-color .25s,transform .25s}
+.lab-card:hover,.lab-card:focus-visible{border-color:var(--accent);transform:translateY(-3px)}
+.lab-card img{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover}
+.lab-card-body{display:flex;flex-direction:column;gap:10px;padding:20px 22px 22px}
+.lab-card-body strong{font-family:Montserrat,Arial,sans-serif;font-size:1.1rem;line-height:1.3}
+.lab-card-body small{font-size:.92rem;line-height:1.55;opacity:.78;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lab-card-body em{font-style:normal;font-weight:600;color:var(--accent);margin-top:auto}
+@media (max-width:520px){.lab-grid{grid-template-columns:1fr;gap:16px}.lab-card-body{padding:16px 18px 18px}}
