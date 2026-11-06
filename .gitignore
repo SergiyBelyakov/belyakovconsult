@@ -5,4 +5,4 @@ __pycache__/
 dashboard/node_modules
 graph-demo/node_modules
 transport-demo/node_modules
-node_modules/
+node_modules

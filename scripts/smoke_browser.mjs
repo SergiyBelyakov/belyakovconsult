@@ -4,7 +4,7 @@
 // Запуск: node scripts/smoke_browser.mjs          (сам піднімає локальний сервер з site/)
 // Потрібен Playwright з Chromium: npm i playwright && npx playwright install --with-deps chromium
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,7 +15,10 @@ const { chromium } = require('playwright');
 const SITE = fileURLToPath(new URL('../site/', import.meta.url));
 const LANGS = ['', '/en', '/pt'];
 const PAGES = ['/', '/cases/', '/sergiy-belyakov/', '/insights/', '/data-strategy/', '/financial-analytics/'];
-const DEMOS = ['/cases/data-quality-dashboard/', '/cases/graph-analytics/', '/cases/transport-accessibility/'];
+// демо беруться з маніфесту Лабораторії даних; кожне перевіряється мовами, які в нього є
+const MANIFEST = JSON.parse(readFileSync(fileURLToPath(new URL('../shared/demos.json', import.meta.url)), 'utf8'));
+const DEMO_URLS = MANIFEST.demos.filter(d => d.status === 'live').flatMap(d => d.langs.map(l => ({ uk: '', en: '/en', pt: '/pt' })[l] + `/cases/${d.slug}/`));
+const DEMOS = MANIFEST.demos.map(d => `/cases/${d.slug}/`);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mp4': 'video/mp4', '.glb': 'model/gltf-binary', '.wasm': 'application/wasm' };
 
@@ -32,7 +35,7 @@ const ORIGIN = `http://127.0.0.1:${server.address().port}`;
 
 const browser = await chromium.launch();
 const problems = [];
-const urls = [...LANGS.flatMap(l => PAGES.map(p => l + p)), ...LANGS.flatMap(l => DEMOS.map(p => l + p))];
+const urls = [...LANGS.flatMap(l => PAGES.map(p => l + p)), '/data-journey/', '/en/data-journey/', ...DEMO_URLS];
 
 for (const path of urls) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 860 } });

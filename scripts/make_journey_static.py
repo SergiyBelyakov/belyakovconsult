@@ -21,12 +21,9 @@ LANGS = {
     "uk": {"prefix": "", "data": "story-data.js"},
     "en": {"prefix": "/en", "data": "story-data.en.js"},
 }
-# етап → демо в Лабораторії даних
-DEMO = {
-    "sources": "data-quality-dashboard", "integration": "graph-analytics", "quality": "data-quality-dashboard",
-    "governance": "data-quality-dashboard", "analysis": "graph-analytics", "bi": "data-quality-dashboard",
-    "geospatial": "transport-accessibility",
-}
+# етап → демо в Лабораторії даних (з маніфесту shared/demos.json)
+DEMO = {stage: d["slug"] for d in json.loads((ROOT / "shared" / "demos.json").read_text(encoding="utf-8"))["demos"]
+        if d.get("status") == "live" for stage in d["stages"]}
 T = {
     "uk": {"kicker": "Етапи шляху", "title": "13 етапів від джерела до рішення", "lead": "Те саме, що показує сцена вище, текстом: що відбувається на кожному етапі і що він дає.",
            "result": "Результат", "service": "Про напрям", "demo": "Подивитися в лабораторії",

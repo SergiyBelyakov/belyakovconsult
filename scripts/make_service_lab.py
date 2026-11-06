@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
@@ -16,16 +17,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 LANGS = {"uk": "", "en": "/en", "pt": "/pt"}
 
-# напрям → демо (у порядку важливості); фінансова й управлінська аналітика чекають панель керівника
-MAP = {
-    "data-strategy": ["data-quality-dashboard", "graph-analytics", "transport-accessibility"],
-    "data-analysis": ["graph-analytics", "transport-accessibility"],
-    "business-intelligence": ["data-quality-dashboard", "graph-analytics"],
-    "data-architecture": ["data-quality-dashboard", "graph-analytics"],
-    "data-quality": ["data-quality-dashboard"],
-    "data-governance": ["data-quality-dashboard", "graph-analytics"],
-    "geospatial-analysis": ["transport-accessibility"],
-}
+# напрям → демо з маніфесту shared/demos.json (порядок демо як у маніфесті)
+MANIFEST = json.loads((ROOT / "shared" / "demos.json").read_text(encoding="utf-8"))
+MAP: dict[str, list[str]] = {}
+for _d in MANIFEST["demos"]:
+    if _d.get("status") == "live":
+        for _svc in _d["services"]:
+            MAP.setdefault(_svc, []).append(_d["slug"])
 T = {
     "uk": {"kicker": "Подивитися в лабораторії", "title": "Цей напрям у дії на синтетичних даних", "open": "Відкрити демо"},
     "en": {"kicker": "See it in the lab", "title": "This service in action on synthetic data", "open": "Open the demo"},

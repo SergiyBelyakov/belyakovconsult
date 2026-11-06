@@ -1,0 +1,193 @@
+{
+  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти.",
+  "demos": [
+    {
+      "slug": "data-quality-dashboard",
+      "dir": "dashboard",
+      "attr": "data-dashboard",
+      "anchor": "dashboard-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en",
+        "pt"
+      ],
+      "services": [
+        "data-strategy",
+        "business-intelligence",
+        "data-architecture",
+        "data-quality",
+        "data-governance"
+      ],
+      "stages": [
+        "sources",
+        "quality",
+        "governance",
+        "bi"
+      ],
+      "build": {
+        "entry": "dashboard/src/main.jsx",
+        "charset": null,
+        "copy": [
+          [
+            "dashboard/public",
+            "."
+          ],
+          [
+            "dashboard/vendor",
+            "vendor"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо дашборду якості даних | Belyakov Consult",
+          "description": "Інтерактивний BI-дашборд на синтетичних даних: якість, джерела, регіони і PDF-звіт за хвилину. Приклад аналітичної роботи Belyakov Consult.",
+          "name": "Демо дашборду якості даних",
+          "noscript": "Для роботи дашборду потрібен JavaScript. Інтерактивне демо показує якість даних, стан джерел і регіональну аналітику на синтетичному наборі та формує PDF-звіт.",
+          "kind": "Якість даних · BI",
+          "teaser": "Показники обробки, якості й доступності джерел, матриця «регіон × напрям», PDF-звіт і власний CSV просто в браузері."
+        },
+        "en": {
+          "title": "Data quality dashboard demo | Belyakov Consult",
+          "description": "An interactive BI dashboard on synthetic data: quality, sources, regions and a one-minute PDF report. An example of Belyakov Consult analytics work.",
+          "name": "Data quality dashboard demo",
+          "noscript": "The dashboard needs JavaScript. The interactive demo shows data quality, source health and regional analytics on a synthetic dataset and builds a PDF report.",
+          "kind": "Data quality · BI",
+          "teaser": "Processing, quality and source availability measures, a region × domain matrix, a PDF report and your own CSV right in the browser."
+        },
+        "pt": {
+          "title": "Demo de painel de qualidade dos dados | Belyakov Consult",
+          "description": "Painel de BI interativo com dados sintéticos: qualidade, fontes, regiões e relatório PDF num minuto. Exemplo do trabalho analítico da Belyakov Consult.",
+          "name": "Demo do painel de qualidade dos dados",
+          "noscript": "O painel precisa de JavaScript. A demo interativa mostra qualidade dos dados, estado das fontes e análise regional num conjunto sintético e gera um relatório PDF.",
+          "kind": "Qualidade dos dados · BI",
+          "teaser": "Indicadores de processamento, qualidade e disponibilidade das fontes, matriz região × área, relatório PDF e o seu próprio CSV no navegador."
+        }
+      }
+    },
+    {
+      "slug": "graph-analytics",
+      "dir": "graph-demo",
+      "attr": "data-graph-demo",
+      "anchor": "graph-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en",
+        "pt"
+      ],
+      "services": [
+        "data-strategy",
+        "data-analysis",
+        "business-intelligence",
+        "data-architecture",
+        "data-governance"
+      ],
+      "stages": [
+        "integration",
+        "analysis"
+      ],
+      "build": {
+        "entry": "graph-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо графової аналітики | Belyakov Consult",
+          "description": "Інтерактивний граф на синтетичних даних: зв’язки людей, демографічні, соціальні й медичні характеристики, інтегральний індекс потреби і сигнали для соціальної роботи.",
+          "name": "Демо графової аналітики",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує мережу зв’язків людей, домогосподарств, фахівців і закладів, карту поєднань характеристик, інтегральний індекс потреби і сигнали на синтетичних даних.",
+          "kind": "Графова аналітика",
+          "teaser": "Мережа людей, домогосподарств, фахівців і закладів, інтегральний індекс потреби та сигнали для соціальної роботи."
+        },
+        "en": {
+          "title": "Graph analytics demo | Belyakov Consult",
+          "description": "An interactive graph on synthetic data: ties between people, demographic, social and medical characteristics, a composite need index and signals for social work.",
+          "name": "Graph analytics demo",
+          "noscript": "The demo needs JavaScript. It shows a network of people, households, social workers and clinics, a map of co-occurring characteristics, a composite need index and signals on synthetic data.",
+          "kind": "Graph analytics",
+          "teaser": "A network of people, households, social workers and clinics, a composite need index and signals for social work."
+        },
+        "pt": {
+          "title": "Demo de análise de grafos | Belyakov Consult",
+          "description": "Grafo interativo com dados sintéticos: ligações entre pessoas, características demográficas, sociais e médicas, índice composto de necessidade e sinais para o trabalho social.",
+          "name": "Demo de análise de grafos",
+          "noscript": "A demo precisa de JavaScript. Mostra uma rede de pessoas, agregados, técnicos e serviços, um mapa de características que aparecem juntas, um índice composto de necessidade e sinais com dados sintéticos.",
+          "kind": "Análise de grafos",
+          "teaser": "Rede de pessoas, agregados, técnicos e serviços, índice composto de necessidade e sinais para o trabalho social."
+        }
+      }
+    },
+    {
+      "slug": "transport-accessibility",
+      "dir": "transport-demo",
+      "attr": "data-transport-demo",
+      "anchor": "transport-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en",
+        "pt"
+      ],
+      "services": [
+        "data-strategy",
+        "data-analysis",
+        "geospatial-analysis"
+      ],
+      "stages": [
+        "geospatial"
+      ],
+      "build": {
+        "entry": "transport-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо аналізу транспортної доступності | Belyakov Consult",
+          "description": "Інтерактивна карта ізохрон на синтетичних даних: час у дорозі до амбулаторії, лікарні і ЦНАП автомобілем, автобусом і пішки, покриття населення, зони обслуговування, сценарії і сигнали.",
+          "name": "Демо транспортної доступності",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує карту зон транспортної доступності умовної громади, покриття населення, зони обслуговування закладів, сценарії змін мережі і сигнали на синтетичних даних.",
+          "kind": "Геопросторова аналітика",
+          "teaser": "Ізохрони до амбулаторії, лікарні й ЦНАП, покриття населення, зони обслуговування та сценарії змін мережі."
+        },
+        "en": {
+          "title": "Transport accessibility analysis demo | Belyakov Consult",
+          "description": "An interactive isochrone map on synthetic data: travel time to primary care, a hospital and an administrative service centre by car, by bus and on foot, population coverage, catchment areas, scenarios and signals.",
+          "name": "Transport accessibility demo",
+          "noscript": "The demo needs JavaScript. It shows a map of travel time zones in a fictional community, population coverage, facility catchment areas, network scenarios and signals on synthetic data.",
+          "kind": "Geospatial analytics",
+          "teaser": "Isochrones to primary care, a hospital and a service centre, population coverage, catchment areas and network scenarios."
+        },
+        "pt": {
+          "title": "Demo de análise de acessibilidade de transportes | Belyakov Consult",
+          "description": "Mapa interativo de isócronas com dados sintéticos: tempo de viagem até ao centro de saúde, ao hospital e ao balcão público de carro, de autocarro e a pé, cobertura da população, áreas de influência, cenários e sinais.",
+          "name": "Demo de acessibilidade de transportes",
+          "noscript": "A demo precisa de JavaScript. Mostra um mapa das zonas de tempo de viagem de um município fictício, a cobertura da população, as áreas de influência dos serviços, cenários da rede e sinais com dados sintéticos.",
+          "kind": "Análise geoespacial",
+          "teaser": "Isócronas até ao centro de saúde, ao hospital e ao balcão público, cobertura da população, áreas de influência e cenários da rede."
+        }
+      }
+    }
+  ]
+}
