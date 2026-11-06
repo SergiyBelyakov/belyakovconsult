@@ -87,7 +87,7 @@ jobs:
           if git diff --cached --quiet; then echo "Змін немає"; exit 0; fi
           git commit -m "Конвеєр: оновлення сайту і журналу $(date -u +'%Y-%m-%d %H:%M')"
           # -X theirs: при конфлікті в журналі чи картинках перемагає версія цього запуску (вона новіша)
-          for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; git rebase --abort 2>/dev/null; sleep 5; done
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && exit 0; git rebase --abort 2>/dev/null || true; sleep 5; done; exit 1
           # Запасний шлях: поки ми працювали, у main з'явилися інші коміти й rebase не вдався.
           # Беремо свіжий main, а журнал і сайт цього запуску кладемо поверх (інакше опубліковане загубиться й вийде вдруге).
           git fetch origin main
