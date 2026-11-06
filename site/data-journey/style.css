@@ -134,3 +134,33 @@ body.scene-expanded #scene{touch-action:none}
 .scene-more-list{position:absolute;top:calc(100% + 6px);left:0;display:flex;flex-direction:column;gap:6px;z-index:20}
 .scene-more-list button{text-align:left}
 .scene-more>summary,.scene-more-list,.scene-more-list button{pointer-events:auto}
+
+/* Етапи шляху текстом (scripts/make_journey_static.py) */
+.journey-static{position:relative;z-index:2;background:var(--black);border-top:1px solid var(--line);padding:96px 0 104px}
+.js-wrap{width:min(1120px,calc(100% - 48px));margin:0 auto}
+.js-kicker{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#8994a6}
+.js-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ruby);box-shadow:0 0 10px var(--ruby)}
+.journey-static h2{font-family:Montserrat,Arial,sans-serif;font-size:clamp(28px,3.4vw,44px);line-height:1.12;color:var(--white);margin:16px 0 14px;max-width:760px}
+.js-lead{color:var(--silver);font-size:16px;line-height:1.65;max-width:720px;margin:0 0 48px}
+.js-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.js-stage{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:24px 24px 22px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#0d131d,#090d14)}
+.js-num{font-family:Montserrat,Arial,sans-serif;font-weight:700;font-size:15px;color:var(--ruby);padding-top:2px}
+.js-tag{font-size:10px;letter-spacing:1.8px;color:#8994a6}
+.js-stage h3{font-family:Montserrat,Arial,sans-serif;font-size:19px;line-height:1.3;color:var(--white);margin:8px 0 10px}
+.js-stage p{color:var(--silver);font-size:14.5px;line-height:1.62;margin:0 0 10px}
+.js-result{color:#c9d1dc!important}.js-result b{color:var(--white);font-weight:600}
+.js-links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:13px}
+.js-links a{color:#c9d1dc;text-decoration:none;border-bottom:1px solid #ffffff2a;padding-bottom:2px}
+.js-links a:hover{color:var(--white);border-color:var(--ruby)}
+.js-links a.js-demo{color:#ff4d63;border-color:#d9042966}
+.js-cta{margin-top:64px;padding:44px 44px 46px;border:1px solid #d9042955;border-radius:18px;background:radial-gradient(120% 140% at 0% 0%,#d904291f,transparent 55%),#090d14}
+.js-cta p{color:var(--silver);font-size:16px;line-height:1.65;max-width:680px;margin:0 0 26px}
+.js-cta-actions{display:flex;flex-wrap:wrap;gap:12px}
+.js-btn{display:inline-flex;align-items:center;min-height:46px;padding:0 22px;border-radius:6px;background:var(--ruby);color:#fff;text-decoration:none;font-weight:600;font-size:14px}
+.js-btn:hover{background:#b00321}
+.js-btn-ghost{background:transparent;border:1px solid #ffffff33}.js-btn-ghost:hover{background:#ffffff0d;border-color:#fff}
+@media (max-width:820px){.js-list{grid-template-columns:1fr}.journey-static{padding:64px 0 72px}.js-cta{padding:30px 22px}}
+.journey-static{scroll-margin-top:90px}
+.rail,.stage-nav,.progress,#visual{transition:opacity .3s}
+body.static-in-view .rail,body.static-in-view .stage-nav,body.static-in-view .progress{opacity:0;pointer-events:none}
+@media (max-width:820px){body.static-in-view #visual{opacity:0;pointer-events:none}}
