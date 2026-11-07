@@ -45,7 +45,7 @@
     "status": "skipped-late"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-uk-2": {
-    "at": "2026-11-07 17:17",
+    "at": "2026-11-07 17:32",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 13:30",
@@ -820,6 +820,13 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/45"
   },
+  "laser-kitty/youtube-en": {
+    "at": "2026-11-07 17:32",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
+    "publish_at": "2026-11-07 17:30",
+    "status": "retry"
+  },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
     "id": "urn:li:share:7520229097789087744",
@@ -1225,6 +1232,12 @@
     "id": "17866352178692398",
     "status": "published",
     "url": "https://www.instagram.com/p/DfbmYCwEcX6/"
+  },
+  "note-2026-11-07/threads-en": {
+    "at": "2026-11-07 17:32",
+    "id": "18118868776808917",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfcgtcmFJTO"
   },
   "note-2026-11-07/threads-uk": {
     "at": "2026-11-07 11:01",

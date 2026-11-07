@@ -1,17 +1,31 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-07 17:01
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-07 17:32
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⏭ Пропущено прострочений допис (48 год): LinkedIn (сторінка Belyakov Consult), bi-is-not-for-fixing-sources. Змініть publish_at у linkedinpage-en.md, якщо його треба опублікувати.
+⚠️ Не вдалося опублікувати в YouTube Shorts (laser-kitty), спроба 1/3:
+YouTube (початок вивантаження): HTTP 400 {
+  "error": {
+    "code": 400,
+    "message": "The user has exceeded the number of videos they may upload.",
+    "errors": [
+      {
+        "message": "The user has exceeded the number of videos they may upload.",
+        "domain": "youtube.video",
+        "reason": "uploadLimitExceeded"
+      }
+    ]
+  }
+}
+
 ```
 
 ## 2
 
 ```
-✅ Опубліковано в Instagram: laser-kitty
-https://www.instagram.com/reel/DfcdO68gLxN/
+✅ Опубліковано в Threads: note-2026-11-07
+https://www.threads.com/@belyakovconsult/post/DfcgtcmFJTO
 ```
