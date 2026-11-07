@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-08 00:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-08 00:17
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в YouTube Shorts: iso-8000-8-quality-in-registers
-https://youtube.com/shorts/Xd0cbF8YYTk
+🔑 LinkedIn (сторінка Belyakov Consult): ключ доступу недійсний, публікації в цю мережу стоять. Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.
+LinkedIn (відео: ініціалізація): HTTP 401 {"status":401,"serviceErrorCode":65606,"code":"DISABLED_APPLICATION","message":"Application is disabled"}
 ```
