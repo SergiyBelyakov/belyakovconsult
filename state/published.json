@@ -46,6 +46,15 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/40"
   },
+  "bi-is-not-for-fixing-sources/telegram-uk-3": {
+    "at": "2026-11-07 10:02",
+    "extra_ids": [
+      44
+    ],
+    "id": 43,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/43"
+  },
   "bi-is-not-for-fixing-sources/threads-en": {
     "at": "2026-11-05 18:03",
     "id": "18239510629321211",
@@ -640,7 +649,7 @@
     "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/linkedinpage-uk-4": {
-    "at": "2026-11-07 09:48",
+    "at": "2026-11-07 10:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-05 11:00",
