@@ -29,7 +29,7 @@
     "url": "https://www.instagram.com/reel/DfZZmC-D_wl/"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-uk": {
-    "at": "2026-11-07 11:47",
+    "at": "2026-11-07 12:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-05 13:30",
@@ -493,6 +493,13 @@
     "privacy": "public",
     "status": "published",
     "url": "https://youtube.com/shorts/ED9h0vfYyDs"
+  },
+  "governance-shows-in-conflict/youtube-en-2": {
+    "at": "2026-11-07 12:02",
+    "id": "uJ05ZCeQxWc",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/uJ05ZCeQxWc"
   },
   "governance-shows-in-conflict/youtube-uk": {
     "at": "2026-11-07 03:02",
