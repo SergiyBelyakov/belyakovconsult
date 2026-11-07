@@ -245,6 +245,7 @@ post_links:
   terrain: /cases/community-terrain/
   anomaly: /cases/anomaly-detection/
   charts: /cases/chart-gallery/
+  kitty: /cases/laser-kitty/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

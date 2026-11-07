@@ -11,7 +11,7 @@ const PER_UK = { day: ['день', 'дні', 'днів'], week: ['тиждень
 
 const uk = {
   locale: 'uk-UA',
-  demoName: 'Галерея візуалізацій',
+  demoName: 'Галерея візуалізацій', related: 'Також у навчанні', game: 'Гра «Лазерне кошеня»',
   navCaption: 'Навчання',
   kicker: 'Навчання • Візуалізація • Дані',
   demo: 'Інтерактивний посібник',
@@ -183,7 +183,7 @@ const uk = {
 const rowsEn = n => `${n} ${enPl(n, 'row', 'rows')}`;
 const en = {
   locale: 'en-GB',
-  demoName: 'Chart gallery',
+  demoName: 'Chart gallery', related: 'Also in learning', game: 'Laser Kitty game',
   navCaption: 'Learning',
   kicker: 'Learning • Visualisation • Data',
   demo: 'Interactive guide',

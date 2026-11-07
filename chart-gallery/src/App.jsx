@@ -155,6 +155,8 @@ export default function App({ initialLang, base: assetBase, onSite }) {
             </a>
           ))}
         </nav>
+        <p className="nav-caption">{T.related}</p>
+        <nav><a className="nav-item" href={(onSite ? langPrefix : 'https://www.belyakovconsult.com' + langPrefix) + '/cases/laser-kitty/'}><Icon name="paw" size={18} /><span>{T.game}</span></a></nav>
         <div className="side-cta">
           <span className="signal-line" />
           <strong>{T.ctaSide}</strong>

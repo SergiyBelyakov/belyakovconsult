@@ -469,6 +469,57 @@
       "audiences": [
         "learning"
       ]
+    },
+    {
+      "slug": "laser-kitty",
+      "dir": "laser-kitty",
+      "attr": "data-laser-kitty",
+      "anchor": "laser-kitty",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-quality",
+        "data-governance"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "laser-kitty/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Лазерне кошеня проти багів даних: гра про якість даних | Belyakov Consult",
+          "description": "Аркада в стилі Galaga про чистку даних: видаляйте неможливі дати й заглушки, виправляйте формати, об’єднуйте дублікати. Помилки справжні, розбір після рівня.",
+          "name": "Лазерне кошеня проти багів даних",
+          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб зіграти й потренуватися знаходити помилки, заглушки й дублікати.",
+          "kind": "Навчання · гра",
+          "teaser": "Аркада про якість даних: справжні помилки, формати й дублікати, п’ять рівнів і розбір кожної помилки."
+        },
+        "en": {
+          "title": "Laser Kitty vs the Data Bugs: a data quality game | Belyakov Consult",
+          "description": "A Galaga-style arcade about cleaning data: delete impossible dates and placeholders, fix formats, merge duplicates. Real errors and a breakdown after every level.",
+          "name": "Laser Kitty vs the Data Bugs",
+          "noscript": "The game needs JavaScript. Turn it on to play and practise spotting errors, placeholders and duplicates.",
+          "kind": "Learning · game",
+          "teaser": "An arcade game about data quality: real errors, formats and duplicates, five levels and an explanation for every mistake."
+        }
+      },
+      "audiences": [
+        "learning"
+      ]
     }
   ],
   "exhibits": [
