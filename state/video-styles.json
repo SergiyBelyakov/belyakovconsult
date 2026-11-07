@@ -269,6 +269,15 @@
     "music": "analytic",
     "wave": "wave-7.jpg"
   },
+  "laser-kitty#1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-quality.webp",
+    "k": 36,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-4.jpg"
+  },
   "management-statistics#1": {
     "cover": "quote",
     "globe": "globe-3.jpg",
