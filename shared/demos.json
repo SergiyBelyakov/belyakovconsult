@@ -361,6 +361,62 @@
       "audiences": [
         "communities"
       ]
+    },
+    {
+      "slug": "anomaly-detection",
+      "dir": "anomaly-demo",
+      "attr": "data-anomaly-demo",
+      "anchor": "anomaly-demo",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-quality",
+        "financial-analytics",
+        "data-analysis"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "anomaly-demo/src/main.jsx",
+        "charset": "utf8",
+        "alias": {
+          "three": "site/data-journey/assets/vendor/three.module.js"
+        },
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо виявлення аномалій | Belyakov Consult",
+          "description": "Інтерактивна 3D-хмара з майже 6 000 платежів: аномалії, яких не видно на звичайному дашборді, три методи пошуку, поріг чутливості, пояснення кожного сигналу і пошук аномалій у вашому CSV чи Excel прямо в браузері. Синтетичні дані.",
+          "name": "Демо виявлення аномалій",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує тривимірну хмару платежів умовної організації, сигнали трьох методів пошуку аномалій з поясненнями і пошук аномалій у вашому файлі прямо в браузері.",
+          "kind": "Виявлення аномалій · 3D",
+          "teaser": "Хмара з майже 6 000 платежів у 3D: аномалії, яких не видно на дашборді, пояснення кожного сигналу і пошук у вашому файлі."
+        },
+        "en": {
+          "title": "Anomaly detection demo | Belyakov Consult",
+          "description": "An interactive 3D cloud of almost 6,000 payments: anomalies a regular dashboard cannot show, three detection methods, a sensitivity threshold, an explanation for every signal and anomaly search in your own CSV or Excel file right in the browser. Synthetic data.",
+          "name": "Anomaly detection demo",
+          "noscript": "The demo needs JavaScript. It shows a 3D cloud of payments made by a fictional organisation, signals from three anomaly detection methods with explanations and anomaly search in your own file right in the browser.",
+          "kind": "Anomaly detection · 3D",
+          "teaser": "A 3D cloud of almost 6,000 payments: anomalies a dashboard cannot show, an explanation for every signal and a search in your own file."
+        }
+      },
+      "audiences": [
+        "business",
+        "donors"
+      ]
     }
   ],
   "exhibits": [

@@ -243,6 +243,7 @@ post_links:
   executive: /cases/executive-dashboard/
   fraud: /cases/fraud-analytics/
   terrain: /cases/community-terrain/
+  anomaly: /cases/anomaly-detection/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:
