@@ -1,7 +1,7 @@
 {
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
-    "linkedinpage": "2026-11-07 12:17",
+    "linkedinpage": "2026-11-07 18:17",
     "threads": "2026-11-06 21:02"
   },
   "bi-is-not-for-fixing-sources/instagram-en": {
@@ -45,7 +45,7 @@
     "status": "skipped-late"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-uk-2": {
-    "at": "2026-11-07 18:02",
+    "at": "2026-11-07 18:17",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 13:30",
@@ -530,8 +530,8 @@
     "url": "https://youtube.com/shorts/uJ05ZCeQxWc"
   },
   "governance-shows-in-conflict/youtube-en-3": {
-    "at": "2026-11-07 18:02",
-    "attempts": 1,
+    "at": "2026-11-07 18:17",
+    "attempts": 2,
     "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
     "publish_at": "2026-11-07 18:00",
     "status": "retry"
