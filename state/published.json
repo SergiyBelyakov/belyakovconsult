@@ -28,6 +28,13 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfZZmC-D_wl/"
   },
+  "bi-is-not-for-fixing-sources/linkedinpage-uk": {
+    "at": "2026-11-07 11:01",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-05 13:30",
+    "status": "retry"
+  },
   "bi-is-not-for-fixing-sources/telegram-uk": {
     "at": "2026-11-05 10:03",
     "extra_ids": [
@@ -649,11 +656,9 @@
     "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/linkedinpage-uk-4": {
-    "at": "2026-11-07 10:47",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-07 11:01",
     "publish_at": "2026-11-05 11:00",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "iso-8000-8-quality-in-registers/telegram-uk": {
     "at": "2026-10-29 10:01",
@@ -1155,6 +1160,12 @@
     "id": "17866352178692398",
     "status": "published",
     "url": "https://www.instagram.com/p/DfbmYCwEcX6/"
+  },
+  "note-2026-11-07/threads-uk": {
+    "at": "2026-11-07 11:01",
+    "id": "18183167575428620",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/Dfb0BpkFd0W"
   },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
