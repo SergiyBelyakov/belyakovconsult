@@ -13,7 +13,7 @@ export default function Suit({ ctx }) {
   const key = JSON.stringify(sp);
   const colors = useMemo(() => layerSuit(T3, R, W), [key]);
   const places = useMemo(() => scenePlaces(ctx), [ctx.lang]);
-  const sites = R.top.map((s, i) => ({ x: s.x, y: s.y, label: `${i + 1}`, h: 1.2 }));
+  const sites = useMemo(() => R.top.map((s, i) => ({ x: s.x, y: s.y, label: `${i + 1}`, h: 1.4 })), [key]);
   return (
     <>
       <div className="model-bar glass suit-bar">
@@ -28,7 +28,7 @@ export default function Suit({ ctx }) {
           <Segmented value={sp.target} onChange={v => setSp({ ...sp, target: v })} label={T.suitCtl.target} options={['far', 'all'].map(x => ({ value: x, label: T.targets[x] }))} />
         </div>
       </div>
-      <SceneBox ctx={ctx} colors={colors} places={places} sites={sites} legend={<span className="legend-elev"><span className="muted small">{T.legendSuit}</span><i style={{ background: 'linear-gradient(90deg,#2b5f6a,#f2c14e)' }} /></span>} />
+      <SceneBox ctx={ctx} colors={colors} places={places} sites={sites} legend={<span className="legend-elev"><span className="muted small">{T.legendSuit}</span><small>{T.lowHigh[0]}</small><i style={{ background: 'linear-gradient(90deg,#2b5f6a,#f2c14e)' }} /><small>{T.lowHigh[1]}</small></span>} />
       <Panel title={T.suitTop} sub={`${T.suitArea}: ${f.int(R.area)} ${T.km2}. ${T.suitNote}`}>
         <div className="table-scroll">
           <table className="data-table compact plain">

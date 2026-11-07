@@ -1,12 +1,16 @@
-// Карта зверху на canvas: ті самі шари, що й у 3D, з відтіненням рельєфу. Запасний режим, якщо WebGL недоступний.
+// Карта зверху на canvas: ті самі шари, що й у 3D, з відтіненням рельєфу, притоками й межею громади.
+// Запасний режим, якщо WebGL недоступний. Наведення показує показники точки так само, як у 3D.
 import { useEffect, useRef } from 'react';
-import { GX, GY, STEP, WORLD } from './dem.js';
+import { BOUNDARY } from '../../transport-demo/src/data.js';
+import { GX, GY, STEP, WORLD, cellAt } from './dem.js';
 import { hillshade } from './layers.js';
 
 const gamma = v => Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055));
 
-export default function Map2D({ T, colors, places, sites = [], height = 520, label }) {
+export default function Map2D({ T, colors, places, sites = [], height = 540, label, onHover }) {
   const ref = useRef(null);
+  const geom = useRef(null);
+  const hov = useRef(null);
   useEffect(() => {
     const cv = ref.current; if (!cv || !colors) return;
     const w = cv.parentElement.clientWidth, h = Math.min(height, (w * WORLD.h) / WORLD.w);
@@ -23,11 +27,19 @@ export default function Map2D({ T, colors, places, sites = [], height = 520, lab
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = true;
     const k = Math.min(w / WORLD.w, h / WORLD.h), ox = (w - WORLD.w * k) / 2, oy = (h - WORLD.h * k) / 2;
+    geom.current = { k, ox, oy };
     ctx.clearRect(0, 0, w, h);
     ctx.drawImage(off, ox, oy, GX * STEP * k, GY * STEP * k);
     const P = (x, y) => [ox + x * k, oy + y * k];
-    ctx.strokeStyle = 'rgba(233,237,242,.5)'; ctx.lineWidth = 1;
-    T.base.roads.forEach(r => { ctx.beginPath(); r.pts.forEach((p, i) => { const [x, y] = P(p[0], p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); });
+    const line = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => { const [x, y] = P(p[0], p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); if (close) ctx.closePath(); ctx.stroke(); };
+    ctx.save(); ctx.beginPath(); ctx.rect(ox, oy, GX * STEP * k, GY * STEP * k); ctx.clip();
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    T.streams.forEach(s => { ctx.strokeStyle = 'rgba(79,155,240,.85)'; ctx.lineWidth = Math.min(2.4, 0.8 + 0.5 * Math.log10(Math.max(1, s.acc / 100)) * 2); line(s.pts); });
+    ctx.strokeStyle = '#4aa8ff'; ctx.lineWidth = 2.6; line(T.base.river);
+    ctx.strokeStyle = 'rgba(233,237,242,.45)'; ctx.lineWidth = 1;
+    T.base.roads.forEach(r => line(r.pts));
+    ctx.setLineDash([5, 4]); ctx.strokeStyle = 'rgba(255,60,90,.75)'; ctx.lineWidth = 1.4; line(BOUNDARY, true); ctx.setLineDash([]);
+    ctx.restore();
     ctx.font = '600 11px Inter, Arial, sans-serif';
     places.forEach(p => {
       const [x, y] = P(p.x, p.y);
@@ -42,5 +54,21 @@ export default function Map2D({ T, colors, places, sites = [], height = 520, lab
       ctx.fillStyle = '#f4f6f8'; ctx.fillText(s.label, x + 8, y - 6);
     });
   }, [colors, places, sites]);
-  return <div className="map2d"><canvas ref={ref} role="img" aria-label={label} /></div>;
+
+  const cellOf = e => {
+    const g = geom.current, r = ref.current.getBoundingClientRect(); if (!g) return null;
+    const x = (e.clientX - r.left - g.ox) / g.k, y = (e.clientY - r.top - g.oy) / g.k, c = cellAt(x, y);
+    return c >= 0 ? c : null;
+  };
+  const move = e => {
+    if (!onHover) return;
+    const c = cellOf(e);
+    if (c !== hov.current) { hov.current = c; onHover(c); }
+  };
+  return (
+    <div className="map2d">
+      <canvas ref={ref} role="img" aria-label={label} onPointerMove={move} onPointerDown={move}
+        onPointerLeave={e => { if (e.pointerType !== 'touch' && onHover) { hov.current = null; onHover(null); } }} />
+    </div>
+  );
 }

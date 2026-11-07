@@ -15,7 +15,7 @@ export default function Cover({ ctx }) {
   const R = coverage(T3, kind, sites.map(s => s.cell));
   const colors = useMemo(() => layerCover(T3, R.V), [kind, smode, k, picked.join()]);
   const label = s => (s.place ? placeName(T3.byId.get(s.place), true) : T.peak(s.id.slice(1)));
-  const sceneSites = sites.map(s => { const [x, y] = cellXY(s.cell); return { x, y, label: label(s), h: kind === 'tower' ? 2.2 : 1.1, ring: COVER[kind].r }; });
+  const sceneSites = useMemo(() => sites.map(s => { const [x, y] = cellXY(s.cell); return { x, y, label: label(s), h: kind === 'tower' ? 2.4 : 1.3, ring: COVER[kind].r }; }), [kind, smode, k, picked.join(), ctx.lang]);
   const places = useMemo(() => scenePlaces(ctx, new Set(), new Set(R.missed.map(p => p.id))), [kind, smode, k, picked.join(), ctx.lang]);
   const toggle = id => setPicked(picked.includes(id) ? picked.filter(x => x !== id) : [...picked, id]);
   return (

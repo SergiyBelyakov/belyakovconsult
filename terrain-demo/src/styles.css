@@ -29,9 +29,8 @@
 .v3-label.dim { opacity: .7; }
 .map2d canvas { display: block; border-radius: var(--r-ctl); background: #06090e; }
 .scene-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 8px; }
-.legend-elev { display: inline-grid; grid-template-columns: auto 160px auto auto; align-items: center; gap: 4px 8px; font-size: 11.5px; color: var(--muted); }
+.legend-elev { display: inline-grid; grid-template-columns: auto auto 160px auto; align-items: center; gap: 4px 8px; font-size: 11.5px; color: var(--muted); }
 .legend-elev i { display: block; height: 8px; border-radius: 4px; }
-.legend-elev small:last-child { justify-self: end; }
 .legend-sw { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
 .legend-sw i { width: 14px; height: 10px; border-radius: 2px; }
 .table-scroll.short { max-height: 420px; overflow: auto; }
@@ -50,6 +49,60 @@
   .stage-ctl input, .exag input { width: 120px; }
   .suit-bar { grid-template-columns: minmax(0, 1fr); }
   .terrain-art { display: none; }
-  .legend-elev { grid-template-columns: auto 100px auto auto; }
+  .legend-elev { grid-template-columns: auto auto 100px auto; }
 }
 @media (prefers-reduced-motion: reduce) { .ta-line { animation: none; stroke-dashoffset: 0; } }
+
+/* ——— сцена: макет у стилі цифрового двійника ——— */
+.view3d { background: radial-gradient(90% 70% at 50% 38%, rgba(59, 130, 246, .10), transparent 65%), radial-gradient(60% 40% at 50% 100%, rgba(217, 4, 41, .10), transparent 70%), #06090e; }
+.view3d-labels { transition: opacity .5s; }
+.scene-stage { position: relative; }
+.v3-label.axis { padding: 0; border: 0; background: none; color: rgba(168, 216, 255, .75); font: 600 10.5px/1 var(--mono, ui-monospace, monospace); letter-spacing: .04em; }
+.v3-label.axis.north { color: #ff5a74; font-size: 12px; }
+.v3-label.axis.tick { transform-origin: center; }
+.scene-hud { position: absolute; top: 12px; left: 12px; z-index: 3; width: 286px; max-width: calc(100% - 24px); padding: 10px 12px 8px; border: 1px solid rgba(127, 220, 255, .28); border-radius: var(--r-ctl); background: rgba(6, 10, 16, .82); backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .03); pointer-events: auto; }
+.hud-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid rgba(127, 220, 255, .16); }
+.hud-head strong { flex: 1; min-width: 0; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hud-dot { width: 8px; height: 8px; border-radius: 50%; background: #7fdcff; box-shadow: 0 0 0 0 rgba(127, 220, 255, .6); animation: hud-ping 1.6s ease-out infinite; }
+@keyframes hud-ping { 0% { box-shadow: 0 0 0 0 rgba(127, 220, 255, .6); } 100% { box-shadow: 0 0 0 9px rgba(127, 220, 255, 0); } }
+.hud-x { border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.hud-x:hover { color: var(--ink); }
+.scene-hud dl { display: grid; gap: 3px; margin: 0; }
+.scene-hud dl div { display: grid; grid-template-columns: 104px 1fr; gap: 8px; font-size: 12px; line-height: 1.35; }
+.scene-hud dt { color: var(--muted); }
+.scene-hud dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+.hud-sw { display: inline-block; width: 10px; height: 10px; margin: 0 6px -1px 0; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); }
+.scene-note { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.flood-odds { font-size: 12.5px; color: var(--muted); }
+.layer-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.legend-elev.wide { grid-template-columns: auto auto 200px auto; }
+.legend-cats { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.legend-cat { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 6px; border: 1px solid var(--line-2); border-radius: 12px; background: rgba(255, 255, 255, .03); color: var(--ink); font: inherit; font-size: 12px; cursor: pointer; transition: opacity .2s, border-color .2s; }
+.legend-cat i { width: 12px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); }
+.legend-cat:hover { border-color: var(--line-3); }
+.legend-cat.on { border-color: var(--ruby); background: rgba(217, 4, 41, .12); }
+.legend-cat.off { opacity: .55; }
+.kpi-mini-row.flat { margin: 0 0 12px; padding-top: 0; border-top: 0; }
+.panel-note { margin: 10px 0 0; }
+.soil-table td { vertical-align: middle; }
+.soil-table tbody tr { cursor: pointer; }
+.soil-table .soil-tex { display: block; margin: 1px 0 0 16px; color: var(--muted); font-size: 11px; font-weight: 400; }
+.share-bar { display: inline-block; width: 70px; height: 6px; margin-right: 8px; border-radius: 3px; background: rgba(255, 255, 255, .06); vertical-align: middle; overflow: hidden; }
+.share-bar i { display: block; height: 100%; border-radius: 3px; background: #3B82F6; }
+.morph-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.aspect-box { display: grid; justify-items: center; gap: 6px; }
+.rose { position: relative; margin: 0 auto; }
+.rose svg { display: block; overflow: visible; }
+.rose-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 11px; color: var(--muted); text-align: center; pointer-events: none; width: 44px; line-height: 1.2; }
+.rose-tip { left: 50%; top: -8px; }
+.axis-title { fill: var(--muted); font-size: 11.5px; }
+.data-table tbody tr[tabindex] { cursor: pointer; }
+
+@media (max-width: 1180px) { .morph-wrap { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 680px) {
+  .view3d { height: 440px !important; }
+  .scene-hud { position: static; width: auto; max-width: none; margin-top: 8px; }
+  .legend-elev.wide { grid-template-columns: auto auto 90px auto; }
+  .layer-pick .segmented, .panel .segmented { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hud-dot { animation: none; } }

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Panel, Button } from '../../../dashboard/src/ui.jsx';
 import { flood, floodStageOf, riverLevel } from '../dem.js';
 import { layerFlood } from '../layers.js';
-import { SceneBox, Swatch, scenePlaces } from './controls.jsx';
+import { returnPeriod, annualChance } from '../geo.js';
+import { SceneBox, Swatch, scenePlaces, fmtChance } from './controls.jsx';
 
 export default function Flood({ ctx }) {
   const { T, f, T3, stage, setStage, placeName, gl, mode3d } = ctx;
@@ -29,6 +30,7 @@ export default function Flood({ ctx }) {
           <b>+{f.dec1(stage)} {T.m}</b>
         </label>
         <Button icon={play ? 'x' : 'arrowUp'} onClick={() => { if (!play && stage >= 8) setStage(0); setPlay(!play); }}>{play ? T.stop : T.play}</Button>
+        <span className="flood-odds">{T.floodOdds(T.oncePer(returnPeriod(Math.max(stage, 0.2))), fmtChance(f, annualChance(Math.max(stage, 0.2))))}</span>
       </SceneBox>
       <div className="kpi-mini-row wide glass">
         <div><span>{T.floodStats.area}</span><b>{f.dec1(R.area)} {T.km2}</b></div>

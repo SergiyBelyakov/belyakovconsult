@@ -1,18 +1,21 @@
 import { Panel } from '../../../dashboard/src/ui.jsx';
 import { Icon, StatusIcon } from '../../../dashboard/src/icons.jsx';
 import { signals, SIGNALS } from '../dem.js';
+import { geoSignals } from '../geo.js';
 
 const levelOf = list => (list.some(x => x.level === 'critical') ? 'critical' : list.length ? 'warning' : 'healthy');
 
 export default function Signals({ ctx }) {
   const { T, f, T3, sig, setSig, go, placeName } = ctx;
-  const S = signals(T3);
+  const S = { ...signals(T3), ...geoSignals(T3) };
   const cur = SIGNALS.includes(sig) ? sig : SIGNALS[0];
   const target = (id, x) => {
     if (id === 'floodLow' || id === 'floodMid') return () => go('flood', { stage: x.stage });
     if (id === 'facility') return () => go('flood', { stage: x.stage });
     if (id === 'isolated') return () => go('flood', { stage: 4 });
     if (id === 'sirens') return () => go('cover', { kind: 'siren', smode: 'existing' });
+    if (id === 'waterlog') return () => go('nature', { layer: 'gw' });
+    if (id === 'erosion') return () => go('nature', { layer: 'erosion' });
     return () => go('relief');
   };
   const name = (id, x) => (id === 'facility' ? T.fac[x.fc.id] : id === 'steep' ? T.roadName(ctx.nodeName(x.road.a), ctx.nodeName(x.road.b)) : placeName(x.p));

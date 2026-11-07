@@ -3,10 +3,13 @@ import { LANGS, STRINGS } from './i18n.js';
 import { makeFmt } from './format.js';
 import { buildTerrain, floodStageOf, coverage, EXISTING_SIRENS, SIGNALS } from './dem.js';
 import { webglOk } from './View3D.jsx';
+import { geo, returnPeriod, SOILS } from './geo.js';
+import { GEO_LAYER_IDS } from './layers.js';
 import { Icon } from '../../dashboard/src/icons.jsx';
 import { Button, Segmented, Toast } from '../../dashboard/src/ui.jsx';
 import { LeadModal } from '../../dashboard/src/lead.jsx';
 import Relief from './pages/Relief.jsx';
+import Nature from './pages/Nature.jsx';
 import Flood from './pages/Flood.jsx';
 import Cover from './pages/Cover.jsx';
 import Suit from './pages/Suit.jsx';
@@ -14,7 +17,7 @@ import Signals from './pages/Signals.jsx';
 import Method from './pages/Method.jsx';
 
 const VIEWS = [
-  ['relief', 'layers', Relief], ['flood', 'waves', Flood], ['cover', 'radio', Cover], ['suit', 'pin', Suit],
+  ['relief', 'layers', Relief], ['nature', 'leaf', Nature], ['flood', 'waves', Flood], ['cover', 'radio', Cover], ['suit', 'pin', Suit],
   ['signals', 'warning', Signals], ['method', 'book', Method],
 ];
 const PAGES = Object.fromEntries(VIEWS.map(([id, , P]) => [id, P]));
@@ -30,6 +33,7 @@ function parseHash() {
     kind: q.k === 'tower' ? 'tower' : 'siren',
     smode: ['existing', 'best', 'pick'].includes(q.s) ? q.s : 'existing',
     sig: SIGNALS.includes(q.sig) ? q.sig : null,
+    layer: GEO_LAYER_IDS.includes(q.l) ? q.l : 'soil',
     map: q.map === '1',
   };
 }
@@ -51,7 +55,10 @@ export default function App({ initialLang, base: assetBase, onSite }) {
 
   const [view, setView] = useState(initial.view);
   const [mode3d, setMode3d] = useState(!initial.map);
-  const [exag, setExag] = useState(14);
+  const [exag, setExag] = useState(32);
+  const [spin, setSpin] = useState(true);
+  const [layer, setLayer] = useState(initial.layer);
+  const [focus, setFocus] = useState(null);
   const [stage, setStage] = useState(initial.stage);
   const [kind, setKind] = useState(initial.kind);
   const [smode, setSmode] = useState(initial.kind === 'tower' && initial.smode === 'existing' ? 'best' : initial.smode);
@@ -69,13 +76,17 @@ export default function App({ initialLang, base: assetBase, onSite }) {
     if (view === 'flood' && stage !== 3) parts.push('w=' + stage);
     if (view === 'cover') { if (kind !== 'siren') parts.push('k=' + kind); if (smode !== 'existing') parts.push('s=' + smode); }
     if (view === 'signals' && sig) parts.push('sig=' + sig);
+    if (view === 'nature' && layer !== 'soil') parts.push('l=' + layer);
     if (!mode3d) parts.push('map=1');
     const h = '#' + parts.join('&');
     if (location.hash !== h) history.replaceState(null, '', location.pathname + location.search + h);
-  }, [view, stage, kind, smode, sig, mode3d]);
+  }, [view, stage, kind, smode, sig, mode3d, layer]);
   useEffect(() => {
-    const on = () => { const h = parseHash(); setView(h.view); setStage(h.stage); setKind(h.kind); setSmode(h.smode); setSig(h.sig); setMode3d(!h.map); };
+    const on = () => { const h = parseHash(); setView(h.view); setStage(h.stage); setKind(h.kind); setSmode(h.smode); setSig(h.sig); setLayer(h.layer); setMode3d(!h.map); };
     window.addEventListener('hashchange', on);
+    // природні показники рахуємо заздалегідь, у паузі браузера, щоб перше наведення на модель не гальмувало
+    const idle = window.requestIdleCallback || (fn => setTimeout(fn, 400));
+    idle(() => geo(T3));
     return () => window.removeEventListener('hashchange', on);
   }, []);
   useEffect(() => { document.title = `${T.nav[view]} · ${T.demoName} | Belyakov Consult`; }, [view]);
@@ -90,6 +101,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
     if (patch.stage != null) setStage(Math.round(patch.stage * 5) / 5);
     if (patch.kind) setKind(patch.kind);
     if (patch.smode) setSmode(patch.smode);
+    if (patch.layer) { setLayer(patch.layer); setFocus(null); }
     navigate(id);
   };
   const switchLang = id => {
@@ -104,13 +116,14 @@ export default function App({ initialLang, base: assetBase, onSite }) {
   const exportCsv = () => {
     const st = floodStageOf(T3);
     const sir = coverage(T3, 'siren', EXISTING_SIRENS.map(id => T3.byId.get(id).cell));
-    const rows = [['id', 'name_uk', 'name_lat', 'kind', 'x_km', 'y_km', 'population', 'elevation_m', 'flood_from_m', 'siren_audible'],
-      ...T3.places.map(p => [p.id, p.name.uk, p.name.lat, p.kind, p.x, p.y, p.pop, p.h.toFixed(1), st.has(p.id) ? st.get(p.id) : '', sir.covered.includes(p) ? 1 : 0])];
+    const G = geo(T3), phys = new Map(G.summary.places.map(x => [x.p.id, x]));
+    const rows = [['id', 'name_uk', 'name_lat', 'kind', 'x_km', 'y_km', 'population', 'elevation_m', 'flood_from_m', 'flood_return_years', 'siren_audible', 'soil', 'groundwater_m', 'frost_free_days', 'mean_temp_c', 'soil_loss_t_ha_nearby'],
+      ...T3.places.map(p => { const x = phys.get(p.id); return [p.id, p.name.uk, p.name.lat, p.kind, p.x, p.y, p.pop, p.h.toFixed(1), st.has(p.id) ? st.get(p.id) : '', st.has(p.id) ? Math.round(returnPeriod(Math.max(st.get(p.id), 0.2))) : '', sir.covered.includes(p) ? 1 : 0, SOILS[x.soil].id, x.gw.toFixed(1), Math.round(x.ffd), x.temp.toFixed(1), x.eros.toFixed(1)]; })];
     download('BC_terrain_settlements.csv', rows.map(r => r.map(v => (/[",\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : v)).join(',')).join('\n'));
     notify(T.method.csvDone);
   };
 
-  const ctx = { T, f, lang, T3, gl, view, mode3d, setMode3d, exag, setExag, stage, setStage, kind, setKind, smode, setSmode, k, setK, picked, setPicked, sp, setSp, sig, setSig, go, navigate, notify, placeName, nodeName, exportCsv };
+  const ctx = { T, f, lang, T3, gl, view, mode3d, setMode3d, exag, setExag, spin, setSpin, layer, setLayer, focus, setFocus, stage, setStage, kind, setKind, smode, setSmode, k, setK, picked, setPicked, sp, setSp, sig, setSig, go, navigate, notify, placeName, nodeName, exportCsv };
   const Page = PAGES[view];
   const langPrefix = LANGS.find(l => l.id === lang).prefix;
   const home = onSite ? (langPrefix || '') + '/' : 'https://www.belyakovconsult.com/';

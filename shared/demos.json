@@ -328,19 +328,19 @@
       "lang": {
         "uk": {
           "title": "Демо 3D-рельєфу громади | Belyakov Consult",
-          "description": "Інтерактивна тривимірна модель рельєфу умовної громади: зони затоплення за рівнем річки, відрізані села, покриття сиренами й вежами зв’язку, вибір ділянок для нових об’єктів і сигнали ризиків на синтетичних даних.",
+          "description": "Інтерактивна тривимірна модель рельєфу умовної громади: зони затоплення й повторюваність паводків, відрізані села, покриття сиренами й вежами зв’язку, клімат, ґрунти, ерозія і ґрунтові води, вибір ділянок і сигнали ризиків на синтетичних даних.",
           "name": "Демо 3D-рельєфу громади",
-          "noscript": "Для роботи демо потрібен JavaScript. Демо показує тривимірний рельєф умовної громади, зони затоплення, покриття оповіщенням і зв’язком, придатні ділянки для нових об’єктів і сигнали ризиків на синтетичних даних.",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує тривимірний рельєф умовної громади, зони затоплення, покриття оповіщенням і зв’язком, клімат, ґрунти, ерозію і ґрунтові води, придатні ділянки для нових об’єктів і сигнали ризиків на синтетичних даних.",
           "kind": "Геопросторовий аналіз · 3D",
-          "teaser": "Рельєф громади в 3D: зони затоплення, відрізані села, покриття сиренами й вежами зв’язку, вибір ділянок для нових об’єктів."
+          "teaser": "Рельєф громади в 3D: зони затоплення, оповіщення і зв’язок, клімат, ґрунти, ерозія й ґрунтові води, вибір ділянок для нових об’єктів."
         },
         "en": {
           "title": "Community terrain 3D demo | Belyakov Consult",
-          "description": "An interactive 3D terrain model of a fictional community: flood zones by river level, cut-off villages, siren and telecom tower coverage, site selection for new facilities and risk signals on synthetic data.",
+          "description": "An interactive 3D terrain model of a fictional community: flood zones and flood recurrence, cut-off villages, siren and telecom coverage, climate, soils, erosion and groundwater, site selection and risk signals on synthetic data.",
           "name": "Community terrain 3D demo",
-          "noscript": "The demo needs JavaScript. It shows the 3D terrain of a fictional community, flood zones, warning and telecom coverage, suitable sites for new facilities and risk signals on synthetic data.",
+          "noscript": "The demo needs JavaScript. It shows the 3D terrain of a fictional community, flood zones, warning and telecom coverage, climate, soils, erosion and groundwater, suitable sites for new facilities and risk signals on synthetic data.",
           "kind": "Geospatial analysis · 3D",
-          "teaser": "Community terrain in 3D: flood zones, cut-off villages, siren and telecom coverage, site selection for new facilities."
+          "teaser": "Community terrain in 3D: flood zones, warning and coverage, climate, soils, erosion and groundwater, site selection for new facilities."
         }
       }
     }

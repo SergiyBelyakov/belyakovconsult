@@ -35,17 +35,21 @@ const LOBES = [
 ];
 const HILLS = [[8, 4, 95, 7], [28, 1.5, 70, 6], [47, 11, 62, 6], [13, 36, 55, 7], [45, 36, 40, 6], [34, 33, 35, 4], [4, 24, 40, 5]];
 
-export function buildTerrain() {
-  const base = buildBase();
-  const river = base.river;
-  const rnd = mulberry32(31337);
-  // шум: гладкий value noise кількох масштабів
+// Гладкий value noise: значення −1…1, sc задає масштаб у кілометрах
+export function makeNoise(rnd) {
   const LW = 64, LH = 48, lat = Float32Array.from({ length: LW * LH }, () => rnd() * 2 - 1);
   const g = (i, j) => lat[((j % LH) + LH) % LH * LW + (((i % LW) + LW) % LW)];
-  const noise = (x, y, sc) => {
+  return (x, y, sc) => {
     const fx = x / sc, fy = y / sc, i = Math.floor(fx), j = Math.floor(fy), u = sstep(0, 1, fx - i), v = sstep(0, 1, fy - j);
     return (g(i, j) * (1 - u) + g(i + 1, j) * u) * (1 - v) + (g(i, j + 1) * (1 - u) + g(i + 1, j + 1) * u) * v;
   };
+}
+
+export function buildTerrain() {
+  const base = buildBase();
+  const river = base.river;
+  // шум: гладкий value noise кількох масштабів
+  const noise = makeNoise(mulberry32(31337));
   const lobes = LOBES.map(l => {
     const p = base.byId.get(l.place);
     let best = [1e9, 0, 0];
@@ -78,6 +82,17 @@ export function buildTerrain() {
     H[k] = h;
     INSIDE[k] = inside([x, y], BOUNDARY) ? 1 : 0;
   }
+  // Балки і дрібний рельєф. Усе, що нижче за «рівень річки + 10,3 м», лишається як було,
+  // тому розрахунок затоплення до +10 м від цього не змінюється.
+  const CARVE = carveTributaries(H, river, mulberry32(4242));
+  for (let k = 0; k < GX * GY; k++) {
+    const x = ((k % GX) + 0.5) * STEP, y = (((k / GX) | 0) + 0.5) * STEP, floor = riverLevel(x) + 10.3;
+    if (H[k] <= floor) continue;
+    const fine = (noise(x + 13, y + 5, 0.9) * 2.2 + noise(x + 3, y + 29, 0.45) * 0.9) * sstep(floor, floor + 4, H[k]);
+    H[k] = Math.max(H[k] + fine - CARVE[k], floor);
+  }
+  const hy = hydro(H, D);
+  const streams = traceStreams(hy, D);
   // схил у градусах
   const SLOPE = new Float32Array(GX * GY);
   for (let j = 0; j < GY; j++) for (let i = 0; i < GX; i++) {
@@ -105,7 +120,160 @@ export function buildTerrain() {
   const facilities = FACILITIES.filter(fc => !fc.outside).map(fc => { const p = base.byId.get(fc.node); return { ...fc, x: p.x + 0.25, y: p.y - 0.2, cell: cellAt(p.x + 0.25, p.y - 0.2), place: p.id }; });
   let min = 1e9, max = -1e9;
   for (let k = 0; k < H.length; k++) if (INSIDE[k]) { if (H[k] < min) min = H[k]; if (H[k] > max) max = H[k]; }
-  return { base, H, D, SLOPE, ROADD, INSIDE, places, facilities, min, max, lobes, byId: new Map(places.map(p => [p.id, p])), cache: new Map() };
+  return { base, H, D, SLOPE, ROADD, INSIDE, HF: hy.HF, DIR: hy.DIR, ACC: hy.ACC, streams, places, facilities, min, max, lobes, byId: new Map(places.map(p => [p.id, p])), cache: new Map() };
+}
+
+// ——— притоки-балки: від гирла біля заплави вгору схилом, з меандрами й відгалуженнями ———
+// Повертає, на скільки метрів поглибити кожну клітинку. Поперечний профіль долини: гаусіана,
+// глибша й ширша ближче до гирла, мілка й вузька біля витоку.
+function carveTributaries(H, river, rnd) {
+  const at = (x, y) => {
+    const fx = clamp(x / STEP - 0.5, 0, GX - 1.001), fy = clamp(y / STEP - 0.5, 0, GY - 1.001), i = Math.floor(fx), j = Math.floor(fy), u = fx - i, v = fy - j, k = j * GX + i;
+    return (H[k] * (1 - u) + H[k + 1] * u) * (1 - v) + (H[k + GX] * (1 - u) + H[k + GX + 1] * u) * v;
+  };
+  const grad = (x, y) => { const e = 0.4; return [(at(x + e, y) - at(x - e, y)) / (2 * e), (at(x, y + e) - at(x, y - e)) / (2 * e)]; };
+  // зайнятість сітки 0,5 км, щоб долини не перетиналися
+  const OW = Math.ceil(WORLD.w / 0.5), OH = Math.ceil(WORLD.h / 0.5), occ = new Int16Array(OW * OH).fill(-1);
+  const oc = (x, y) => { const i = Math.floor(x / 0.5), j = Math.floor(y / 0.5); return i < 0 || j < 0 || i >= OW || j >= OH ? -2 : j * OW + i; };
+  const busy = (x, y, self, r) => { for (let b = -r; b <= r; b++) for (let a = -r; a <= r; a++) { const c = oc(x + a * 0.5, y + b * 0.5); if (c >= 0 && occ[c] >= 0 && occ[c] !== self) return true; } return false; };
+  const paths = [];
+  const walk = (x, y, dir, len, depth, width, parent) => {
+    const id = paths.length, pts = [[x, y]];
+    let ang = 0, top = at(x, y), dx = dir[0], dy = dir[1];
+    const kids = [];
+    for (let s = 0.25; s <= len; s += 0.25) {
+      const g = grad(x, y), gl = Math.hypot(g[0], g[1]) || 1;
+      ang = ang * 0.82 + (rnd() - 0.5) * 0.42;
+      let nx = dx + 0.32 * g[0] / gl, ny = dy + 0.32 * g[1] / gl;
+      const c = Math.cos(ang * 0.35), sn = Math.sin(ang * 0.35);
+      [nx, ny] = [nx * c - ny * sn, nx * sn + ny * c];
+      const nl = Math.hypot(nx, ny); dx = nx / nl; dy = ny / nl;
+      x += dx * 0.25; y += dy * 0.25;
+      if (x < 0.4 || y < 0.4 || x > WORLD.w - 0.4 || y > WORLD.h - 0.4) break;
+      if (s > 1.2 && busy(x, y, parent ?? id, 1)) break;
+      const h = at(x, y); if (h < top - 3) break; top = Math.max(top, h);
+      pts.push([x, y]);
+      if (depth > 9 && s > len * 0.3 && s < len * 0.75 && kids.length < 2 && rnd() < 0.07) kids.push([x, y, dx, dy, s]);
+    }
+    if (pts.length < 6) return;
+    paths.push({ pts, depth, width });
+    pts.forEach(([px, py]) => { const c = oc(px, py); if (c >= 0) occ[c] = parent ?? id; });
+    for (const [kx, ky, kdx, kdy, s] of kids) {
+      const turn = (rnd() < 0.5 ? -1 : 1) * (0.6 + rnd() * 0.45), c = Math.cos(turn), sn = Math.sin(turn);
+      walk(kx, ky, [kdx * c - kdy * sn, kdx * sn + kdy * c], (len - s) * (0.45 + rnd() * 0.3), depth * 0.55, width * 0.7, parent ?? id);
+    }
+  };
+  // гирла: кожні ≈4,4 км уздовж русла, по черзі на лівому й правому березі
+  const cum = [0];
+  for (let s = 1; s < river.length; s++) cum.push(cum[s - 1] + Math.hypot(river[s][0] - river[s - 1][0], river[s][1] - river[s - 1][1]));
+  const total = cum[cum.length - 1];
+  let side = 1;
+  for (let a = 2.2; a < total - 1.5; a += 2.2 + rnd() * 0.6) {
+    side = -side;
+    let s = 1; while (s < cum.length - 1 && cum[s] < a) s++;
+    const [ax, ay] = river[s - 1], [bx, by] = river[s], f = (a - cum[s - 1]) / (cum[s] - cum[s - 1] || 1);
+    const px = ax + (bx - ax) * f, py = ay + (by - ay) * f, tl = Math.hypot(bx - ax, by - ay) || 1, tx = (bx - ax) / tl, ty = (by - ay) / tl;
+    const nx = side > 0 ? ty : -ty, ny = side > 0 ? -tx : tx;           // side > 0: лівий (північний) берег
+    const fpw = 0.6 + 1.6 * sstep(22, 40, px);
+    const sx = px + nx * (fpw + 0.2), sy = py + ny * (fpw + 0.2);
+    if (sx < 0.6 || sy < 0.6 || sx > WORLD.w - 0.6 || sy > WORLD.h - 0.6 || busy(sx, sy, -9, 2)) continue;
+    const t = (rnd() - 0.5) * 0.5, c = Math.cos(t), sn = Math.sin(t);
+    walk(sx, sy, [nx * c - ny * sn, nx * sn + ny * c], 7 + rnd() * 9, 13 + rnd() * 7, 0.55 + rnd() * 0.2);
+  }
+  const CARVE = new Float32Array(GX * GY);
+  for (const p of paths) {
+    const n = p.pts.length;
+    p.pts.forEach(([x, y], i) => {
+      const t = i / (n - 1), d = p.depth * (1 - 0.82 * t) ** 1.1 * sstep(0, 0.06, t + 0.02), w = 0.2 + p.width * (1 - 0.7 * t);
+      const r = w * 2.2, i0 = Math.max(0, Math.floor((x - r) / STEP)), i1 = Math.min(GX - 1, Math.ceil((x + r) / STEP)), j0 = Math.max(0, Math.floor((y - r) / STEP)), j1 = Math.min(GY - 1, Math.ceil((y + r) / STEP));
+      for (let j = j0; j <= j1; j++) for (let ii = i0; ii <= i1; ii++) {
+        const dd = Math.hypot((ii + 0.5) * STEP - x, (j + 0.5) * STEP - y), v = d * Math.exp(-((dd / w) ** 2));
+        const k = j * GX + ii; if (v > CARVE[k]) CARVE[k] = v;
+      }
+    });
+  }
+  return CARVE;
+}
+
+// ——— гідрологія: заповнення западин (priority-flood з малим ухилом), напрям стоку D8, накопичення стоку ———
+// Стік закінчується в річці (D < 0,12 км) або на краю сітки. ACC: скільки клітинок 250 м стікає через клітинку.
+export const STREAM_MIN = 100;          // ≈ 6,3 км² водозбору: з цього місця починається постійний водотік
+const NB8 = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, 1.4142], [-1, 1, 1.4142], [1, -1, 1.4142], [-1, -1, 1.4142]];
+function hydro(H, D) {
+  const N = GX * GY, HF = new Float32Array(N), DIR = new Int32Array(N).fill(-1), done = new Uint8Array(N), heap = new Int32Array(N);
+  let hn = 0;
+  const push = c => { let i = hn++; while (i > 0) { const p = (i - 1) >> 1; if (HF[heap[p]] <= HF[c]) break; heap[i] = heap[p]; i = p; } heap[i] = c; };
+  const pop = () => {
+    const top = heap[0], last = heap[--hn];
+    let i = 0;
+    for (;;) { let l = 2 * i + 1; if (l >= hn) break; if (l + 1 < hn && HF[heap[l + 1]] < HF[heap[l]]) l++; if (HF[heap[l]] >= HF[last]) break; heap[i] = heap[l]; i = l; }
+    if (hn > 0) heap[i] = last;
+    return top;
+  };
+  for (let k = 0; k < N; k++) {
+    const i = k % GX, j = (k / GX) | 0;
+    if (D[k] < 0.12 || i === 0 || j === 0 || i === GX - 1 || j === GY - 1) { HF[k] = H[k]; done[k] = 1; push(k); }
+  }
+  while (hn > 0) {
+    const c = pop(), i = c % GX, j = (c / GX) | 0;
+    for (const [di, dj] of NB8) {
+      const a = i + di, b = j + dj; if (a < 0 || b < 0 || a >= GX || b >= GY) continue;
+      const n = b * GX + a; if (done[n]) continue;
+      HF[n] = Math.max(H[n], HF[c] + 1e-3); done[n] = 1; push(n);
+    }
+  }
+  // D8: найкрутіший спуск на заповненій поверхні
+  for (let k = 0; k < N; k++) {
+    const i = k % GX, j = (k / GX) | 0;
+    if (D[k] < 0.12 || i === 0 || j === 0 || i === GX - 1 || j === GY - 1) continue;
+    let best = -1, bs = 0;
+    for (const [di, dj, w] of NB8) { const n = (j + dj) * GX + i + di, s = (HF[k] - HF[n]) / w; if (s > bs) { bs = s; best = n; } }
+    DIR[k] = best;
+  }
+  const order = Uint32Array.from({ length: N }, (_, k) => k).sort((a, b) => HF[b] - HF[a]);
+  const ACC = new Float32Array(N).fill(1);
+  for (const c of order) if (DIR[c] >= 0) ACC[DIR[c]] += ACC[c];
+  return { HF, DIR, ACC };
+}
+
+// Водотоки як лінії: від витоку вниз за стоком до річки або до впадіння в інший водотік
+function traceStreams({ HF, DIR, ACC }, D) {
+  const N = GX * GY, isS = c => ACC[c] >= STREAM_MIN && D[c] >= 0.12;
+  const up = new Uint8Array(N);
+  for (let c = 0; c < N; c++) if (isS(c) && DIR[c] >= 0 && isS(DIR[c])) up[DIR[c]]++;
+  const heads = [];
+  for (let c = 0; c < N; c++) if (isS(c) && !up[c]) heads.push(c);
+  heads.sort((a, b) => HF[b] - HF[a]);
+  const seen = new Uint8Array(N), out = [];
+  for (const h of heads) {
+    const cells = [];
+    let c = h;
+    while (c >= 0) {
+      cells.push(c);
+      if (seen[c]) break;
+      seen[c] = 1;
+      const d = DIR[c];
+      if (d < 0) break;
+      if (!isS(d)) { cells.push(d); break; }
+      c = d;
+    }
+    if (cells.length < 3) continue;
+    // згладжування Чайкіна: прибирає «сходинки» сітки, кінці лишаються на місці
+    let pts = cells.map(k => [...cellXY(k), ACC[k]]);
+    for (let it = 0; it < 2; it++) {
+      const nx = [pts[0]];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = pts[i], b = pts[i + 1];
+        nx.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25, a[2] * 0.75 + b[2] * 0.25], [a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75, a[2] * 0.25 + b[2] * 0.75]);
+      }
+      nx.push(pts[pts.length - 1]);
+      pts = nx;
+    }
+    let len = 0;
+    for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    out.push({ pts, len, acc: ACC[cells[cells.length - 2]] });
+  }
+  return out;
 }
 
 export function cellAt(x, y) {
@@ -307,4 +475,4 @@ export function signals(T) {
   out.steep = steepRoads(T).slice(0, 8).map(s => ({ ...s, level: s.grade > 0.1 ? 'critical' : 'warning' }));
   return out;
 }
-export const SIGNALS = ['floodLow', 'floodMid', 'facility', 'isolated', 'sirens', 'steep'];
+export const SIGNALS = ['floodLow', 'floodMid', 'facility', 'isolated', 'sirens', 'steep', 'waterlog', 'erosion'];

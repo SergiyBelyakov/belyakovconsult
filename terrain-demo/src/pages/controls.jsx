@@ -3,12 +3,18 @@ import { Segmented, Button } from '../../../dashboard/src/ui.jsx';
 import { useWidth, C } from '../../../dashboard/src/charts.jsx';
 import View3D from '../View3D.jsx';
 import Map2D from '../Map2D.jsx';
-import { ELEV_STOPS } from '../layers.js';
+import { ELEV_STOPS, layerDef } from '../layers.js';
+import { cellInfo, returnPeriod, SOILS, COVERS, MORPHS, ASPECTS } from '../geo.js';
+import { nearestPlace, cellXY } from '../dem.js';
 
-// Сцена: 3D або карта зверху, перемикач, перебільшення висот, скидання ракурсу, легенда
-export function SceneBox({ ctx, colors, places, sites, water, legend, children }) {
-  const { T, gl, mode3d, setMode3d, exag, setExag } = ctx;
+// Імовірність за рік: «2,6%», «0,4%», «<0,1%»
+export const fmtChance = (f, c) => (c < 0.001 ? '<' + f.pct(0.001, 1) : f.pct(c, c < 0.1 ? 1 : 0));
+
+// Сцена: 3D або карта зверху, перебільшення висот, обертання, скидання ракурсу, легенда й картка точки
+export function SceneBox({ ctx, colors, places, sites, water, legend, children, note }) {
+  const { T, gl, mode3d, setMode3d, exag, setExag, spin, setSpin } = ctx;
   const [reset, setReset] = useState(0);
+  const [hover, setHover] = useState(null);
   const use3d = gl && mode3d;
   return (
     <section className="scene-box glass">
@@ -17,22 +23,57 @@ export function SceneBox({ ctx, colors, places, sites, water, legend, children }
         {use3d && (
           <label className="exag">
             <span>{T.exag}</span>
-            <input type="range" min="4" max="30" step="1" value={exag} onChange={e => setExag(Number(e.target.value))} aria-label={T.exag} />
+            <input type="range" min="8" max="60" step="1" value={exag} onChange={e => setExag(Number(e.target.value))} aria-label={T.exag} />
             <b>×{exag}</b>
           </label>
         )}
+        {use3d && <Button icon={spin ? 'pause' : 'play'} onClick={() => setSpin(!spin)} title={spin ? T.spinOff : T.spinOn}>{spin ? T.spinOff : T.spinOn}</Button>}
         {use3d && <Button icon="reset" onClick={() => setReset(r => r + 1)}>{T.reset}</Button>}
         {children}
       </div>
-      {use3d
-        ? <View3D T={ctx.T3} colors={colors} exag={exag} places={places} sites={sites} water={water} resetKey={reset} label={T.titles[ctx.view]} />
-        : <Map2D T={ctx.T3} colors={colors} places={places} sites={sites} label={T.titles[ctx.view]} />}
+      <div className="scene-stage">
+        {use3d
+          ? <View3D T={ctx.T3} colors={colors} exag={exag} places={places} sites={sites} water={water} resetKey={reset} label={T.titles[ctx.view]} spin={spin} onHover={setHover} axis={{ north: T.north, km: T.km }} />
+          : <Map2D T={ctx.T3} colors={colors} places={places} sites={sites} label={T.titles[ctx.view]} onHover={setHover} />}
+        <CellHud ctx={ctx} cell={hover} onClose={() => setHover(null)} />
+      </div>
       <div className="scene-foot">
         {!gl && <span className="muted small">{T.noGl}</span>}
-        {use3d && <span className="muted small">{T.hint}</span>}
+        <span className="muted small">{use3d ? T.hint : T.hint2d}</span>
         {legend}
       </div>
+      {note && <p className="scene-note">{note}</p>}
     </section>
+  );
+}
+
+// Картка точки: усі природні показники клітинки під курсором
+function CellHud({ ctx, cell, onClose }) {
+  const { T, f, T3, placeName } = ctx;
+  if (cell == null) return null;
+  const I = cellInfo(T3, cell);
+  const [x, y] = cellXY(cell);
+  const near = nearestPlace(T3, x, y);
+  const title = I.river ? T.hud.river : near.d < 0.7 ? placeName(near.p) : T.hud.near(placeName(near.p), f.dec1(near.d));
+  const asp = I.aspect < 0 ? T.aspects.flat : T.aspects[ASPECTS[Math.round(I.aspect / 45) % 8]];
+  const rows = I.river ? [[T.hud.h, `${f.int(I.h)} ${T.m}`]] : [
+    [T.hud.h, `${f.int(I.h)} ${T.m} · ${f.dec1(I.slope)}° · ${asp}`],
+    [T.hud.morph, T.morphs[MORPHS[I.morph]]],
+    [T.hud.soil, <><i className="hud-sw" style={{ background: SOILS[I.soil].color }} />{T.soils[SOILS[I.soil].id]}</>],
+    [T.hud.cover, <><i className="hud-sw" style={{ background: COVERS[I.cover].color }} />{T.covers[COVERS[I.cover].id]}</>],
+    [T.hud.bon, `${f.int(I.bon)} ${T.hud.of100}`],
+    [T.hud.eros, I.cover >= 2 && I.cover <= 4 ? `${f.dec1(I.eros)} ${T.tha}` : T.hud.none],
+    [T.hud.gw, `${f.dec1(I.gw)} ${T.m}`],
+    [T.hud.climate, `${f.dec1(I.temp)} °C · ${f.int(I.prec)} ${T.mm}`],
+    [T.hud.frost, `${f.int(I.ffd)} ${T.days}`],
+    [T.hud.insol, `${f.int(I.insol)} ${T.kwh}`],
+    [T.hud.flood, I.stage != null ? `${T.hud.from} +${f.dec1(I.stage)} ${T.m} · ${T.oncePer(returnPeriod(Math.max(I.stage, 0.2)))}` : T.hud.noFlood],
+  ];
+  return (
+    <div className="scene-hud glass" role="status">
+      <div className="hud-head"><span className="hud-dot" /><strong>{title}</strong><button type="button" className="hud-x" onClick={onClose} aria-label={T.close}>×</button></div>
+      <dl>{rows.map(([a, b]) => <div key={a}><dt>{a}</dt><dd>{b}</dd></div>)}</dl>
+    </div>
   );
 }
 
@@ -40,12 +81,44 @@ export function ElevLegend({ T, min, max }) {
   return (
     <span className="legend-elev">
       <span className="muted small">{T.legendElev}</span>
+      <small>{Math.round(min)}</small>
       <i style={{ background: `linear-gradient(90deg, ${ELEV_STOPS.map(c => `rgb(${c.map(v => Math.round(v * 255)).join(',')})`).join(',')})` }} />
-      <small>{Math.round(min)}</small><small>{Math.round(max)}</small>
+      <small>{Math.round(max)}</small>
     </span>
   );
 }
 export const Swatch = ({ color, label }) => <span className="legend-sw"><i style={{ background: color }} />{label}</span>;
+
+// Легенда природного шару: шкала для безперервних, кнопки-класи для категорій (натиск підсвічує клас на моделі)
+export function GeoLegend({ ctx, id, focus, setFocus }) {
+  const { T, f, T3 } = ctx;
+  const D = layerDef(T3, id);
+  const unit = D.unit ? T.units[D.unit] : '';
+  const fmt = v => (D.dec ? f.dec1(v) : f.int(v)) + (unit ? ' ' + unit : '');
+  if (D.kind === 'seq' || D.kind === 'div') {
+    const [lo, hi] = D.range;
+    const ends = id === 'aspect' ? [T.legend.north, T.legend.south] : [fmt(lo), fmt(hi)];
+    return (
+      <span className="legend-elev wide">
+        <span className="muted small">{T.legendTitle[id]}</span>
+        <small>{ends[0]}</small>
+        <i style={{ background: `linear-gradient(90deg, ${D.hexes.join(',')})` }} />
+        <small>{ends[1]}</small>
+      </span>
+    );
+  }
+  const names = D.kind === 'ord' ? T.classNames[id] : D.ids.map(c => T[id === 'soil' ? 'soils' : id === 'cover' ? 'covers' : 'morphs'][c]);
+  return (
+    <div className="legend-cats" role="group" aria-label={T.legendTitle[id]}>
+      <span className="muted small">{T.legendTitle[id]}</span>
+      {D.hexes.map((h, i) => (
+        <button type="button" key={h} className={'legend-cat' + (focus === i ? ' on' : '') + (focus != null && focus !== i ? ' off' : '')} aria-pressed={focus === i} onClick={() => setFocus(focus === i ? null : i)}>
+          <i style={{ background: h }} />{names[i]}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 // Профіль висот: сіра поверхня, синій рівень води, позначка річки
 export function ProfileChart({ data, water, f, T, height = 200 }) {
@@ -77,6 +150,6 @@ export function scenePlaces(ctx, hot = new Set(), dim = new Set(), labelAll) {
   const { T3, placeName } = ctx;
   return T3.places.map(p => ({
     x: p.x, y: p.y, kind: p.kind, state: hot.has(p.id) ? 'hot' : dim.has(p.id) ? 'dim' : 'normal',
-    label: labelAll || hot.has(p.id) || p.kind === 'town' || p.id === 'vrc' || p.pop >= 1400 ? placeName(p, true) : null,
+    label: labelAll || hot.has(p.id) || p.id === 'vrc' || (p.kind !== 'district' && p.pop >= 1400) ? placeName(p, true) : null,
   }));
 }
