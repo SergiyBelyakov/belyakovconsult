@@ -369,6 +369,58 @@
           "name": "The data journey: 13 stages in 3D",
           "teaser": "The full data cycle on a 3D stage: from strategy, sources and registers through quality checks and the model to reports, people and decisions."
         }
+      },
+      "anchor": "journey-scene",
+      "image": "/assets/cases/data-journey.webp",
+      "detail": {
+        "uk": {
+          "kicker": "3D-сцена · повний цикл даних",
+          "title": "Шлях даних: 13 етапів у 3D",
+          "text": "Повний цикл роботи з даними на одній тривимірній сцені: від стратегії, джерел і реєстрів через інтеграцію, перевірку якості, модель і правила до аналізу, звітів, фінансів, управління, геоданих, користувачів і результату. На кожному етапі видно, що відбувається із записом і що це дає організації.",
+          "inside_h": "Що всередині",
+          "inside": "13 етапів і 78 компонентів системи; режим «Наскрізно», який проводить через усі етапи поспіль; текст кожного етапу під сценою з посиланнями на напрями й демо Лабораторії. Сцену можна крутити й наближати.",
+          "open": "Відкрити сцену",
+          "discuss": "Обговорити свою задачу",
+          "alt": "3D-сцена «Шлях даних»: від джерел через перевірку й аналітику до управлінських рішень",
+          "links": [
+            [
+              "/#services",
+              "Усі напрями співпраці"
+            ]
+          ]
+        },
+        "en": {
+          "kicker": "3D scene · the full data cycle",
+          "title": "The data journey: 13 stages in 3D",
+          "text": "The full data cycle on one 3D stage: from strategy, sources and registers through integration, quality checks, the model and rules to analysis, reports, finance, management, geodata, users and results. At each stage you see what happens to a record and what it gives the organisation.",
+          "inside_h": "What is inside",
+          "inside": "13 stages and 78 system components; a mode that walks you through every stage in turn; the text of each stage below the scene with links to services and Data Lab demos. The scene can be rotated and zoomed.",
+          "open": "Open the scene",
+          "discuss": "Discuss your project",
+          "alt": "The data journey 3D scene: from sources through checks and analytics to management decisions",
+          "links": [
+            [
+              "/en/#services",
+              "All services"
+            ]
+          ]
+        },
+        "pt": {
+          "kicker": "Cena 3D · o ciclo completo dos dados",
+          "title": "O percurso dos dados: 13 etapas em 3D",
+          "text": "O ciclo completo dos dados numa única cena 3D: da estratégia, fontes e registos, passando pela integração, verificação da qualidade, modelo e regras, até à análise, relatórios, finanças, gestão, dados geográficos, utilizadores e resultados. Em cada etapa vê o que acontece a um registo e o que isso dá à organização.",
+          "inside_h": "O que inclui",
+          "inside": "13 etapas e 78 componentes do sistema; um modo que percorre todas as etapas seguidas; o texto de cada etapa por baixo da cena, com ligações às áreas e às demos do laboratório. A cena pode ser rodada e ampliada. Disponível em inglês e ucraniano.",
+          "open": "Abrir a cena (EN)",
+          "discuss": "Falar sobre o projeto",
+          "alt": "Cena 3D do percurso dos dados: das fontes, passando pela verificação e análise, até às decisões de gestão",
+          "links": [
+            [
+              "/pt/#services",
+              "Todas as áreas"
+            ]
+          ]
+        }
       }
     }
   ]
