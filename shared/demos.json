@@ -64,7 +64,10 @@
           "kind": "Qualidade dos dados · BI",
           "teaser": "Indicadores de processamento, qualidade e disponibilidade das fontes, matriz região × área, relatório PDF e o seu próprio CSV no navegador."
         }
-      }
+      },
+      "audiences": [
+        "donors"
+      ]
     },
     {
       "slug": "graph-analytics",
@@ -127,7 +130,10 @@
           "kind": "Análise de grafos",
           "teaser": "Rede de pessoas, agregados, técnicos e serviços, índice composto de necessidade e sinais para o trabalho social."
         }
-      }
+      },
+      "audiences": [
+        "public"
+      ]
     },
     {
       "slug": "transport-accessibility",
@@ -187,7 +193,10 @@
           "kind": "Análise geoespacial",
           "teaser": "Isócronas até ao centro de saúde, ao hospital e ao balcão público, cobertura da população, áreas de influência e cenários da rede."
         }
-      }
+      },
+      "audiences": [
+        "communities"
+      ]
     },
     {
       "slug": "executive-dashboard",
@@ -240,7 +249,10 @@
           "kind": "Financial and management analytics",
           "teaser": "Plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, signals and scenarios for manufacturing and a service network."
         }
-      }
+      },
+      "audiences": [
+        "business"
+      ]
     },
     {
       "slug": "fraud-analytics",
@@ -290,7 +302,10 @@
           "kind": "Fraud analytics and scoring",
           "teaser": "Rules against logistic regression, threshold and review capacity, an explained review queue, networks on shared accounts and model fairness."
         }
-      }
+      },
+      "audiences": [
+        "public"
+      ]
     },
     {
       "slug": "community-terrain",
@@ -342,7 +357,10 @@
           "kind": "Geospatial analysis · 3D",
           "teaser": "Community terrain in 3D: flood zones, warning and coverage, climate, soils, erosion and groundwater, site selection for new facilities."
         }
-      }
+      },
+      "audiences": [
+        "communities"
+      ]
     }
   ],
   "exhibits": [

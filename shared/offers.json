@@ -1,0 +1,95 @@
+{
+  "_about": "Блок «Пропозиції» на головній (UA, EN, PT): кому і що пропоную, типові задачі, приклади з Лабораторії. Демо потрапляють у вкладку за полем audiences у shared/demos.json, решта прикладів задається тут у extras. Збірка: python scripts/make_home_offers.py. Без довгих і середніх тире в текстах.",
+  "services": {
+    "uk": {"data-strategy": "Стратегія даних", "data-analysis": "Аналіз даних", "business-intelligence": "Бізнес-аналітика (BI)", "data-architecture": "Архітектура даних", "data-quality": "Якість даних", "data-governance": "Управління даними", "geospatial-analysis": "Геопросторовий аналіз", "financial-analytics": "Фінансова аналітика", "management-analytics": "Управлінська аналітика"},
+    "en": {"data-strategy": "Data Strategy", "data-analysis": "Data Analysis", "business-intelligence": "Business Intelligence", "data-architecture": "Data Architecture", "data-quality": "Data Quality", "data-governance": "Data Governance", "geospatial-analysis": "Geospatial Analysis", "financial-analytics": "Financial Analytics", "management-analytics": "Management Analytics"},
+    "pt": {"data-strategy": "Estratégia de dados", "data-analysis": "Análise de dados", "business-intelligence": "Business Intelligence", "data-architecture": "Arquitetura de dados", "data-quality": "Qualidade dos dados", "data-governance": "Governação de dados", "geospatial-analysis": "Análise geoespacial", "financial-analytics": "Análise financeira", "management-analytics": "Análise de gestão"}
+  },
+  "ui": {
+    "uk": {"kicker": "Пропозиції", "title": "Що можу зробити саме для вас", "intro": "Оберіть, хто ви. Для кожного: що пропоную, типові задачі й приклади з Лабораторії, які можна відкрити вже зараз.", "tabs": "Кому пропозиція", "tasks": "Типові задачі", "proof": "Подивитися вже зараз", "services": "Напрями", "cta": "Обговорити задачу", "lab": "Усі приклади в лабораторії →",
+           "kinds": {"demo": "Демо", "article": "Розбір", "sample": "Зразок", "scene": "3D-сцена", "lab": "Лабораторія", "insights": "Матеріали"}},
+    "en": {"kicker": "What I offer", "title": "What I can do for you", "intro": "Choose who you are. For each: what I offer, typical tasks and Data Lab examples you can open right now.", "tabs": "Who it is for", "tasks": "Typical tasks", "proof": "See it now", "services": "Services", "cta": "Discuss your project", "lab": "All examples in the Data Lab →",
+           "kinds": {"demo": "Demo", "article": "Article", "sample": "Sample", "scene": "3D scene", "lab": "Data Lab", "insights": "Articles"}},
+    "pt": {"kicker": "Propostas", "title": "O que posso fazer por si", "intro": "Escolha quem é. Para cada caso: o que proponho, tarefas típicas e exemplos do laboratório que pode abrir já.", "tabs": "Para quem", "tasks": "Tarefas típicas", "proof": "Ver já", "services": "Áreas", "cta": "Falar sobre o projeto", "lab": "Todos os exemplos no laboratório →",
+           "kinds": {"demo": "Demo", "article": "Análise", "sample": "Exemplo", "scene": "Cena 3D", "lab": "Laboratório", "insights": "Artigos"}}
+  },
+  "audiences": [
+    {
+      "id": "communities",
+      "image": "community-terrain",
+      "services": ["geospatial-analysis", "data-analysis"],
+      "extras": [],
+      "lang": {
+        "uk": {"tab": "Громадам", "topic": "Громада", "title": "Аналітика території й послуг громади", "text": "Показую на карті й 3D-моделі, де живуть люди, як вони добираються до послуг і що зміниться, якщо закрити школу, відкрити амбулаторію чи якщо підніметься річка. Рішення спираються на розрахунок, а не на відчуття.",
+               "tasks": ["Доступність ЦНАП, амбулаторій, шкіл і маршрути транспорту", "Зони затоплення, відрізані села, покриття сиренами й зв’язком", "Де будувати нові укриття, амбулаторії чи інші об’єкти", "Клімат, ґрунти й ерозія для планування земель"]},
+        "en": {"tab": "Communities", "topic": "Community", "title": "Analytics for a community’s territory and services", "text": "I show on a map and a 3D model where people live, how they reach services and what changes if a school closes, a clinic opens or the river rises. Decisions rest on calculation, not on gut feeling.",
+               "tasks": ["Access to service centres, clinics, schools and transport routes", "Flood zones, cut-off villages, siren and telecom coverage", "Where to build new shelters, clinics or other facilities", "Climate, soils and erosion for land planning"]},
+        "pt": {"tab": "Municípios", "topic": "Município", "title": "Análise do território e dos serviços do município", "text": "Mostro num mapa e num modelo 3D onde vivem as pessoas, como chegam aos serviços e o que muda se uma escola fechar, um centro de saúde abrir ou o rio subir. As decisões assentam em cálculos, não em impressões.",
+               "tasks": ["Acesso a balcões de atendimento, centros de saúde, escolas e rotas de transporte", "Zonas de inundação, aldeias isoladas, cobertura de sirenes e comunicações", "Onde construir novos abrigos, centros de saúde ou outros equipamentos", "Clima, solos e erosão para o planeamento do território"]}
+      }
+    },
+    {
+      "id": "public",
+      "image": "graph-analytics",
+      "services": ["data-quality", "data-governance", "data-architecture"],
+      "extras": [{"kind": "article", "path": "/insights/iso-8000-8-quality-in-registers/", "title": {"uk": "Три рівні якості даних у реєстрах", "en": "Three levels of data quality in registers", "pt": "Três níveis de qualidade de dados para registos públicos"}}],
+      "lang": {
+        "uk": {"tab": "Державному сектору", "topic": "Державний сектор", "title": "Реєстри, якість даних і показники, яким вірять", "text": "Допомагаю установам звести реєстри, виплати й послуги в одну узгоджену картину: спільні визначення, перевірки якості до звіту, відповідальні за кожен показник. Видно, кому допомога потрібна першочергово і де гроші йдуть не туди.",
+               "tasks": ["Різні цифри для керівництва: спільні визначення й одна картина", "Дублікати, пропуски й помилки в реєстрах", "Індекс потреби й ризики шахрайства у виплатах", "Правила роботи з даними й відповідальні"]},
+        "en": {"tab": "Public sector", "topic": "Public sector", "title": "Registers, data quality and measures people trust", "text": "I help institutions bring registers, payments and services into one consistent picture: shared definitions, quality checks before the report, an owner for every measure. You see who needs help first and where money goes the wrong way.",
+               "tasks": ["Different numbers for management: shared definitions and one picture", "Duplicates, gaps and errors in registers", "A need index and fraud risks in payments", "Data rules and owners"]},
+        "pt": {"tab": "Setor público", "topic": "Setor público", "title": "Registos, qualidade dos dados e indicadores fiáveis", "text": "Ajudo instituições a juntar registos, pagamentos e serviços num quadro coerente: definições comuns, verificações de qualidade antes do relatório, um responsável por cada indicador. Vê-se quem precisa de apoio primeiro e onde o dinheiro vai para o sítio errado.",
+               "tasks": ["Números diferentes para a direção: definições comuns e um só quadro", "Duplicados, lacunas e erros nos registos", "Índice de necessidade e riscos de fraude nos pagamentos", "Regras e responsáveis pelos dados"]}
+      }
+    },
+    {
+      "id": "business",
+      "image": "executive-dashboard",
+      "services": ["financial-analytics", "management-analytics", "business-intelligence"],
+      "extras": [{"kind": "article", "path": "/insights/bi-is-not-for-fixing-sources/", "title": {"uk": "BI не повинен бути місцем, де виправляють джерела", "en": "BI should not be the place where source systems are repaired", "pt": "BI não deve ser o lugar onde se reparam os sistemas de origem"}}],
+      "lang": {
+        "uk": {"tab": "Бізнесу", "topic": "Бізнес", "title": "Гроші, люди й процеси на одній панелі", "text": "Фінансова й управлінська аналітика для керівника: план і факт, гроші й дебіторка, навантаження команд, KPI і сигнали, де потрібне рішення. Спершу домовляємося, що рахуємо і навіщо, потім будуємо звіти.",
+               "tasks": ["План і факт, міст EBITDA, грошовий потік і дебіторка", "Люди, навантаження, плинність і результат", "BI-панелі з прозорою логікою показників"]},
+        "en": {"tab": "Business", "topic": "Business", "title": "Money, people and processes on one dashboard", "text": "Financial and management analytics for leaders: plan and actual, cash and receivables, team workload, KPIs and signals that need a decision. First we agree what we measure and why, then we build the reports.",
+               "tasks": ["Plan vs actual, EBITDA bridge, cash flow and receivables", "People, workload, turnover and results", "BI dashboards with transparent measure logic"]},
+        "pt": {"tab": "Empresas", "topic": "Empresa", "title": "Dinheiro, pessoas e processos num só painel", "text": "Análise financeira e de gestão para a direção: orçamento e real, tesouraria e contas a receber, carga das equipas, KPI e sinais que pedem uma decisão. Primeiro acordamos o que medimos e porquê, depois construímos os relatórios.",
+               "tasks": ["Orçamento vs real, ponte de EBITDA, tesouraria e contas a receber", "Pessoas, carga de trabalho, rotatividade e resultados", "Painéis de BI com lógica de indicadores transparente"]}
+      }
+    },
+    {
+      "id": "learning",
+      "image": "data-journey",
+      "services": [],
+      "extras": [
+        {"kind": "lab", "path": "/cases/", "title": {"uk": "Усі демо Лабораторії даних", "en": "All Data Lab demos", "pt": "Todas as demos do laboratório"}},
+        {"kind": "scene", "path": "/data-journey/", "only": ["uk", "en"], "title": {"uk": "Шлях даних: 13 етапів у 3D", "en": "The data journey: 13 stages in 3D", "pt": "The data journey: 13 stages in 3D"}},
+        {"kind": "insights", "path": "/insights/", "title": {"uk": "Розбори й нотатки про дані", "en": "Articles and notes on data", "pt": "Análises e notas sobre dados"}}
+      ],
+      "lang": {
+        "uk": {"tab": "Навчання та лабораторія", "topic": "Навчання", "title": "Відкриті демо, розбори й навчання команд", "text": "Демо Лабораторії відкриті: їх можна покрутити, перевірити методику й вивантажити дані. На цих прикладах навчаю команди: як рахувати показники, перевіряти якість даних і читати звіти.",
+               "tasks": ["Практикуми для команд на прикладах Лабораторії", "Повний цикл даних: 13 етапів від стратегії до результату", "Розбори типових проблем із даними"]},
+        "en": {"tab": "Learning and the Lab", "topic": "Learning", "title": "Open demos, articles and team training", "text": "The Data Lab demos are open: you can explore them, check the method and download the data. I use them to train teams: how to calculate measures, check data quality and read reports.",
+               "tasks": ["Hands-on sessions for teams based on the Lab examples", "The full data cycle: 13 stages from strategy to results", "Articles on common data problems"]},
+        "pt": {"tab": "Formação e laboratório", "topic": "Formação", "title": "Demos abertas, análises e formação de equipas", "text": "As demos do laboratório são abertas: pode explorá-las, verificar o método e descarregar os dados. Uso-as para formar equipas: como calcular indicadores, verificar a qualidade dos dados e ler relatórios.",
+               "tasks": ["Sessões práticas para equipas com os exemplos do laboratório", "O ciclo completo dos dados: 13 etapas da estratégia ao resultado", "Análises de problemas comuns com dados"]}
+      }
+    },
+    {
+      "id": "donors",
+      "image": "data-quality-dashboard",
+      "services": ["data-strategy", "data-quality", "business-intelligence"],
+      "extras": [
+        {"kind": "sample", "path": "/cases/data-quality-dashboard/#reports", "title": {"uk": "PDF-звіт з методикою розрахунку", "en": "PDF report with the calculation method", "pt": "Relatório PDF com a metodologia de cálculo"}},
+        {"kind": "article", "path": "/insights/data-quality-dashboard-demo/", "title": {"uk": "Дашборд якості даних: як не сховати проблему в середньому", "en": "Data quality dashboard: don’t hide the problem in an average", "pt": "Painel de qualidade dos dados: não esconda o problema na média"}}
+      ],
+      "lang": {
+        "uk": {"tab": "Програмам та донорам", "topic": "Програми й донори", "title": "Показники результату з доказами", "text": "Для міжнародних програм і їхніх партнерів: індикатори, що відповідають цілям програми, джерело й методика для кожного числа, моніторинг і звіт, який витримує перевірку донора.",
+               "tasks": ["Індикатори змін для людей замість підрахунку заходів", "Методика, джерела й перевірка якості для кожного показника", "Дашборд моніторингу й PDF-звіт для партнера"]},
+        "en": {"tab": "Programmes and donors", "topic": "Programmes and donors", "title": "Outcome indicators backed by evidence", "text": "For international programmes and their partners: indicators that match programme goals, a source and a method for every number, monitoring and a report that stands up to donor review.",
+               "tasks": ["Indicators of change for people, not counts of activities", "A method, sources and quality checks for every indicator", "A monitoring dashboard and a PDF report for partners"]},
+        "pt": {"tab": "Programas e doadores", "topic": "Programas e doadores", "title": "Indicadores de resultado com evidência", "text": "Para programas internacionais e os seus parceiros: indicadores alinhados com os objetivos do programa, fonte e método para cada número, monitorização e um relatório que resiste à verificação do doador.",
+               "tasks": ["Indicadores de mudança para as pessoas, não contagem de atividades", "Método, fontes e verificação de qualidade para cada indicador", "Painel de monitorização e relatório em PDF para parceiros"]}
+      }
+    }
+  ]
+}

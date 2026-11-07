@@ -1024,59 +1024,7 @@ img { max-width:100%; }
 .demo-teasers .demo-teaser-media{order:-1}
 .demo-teasers .demo-teaser strong{font-size:clamp(1.25rem,1.9vw,1.6rem)}
 @media(max-width:900px){.demo-teasers{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:40px}.demo-teasers .demo-teaser{padding:20px 18px 24px;gap:18px}}
-/* ——— «Де застосовую аналітику»: матриця доказів (напрями × демо, зразки, розбори, шлях запису) ——— */
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-#cases .domains-heading{margin-bottom:30px}
-.ev-filters{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 28px}
-.ev-filters[hidden]{display:none}
-.ev-filters button{min-height:44px;padding:0 18px;border:1px solid rgba(255,255,255,.14);border-radius:4px;background:rgba(255,255,255,.03);color:#A8B0BC;font:500 .9rem var(--font-b);cursor:pointer;transition:border-color .2s,color .2s,background .2s}
-.ev-filters button:hover{color:#F4F6F8;border-color:rgba(255,255,255,.28)}
-.ev-filters button[aria-pressed="true"]{border-color:#D90429;background:rgba(217,4,41,.10);color:#F4F6F8}
-.ev-matrix{position:relative;z-index:1;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02)}
-.ev-head,.ev-row{display:grid;grid-template-columns:minmax(250px,1.25fr) repeat(3,minmax(0,1fr))}
-.ev-head{border-bottom:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03)}
-.ev-head>span{display:flex;align-items:center;gap:10px;padding:16px 14px;color:#7E8896;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;transition:opacity .2s}
-.ev-head>span:first-child{padding-left:20px}
-.ev-col{border-left:1px solid rgba(255,255,255,.08);color:#D9DEE5!important}
-.ev-col i{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
-.ev-col-demo i{background:#D90429}.ev-col-sample i{background:#F4F6F8}.ev-col-article i{background:#94A3B8}.ev-col-journey i{border:2px solid #A8B0BC}
-.ev-row{border-bottom:1px solid rgba(255,255,255,.08);transition:background .2s}
-.ev-row:last-child{border-bottom:0}
-.ev-row.is-open{background:rgba(255,255,255,.03)}
-.ev-name{display:grid;grid-template-columns:64px minmax(0,1fr) 20px;gap:14px;align-items:center;padding:16px 14px 16px 20px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
-.ev-name img{display:block;width:64px;height:64px;max-width:none;object-fit:cover;border:1px solid rgba(255,255,255,.10)}
-.ev-name-text{display:flex;flex-direction:column;gap:4px;min-width:0}
-.ev-n{font:600 .82rem var(--font-h);color:#7E8896}
-.ev-name-title{font:600 1rem/1.3 var(--font-h);color:#C3CAD3;transition:color .2s}
-.ev-name:hover .ev-name-title,.ev-row.is-open .ev-name-title{color:#F4F6F8}
-.ev-row.is-open .ev-n{color:#D90429}
-.ev-chev{position:relative;width:14px;height:14px;justify-self:end}
-.ev-chev::before,.ev-chev::after{content:'';position:absolute;left:0;top:6px;width:14px;height:2px;background:#A8B0BC;transition:transform .2s}
-.ev-chev::after{transform:rotate(90deg)}
-.ev-row.is-open .ev-chev::after{transform:rotate(0)}
-.ev-cell{display:flex;flex-direction:column;gap:6px;margin:12px 10px 12px 0;padding:12px 12px 10px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.025);color:#F4F6F8;text-decoration:none;transition:opacity .2s,border-color .2s,background .2s;min-width:0}
-.ev-row>.ev-cell{position:relative}
-.ev-row>.ev-cell::before{content:'';position:absolute;left:-11px;top:-13px;bottom:-13px;width:1px;background:rgba(255,255,255,.06)}
-.ev-row>.ev-cell{margin-left:10px}
-a.ev-cell:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.05)}
-.ev-cell.ev-demo{border-color:rgba(217,4,41,.45);background:rgba(217,4,41,.07)}
-.ev-cell.ev-demo:hover{border-color:rgba(217,4,41,.8)}
-.ev-cell.ev-idea{border:1px dashed rgba(168,176,188,.3);background:transparent}
-.ev-type{color:#A8B0BC;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-.ev-title{font-size:.88rem;font-weight:500;line-height:1.35;color:#F4F6F8}
-.ev-cta{margin-top:auto;padding-top:4px;color:#A8B0BC;font-size:.76rem}
-.ev-empty{display:grid;place-items:center;border-color:transparent;background:transparent;color:#4A5462;font-size:1.1rem}
-.ev-matrix[data-col="demo"] [data-col]:not([data-col="demo"]),.ev-matrix[data-col="sample"] [data-col]:not([data-col="sample"]),.ev-matrix[data-col="article"] [data-col]:not([data-col="article"]),.ev-matrix[data-col="journey"] [data-col]:not([data-col="journey"]){opacity:.3}
-.ev-detail{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;padding:4px 20px 26px}
-.ev-matrix.is-js .ev-row:not(.is-open) .ev-detail{display:none}
-.ev-detail>img{display:block;width:100%;height:auto;align-self:center;aspect-ratio:16/9;object-fit:cover;border:1px solid rgba(255,255,255,.10)}
-.ev-detail-copy{display:flex;flex-direction:column;justify-content:center;gap:14px}
-.ev-detail-copy>p{margin:0;color:#A8B0BC;font-size:1rem;line-height:1.65}
-.ev-tags{display:flex;flex-wrap:wrap;gap:8px}
-.ev-tags span{padding:5px 9px;border:1px solid rgba(255,255,255,.12);border-radius:4px;color:#A8B0BC;font-size:.76rem;font-weight:500}
-.ev-detail-copy .ev-result{padding-top:12px;border-top:1px solid rgba(255,255,255,.10);color:#F4F6F8;font-size:.92rem;line-height:1.55}
-.ev-result strong{margin-right:8px;color:#D90429;font-weight:600}
-.ev-more{align-self:flex-start;padding-bottom:2px;border-bottom:2px solid #D90429;color:#F4F6F8;font-size:.92rem;font-weight:600;text-decoration:none}
+/* ——— Смуга «Повний цикл даних: 13 етапів» у блоці послуг на головній ——— */
 .ev-journey{position:relative;z-index:1;display:flex;flex-direction:column;gap:18px;margin-top:28px;padding:24px 24px 22px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(100deg,rgba(217,4,41,.08),rgba(255,255,255,.02) 40%)}
 .ev-journey-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px}
 .ev-journey-head strong{font:600 1.25rem var(--font-h);color:#F4F6F8}
@@ -1089,19 +1037,7 @@ a.ev-cell:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.
 .ev-stages i{width:13px;height:13px;border:2px solid #A8B0BC;border-radius:50%;background:#0A0D12}
 .ev-stages a.is-key i{border:0;background:#D90429;box-shadow:0 0 0 3px #0A0D12}
 .ev-sn{font:600 .7rem var(--font-h);color:#7E8896}
-@media(max-width:1100px){.ev-head,.ev-row{grid-template-columns:minmax(210px,1fr) repeat(3,minmax(0,1fr))}.ev-name{grid-template-columns:48px minmax(0,1fr) 16px;gap:10px}.ev-name img{width:48px;height:48px}}
-@media(max-width:900px){
-.ev-head{display:none}
-.ev-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 12px 14px}
-.ev-name{grid-column:1/-1;padding:14px 0}
-.ev-row>.ev-cell{margin:0}
-.ev-row>.ev-cell::before{display:none}
-.ev-empty{display:none}
-.ev-detail{grid-template-columns:1fr;gap:16px;padding:6px 0 4px}
-.ev-matrix.is-js .ev-row:not(.is-open)>.ev-cell{display:none}
-.ev-journey{padding:20px 16px}
-}
-@media(max-width:520px){.ev-row{grid-template-columns:minmax(0,1fr)}.ev-filters button{flex:1 1 auto;padding:0 12px}}
+@media(max-width:900px){.ev-journey{padding:20px 16px}}
 
 /* Блок «Подивитися в лабораторії» на сторінках послуг (scripts/make_service_lab.py) */
 .lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:32px}
@@ -1136,3 +1072,45 @@ a.ev-cell:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.
 .lab-cat-links a.lab-cat-open{color:var(--accent);opacity:1;font-weight:600;border:0}
 @media (max-width:520px){.lab-catalog{gap:14px;margin-bottom:48px}.lab-cat-card{padding:20px 18px}}
 .lab-group-head .section-title{margin-bottom:0}
+/* Пропозиції на головній: вкладки для громад, держсектору, бізнесу, навчання й лабораторії, програм і донорів */
+.offer-tabs{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 26px}
+.offer-tabs[hidden]{display:none}
+.offer-tabs button{min-height:44px;padding:0 18px;border:1px solid rgba(255,255,255,.14);border-radius:4px;background:rgba(255,255,255,.03);color:#A8B0BC;font:500 .92rem var(--font-b);cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.offer-tabs button:hover{color:#F4F6F8;border-color:rgba(255,255,255,.28)}
+.offer-tabs button[aria-selected="true"]{border-color:#D90429;background:rgba(217,4,41,.10);color:#F4F6F8}
+.offer-tabs button:focus-visible{outline:2px solid #D90429;outline-offset:2px}
+.offer-panels{position:relative;z-index:1}
+.offer-panel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:44px;padding:36px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(120deg,rgba(217,4,41,.07),rgba(255,255,255,.02) 46%)}
+.offer-panel+.offer-panel{margin-top:22px}
+.offers-section.is-js .offer-panel+.offer-panel{margin-top:0}
+.offer-panel[hidden]{display:none}
+.offers-section.is-js .offer-panel{animation:offer-in .45s ease both}
+@keyframes offer-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.offer-for{display:inline-block;margin-bottom:12px;color:#D90429;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.offer-copy h3{margin:0 0 14px;font:700 clamp(1.4rem,2.2vw,1.9rem)/1.25 var(--font-h);color:#F4F6F8}
+.offer-copy>p{margin:0 0 24px;color:#C9D0D9;font-size:1rem;line-height:1.7}
+.offer-copy h4,.offer-proof h4{margin:0 0 12px;color:#7E8896;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.offer-tasks{display:grid;gap:10px;margin:0 0 24px;padding:0;list-style:none}
+.offer-tasks li{position:relative;padding-left:26px;color:#E6EAF0;font-size:.95rem;line-height:1.5}
+.offer-tasks li::before{content:'';position:absolute;left:0;top:.72em;width:13px;height:2px;background:#D90429}
+.offer-services{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 28px}
+.offer-services span{margin-right:2px;color:#7E8896;font-size:.8rem}
+.offer-services a{padding:5px 10px;border:1px solid rgba(255,255,255,.14);border-radius:3px;color:#C9D0D9;font-size:.8rem;text-decoration:none;transition:border-color .2s,color .2s}
+.offer-services a:hover{border-color:#D90429;color:#F4F6F8}
+.offer-media{display:block;overflow:hidden;aspect-ratio:16/10;margin:0 0 20px;border:1px solid rgba(255,255,255,.10);background:#080b10}
+.offer-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:left top;transition:transform .5s ease}
+.offer-media:hover img{transform:scale(1.02)}
+.offer-links{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.offer-link{display:grid;grid-template-columns:86px minmax(0,1fr) auto;align-items:baseline;gap:4px 12px;padding:12px 14px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.025);color:#F4F6F8;text-decoration:none;transition:border-color .2s,background .2s}
+.offer-link:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.05)}
+.offer-link.is-demo{border-color:rgba(217,4,41,.45);background:rgba(217,4,41,.07)}
+.offer-link.is-demo:hover{border-color:rgba(217,4,41,.8)}
+.offer-kind{color:#A8B0BC;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.offer-name{font-size:.92rem;font-weight:500;line-height:1.35}
+.offer-arrow{color:#A8B0BC;transition:transform .2s}
+.offer-link:hover .offer-arrow{transform:translateX(3px);color:#F4F6F8}
+.offer-note{grid-column:2/3;display:-webkit-box;overflow:hidden;color:#A8B0BC;font-size:.82rem;line-height:1.45;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#services .ev-journey{margin-top:40px}
+@media(max-width:980px){.offer-panel{grid-template-columns:minmax(0,1fr);gap:28px;padding:26px 22px}.offer-proof{order:0}}
+@media(max-width:560px){.offer-tabs button{flex:1 1 auto;padding:0 12px}.offer-link{grid-template-columns:minmax(0,1fr) auto}.offer-kind{grid-column:1/-1}.offer-note{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){.offers-section.is-js .offer-panel{animation:none}.offer-media img,.offer-arrow{transition:none}}
