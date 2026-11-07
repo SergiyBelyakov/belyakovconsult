@@ -344,5 +344,32 @@
         }
       }
     }
+  ],
+  "exhibits": [
+    {
+      "slug": "data-journey",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "href": {
+        "uk": "/data-journey/",
+        "en": "/en/data-journey/"
+      },
+      "note": "Не демо: окрема 3D-сцена з власним рушієм у site/data-journey. Показується карткою в каталозі Лабораторії; у меню й на головній її немає. Нових вкладень не робимо.",
+      "lang": {
+        "uk": {
+          "kind": "3D-сцена",
+          "name": "Шлях даних: 13 етапів у 3D",
+          "teaser": "Повний цикл даних на тривимірній сцені: від стратегії, джерел і реєстрів через перевірку якості й модель до звітів, людей і рішень."
+        },
+        "en": {
+          "kind": "3D scene",
+          "name": "The data journey: 13 stages in 3D",
+          "teaser": "The full data cycle on a 3D stage: from strategy, sources and registers through quality checks and the model to reports, people and decisions."
+        }
+      }
+    }
   ]
 }
