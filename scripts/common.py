@@ -359,6 +359,9 @@ def load_notes(cfg: dict) -> list[Post]:
             raise ValueError(f"{f}: назва нотатки має бути <канал>-<мова>-<слот>.md, наприклад threads-uk-1.md")
         day = _as_date(f.parent.name, f)
         channel, lang, slot = m["channel"], m["lang"], int(m["n"] or 1)
+        days = ((cfg.get("notes") or {}).get("days") or {}).get(channel)
+        if days and DAY_NAMES[day.weekday()] not in days and not meta.get("publish_at"):
+            continue                                   # notes.days: канал публікує нотатки лише в ці дні
         raw = meta.get("publish_at")
         if raw:
             dt = raw if isinstance(raw, datetime) else datetime.strptime(str(raw), "%Y-%m-%d %H:%M")

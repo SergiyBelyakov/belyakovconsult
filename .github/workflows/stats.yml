@@ -3,6 +3,8 @@ name: Статистика дописів
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * 1"        # щопонеділка 07:17 за Києвом, перед щотижневим аналізом
 
 permissions:
   contents: write
