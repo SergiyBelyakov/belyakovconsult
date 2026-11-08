@@ -114,8 +114,9 @@ class Stage:
     def box(self, t):
         ax, ay, fx, fy = self.anchor(t)
         k = self.w / 1080 * self.scale
-        bw, bh = 900 * fx * k, 760 * fy * k
+        bw, bh = min(900 * fx * k, self.w * 0.86), 760 * fy * k   # не ширше кадру з полями
         cx, cy = self.w * ax, self.h * ay
+        cx = min(max(cx, bw / 2 + self.w * 0.07), self.w - bw / 2 - self.w * 0.07)
         return cx - bw / 2, cy - bh / 2, bw, bh
 
     def backdrop(self, frame, t, opacity):
