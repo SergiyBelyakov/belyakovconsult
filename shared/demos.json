@@ -450,20 +450,20 @@
       },
       "lang": {
         "uk": {
-          "title": "Галерея візуалізацій: 38 типів графіків | Belyakov Consult",
-          "description": "38 типів графіків з описом, порадами і зразками даних в Excel. Дізнайтеся, як підготувати таблицю, і побудуйте графік на своєму файлі просто в браузері.",
+          "title": "Галерея візуалізацій: 42 типи графіків | Belyakov Consult",
+          "description": "42 типи графіків з описом, порадами і зразками даних в Excel. Дізнайтеся, як підготувати таблицю, і побудуйте графік на своєму файлі просто в браузері.",
           "name": "Галерея візуалізацій",
           "noscript": "Інтерактивна галерея графіків працює з увімкненим JavaScript. Увімкніть його, щоб переглянути приклади, завантажити зразки даних і побудувати графік на своєму файлі.",
           "kind": "Навчання",
-          "teaser": "38 типів графіків: коли який обрати, як підготувати дані, зразки в Excel і побудова графіка на вашому файлі."
+          "teaser": "42 типи графіків: коли який обрати, як підготувати дані, зразки в Excel і побудова графіка на вашому файлі."
         },
         "en": {
-          "title": "Chart gallery: 38 chart types explained | Belyakov Consult",
-          "description": "38 chart types with guidance, tips and sample Excel data. Learn how to shape the table and build a chart from your own file right in the browser.",
+          "title": "Chart gallery: 42 chart types explained | Belyakov Consult",
+          "description": "42 chart types with guidance, tips and sample Excel data. Learn how to shape the table and build a chart from your own file right in the browser.",
           "name": "Chart gallery",
           "noscript": "The interactive chart gallery needs JavaScript. Turn it on to see the examples, download sample data and build a chart from your own file.",
           "kind": "Learning",
-          "teaser": "38 chart types: when to use which, how to prepare the data, Excel samples and a chart built from your own file."
+          "teaser": "42 chart types: when to use which, how to prepare the data, Excel samples and a chart built from your own file."
         }
       },
       "audiences": [

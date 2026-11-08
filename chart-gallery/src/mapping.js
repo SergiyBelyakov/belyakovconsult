@@ -35,6 +35,9 @@ const KW = {
   item: /громад|community|учасник|participant|назв|name|об.?єкт|object|item|програм|program|регіон|region|організац|organi[sz]ation|заклад|school|школ/i,
   facet: /громад|community|панел|panel|facet|регіон|region|округ|district|канал|channel|груп|group|категор|category|сері|series/i,
   id: /(^|[\s_])id([\s_]|$)|ідентиф|identif|код|code|користувач|user|клієнт|client|отримувач|recipient|особ|person/i,
+  level1: /рівень 1|level 1|галуз|sector|розділ|section|напрям|area|категор|category/i, level2: /рівень 2|level 2|програм|program|підкатег|subcateg|підрозділ/i,
+  level3: /рівень 3|level 3|стат|item|захід|activity/i, lon: /lon|lng|довгот|(^|\s)x([\s,(]|$)/i, lat: /lat|широт|(^|\s)y([\s,(]|$)/i,
+  time: /хв|min|час|time|доїзд|travel/i, pop: /насел|popul|мешкан|resident|жител/i,
 };
 const norm = s => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
 const fits = (role, c) => (role.kind === 'num' ? c.type === 'num' : role.kind === 'date' ? c.type === 'date' : true);

@@ -17,6 +17,12 @@ export const EMPH = '#D90429', EMPH_HI = '#F0153B', DIM = '#475569';
 export const INK = { primary: '#F4F6F8', secondary: '#C9D0DA', muted: '#A8B0BC', faint: '#7E8896' };
 export const SURFACE = '#0E131B', GRID = '#1E2632', BASE = '#3A4454', TRACK = '#1C2A42';
 export const STATUS = { good: '#10B981', warn: '#FFB020', bad: '#FF6B6B' };
+// Біваріантна шкала 3 × 3 для темного тла: X до синього, Y до вохри, обидва високі до світлого кремового.
+// Кути в OKLCH, середина білінійно в OKLab. Валідатор dataviz для кожного рядка і стовпця (сусідні класи):
+// найгірша ΔE для дальтонізму 14,4, для звичайного зору 17,9. Індекс [клас Y][клас X], 0 низький.
+export const BIVAR = [['#262F38', '#286086', '#0095DD'], ['#734F32', '#888987', '#95C6E0'], ['#C66C00', '#E2AF7E', '#F8F2DC']];
+// Зони часу доїзду (як у демо транспортної доступності): світліше означає ближче; поза межею штрихування вохрою
+export const ISO = ['#9CC0F0', '#6E9FE0', '#4A7EC8', '#2A5AA6'];
 
 export const seriesColor = k => (k < SERIES.length ? SERIES[k] : OTHER);
 

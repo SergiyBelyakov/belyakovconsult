@@ -197,3 +197,11 @@
   .dt-col { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--line); }
   .dt-col:first-child { padding-top: 0; border-top: 0; }
 }
+
+/* Кнопки масштабу карти поверх графіка */
+.cg-zoom { position: absolute; top: 6px; right: 6px; display: flex; flex-direction: column; gap: 4px; }
+.cg-zoom button { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--line-2); border-radius: var(--r-ctl); background: rgba(14, 18, 26, .82); color: var(--ink); cursor: pointer; }
+.cg-zoom button:hover:not(:disabled) { border-color: var(--line-3); background: rgba(30, 38, 50, .9); }
+.cg-zoom button:disabled { opacity: .4; cursor: default; }
+.cg-iso-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: #9DC2FF; font-size: 13px; font-weight: 600; text-decoration: none; }
+.cg-iso-link:hover { text-decoration: underline; }

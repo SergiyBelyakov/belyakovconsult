@@ -25,7 +25,8 @@ function parseHash() {
   const v = VIEWS.includes(view) ? view : 'gallery';
   return { view: v === 'chart' && !TYPE[q.t] ? 'gallery' : v, t: TYPE[q.t] ? q.t : TYPES[0].id, g: GROUPS.includes(q.g) ? q.g : 'all', d: q.d === 'own' ? 'own' : 'sample' };
 }
-const sheetName = s => s.replace(/\s*\(.*?\)\s*/g, ' ').trim();
+// назва аркуша Excel: без дужок і не довша за 31 символ, обрізана по слову
+const sheetName = s => { let t = s.replace(/\s*\(.*?\)\s*/g, ' ').trim(); if (t.length > 31) t = t.slice(0, 31).replace(/\s+\S*$/, ''); return t; };
 
 export default function App({ initialLang, base: assetBase, onSite }) {
   const lang = initialLang;
