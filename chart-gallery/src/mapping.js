@@ -31,6 +31,9 @@ const KW = {
   row: /рядок|row|день|day/i, col: /стовп|column|годин|hour/i,
   from: /звідки|джерел|source|from|учасник 1|partner 1|^від/i, to: /куди|ціль|target|^to$|учасник 2|partner 2|^до$/i,
   weight: /ваг|weight|кільк|count|спільн|joint|сум|value/i, region: /регіон|област|region|oblast/i, axis: /вимір|axis|dimension|критер|criteri/i,
+  period: /рік|year|період|period|квартал|quarter|місяц|month|тиждень|week|дат|date/i,
+  item: /громад|community|учасник|participant|назв|name|об.?єкт|object|item|програм|program|регіон|region|організац|organi[sz]ation|заклад|school|школ/i,
+  facet: /громад|community|панел|panel|facet|регіон|region|округ|district|канал|channel|груп|group|категор|category|сері|series/i,
 };
 const norm = s => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
 const fits = (role, c) => (role.kind === 'num' ? c.type === 'num' : role.kind === 'date' ? c.type === 'date' : true);

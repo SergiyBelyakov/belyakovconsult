@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useWidth, useTip, niceScale, scale, Txt, HLine, VLine, colPath, barPath, Frame, Legend, fit, textW, Marker } from './kit.jsx';
 import { SERIES, OTHER, EMPH, DIM, INK, SURFACE, GRID, BASE, SEQ, TRACK, STATUS, seriesColor } from '../palette.js';
+import { SmallBars } from './small.jsx';
 
 const tipAt = (x, y, title, rows, note) => ({ x, y, title, rows, note });
 
@@ -69,7 +70,8 @@ export function Bar({ m, f, T, mini }) {
 
 const sColor = (m, k) => (m.otherS && k === m.series.length - 1 ? OTHER : seriesColor(k));
 
-export function Grouped({ m, f, T, mini }) {
+export function Grouped(p) { return !p.mini && p.opts && p.opts.view === 'small' ? <SmallBars {...p} /> : <GroupedOne {...p} />; }
+function GroupedOne({ m, f, T, mini }) {
   const [ref, W] = useWidth(mini ? 240 : 640);
   const [tip, setTip] = useTip();
   const [hi, setHi] = useState(null);

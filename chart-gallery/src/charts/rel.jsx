@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useWidth, useTip, niceScale, scale, Txt, HLine, VLine, Frame, Legend, fit, textW, Marker } from './kit.jsx';
 import { GROUP3, SHAPES, OTHER, INK, SURFACE, GRID, BASE, SEQ, EMPH, seq, inkOn } from '../palette.js';
+import { SmallScatter } from './small.jsx';
 
 const tipAt = (x, y, title, rows, note) => ({ x, y, title, rows, note });
 const gColor = (m, g) => { const k = m.groups.indexOf(g); return k < 0 ? GROUP3[0] : g === m.otherLabel ? OTHER : GROUP3[k] || OTHER; };
@@ -14,7 +15,8 @@ function logTicks(lo, hi) {
 
 function nearestPt(pts, px, py, max) { let best = -1, bd = max * max; pts.forEach((p, k) => { const d = (p.sx - px) ** 2 + (p.sy - py) ** 2; if (d < bd) { bd = d; best = k; } }); return best; }
 
-export function Scatter({ m, f, T, mini }) {
+export function Scatter(p) { return !p.mini && p.opts && p.opts.view === 'small' && p.m.groups.length > 1 ? <SmallScatter {...p} /> : <ScatterOne {...p} />; }
+function ScatterOne({ m, f, T, mini }) {
   const [ref, W] = useWidth(mini ? 240 : 640);
   const [tip, setTip] = useTip();
   const [hk, setHk] = useState(-1);

@@ -56,6 +56,11 @@
 .cg-opt { display: inline-flex; align-items: center; gap: 8px; }
 .cg-opt-label { font-size: 12px; color: var(--muted); }
 .cg-toolbar .segmented button { white-space: nowrap; }
+/* довгі варіанти параметрів на вузькому екрані гортаються всередині перемикача, а не розширюють сторінку */
+.cg-opt { max-width: 100%; min-width: 0; }
+.cg-opt .segmented { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.cg-opt .segmented::-webkit-scrollbar { display: none; }
+@media (max-width: 640px) { .cg-opt { flex-wrap: wrap; } .cg-tools-left { min-width: 0; max-width: 100%; } }
 .cg-stage { min-height: 120px; }
 .cg-caption { margin-top: 10px; font-size: 12px; }
 .cg-error { display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px; margin: 0 0 12px; border: 1px solid rgba(255, 107, 107, .35); border-radius: var(--r-ctl); background: rgba(255, 107, 107, .07); font-size: 13.5px; }

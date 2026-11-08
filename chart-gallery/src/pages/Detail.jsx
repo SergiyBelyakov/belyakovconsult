@@ -88,7 +88,7 @@ export default function Detail({ ctx }) {
             {view === 'chart' ? <t.Chart m={model} f={f} T={T} lang={lang} opts={opts} /> : <ModelTable m={model} f={f} T={T} />}
           </div>
         )}
-        <p className="cg-caption muted">{useOwn ? T.d.fileLoaded(own.name, own.rows.length) : tx.sample + '. ' + T.dataNote.split('.')[0] + '.'}</p>
+        <p className="cg-caption muted">{useOwn ? T.d.fileLoaded(own.name, own.rows.length) : tx.sample + (/[.!?]$/.test(tx.sample) ? ' ' : '. ') + T.dataNote.split('.')[0] + '.'}</p>
       </Panel>
 
       <div className="cg-detail-grid">
@@ -118,7 +118,7 @@ export default function Detail({ ctx }) {
                       <td>{T.kinds[r.kind]}<small className="cell-sub">{T.roleHint[r.id]}</small></td>
                     </tr>
                   ))}
-                  {t.id === 'table' && <tr><td><strong>{T.roles.value}</strong><small className="cell-sub">{T.d.req}</small></td><td className="mono">{sampleTable.head.slice(1).join(', ')}</td><td>{T.kinds.num}</td></tr>}
+                  {t.multi && <tr><td><strong>{T.roles.value}</strong><small className="cell-sub">{T.d.req}</small></td><td className="mono">{sampleTable.head.slice(t.roles.length).join(', ')}</td><td>{T.kinds.num}<small className="cell-sub">{T.roleHint.multi}</small></td></tr>}
                 </tbody>
               </table>
             </div>

@@ -36,6 +36,21 @@ export const HEAD = {
   radar: H(['Вимір', 'Організація', 'Бал'], ['Dimension', 'Organisation', 'Score']),
   meter: H(['Ціль', 'Факт', 'План'], ['Goal', 'Actual', 'Target']),
   table: H(['Громада', 'Населення, тис.', 'Бюджет на мешканця, грн', 'Цифрових послуг, %', 'Час відповіді, год', 'Задоволеність, бал'], ['Community', 'Population, k', 'Budget per resident, UAH', 'Digital services, %', 'Response time, h', 'Satisfaction score']),
+  small: H(['Громада', 'Місяць', 'Звернень'], ['Community', 'Month', 'Requests']),
+  bump: H(['Рік', 'Громада', 'Індекс цифрових послуг'], ['Year', 'Community', 'Digital services index']),
+  violin: H(['Послуга', 'Тривалість прийому, хв'], ['Service', 'Appointment length, min']),
+  ridge: H(['Місяць', 'Час доїзду швидкої, хв'], ['Month', 'Ambulance response time, min']),
+  parallel: H(['Громада', 'Тип громади', 'Населення, тис.', 'Бюджет на мешканця, тис. грн', 'Послуги онлайн, %', 'Час відповіді, год', 'Задоволеність, бал', 'Відкриті набори даних'], ['Community', 'Community type', 'Population, k', 'Budget per resident, UAH k', 'Online services, %', 'Response time, h', 'Satisfaction score', 'Open datasets']),
+  chord: H(['Хто надсилає запит', 'До якого реєстру', 'Запитів за добу, тис.'], ['Requesting system', 'Register queried', 'Requests per day, k']),
+};
+// Умовні громади для рейтингів і мультиплів
+const TOWNS = {
+  uk: ['Вишнева', 'Озерна', 'Соснівська', 'Липова', 'Березанська', 'Калинова', 'Дубова', 'Зоряна', 'Ясенівська', 'Кленова', 'Тополина', 'Яблунівська'],
+  en: ['Vyshneva', 'Ozerna', 'Sosnivska', 'Lypova', 'Berezanska', 'Kalynova', 'Dubova', 'Zoriana', 'Yasenivska', 'Klenova', 'Topolyna', 'Yablunivska'],
+};
+const MONTHS = {
+  uk: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 };
 
 const COMM = { uk: ['Північна громада', 'Центральна громада', 'Південна громада'], en: ['North community', 'Central community', 'South community'] };
@@ -214,6 +229,64 @@ function make(id, lang) {
         const pop = r1(Math.exp(Math.log(6) + R() * Math.log(25)));
         out.push([L('Громада ', 'Community ') + (lang === 'en' ? 'ABCDEFGHIJKL' : 'АБВГДЕЖЗКЛМН')[k], pop, Math.round(9000 + 6000 * R() + 400 * g()), Math.round(35 + 40 * R()), r1(10 + 40 * R()), r1(3 + 1.6 * R())]);
       }
+      return out;
+    }
+    case 'small': {
+      const out = [], tw = TOWNS[lang];
+      for (let k = 0; k < 24; k++) {
+        const y = 2024 + Math.floor((10 + k) / 12), m = ((10 + k) % 12) + 1, day = isoDay(dayOf(y, m, 1));
+        const win = Math.cos((2 * Math.PI * (m - 1)) / 12), sum = -win;
+        const v = [
+          1200 + 21 * k, 2100 - 25 * k, 900 * (1 + 0.32 * win), k < 10 ? 500 : 1080, 1600, k === 17 ? 1820 : 700, 400 + 8 * k, 800 * (1 + 0.38 * sum),
+          900 + 400 * ((k - 12) / 12) ** 2, 300 + 26 * k, 350, 1000 * (1 + 0.28 * Math.sin(k * 1.7)),
+        ];
+        v.forEach((x, i) => out.push([tw[i], day, Math.max(0, Math.round(x * (1 + 0.035 * g())))]));
+      }
+      return out;
+    }
+    case 'bump': {
+      const base = [62, 71, 58, 44, 66, 52, 69, 48, 55, 60], slope = [2, -0.9, 3.1, 7.6, 1, 2.6, 0.2, 4, 1.5, -0.5], out = [];
+      for (let k = 0; k < 6; k++) TOWNS[lang].slice(0, 10).forEach((t, i) => out.push([2021 + k, t, r1(base[i] + slope[i] * k + 1.2 * g())]));
+      return out;
+    }
+    case 'violin': {
+      const sv = L(['Довідка', 'Реєстрація місця проживання', 'Призначення субсидії', 'Дозвіл на будівництво'], ['Certificate', 'Residence registration', 'Housing subsidy', 'Building permit']), out = [];
+      for (let i = 0; i < 90; i++) out.push([sv[0], Math.max(2, r1(Math.exp(Math.log(6) + 0.33 * g())))]);
+      for (let i = 0; i < 90; i++) out.push([sv[1], Math.max(3, r1(i % 5 < 3 ? Math.exp(Math.log(8) + 0.22 * g()) : Math.exp(Math.log(24) + 0.17 * g())))]);
+      for (let i = 0; i < 90; i++) out.push([sv[2], Math.max(5, r1(18 + 4.5 * g()))]);
+      for (let i = 0; i < 90; i++) out.push([sv[3], Math.max(6, r1(Math.exp(Math.log(24) + 0.42 * g())))]);
+      return out;
+    }
+    case 'ridge': {
+      const out = [], mo = MONTHS[lang];
+      mo.forEach((nm, k) => {
+        const winter = Math.max(0, Math.cos((2 * Math.PI * k) / 12)), snow = k === 0 || k === 1 || k === 11 ? 1 : 0;
+        const cityM = 11 + 4 * winter + 1.5 * snow, ruralM = 24 + 7 * winter + 3 * snow;
+        for (let i = 0; i < 110; i++) {
+          const rural = i % 10 < 3;
+          out.push([nm, Math.max(4, Math.round(rural ? ruralM + (5 + 2 * winter) * g() : cityM + (2.6 + winter) * g()))]);
+        }
+      });
+      return out;
+    }
+    case 'parallel': {
+      const ty = L(['Міська', 'Селищна', 'Сільська'], ['Urban', 'Settlement', 'Rural']), out = [];
+      for (let k = 0; k < 48; k++) {
+        const t = k < 12 ? 0 : k < 26 ? 1 : 2;
+        const pop = t === 0 ? Math.exp(Math.log(45) + 0.5 * g()) : t === 1 ? Math.exp(Math.log(12) + 0.35 * g()) : Math.exp(Math.log(5) + 0.35 * g());
+        const online = Math.max(8, Math.min(96, [70, 52, 38][t] + [9, 11, 13][t] * g()));
+        const budget = Math.max(5, [14, 11, 9.5][t] + 0.04 * (online - 50) + 2.2 * g());
+        const resp = Math.max(4, 48 - 0.42 * online + 5.5 * g());
+        const sat = Math.max(1.5, Math.min(5, 2.55 + 0.02 * online + 0.32 * g()));
+        const open = Math.max(0, Math.round([24, 9, 4][t] * (1 + 0.4 * g())));
+        out.push([L('Громада ', 'Community ') + String(k + 1).padStart(2, '0'), ty[t], r1(pop), r1(budget), Math.round(online), r1(resp), Math.round(sat * 100) / 100, open]);
+      }
+      return out;
+    }
+    case 'chord': {
+      const n = L(['Реєстр населення', 'Соціальний реєстр', 'Податковий реєстр', 'Реєстр нерухомості', 'Система ЦНАП'], ['Population register', 'Social register', 'Tax register', 'Property register', 'Service centre system']);
+      const mtx = [[0, 6.2, 3.1, 1.4, 2], [48.5, 0, 22.4, 9.8, 3.1], [31.2, 4.4, 0, 18.6, 1.2], [12.7, 1.1, 6.9, 0, 0.8], [64.3, 27.9, 11.6, 15.2, 0]], out = [];
+      mtx.forEach((row, i) => row.forEach((v, j) => { if (i !== j) out.push([n[i], n[j], v]); }));
       return out;
     }
     default: return [];

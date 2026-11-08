@@ -32,7 +32,7 @@ export default function Gallery({ ctx }) {
       <div className="cg-band glass">
         <div>
           <strong>{T.d.allSamples}</strong>
-          <p className="muted">{T.d.allSamplesHint}</p>
+          <p className="muted">{T.d.allSamplesHint(TYPES.length)}</p>
         </div>
         <div className="cg-band-actions">
           <Button icon="download" onClick={downloadAll}>{T.d.allSamples}</Button>

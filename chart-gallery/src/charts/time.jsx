@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { useWidth, useTip, niceScale, scale, Txt, HLine, VLine, Frame, Legend, fit, textW, monthTicks, Marker, barPath } from './kit.jsx';
 import { SERIES, OTHER, EMPH, DIM, INK, SURFACE, GRID, BASE, SEQ, STATUS, seriesColor } from '../palette.js';
 import { ymd, dayOf, weekday } from '../format.js';
+import { SmallLines } from './small.jsx';
 
 const tipAt = (x, y, title, rows, note) => ({ x, y, title, rows, note });
 const path = (pts) => { let d = '', pen = false; pts.forEach(p => { if (!p) { pen = false; return; } d += (pen ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1); pen = true; }); return d; };
@@ -19,7 +20,9 @@ function TimeAxis({ d0, d1, x, y, f, px }) {
 // Шукаємо найближчу дату до вказівника (перехрестя знаходить X)
 const nearest = (days, x, px) => { let best = 0, bd = Infinity; days.forEach((d, k) => { const dd = Math.abs(x(d) - px); if (dd < bd) { bd = dd; best = k; } }); return best; };
 
-export function Line({ m, f, T, mini }) {
+// Вигляд «малі мультиплі» вмикається параметром; окремий компонент, щоб не змінювати порядок хуків
+export function Line(p) { return !p.mini && p.opts && p.opts.view === 'small' ? <SmallLines {...p} /> : <LineOne {...p} />; }
+function LineOne({ m, f, T, mini }) {
   const [ref, W] = useWidth(mini ? 240 : 640);
   const [tip, setTip] = useTip();
   const [hk, setHk] = useState(null);

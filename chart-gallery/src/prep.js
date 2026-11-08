@@ -106,7 +106,7 @@ function matrix(get, L, { maxS = 6, maxC = 24, noNeg } = {}) {
     table: { head: [get.name('cat'), ...sNames], rows: cNames.map((c, a) => [c, ...v[a]]) },
   };
 }
-export const prepGrouped = (get, o, L) => matrix(get, L, { maxS: 6, maxC: 16 });
+export const prepGrouped = (get, o, L) => matrix(get, L, { maxS: o.view === 'small' ? 12 : 6, maxC: 16 });
 export const prepStacked = (get, o, L) => matrix(get, L, { maxS: 6, maxC: 24, noNeg: true });
 export const prepRadar = (get, o, L) => {
   const m = matrix({ ...get, text: r => get.text(r === 'cat' ? 'axis' : r), name: r => get.name(r === 'cat' ? 'axis' : r), has: r => get.has(r) }, L, { maxS: 3, maxC: 12 });
@@ -162,9 +162,10 @@ export function prepLine(get, o, L) {
   if (distinct > 400) { dd = d.map(x => (Number.isFinite(x) ? monthStart(x) : x)); warn.push(['byMonth']); }
   const tot = new Map(); ser.forEach((s, i) => { if (ok[i]) tot.set(s, (tot.get(s) || 0) + Math.abs(v[i])); });
   let names = [...tot.keys()];
-  if (names.length > 5) {
-    const top = new Set([...tot.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(e => e[0]));
-    warn.push(['hiddenSeries', 5, names.length - 5]);
+  const maxS = o.view === 'small' ? 12 : 5;
+  if (names.length > maxS) {
+    const top = new Set([...tot.entries()].sort((a, b) => b[1] - a[1]).slice(0, maxS).map(e => e[0]));
+    warn.push([o.view === 'small' ? 'hiddenFacets' : 'hiddenSeries', maxS, names.length - maxS]);
     names = names.filter(s => top.has(s));
   }
   const si = new Map(names.map((s, k) => [s, k]));
@@ -348,7 +349,7 @@ export function prepBox(get, o, L) {
 }
 
 // ——— зв'язки ———
-function points(get, L, roles, max) {
+function points(get, L, roles, max, maxG = 3) {
   const xs = get.num(roles[0]), ys = get.num(roles[1]), ss = roles[2] ? get.num(roles[2]) : null;
   const lab = get.has('label') ? get.text('label') : null, grp = get.has('group') ? get.text('group') : null, warn = [];
   let pts = [];
@@ -359,14 +360,15 @@ function points(get, L, roles, max) {
   if (grp) {
     const cnt = new Map(); pts.forEach(p => cnt.set(p.g, (cnt.get(p.g) || 0) + 1));
     groups = [...cnt.keys()];
-    if (groups.length > 3) { const top = new Set([...cnt.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(e => e[0])); pts.forEach(p => { if (!top.has(p.g)) p.g = L.other; }); warn.push(['groups3', groups.length - 2]); groups = [...groups.filter(g => top.has(g)), L.other]; }
+    if (groups.length > maxG) { const top = new Set([...cnt.entries()].sort((a, b) => b[1] - a[1]).slice(0, maxG - 1).map(e => e[0])); pts.forEach(p => { if (!top.has(p.g)) p.g = L.other; }); warn.push(maxG === 3 ? ['groups3', groups.length - 2] : ['seriesFolded', maxG - 1, groups.length - (maxG - 1)]); groups = [...groups.filter(g => top.has(g)), L.other]; }
   }
   if (pts.length > max) { warn.push(['cut', max, pts.length - max]); pts = ss ? pts.sort((a, b) => b.s - a.s).slice(0, max) : pts.slice(0, max); }
   return { pts, groups, warn, names: roles.map(r => get.name(r)), hasLabel: !!lab };
 }
 export function prepScatter(get, o, L) {
-  const r = points(get, L, ['x', 'y'], 5000);
+  const r = points(get, L, ['x', 'y'], 5000, o.view === 'small' ? 12 : 3);
   if (r.error) return r;
+  if (o.view === 'small' && r.groups.length < 2) r.warn.push(['smallNeedGroup']);
   if (o.logx === 'log' && r.pts.some(p => p.x <= 0)) { r.warn.push(['logDropped', r.pts.filter(p => p.x <= 0).length]); r.pts = r.pts.filter(p => p.x > 0); }
   r.log = o.logx === 'log';
   // лінія тренду (найменші квадрати) у тих самих координатах, що й вісь
