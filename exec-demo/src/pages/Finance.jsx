@@ -39,7 +39,7 @@ export default function Finance({ ctx }) {
         </Panel>
         <Panel title={T.marginTitle + scopeName}>
           <TrendLine values={margins} ticks={ticks} domain={range(margins)} fmt={v => f.pct(v, 1)} name={T.kpi.margin} color={C.series.finance} height={170} />
-          <p className="muted small fin-note">{T.fin.marginNote}</p>
+          <p className="muted small fin-note">{T.fin.marginNote[ctx.ind]}</p>
         </Panel>
       </div>
 

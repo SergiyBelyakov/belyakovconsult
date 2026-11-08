@@ -177,7 +177,8 @@ export default function Scenarios({ ctx }) {
             <thead><tr><th>{T.dec.alt}</th><th className="num">{T.dec.out.ebitda}</th><th className="num">{T.dec.out.minCash}</th><th className="num">{T.dec.monthsBelowCol}</th><th className="num">{T.dec.out.wf}</th><th className="num">{T.dec.out.risk}</th><th className="num">{T.dec.fullCol}</th></tr></thead>
             <tbody>
               {alts.map(a => (
-                <tr key={a.id} className={a.current ? 'picked' : ''} tabIndex="0" onClick={() => (a.preset ? togglePreset(a.preset) : a.item ? loadOne(a.item) : null)}>
+                <tr key={a.id} className={a.current ? 'picked' : ''} tabIndex="0" onClick={() => (a.preset ? togglePreset(a.preset) : a.item ? loadOne(a.item) : null)}
+                  onKeyDown={e => { if (e.key === 'Enter') { if (a.preset) togglePreset(a.preset); else if (a.item) loadOne(a.item); } }}>
                   <td className="strong">{a.name}{a.saved && <span className="tag">{T.dec.lgSaved}</span>}</td>
                   <td className={'num ' + (a.c.ebitda >= 0 ? 'good' : 'over')}>{f.signedMoney(a.c.ebitda)}</td>
                   <td className={'num ' + (a.c.minCash >= 0 ? 'good' : 'over')}>{f.signedMoney(a.c.minCash)}</td>

@@ -180,7 +180,7 @@ const uk = {
   fin: {
     ytdRev: 'Виручка з початку року', ytdEbitda: 'EBITDA з початку року', fyRev: 'Прогноз виручки на рік', fyEbitda: 'Прогноз EBITDA на рік',
     fanTitle: 'Виручка: факт, план і прогноз', fanSub: 'Суцільна лінія: факт. Пунктир: план. Віяло: прогноз на 12 місяців з межами 80% і 95%.',
-    marginNote: 'Маржа падає з травня 2026 року: дивіться дерево причин.', toCauses: 'Розкласти до причин', unitsSub: 'Клік по рядку задає фільтр для всієї панелі.', fyCol: 'Прогноз року до плану',
+    marginNote: { mfg: 'Сировина дорожчає з травня 2026 року, а маржа помітно падає з липня: дивіться дерево причин.', svc: 'Маржа сезонна; від плану її відводять Східна філія і понаднормові: дивіться дерево причин.' }, toCauses: 'Розкласти до причин', unitsSub: 'Клік по рядку задає фільтр для всієї панелі.', fyCol: 'Прогноз року до плану',
   },
   cash: {
     groups: { mfg: { a: 'Ключовий клієнт А', b: 'Клієнт Б', c: 'Клієнт В', rest: 'Інші клієнти' }, svc: { corp: 'Корпоративні клієнти', retail: 'Приватні клієнти' } },
@@ -786,7 +786,7 @@ const en = {
   fin: {
     ytdRev: 'Revenue year to date', ytdEbitda: 'EBITDA year to date', fyRev: 'Full-year revenue forecast', fyEbitda: 'Full-year EBITDA forecast',
     fanTitle: 'Revenue: actual, plan and forecast', fanSub: 'Solid line: actual. Dashed: plan. Fan: a 12-month forecast with 80% and 95% ranges.',
-    marginNote: 'The margin falls from May 2026: see the root cause tree.', toCauses: 'Break down to causes', unitsSub: 'Select a row to filter the whole dashboard.', fyCol: 'Full year vs plan',
+    marginNote: { mfg: 'Raw materials get more expensive from May 2026, and the margin drops visibly from July: see the root cause tree.', svc: 'The margin is seasonal; the East branch and overtime pull it away from plan: see the root cause tree.' }, toCauses: 'Break down to causes', unitsSub: 'Select a row to filter the whole dashboard.', fyCol: 'Full year vs plan',
   },
   cash: {
     groups: { mfg: { a: 'Key client A', b: 'Client B', c: 'Client C', rest: 'Other clients' }, svc: { corp: 'Corporate clients', retail: 'Private clients' } },
