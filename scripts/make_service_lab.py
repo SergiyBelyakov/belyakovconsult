@@ -23,7 +23,11 @@ MAP: dict[str, list[str]] = {}
 for _d in MANIFEST["demos"]:
     if _d.get("status") == "live":
         for _svc in _d["services"]:
-            MAP.setdefault(_svc, []).append(_d["slug"])
+            # поле featured: напрями, де демо стоїть першим (новіші демо інакше не влазять у три картки)
+            if _svc in _d.get("featured", []):
+                MAP.setdefault(_svc, []).insert(0, _d["slug"])
+            else:
+                MAP.setdefault(_svc, []).append(_d["slug"])
 MAX_CARDS = 3                                   # не більше трьох демо на сторінці послуги (перші за маніфестом)
 MAP = {k: v[:MAX_CARDS] for k, v in MAP.items()}
 T = {

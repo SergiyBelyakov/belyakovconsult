@@ -1,5 +1,5 @@
 {
-  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти.",
+  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти. Поле featured у демо: напрями, на сторінках яких демо стоїть першим у блоці «Подивитися в лабораторії».",
   "demos": [
     {
       "slug": "data-quality-dashboard",
@@ -574,6 +574,64 @@
         "communities",
         "public",
         "donors"
+      ]
+    },
+    {
+      "slug": "route-planning",
+      "dir": "route-demo",
+      "attr": "data-route-demo",
+      "anchor": "route-planning",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "geospatial-analysis",
+        "data-analysis",
+        "management-analytics",
+        "business-intelligence"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "route-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо планування логістичних маршрутів | Belyakov Consult",
+          "description": "Інтерактивна диспетчерська на синтетичних даних: граф доріг, карта й оптимізатор маршрутів для двох складів і 12 машин. Перетягніть склад, закрийте міст, змініть автопарк і подивіться, як перебудується план.",
+          "name": "Демо планування маршрутів",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує карту і граф доріг умовного регіону, оптимізовані маршрути доставки, розклад машин, критичні ділянки мережі й сценарії на синтетичних даних.",
+          "kind": "Логістика і геоаналітика",
+          "teaser": "Граф доріг, карта й оптимізатор: перетягніть склад, розріжте дорогу, покрутіть автопарк, і маршрути перебудуються за мілісекунди."
+        },
+        "en": {
+          "title": "Logistics route planning demo | Belyakov Consult",
+          "description": "An interactive dispatch room on synthetic data: a road graph, a map and a route optimiser for two depots and 12 vehicles. Drag a depot, close a bridge, change the fleet and watch the plan rebuild.",
+          "name": "Route planning demo",
+          "noscript": "The demo needs JavaScript. It shows the map and road graph of a fictional region, optimised delivery routes, vehicle schedules, critical network links and scenarios on synthetic data.",
+          "kind": "Logistics and geoanalytics",
+          "teaser": "A road graph, a map and an optimiser: drag a depot, slice a road, turn the fleet knobs and the routes rebuild in milliseconds."
+        }
+      },
+      "audiences": [
+        "business",
+        "donors"
+      ],
+      "featured": [
+        "geospatial-analysis",
+        "data-analysis"
       ]
     }
   ],
