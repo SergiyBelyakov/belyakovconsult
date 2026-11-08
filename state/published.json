@@ -1413,7 +1413,7 @@
     "url": "https://www.instagram.com/reel/DfZ1EaAmTax/"
   },
   "pixel-audit/linkedinpage-en": {
-    "at": "2026-11-08 15:32",
+    "at": "2026-11-08 15:47",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 15:30",
