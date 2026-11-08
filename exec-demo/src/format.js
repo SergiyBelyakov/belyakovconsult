@@ -16,7 +16,7 @@ export function makeFmt(T) {
     return a >= 1000 ? 'UAH ' + nf1.format(k / 1000) + 'm' : 'UAH ' + nf0.format(k) + 'k';
   };
   const signedMoney = k => sign(k) + money(Math.abs(k));
-  const axisMoney = k => (Math.abs(k) >= 1000 ? nf0.format(k / 1000) : nf1.format(k / 1000));
+  const axisMoney = k => { const m = k / 1000; return Math.abs(m - Math.round(m)) < 1e-6 ? nf0.format(Math.round(m)) : nf1.format(m); };
   const month = (T2, key, long) => { const [y, m] = key.split('-').map(Number); return (long ? T2.monthsLong : T2.monthsShort)[m - 1] + ' ' + y; };
   const tick = key => { const [y, m] = key.split('-').map(Number); return T.monthsShort[m - 1] + (m === 1 ? ' ' + String(y).slice(2) : ''); };
   return { int, dec1, pct, signedPct, pp, money, signedMoney, axisMoney, month: (key, long) => month(T, key, long), tick, sign };

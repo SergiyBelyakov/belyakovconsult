@@ -1,5 +1,6 @@
 import { Panel } from '../../../dashboard/src/ui.jsx';
-import { SmallMultiples, BarList } from '../../../dashboard/src/charts.jsx';
+import { SmallMultiples } from '../../../dashboard/src/charts.jsx';
+import { Bars, COL } from '../charts2.jsx';
 import { C } from '../charts.jsx';
 import { agg, MONTHS } from '../model.js';
 
@@ -13,8 +14,8 @@ export default function Operations({ ctx }) {
   const tip = fmt => (s, m, v) => <><b>{s.name}</b><br />{f.month(m, true)}: {fmt(v)}</>;
   const cur = ops.map(u => ({ id: u.id, name: unitName(u.id), c: agg([u], i) }));
   const bar = (key, fmt, ref, refLabel, good = true) => (
-    <BarList items={cur.filter(x => x.c[key] != null).map(x => ({ id: x.id, name: x.name, value: x.c[key], color: ref != null && (good ? x.c[key] < ref : x.c[key] > ref) ? C.status.critical : C.primary }))}
-      refLine={ref} refLabel={refLabel} fmt={fmt} picked={unit} onPick={id => setUnit(unit === id ? 'all' : id)} />
+    <Bars items={cur.filter(x => x.c[key] != null).map(x => ({ id: x.id, name: x.name, value: x.c[key], color: ref != null && (good ? x.c[key] < ref : x.c[key] > ref) ? COL.crit : C.primary }))}
+      refLine={ref} refLabel={refLabel} fmt={fmt} picked={unit} onPick={id => setUnit(unit === id ? 'all' : id, true)} />
   );
 
   if (ind === 'mfg') {

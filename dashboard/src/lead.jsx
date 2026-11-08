@@ -12,7 +12,7 @@ function utm() {
   } catch { return {}; }
 }
 
-export function LeadModal({ T, lang, where, onClose, onSent, source = 'dashboard-demo' }) {
+export function LeadModal({ T, lang, where, onClose, onSent, source = 'dashboard-demo', message }) {
   const [state, setState] = useState('idle');
   const submit = async e => {
     e.preventDefault();
@@ -49,7 +49,7 @@ export function LeadModal({ T, lang, where, onClose, onSent, source = 'dashboard
           <label><span>{T.lead.name}</span><input name="name" autoComplete="name" required autoFocus /></label>
           <label><span>{T.lead.email}</span><input name="email" type="email" autoComplete="email" required /></label>
           <label><span>{T.lead.org} <em>{T.lead.orgHint}</em></span><input name="organization" autoComplete="organization" /></label>
-          <label><span>{T.lead.message}</span><textarea name="message" rows="4" required placeholder={T.lead.messagePh} /></label>
+          <label><span>{T.lead.message}</span><textarea name="message" rows="4" required placeholder={T.lead.messagePh} defaultValue={message || undefined} /></label>
           <input type="text" name="_gotcha" tabIndex="-1" autoComplete="off" className="hp" aria-hidden="true" />
           {state === 'fail' && <p className="lead-fail" role="alert">{T.lead.fail}</p>}
           <div className="lead-actions">

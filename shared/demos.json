@@ -235,19 +235,19 @@
       "lang": {
         "uk": {
           "title": "Демо панелі керівника | Belyakov Consult",
-          "description": "Інтерактивна панель керівника на синтетичних даних: план і факт, міст EBITDA, гроші й дебіторка, плинність і понаднормові, операційні показники, сигнали та сценарії «що буде, якщо» для виробництва й мережі послуг.",
+          "description": "Інтерактивна панель керівника на синтетичних даних: п’ять головних показників із прогнозом, дерево причин відхилення EBITDA, рух грошей і прогноз касового розриву, раннє попередження, граф залежностей, симулятор рішень і виклик «Спробуйте себе в ролі CEO» для виробництва й мережі послуг.",
           "name": "Демо панелі керівника",
-          "noscript": "Для роботи демо потрібен JavaScript. Демо показує фінанси, людей і операції умовної компанії на одному екрані: план і факт, міст EBITDA, гроші, плинність, сигнали та сценарії на синтетичних даних.",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує, що відбувається з умовною компанією, чому і що робити: головні показники з прогнозом, дерево причин, рух грошей, раннє попередження, симулятор рішень і виклик у ролі CEO на синтетичних даних.",
           "kind": "Фінансова й управлінська аналітика",
-          "teaser": "План і факт, міст EBITDA, гроші й дебіторка, плинність і понаднормові, сигнали та сценарії для виробництва й мережі послуг."
+          "teaser": "Що відбувається, чому і що робити: показники з прогнозом, дерево причин EBITDA, рух грошей, раннє попередження, симулятор рішень і виклик у ролі CEO."
         },
         "en": {
           "title": "Executive dashboard demo | Belyakov Consult",
-          "description": "An interactive executive dashboard on synthetic data: plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, operational measures, signals and what-if scenarios for manufacturing and a service network.",
+          "description": "An interactive executive dashboard on synthetic data: five headline measures with a forecast, a root cause tree for the EBITDA gap, cash flow and a cash gap forecast, early warning, a dependency graph, a decision simulator and a Be the CEO challenge for manufacturing and a service network.",
           "name": "Executive dashboard demo",
-          "noscript": "The demo needs JavaScript. It shows finance, people and operations of a fictional company on one screen: plan vs actual, an EBITDA bridge, cash, turnover, signals and scenarios on synthetic data.",
+          "noscript": "The demo needs JavaScript. It shows what is happening with a fictional company, why and what to do: headline measures with a forecast, a root cause tree, cash flow, early warning, a decision simulator and a CEO challenge on synthetic data.",
           "kind": "Financial and management analytics",
-          "teaser": "Plan vs actual, an EBITDA bridge, cash and receivables, turnover and overtime, signals and scenarios for manufacturing and a service network."
+          "teaser": "What is happening, why and what to do: measures with a forecast, an EBITDA root cause tree, cash flow, early warning, a decision simulator and a Be the CEO challenge."
         }
       },
       "audiences": [

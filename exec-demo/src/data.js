@@ -8,8 +8,8 @@ export const MONTHS = Array.from({ length: 22 }, (_, i) => {
 });
 export const LAST = MONTHS.length - 1;          // жовтень 2026: останній закритий місяць
 export const idx = key => MONTHS.indexOf(key);
-const cal = i => i % 12;                          // календарний місяць 0..11
-const year = i => 2025 + Math.floor(i / 12);
+export const cal = i => i % 12;                   // календарний місяць 0..11
+export const year = i => 2025 + Math.floor(i / 12);
 
 function rng(seed) {
   let a = seed >>> 0;
@@ -65,7 +65,7 @@ export const INDUSTRIES = {
 };
 
 // Сюжетні множники: що відбувається з підрозділом у місяці i
-function story(ind, u, i) {
+export function story(ind, u, i) {
   const s = { rev: 1, cogs: 0, turnover: 0, overtime: 0, oee: 0, defect: 0, otd: 0, nps: 0, wait: 0, util: 0, other: 1, growth: null };
   if (ind === 'mfg') {
     if (u.id === 'south') {
@@ -186,4 +186,27 @@ export function generate(indId) {
     company.push({ m: MONTHS[i], rev: round(rev), ebitda: round(ebitda), dso: round(dso, 1), ar: round(ar), overdue: round(overdue, 3), aging: aging.map(a => round(a, 3)), cash: round(cash), debt: round(debt), opex: round(opex) });
   }
   return { id: indId, units, company, clients: I.clients };
+}
+
+// План виручки підрозділу для будь-якого місяця, зокрема майбутнього (для прогнозу і симулятора).
+// Та сама формула, що й у генераторі, без шуму: план 2027 = план 2026 × (1 + плановий приріст).
+export function planRevenue(indId, unitId, t) {
+  const I = INDUSTRIES[indId], u = I.units.find(x => x.id === unitId);
+  if (!u || !u.rev) return 0;
+  const st = story(indId, u, Math.min(t, LAST));
+  const g = st.growth ?? I.growth, pg = st.growth ? st.growth - 0.05 : I.planGrowth;
+  return u.rev * I.season[cal(t)] * (1 + g) ** (cal(t) / 12) * (1 + pg) ** (year(t) - 2025);
+}
+
+// Повний план підрозділу на місяць t (виручка, прямі витрати, ФОП, інші): для минулих місяців збігається з даними,
+// для майбутніх продовжує ті самі правила (2027: зарплати й інші витрати індексуються так само, як у 2026).
+export function planMonth(indId, unitId, t) {
+  const I = INDUSTRIES[indId], u = I.units.find(x => x.id === unitId);
+  const st = story(indId, u, Math.min(t, LAST));
+  const y = year(t), c = cal(t);
+  const rev = planRevenue(indId, unitId, t);
+  const target = Math.round(u.hc * (1 + (y >= 2026 ? (st.growth ? 0.2 : 0.02) : 0) * (y === 2026 ? c / 12 : 1)));
+  const salary = u.salary * (1 + I.wageIndex) ** (y - 2025);
+  const other = u.other * (1 + I.otherIndex) ** (y - 2025) * (u.id === 'center' && y >= 2026 ? 1.25 : 1);
+  return { rev, cogs: rev * u.cogs, payroll: target * salary, other, hc: target };
 }
