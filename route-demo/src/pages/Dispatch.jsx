@@ -176,7 +176,7 @@ export default function Dispatch({ ctx }) {
         <Gantt ctx={ctx} sol={sol} clock={clock} selRoute={selRoute} setSelRoute={setSelRoute} onStop={(node, ri) => { setSelNode(node); setSelRoute(ri); }} />
       </Panel>
 
-      <div className="grid grid-2">
+      <div className="grid grid-2 rt-grid">
         <Panel title={T.routes.title} sub={T.routes.sub(sol.routes.length, sol.totals.fleet)}>
           <div className="table-scroll">
             <table className="data-table rt-table">

@@ -258,14 +258,16 @@
 .li-late { background: #3B82F6; box-shadow: inset 0 0 0 2px var(--ruby-hi); }
 
 /* маршрути і вартість */
-.rt-table { min-width: 560px; }
+.rt-table { min-width: 500px; }
+.rt-table th:not(:has(button)), .rt-table td { padding-left: 8px; padding-right: 8px; }
+.rt-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
 .rt-table tr.on { background: rgba(127, 220, 255, .08); }
 .rt-id { display: inline-flex; align-items: center; gap: 7px; font: 700 12.5px var(--mono); }
 .rt-id i { width: 10px; height: 10px; border-radius: 2px; }
 .rt-v { display: inline-flex; align-items: center; gap: 6px; }
 .rt-v svg { color: var(--muted); }
 .rt-load { display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); }
-.rt-load > span { width: 54px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .07); overflow: hidden; }
+.rt-load > span { width: 40px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .07); overflow: hidden; }
 .rt-load i { display: block; height: 100%; border-radius: 3px; }
 .bad-ic { color: var(--ruby-hi); margin-left: 5px; vertical-align: -1px; }
 .rt-stops { margin: 12px 0 0; padding: 0 0 0 4px; list-style: none; display: grid; gap: 2px; counter-reset: s; }
@@ -490,3 +492,4 @@
   .hud-tr { max-width: 62%; }
   .hud-tl { max-width: 40%; }
 }
+@media (max-width: 1100px) { .rt-grid { grid-template-columns: minmax(0, 1fr); } }
