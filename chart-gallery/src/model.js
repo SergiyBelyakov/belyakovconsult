@@ -7,7 +7,7 @@ export const sampleMap = t => Object.fromEntries(t.roles.map((r, i) => [r.id, i]
 export const labelsFor = (T, lang) => ({
   lang, other: T.ui.other, share: T.ui.share, endTotal: T.ui.endTotal, running: T.ui.running, fromPrev: T.ui.fromPrev, fromFirst: T.ui.fromFirst,
   binFrom: lang === 'en' ? 'From' : 'Від', binTo: lang === 'en' ? 'To' : 'До', count: lang === 'en' ? 'Count' : 'Кількість',
-  n: lang === 'en' ? 'Records' : 'Записів', median: T.ui.median, mean: T.ui.mean, rank: T.ui.rank, wl: lang === 'en' ? 'Lower whisker' : 'Нижній вус', wh: lang === 'en' ? 'Upper whisker' : 'Верхній вус', outliers: lang === 'en' ? 'Outliers' : 'Викидів',
+  n: lang === 'en' ? 'Records' : 'Записів', median: T.ui.median, mean: T.ui.mean, rank: T.ui.rank, na: T.ui.na, total: T.ui.total, cohort: T.ui.cohort, cohortSize: T.ui.cohortSize, wl: lang === 'en' ? 'Lower whisker' : 'Нижній вус', wh: lang === 'en' ? 'Upper whisker' : 'Верхній вус', outliers: lang === 'en' ? 'Outliers' : 'Викидів',
 });
 export function build(t, table, map, opts, L) {
   try { return t.prep(access(table, map), opts, L); }

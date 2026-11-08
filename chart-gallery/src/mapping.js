@@ -34,6 +34,7 @@ const KW = {
   period: /рік|year|період|period|квартал|quarter|місяц|month|тиждень|week|дат|date/i,
   item: /громад|community|учасник|participant|назв|name|об.?єкт|object|item|програм|program|регіон|region|організац|organi[sz]ation|заклад|school|школ/i,
   facet: /громад|community|панел|panel|facet|регіон|region|округ|district|канал|channel|груп|group|категор|category|сері|series/i,
+  id: /(^|[\s_])id([\s_]|$)|ідентиф|identif|код|code|користувач|user|клієнт|client|отримувач|recipient|особ|person/i,
 };
 const norm = s => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
 const fits = (role, c) => (role.kind === 'num' ? c.type === 'num' : role.kind === 'date' ? c.type === 'date' : true);

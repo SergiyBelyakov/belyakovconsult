@@ -163,3 +163,37 @@
 .cg-mistake p { margin-top: 3px; font-size: 13px; line-height: 1.55; }
 .cg-mistake-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(255, 107, 107, .12); color: #FF6B6B; }
 @media (max-width: 640px) { .cg-pn { margin-left: 0; } .cg-map-row { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+
+/* Дерево декомпозиції: колонки рівнів, розгорнута гілка рубіновою позначкою; на вузькому екрані рівні один під одним */
+.dt { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(208px, 1fr); gap: 14px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.dt-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding-left: 14px; border-left: 1px solid var(--line); }
+.dt-col:first-child { padding-left: 0; border-left: 0; }
+.dt-head { display: flex; align-items: center; gap: 6px; min-height: 34px; font: 600 12.5px var(--body); color: var(--ink); }
+.dt-head > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-head select { flex: 1; min-width: 0; height: 34px; padding: 0 8px; border: 1px solid var(--line-2); border-radius: var(--r-ctl); background: rgba(14, 18, 26, .7); color: var(--ink); font: 600 12.5px var(--body); }
+.dt-head select option { background: #0E131B; }
+.dt-x { flex: 0 0 auto; display: inline-grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: var(--r-ctl); background: transparent; color: var(--muted); cursor: pointer; }
+.dt-x:hover { color: var(--ink); border-color: var(--line-3); }
+.dt-sub { min-height: 16px; font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-node { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name val" "bar pct"; gap: 5px 10px; align-items: center; width: 100%; padding: 8px 10px; border: 1px solid transparent; border-radius: var(--r-ctl); background: var(--fill); color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.dt-node:hover:not(:disabled) { background: var(--fill-2); border-color: var(--line); }
+.dt-node:focus-visible { outline: 2px solid var(--ruby); outline-offset: 1px; }
+.dt-node.sel { background: rgba(217, 4, 41, .09); border-color: rgba(217, 4, 41, .5); box-shadow: inset 3px 0 0 var(--ruby); }
+.dt-node.root { cursor: default; }
+.dt-node.other { cursor: default; opacity: .75; }
+.dt-name { grid-area: name; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-val { grid-area: val; font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.dt-bar { grid-area: bar; height: 6px; border-radius: 3px; background: #1C2A42; overflow: hidden; }
+.dt-bar i { display: block; height: 100%; border-radius: 3px; background: #3B82F6; }
+.dt-pct { grid-area: pct; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dt-dim { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 10px; border: 1px dashed var(--line-2); border-radius: var(--r-ctl); background: transparent; color: var(--ink); font: 500 12.5px var(--body); text-align: left; cursor: pointer; }
+.dt-dim:hover { border-color: var(--line-3); background: var(--fill); }
+.dt-dim span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-dim em { margin-left: auto; flex: 0 0 auto; font-style: normal; font-size: 10.5px; font-weight: 600; color: var(--ruby-hi); }
+.dt-dim.best { border-style: solid; border-color: rgba(217, 4, 41, .45); }
+.dt-note { margin: 12px 0 0; }
+@media (max-width: 640px) {
+  .dt { grid-auto-flow: row; grid-auto-columns: auto; overflow-x: visible; }
+  .dt-col { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+  .dt-col:first-child { padding-top: 0; border-top: 0; }
+}

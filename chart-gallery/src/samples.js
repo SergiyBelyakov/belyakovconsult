@@ -42,6 +42,11 @@ export const HEAD = {
   ridge: H(['Місяць', 'Час доїзду швидкої, хв'], ['Month', 'Ambulance response time, min']),
   parallel: H(['Громада', 'Тип громади', 'Населення, тис.', 'Бюджет на мешканця, тис. грн', 'Послуги онлайн, %', 'Час відповіді, год', 'Задоволеність, бал', 'Відкриті набори даних'], ['Community', 'Community type', 'Population, k', 'Budget per resident, UAH k', 'Online services, %', 'Response time, h', 'Satisfaction score', 'Open datasets']),
   chord: H(['Хто надсилає запит', 'До якого реєстру', 'Запитів за добу, тис.'], ['Requesting system', 'Register queried', 'Requests per day, k']),
+  fan: H(['Місяць', 'Надходження ПДФО, млн грн'], ['Month', 'Personal income tax revenue, UAH m']),
+  cohort: H(['Користувач', 'Дата візиту'], ['User', 'Visit date']),
+  spc: H(['Тиждень', 'Записи з помилками, %'], ['Week', 'Records with errors, %']),
+  decomp: H(['Сума, тис. грн', 'Округ', 'Вид допомоги', 'Канал звернення', 'Вікова група'], ['Amount, UAH k', 'District', 'Type of aid', 'Request channel', 'Age group']),
+  mekko: H(['Галузь', 'Економічна стаття', 'Видатки, млн грн'], ['Sector', 'Spending item', 'Spending, UAH m']),
 };
 // Умовні громади для рейтингів і мультиплів
 const TOWNS = {
@@ -288,6 +293,53 @@ function make(id, lang) {
       const mtx = [[0, 6.2, 3.1, 1.4, 2], [48.5, 0, 22.4, 9.8, 3.1], [31.2, 4.4, 0, 18.6, 1.2], [12.7, 1.1, 6.9, 0, 0.8], [64.3, 27.9, 11.6, 15.2, 0]], out = [];
       mtx.forEach((row, i) => row.forEach((v, j) => { if (i !== j) out.push([n[i], n[j], v]); }));
       return out;
+    }
+    case 'fan': {
+      const S = [-2.5, -1.8, 0.2, 0.4, 0.6, 0.8, 1.2, 0.9, 0.3, 0.5, 0.6, 3.8], out = [];
+      for (let t = 0; t < 69; t++) {
+        const y = 2021 + Math.floor(t / 12), m = (t % 12) + 1, dip = t >= 14 && t <= 16 ? -3.2 : 0;
+        out.push([isoDay(dayOf(y, m, 1)), r1(30 + 0.25 * t + S[t % 12] + dip + 0.9 * g())]);
+      }
+      return out;
+    }
+    case 'cohort': {
+      const rows = [];
+      let uid = 0;
+      for (let c = 0; c < 12; c++) {
+        const y0 = 2025 + Math.floor((10 + c) / 12), m0 = ((10 + c) % 12) + 1, size = Math.round(88 + 7 * c + 8 * g()), better = c >= 6 ? 1.18 : 1;
+        for (let u = 0; u < size; u++) {
+          const id = L('К', 'U') + String(++uid).padStart(4, '0');
+          rows.push([id, dayOf(y0, m0, 1 + Math.floor(R() * 27))]);
+          for (let k = 1; c + k < 12; k++) {
+            const p = (k === 1 ? 0.47 : 0.36 * 0.93 ** (k - 2)) * better;
+            if (R() < p) { const t = 10 + c + k; rows.push([id, dayOf(2025 + Math.floor(t / 12), (t % 12) + 1, 1 + Math.floor(R() * 27))]); }
+          }
+        }
+      }
+      return rows.sort((a, b) => a[1] - b[1]).map(r => [r[0], isoDay(r[1])]);
+    }
+    case 'spc': {
+      const out = [], start = dayOf(2025, 11, 3);
+      for (let w = 0; w < 52; w++) out.push([isoDay(start + 7 * w), Math.round((w === 23 ? 3.32 : (w < 34 ? 2.1 : 2.62) + 0.21 * g()) * 100) / 100]);
+      return out;
+    }
+    case 'decomp': {
+      const ok = L(['Центральний', 'Північний', 'Південний', 'Західний', 'Східний'], ['Central', 'Northern', 'Southern', 'Western', 'Eastern']), okK = [1.6, 1, 0.9, 0.8, 0.6];
+      const ty = L(['Субсидії', 'Допомога ВПО', 'Допомога при народженні', 'Пенсійні доплати', 'Адресна допомога'], ['Subsidies', 'IDP assistance', 'Childbirth benefit', 'Pension top-ups', 'Targeted assistance']), tyK = [1.8, 1.3, 0.7, 1, 0.6];
+      const ch = L(['ЦНАП', 'Дія', 'Пошта'], ['Service centre', 'Diia', 'Post office']), age = L(['До 30', '30-44', '45-59', '60+'], ['Under 30', '30-44', '45-59', '60+']);
+      const chAge = [[1.0, 1.6, 0.15], [1.3, 1.4, 0.25], [1.5, 1.0, 0.45], [1.7, 0.5, 1.1]], tyAge = [[0.5, 0.8, 1.1, 1.9], [1.2, 1.1, 1, 0.9], [1.6, 1.4, 0.1, 0], [0, 0, 0.3, 2.4], [0.9, 1, 1, 1.1]];
+      const out = [];
+      ok.forEach((o, a) => ty.forEach((t, b) => ch.forEach((c, k) => age.forEach((ag, j) => {
+        const v = 210 * okK[a] * tyK[b] * chAge[j][k] * tyAge[b][j] * Math.exp(0.18 * g());
+        if (v >= 1) out.push([r1(v), o, t, c, ag]);
+      }))));
+      return out;
+    }
+    case 'mekko': {
+      const sec = L(['Освіта', 'Охорона здоров’я', 'Соціальний захист', 'Житлово-комунальне господарство', 'Культура і спорт', 'Органи управління'], ['Education', 'Healthcare', 'Social protection', 'Housing and utilities', 'Culture and sports', 'Administration']);
+      const it = L(['Оплата праці', 'Комунальні послуги', 'Капітальні видатки', 'Інші поточні видатки'], ['Salaries', 'Utilities', 'Capital spending', 'Other current spending']);
+      const v = [[310, 62, 48, 35], [96, 28, 40, 22], [58, 6, 4, 82], [22, 18, 96, 30], [34, 9, 12, 8], [88, 11, 9, 14]];
+      return sec.flatMap((x, a) => it.map((y, b) => [x, y, v[a][b]]));
     }
     default: return [];
   }

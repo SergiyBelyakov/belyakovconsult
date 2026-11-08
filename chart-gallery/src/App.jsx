@@ -112,7 +112,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
   const explain = t => {
     const tx = TT[t.id], s = samples[t.id].table;
     const rows = t.roles.map((r, i) => [s.head[i], T.roles[r.id], T.kinds[r.kind], r.opt ? T.d.opt : T.d.req, T.roleHint[r.id]]);
-    if (t.multi) s.head.slice(t.roles.length).forEach(h => rows.push([h, T.roles.value, T.kinds.num, T.d.req, T.roleHint.multi]));
+    if (t.multi) s.head.slice(t.roles.length).forEach(h => rows.push(t.multi === 'text' ? [h, T.roles.dims, T.kinds.text, T.d.req, T.roleHint.multiText] : [h, T.roles.value, T.kinds.num, T.d.req, T.roleHint.multi]));
     return [...rows, [], [T.d.data, tx.data], [T.d.what, tx.what], ...tx.tips.map((x, k) => [k ? '' : T.d.tips, x])];
   };
   const explainHead = () => [T.d.column, T.d.role, T.d.kind, '', lang === 'en' ? 'What to enter' : 'Що писати'];

@@ -118,7 +118,7 @@ export default function Detail({ ctx }) {
                       <td>{T.kinds[r.kind]}<small className="cell-sub">{T.roleHint[r.id]}</small></td>
                     </tr>
                   ))}
-                  {t.multi && <tr><td><strong>{T.roles.value}</strong><small className="cell-sub">{T.d.req}</small></td><td className="mono">{sampleTable.head.slice(t.roles.length).join(', ')}</td><td>{T.kinds.num}<small className="cell-sub">{T.roleHint.multi}</small></td></tr>}
+                  {t.multi && <tr><td><strong>{t.multi === 'text' ? T.roles.dims : T.roles.value}</strong><small className="cell-sub">{T.d.req}</small></td><td className="mono">{sampleTable.head.slice(t.roles.length).join(', ')}</td><td>{T.kinds[t.multi]}<small className="cell-sub">{t.multi === 'text' ? T.roleHint.multiText : T.roleHint.multi}</small></td></tr>}
                 </tbody>
               </table>
             </div>
