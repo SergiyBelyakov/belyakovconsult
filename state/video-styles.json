@@ -1,6 +1,7 @@
 {
   "bi-audit-20min#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-2.jpg",
     "icon": "service-data-analysis.webp",
     "k": 37,
