@@ -1,11 +1,25 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-09 00:17
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 3. Час: 2026-11-09 01:05
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-🔑 LinkedIn (сторінка Belyakov Consult): ключ доступу недійсний, публікації в цю мережу стоять. Згенеруйте новий токен і оновіть секрет у GitHub. Дописи вийдуть самі, щойно ключ запрацює.
-LinkedIn (відео: ініціалізація): HTTP 401 {"status":401,"serviceErrorCode":65606,"code":"DISABLED_APPLICATION","message":"Application is disabled"}
+✅ Опубліковано в Instagram: laser-kitty-game
+https://www.instagram.com/reel/Dff5e8YgSn0/
+```
+
+## 2
+
+```
+✅ Опубліковано в Telegram: laser-kitty-game
+https://t.me/belyakovconsult/48
+```
+
+## 3
+
+```
+✅ Опубліковано в Threads: laser-kitty-game
+https://www.threads.com/@belyakovconsult/post/Dff5jH1hH0f
 ```

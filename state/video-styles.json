@@ -303,6 +303,16 @@
     "music": "analytic",
     "wave": "wave-4.jpg"
   },
+  "laser-kitty-game#1": {
+    "cover": "icon",
+    "frozen": true,
+    "globe": "globe-1.jpg",
+    "icon": "service-governance.webp",
+    "k": 39,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-6.jpg"
+  },
   "management-statistics#1": {
     "cover": "quote",
     "globe": "globe-3.jpg",
