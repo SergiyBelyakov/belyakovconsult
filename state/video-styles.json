@@ -1,4 +1,13 @@
 {
+  "bi-audit-20min#1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-data-analysis.webp",
+    "k": 37,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-7.jpg"
+  },
   "bi-is-not-for-fixing-sources#1": {
     "cover": "icon",
     "frozen": true,
