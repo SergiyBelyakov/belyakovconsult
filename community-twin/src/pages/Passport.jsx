@@ -5,6 +5,8 @@ import { INDICATORS, IND_BY, STATUS_COUNTS, DOMAINS } from '../model.js';
 import { TOTAL, S, SRC_BY, OBJ_BY, AS_OF, isStale, own, transfers } from '../world.js';
 import { Spark, BenchStrip, StatusBar, Trend, HBars, STATUS_ICON } from '../charts.jsx';
 import { StatusTag, moduleHref, unitOf } from './controls.jsx';
+import TwinStage from '../TwinStage.jsx';
+import { STACK_OPEN } from '../LayerStack.jsx';
 
 const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
 
@@ -87,13 +89,14 @@ export function IndModal({ id, ctx, onClose }) {
 }
 
 export default function Passport({ ctx }) {
-  const { T, f, dom, setDom, ind, setInd } = ctx;
+  const { T, f, dom, setDom, ind, setInd, go } = ctx;
   const [stat, setStat] = useState(null);
   const list = INDICATORS.filter(x => (!dom || x.dom === dom) && (!stat || x.status === stat));
   const okN = STATUS_COUNTS.find(s => s[0] === 'ok')[1];
   const attn = INDICATORS.filter(x => x.status !== 'ok');
   return (
     <>
+      <TwinStage ctx={ctx} onOpen={id => go('map', { mode: 'map', layers: STACK_OPEN[id], sel: null })} onMap={() => go('map', { mode: 'map', sel: null })} />
       <div className="grid pass-top">
         <Panel className="pass-card" title={T.pass.card} aside={<span className="pass-id mono">UA-VR-0001</span>}>
           <div className="pc-name"><strong>{T.communityFull}</strong><span>{T.pass.center}: {T.center}</span></div>

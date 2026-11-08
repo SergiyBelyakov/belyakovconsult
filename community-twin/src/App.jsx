@@ -56,7 +56,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
   const [view, setView] = useState(init.view);
   const [dom, setDom] = useState(init.dom);
   const [ind, setInd] = useState(init.ind);
-  const [mode, setMode] = useState(init.mode || 'stack');
+  const [mode, setMode] = useState(init.mode || 'map');
   const [layers, setLayers] = useState(new Set(init.layers || DEF_LAYERS));
   const [sel, setSel] = useState(init.obj ? { kind: 'obj', id: init.obj } : init.view === 'map' && init.place ? { kind: 'place', id: init.place } : null);
   const [place, setPlace] = useState(init.place || 'luh');
@@ -244,7 +244,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
             <h1>{T.titles[view]}</h1>
             <p>{T.leads[view]}</p>
           </div>
-          <div className="hero-art twin-art" aria-hidden="true">
+          {view !== 'passport' && <div className="hero-art twin-art" aria-hidden="true">
             <svg viewBox="0 0 260 170">
               {[0, 1, 2, 3].map(i => (
                 <g key={i} className={'tl-layer l' + i} style={{ '--ty': -i * 27 + 'px', animationDelay: i * 0.16 + 's' }}>
@@ -253,7 +253,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
                 </g>
               ))}
             </svg>
-          </div>
+          </div>}
         </section>
 
         <div className="page" key={view}>

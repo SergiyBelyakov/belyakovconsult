@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { Panel, Segmented, Button } from '../../../dashboard/src/ui.jsx';
 import { Icon } from '../../../dashboard/src/icons.jsx';
 import TwinMap, { GlyphLegend, DOM_OF } from '../TwinMap.jsx';
-import LayerStack, { STACK_OPEN } from '../LayerStack.jsx';
+import { STACK_OPEN } from '../LayerStack.jsx';
+import TwinStage from '../TwinStage.jsx';
 import { BY_ID, OBJECTS, OBJ_BY, OKRUG_OF } from '../world.js';
 import { placeSignals, STAGE100 } from '../model.js';
 import { LayerChips, ObjCard } from './controls.jsx';
@@ -45,9 +46,7 @@ export default function MapView({ ctx }) {
         {mode === 'map' && <span className="muted small hide-sm">{T.map.hint}</span>}
       </div>
       {mode === 'stack' ? (
-        <Panel title={T.map.stackTitle} sub={T.map.stackSub} className="stack-panel">
-          <LayerStack T={T} f={f} onOpen={openLayer} />
-        </Panel>
+        <TwinStage ctx={ctx} onOpen={openLayer} onMap={() => { setSel(null); setMode('map'); }} />
       ) : (
         <div className="map-layout">
           <Panel className="map-panel">

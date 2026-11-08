@@ -90,6 +90,16 @@ export function sirenPath() {
     return mpPath(contours().size([gx, gy]).smooth(true).contour(blur3(Float32Array.from(SIREN), gx, gy), 0.5), step, 0.5);
   });
 }
+// горизонталі рельєфу: кожні 10 м, потовщені кожні 50 м (для шару рельєфу в 3D-моделі)
+export function reliefLines() {
+  return cached('iso', () => {
+    const { gx, gy, step, H: HH } = GRID;
+    const v = blur3(HH, gx, gy), gen = contours().size([gx, gy]).smooth(true);
+    const minor = [], major = [];
+    for (let t = Math.ceil(S.relief.min / 10) * 10; t <= S.relief.max; t += 10) (t % 50 ? minor : major).push(mpPath(gen.contour(v, t), step, 1.5));
+    return { minor: minor.join(''), major: major.join('') };
+  });
+}
 
 // ——— значки об'єктів (у пікселях) ———
 export function Glyph({ o, state }) {
