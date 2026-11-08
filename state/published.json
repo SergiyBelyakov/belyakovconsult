@@ -51,7 +51,7 @@
     "status": "skipped-late"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-uk-2": {
-    "at": "2026-11-08 08:47",
+    "at": "2026-11-08 09:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 13:30",
@@ -119,6 +119,12 @@
     "id": "17930536875181168",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfcMG44xarA"
+  },
+  "bi-is-not-for-fixing-sources/threads-uk-4": {
+    "at": "2026-11-08 09:02",
+    "id": "18221354413346950",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfeLHodJEgC"
   },
   "bi-is-not-for-fixing-sources/youtube-en-3": {
     "at": "2026-11-07 21:02",
@@ -412,6 +418,13 @@
     "id": "17952261744057121",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfSGo7VqPIi"
+  },
+  "data-quality-dashboard-demo/youtube-uk": {
+    "at": "2026-11-08 09:02",
+    "id": "F7aTYuAmd00",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/F7aTYuAmd00"
   },
   "governance-shows-in-conflict/instagram-en": {
     "at": "2026-10-26 13:38",
