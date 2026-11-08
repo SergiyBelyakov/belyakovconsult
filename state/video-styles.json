@@ -93,6 +93,15 @@
     "music": "lofi",
     "wave": "wave-2.jpg"
   },
+  "data-boss#1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-geospatial.webp",
+    "k": 38,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-3.jpg"
+  },
   "data-quality-dashboard-demo#1": {
     "cover": "typewriter",
     "globe": "globe-2.jpg",
