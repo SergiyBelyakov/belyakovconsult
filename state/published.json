@@ -51,7 +51,7 @@
     "status": "skipped-late"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-uk-2": {
-    "at": "2026-11-08 10:46",
+    "at": "2026-11-08 11:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 13:30",
@@ -1345,6 +1345,12 @@
     "id": "18126537007698963",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/Dfc1TtDGEx7"
+  },
+  "note-2026-11-08/threads-uk": {
+    "at": "2026-11-08 11:02",
+    "id": "18136801139507462",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfeY20Plf3-"
   },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
