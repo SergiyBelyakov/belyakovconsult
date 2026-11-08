@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-08 03:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-08 06:02
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
 ✅ Опубліковано в YouTube Shorts: iso-8000-8-quality-in-registers
-https://youtube.com/shorts/hSqd13ovRTg
+https://youtube.com/shorts/0M8Rt9joMus
 ```
