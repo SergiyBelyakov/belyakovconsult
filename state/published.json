@@ -458,6 +458,13 @@
     "status": "published",
     "url": "https://youtube.com/shorts/F7aTYuAmd00"
   },
+  "data-quality-dashboard-demo/youtube-uk-2": {
+    "at": "2026-11-08 18:02",
+    "id": "HDHHht3f9Xg",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/HDHHht3f9Xg"
+  },
   "governance-shows-in-conflict/instagram-en": {
     "at": "2026-10-26 13:38",
     "id": "18115871093018350",
@@ -1413,7 +1420,7 @@
     "url": "https://www.instagram.com/reel/DfZ1EaAmTax/"
   },
   "pixel-audit/linkedinpage-en": {
-    "at": "2026-11-08 17:47",
+    "at": "2026-11-08 18:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 15:30",
