@@ -41,6 +41,7 @@ from PIL import Image, ImageDraw, ImageFilter
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import glass  # noqa: E402
+import glass_scenes  # noqa: E402
 import make_cards  # noqa: E402
 import music  # noqa: E402
 
@@ -226,8 +227,10 @@ class Promo:
             hero = L["obj_cy"] / H
             anchors = [(0.5, band, 1.0, sq), (0.5, hero, 1.15, 0.85), (0.44, band, 1.0, sq), (0.56, band, 1.0, sq),
                        (0.46, band, 1.0, sq), (0.5, band, 1.0, sq)]
-            self.graph = glass.Graph(seed, W, H, self.total + 1, [float(c) for c in cuts], FPS, hubs=5, leaves=(3, 6),
-                                     scale=1.2 if H > 1500 else 1.0, anchors=anchors)
+            vis = style.get("visual", "graph")                 # тематичний візуал (glass_scenes.pick)
+            self.graph = glass_scenes.make(vis, seed, W, H, self.total + 1, [float(c) for c in cuts], FPS,
+                                           scale=1.2 if H > 1500 else 1.0, anchors=anchors,
+                                           **({"hubs": 5, "leaves": (3, 6)} if vis == "graph" else {}))
         # 3D-об'єкт: без темного фону, кеш розмиття для «фокусування»
         self.obj = self._object(spec["object"], L["obj_h"])
         self._blur = {}
@@ -427,7 +430,7 @@ class Promo:
 def fingerprint(spec, style, fmt) -> str:
     h = hashlib.sha256(VERSION.encode())
     h.update(json.dumps([spec, fmt, {k: v for k, v in (style or {}).items() if k != "k"}], sort_keys=True, ensure_ascii=False).encode())
-    for mod in (Path(__file__), Path(music.__file__), Path(brand.__file__), Path(glass.__file__)):
+    for mod in (Path(__file__), Path(music.__file__), Path(brand.__file__), Path(glass.__file__), Path(glass_scenes.__file__)):
         h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 
@@ -442,8 +445,10 @@ def build(cfg, article, style: dict, out_dir: Path, seed: str, force: bool = Fal
     out_dir.mkdir(parents=True, exist_ok=True)
     name_mp4, name_cover, name_meta = L["files"]
     mp4, meta = out_dir / name_mp4, out_dir / name_meta
+    if style.get("look") == "glass" and not style.get("visual"):
+        style = {**style, "visual": glass_scenes.pick(article)}
     fp = fingerprint(spec, style, fmt)
-    legacy = style.get("look") != "glass" and mp4.exists() and meta.exists()   # опубліковані ролики старого стилю не перебудовуються
+    legacy = (style.get("look") != "glass" or style.get("frozen")) and mp4.exists() and meta.exists()   # опубліковані не перебудовуються
     if not force and (legacy or (mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp)):
         return mp4
     pr = Promo(spec, style, int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), fmt)

@@ -26,6 +26,8 @@ from PIL import Image, ImageDraw, ImageEnhance
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
 import glass  # noqa: E402
+import glass_scenes  # noqa: E402
+from dataclasses import replace  # noqa: E402
 import make_cards  # noqa: E402
 import music  # noqa: E402
 from common import ROOT, episode_sub, load_articles, load_config, social_asset_dir  # noqa: E402
@@ -94,6 +96,10 @@ def assign_styles(keys: list[str], upcoming: set[str] | None = None) -> dict:
     for key in upcoming or ():                          # ще не опубліковані відео теж переходять на новий стиль
         if key in data and data[key].get("look") != "glass":
             data[key] = to_glass(data[key])
+    if upcoming is not None:                            # glass-відео, що вже вийшли, заморожуються (не перемальовуються в CI)
+        for key, st in data.items():
+            if st.get("look") == "glass" and key not in upcoming and "#" in key and not key.startswith("note"):
+                st["frozen"] = True
     STYLE_FILE.parent.mkdir(parents=True, exist_ok=True)
     STYLE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
     return data
@@ -183,6 +189,7 @@ class Scene:
         self.beat = beat
         self.seed = seed
         self.graph = None
+        self.visual = style.get("visual", "graph")      # тематичний візуал (glass_scenes.pick)
         if self.look == "glass":           # Ruby Glass Graph: матовий графіт, мережа скляних куль (glass.py)
             self.base = glass.matte(W, H, seed % 1000)
             self.base.alpha_composite(Image.new("RGBA", (W, 10), (*brand.RUBY, 255)), (0, 0))
@@ -254,7 +261,8 @@ class Scene:
             else:
                 anchors.append((0.5 + (0.06 if i % 2 else -0.06), 0.9, 1.0, 0.38))
         self.panels = [content_box(s) for s in slides]
-        self.graph = glass.Graph(self.seed, W, H, sum(durs) + 1, cuts, FPS, hubs=5, leaves=(3, 6), scale=1.2, anchors=anchors)
+        self.graph = glass_scenes.make(self.visual, self.seed, W, H, sum(durs) + 1, cuts, FPS, scale=1.2, anchors=anchors,
+                                       **({"hubs": 5, "leaves": (3, 6)} if self.visual == "graph" else {}))
 
     def frame(self, T: float, cover_k: float = 0.0) -> Image.Image:
         f = self.base.copy()
@@ -492,7 +500,7 @@ def fingerprint(cfg, article, specs) -> str:
     h.update(json.dumps(specs, ensure_ascii=False, sort_keys=True).encode())
     for p in [brand.LOGO_MASTER, *sorted(brand.FONTS.glob("*.*"))]:
         h.update(p.name.encode()); h.update(str(p.stat().st_size).encode())
-    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__), Path(brand.__file__), Path(glass.__file__)):
+    for mod in (Path(__file__), Path(make_cards.__file__), Path(music.__file__), Path(make_cards.visuals.__file__), Path(brand.__file__), Path(glass.__file__), Path(glass_scenes.__file__)):
         h.update(mod.read_bytes())
     return h.hexdigest()[:16]
 
@@ -542,7 +550,11 @@ def build(cfg, article, force: bool = False, out_dir: Path | None = None, seed: 
     specs = make_cards.slide_specs(cfg, article)
     style = article.style or {}
     fp = fingerprint(cfg, article, specs + [{"seed": seed, "short": short, "style": {k: v for k, v in style.items() if k != "k"}}])
-    legacy = style.get("look") != "glass" and mp4.exists() and meta.exists()   # опубліковані відео старого стилю не перебудовуються
+    if style.get("look") == "glass" and not style.get("visual"):
+        style = {**style, "visual": glass_scenes.pick(article)}
+        article = replace(article, style=style)
+    # опубліковані відео (старого стилю або вже показані) не перебудовуються, лише з force
+    legacy = (style.get("look") != "glass" or style.get("frozen")) and mp4.exists() and meta.exists()
     if not force and (legacy or (mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp)):
         if not (out / "cover.jpg").exists():
             make_cards.reel_cover(cfg, article, specs[0], out / "cover.jpg")

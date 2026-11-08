@@ -80,7 +80,7 @@ def sphere(r: int, kind: str = "ruby", blur: int = 0) -> Image.Image:
     return img
 
 
-@lru_cache(maxsize=None)
+@lru_cache(maxsize=384)
 def halo(r: int, strength: int = 70) -> Image.Image:
     """М'яке рубінове світіння під кулею (адитивно)."""
     n = r * 6
