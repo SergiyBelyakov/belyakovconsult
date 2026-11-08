@@ -19,7 +19,7 @@ export function compute(s, prev = null, mode = 'full', M = null) {
   const sol = solve(pb, mode === 'fast' ? { starts: [1], warm: prev ? warmOf(prev) : null, iter: 14 } : mode === 'lite' ? { starts: [1], iter: 16 } : { warm: prev ? warmOf(prev) : null });
   sol.flows = flows(sol); sol.id = ++SEQ;
   const man = mode === 'full' ? manualPlan(pb) : null;
-  if (man) { man.flows = flows(man); man.id = ++SEQ; }
+  if (man) { man.flows = flows(man); man.id = ++SEQ; man.manual = true; }
   return { pb, sol, man };
 }
 

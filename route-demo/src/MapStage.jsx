@@ -503,7 +503,7 @@ export default function MapStage({ ctx, sol, depots, closed, cond, nodeOrders, m
       </div>
       {kpi && <div className="hud hud-kpi">{kpi}</div>}
       <div className={'hud-status' + (solving ? ' busy' : '')} aria-live="polite">
-        <span className="pulse-dot" />{solving ? T.map.solving : sol ? T.map.solved(f.int(Math.max(1, sol.ms)), sol.routes.length, sol.pb.stops.length) : ''}
+        <span className="pulse-dot" />{solving ? T.map.solving : sol ? (sol.manual ? T.map.manualStatus(sol.routes.length, sol.pb.stops.length) : T.map.solved(f.int(Math.max(1, sol.ms)), sol.routes.length, sol.pb.stops.length)) : ''}
       </div>
       {tool === 'cut' && <div className="hud-cut-hint"><Icon name="scissors" size={14} />{T.map.cutMode}</div>}
       {hint && <div className="hud-hint">{hint}</div>}
