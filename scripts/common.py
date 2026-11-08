@@ -261,7 +261,8 @@ def youtube_posts(cfg: dict, posts: list) -> list:
     state = load_state() if backfill else {}
     out, queue = [], []
     for p in posts:
-        if p.channel != "instagram" or p.lang not in langs or p.images or (p.slug, p.lang, p.n) in own:
+        if p.channel != "instagram" or p.lang not in langs or p.images or (p.slug, p.lang, p.n) in own \
+                or p.slug in (yc.get("skip_slugs") or []):
             continue
         if (p.media or "motion") != "motion":
             continue
