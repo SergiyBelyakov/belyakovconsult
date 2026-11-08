@@ -520,6 +520,61 @@
       "audiences": [
         "learning"
       ]
+    },
+    {
+      "slug": "community-twin",
+      "dir": "community-twin",
+      "attr": "data-community-twin",
+      "anchor": "community-twin",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "geospatial-analysis",
+        "management-analytics",
+        "data-architecture",
+        "data-governance"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "community-twin/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Цифровий двійник і паспорт громади | Belyakov Consult",
+          "description": "Інтерактивний цифровий двійник умовної громади: паспорт із 50 показників зі статусом даних, карта всіх реєстрів, паспорт кожного населеного пункту, звірка кількості мешканців за трьома джерелами, бюджет і земля, сценарії мережі шкіл, блекауту й паводку, сигнали на синтетичних даних.",
+          "name": "Цифровий двійник громади",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує цифровий двійник умовної громади: паспорт із показниками й статусом даних, карту закладів і ризиків, паспорти населених пунктів, звірку кількості мешканців, бюджет і землю, сценарії та сигнали на синтетичних даних.",
+          "kind": "Паспорт громади · двійник",
+          "teaser": "Паспорт громади, який оновлюється з реєстрів: 50 показників зі статусом даних, усі об’єкти на карті, реальна кількість мешканців і сценарії шкіл, блекауту й паводку."
+        },
+        "en": {
+          "title": "Community digital twin and passport | Belyakov Consult",
+          "description": "An interactive digital twin of a fictional community: a passport of 50 indicators with data status, a map of every register, a passport for each settlement, a resident count reconciled from three sources, budget and land, school network, blackout and flood scenarios, and signals on synthetic data.",
+          "name": "Community digital twin",
+          "noscript": "The demo needs JavaScript. It shows a digital twin of a fictional community: a passport with indicators and data status, a map of facilities and risks, settlement passports, a reconciled resident count, budget and land, scenarios and signals on synthetic data.",
+          "kind": "Community passport · twin",
+          "teaser": "A community passport that updates from registers: 50 indicators with data status, every facility on the map, the real resident count and school, blackout and flood scenarios."
+        }
+      },
+      "audiences": [
+        "communities",
+        "public",
+        "donors"
+      ]
     }
   ],
   "exhibits": [

@@ -246,6 +246,7 @@ post_links:
   anomaly: /cases/anomaly-detection/
   charts: /cases/chart-gallery/
   kitty: /cases/laser-kitty/
+  twin: /cases/community-twin/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:
