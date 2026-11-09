@@ -721,6 +721,15 @@
     "music": "analytic",
     "wave": "wave-3.jpg"
   },
+  "scooter-cat-game#1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-financial-analytics.webp",
+    "k": 42,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-1.jpg"
+  },
   "six-seven#1": {
     "cover": "icon",
     "frozen": true,
