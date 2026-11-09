@@ -720,5 +720,15 @@
     "look": "glass",
     "music": "analytic",
     "wave": "wave-3.jpg"
+  },
+  "six-seven#1": {
+    "cover": "icon",
+    "frozen": true,
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 41,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-5.jpg"
   }
 }
