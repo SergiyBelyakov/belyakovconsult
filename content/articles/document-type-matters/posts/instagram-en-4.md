@@ -1,8 +1,10 @@
 ---
 link: false
 ---
-Half an hour and two counts: matches by number only and matches by type, series and number. The gap shows how many records are matched by mistake right now.
+Side quest, 30 minutes, no cap 🔥
 
-In the video: how to run that check, where to look in the exchange contract, and a question for you at the end. Answer in the comments.
+Count matches twice: by number only, then by type + series + number. The gap = how many records are matched wrong right now.
 
-#dataquality #dataarchitecture #registers #dataanalytics #govtech
+In the video: how to run it, where to look in the exchange contract, and a question at the end. Drop your answer in the comments 👇
+
+#dataquality #registers #govtech #meme

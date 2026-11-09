@@ -1,7 +1,7 @@
 ---
 ---
-A 30-minute check: match two registers twice. First by document number only, then by type, series and number. The gap is the number of false matches.
+30-minute side quest 🔥 Match two registers twice: by number only, then by type + series + number. The gap = your fake matches.
 <!-- next -->
-And look at the exchange contract. If it has one "document number" field, every system guesses the type its own way.
+Bonus level: the exchange contract. One "document number" field? Every system guesses the type like it's a pop quiz 😭
 <!-- next -->
-A question for you: does your exchange send the document type as a separate field? Breakdown: {{link}}
+So: does your exchange send document type as its own field? Breakdown: {{link}}

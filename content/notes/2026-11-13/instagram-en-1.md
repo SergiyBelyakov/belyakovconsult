@@ -19,8 +19,11 @@ cards:
       type: flow
       items: ["Type from a code list", "Rule for that type", "Check at entry", "Reject with a reason"]
 ---
-A format check is only as good as the rule behind it. And the rule depends on the document type: what is valid for one document can be nonsense for another.
+One format rule for ALL documents? 🤡
+It's giving "one key for every door".
 
-Swipe for why format checks should start from the type, and what happens when they do not.
+The rule depends on the document type: valid for one, nonsense for another.
 
-#dataquality #dataarchitecture #registers #datagovernance #govtech
+Swipe: start the check from the type, or the wrong ones walk right in 💀
+
+#dataquality #dataarchitecture #registers #meme

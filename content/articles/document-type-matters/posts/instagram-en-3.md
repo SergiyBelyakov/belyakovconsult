@@ -1,8 +1,11 @@
 ---
 link: false
 ---
-A generic length check lets through both a passport and a phone number. Because it has one rule for every document type.
+Nobody:
+Your length check: "passport? phone number? same vibe, let it in" 🤡
 
-In the video: a format rule for each document type, where to run it, and why a rejected record should come back with a reason instead of disappearing.
+One rule for every document type is a skill issue.
 
-#dataquality #dataarchitecture #registers #datagovernance #govtech
+In the video: one format rule per document type, where to run it, and why a rejected record should come back with a reason instead of just vanishing like my homework.
+
+#dataquality #datagovernance #registers #meme

@@ -19,8 +19,11 @@ cards:
     text: Mark the duplicate, link it to the master record, keep the history of payments.
     visual: {type: doc, label: "Merge log", note: "Who, when, why"}
 ---
-An algorithm can tell you two records look alike. It cannot tell you whether they are one person or two people with the same name and birthday.
+Algorithm: "these two look the same" 🤖
+Me: bro, that is two different people with the same name and birthday 💀
 
-Swipe for a simple split of work that keeps matching fast and safe: the machine suggests, a person decides, and every merge leaves a trace.
+The machine finds look-alikes. A human decides if it is one person or two.
 
-#dataquality #datagovernance #registers #dataanalytics #govtech
+Swipe: machine suggests, human decides, every merge leaves a trace. No cap.
+
+#dataquality #datagovernance #registers #meme

@@ -1,3 +1,6 @@
 ---
 ---
-Mini breakdown. Why a single "full name + birth date" key misses duplicates: "Oleksandr" and "Oleksandr." are different people to a machine. First I normalise case, spaces, apostrophes and Latin letters mixed into Cyrillic. Only then do I compare.
+"Oleksandr" and "Oleksandr." walk into a database.
+The machine: two different people 💀
+
+So first normalise case, spaces, apostrophes and Latin letters hiding in Cyrillic. Then compare. That's why a single "name + birth date" key misses duplicates.

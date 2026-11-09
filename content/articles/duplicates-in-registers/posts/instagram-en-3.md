@@ -1,8 +1,10 @@
 ---
 link: false
 ---
-You found a duplicate. Now the interesting part: which record stays, what happens to payment history and who approves it.
+Found a duplicate. Smash "merge"? 🤡
 
-In the video: the decisions worth making before pressing "merge", and the check that stops new duplicates right in the form. And a question for you at the end, answer in the comments.
+Bro, wait. First decide: which record stays, what happens to payment history, who approves it. Then make the form catch new duplicates before saving.
 
-#dataquality #datagovernance #registers #dataanalytics #govtech
+Question at the end of the video, drop your answer in the comments 👇
+
+#dataquality #datagovernance #registers #meme

@@ -1,3 +1,7 @@
 ---
 ---
-How I work. In a first meeting about duplicates I ask three things: which decision suffers from them (a payment, a report, a match), who decides today which record is the master, and where the data is entered. The answers often matter more than any algorithm.
+POV: first meeting about duplicates and I ask 3 things 🫠
+1. Which decision suffers (payment, report, match)?
+2. Who picks the master record today?
+3. Where is the data typed in?
+These answers > any algorithm. No cap.

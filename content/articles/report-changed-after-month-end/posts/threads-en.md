@@ -1,7 +1,7 @@
 ---
 ---
-Illustrative: on 5 November a report shows 1,240 applications for October, on 20 November the same report shows 1,287. Nobody changed the formulas. What happened?
+Illustrative: 5 Nov the report says 1,240 applications for October. 20 Nov the same report says 1,287. Nobody touched the formulas 💀
 <!-- next -->
-The report recalculates October every time. And in the data October keeps changing: late records, backdated corrections, new statuses, merged duplicates.
+The report recalculates October every time, and October in the data is still alive: late records, backdated fixes, new statuses, merged duplicates.
 <!-- next -->
-The fix is in data architecture: a snapshot on the cut-off date, two dates per record and published figures kept separately. Full piece: {{link}}
+Fix = data architecture, not dashboard: snapshot on the cut-off date, two dates per record, published figures kept separately. Full piece: {{link}}

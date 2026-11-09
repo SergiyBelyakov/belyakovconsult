@@ -1,8 +1,10 @@
 ---
 link: false
 ---
-The October report, opened on 5 and 20 November, shows two different numbers. And nobody broke anything.
+POV: you open the October report on 5 November and on 20 November and get two different numbers 😭
 
-In the video: why the past changes in data, how the current state differs from history and how to freeze a published number.
+Nobody broke anything. The past in data just keeps changing, it's giving time travel.
 
-#dataarchitecture #dataanalytics #businessintelligence #reporting #govtech
+Video: current state vs history, and how to freeze a published number 🧊
+
+#dataanalytics #businessintelligence #reporting #meme

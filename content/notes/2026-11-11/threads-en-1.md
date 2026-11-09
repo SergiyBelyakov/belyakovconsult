@@ -1,3 +1,5 @@
 ---
 ---
-Myth: "the algorithm will find the duplicates". Fact: the algorithm finds similar records. Whether it is one person or namesakes with the same birth date is decided by someone who knows the context. Otherwise you risk merging two different people into one.
+"The algorithm will find the duplicates" 🤡
+
+Bro, it finds look-alikes. One person or two namesakes with the same birthday? A human with context decides. Otherwise you merge two people into one. Skill issue 💀

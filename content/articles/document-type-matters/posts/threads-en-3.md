@@ -1,7 +1,7 @@
 ---
 ---
-A "field is not empty" check cannot tell an ID card number from a date typed into the wrong field. A generic length check lets through a passport and a phone number alike.
+Your "field is not empty" check: can't tell an ID number from a date in the wrong box 🤡 Your length check: passport, phone number, whatever, come in.
 <!-- next -->
-The rule has to depend on the document type: ID card 9 digits, booklet passport 2 letters and 6 digits, birth certificate series and 6 digits. Check twice: at entry and on receipt.
+Rule per document type, no cap: ID card 9 digits, booklet passport 2 letters + 6 digits, birth certificate series + 6 digits. Check at entry AND on receipt.
 <!-- next -->
-And a record that fails goes back with a reason instead of disappearing silently. Breakdown: {{link}}
+And a failed record comes back with a reason. No ghosting. Breakdown: {{link}}

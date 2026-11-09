@@ -1,8 +1,10 @@
 ---
 link: false
 ---
-Excel ate the leading zero, and 012345 became 12345. That is, the number of a completely different document. Sounds trivial, but in a register it is a false match.
+POV: Excel decided your leading zero was "useless" 💀
 
-In the video: four reasons document numbers overlap, and how look-alike letters hide the same person from a search.
+012345 → 12345. Congrats, that's now a totally different document. Your register: "it's a match!" Bro, it's not.
 
-#dataquality #dataarchitecture #registers #dataanalytics #govtech
+In the video: 4 reasons document numbers collide, plus how look-alike letters make the same person go invisible 🫠
+
+#dataquality #registers #govtech #meme

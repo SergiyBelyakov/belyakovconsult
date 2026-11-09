@@ -1,8 +1,10 @@
 ---
 link: false
 ---
-Namesakes exist. Passports change. So you cannot find duplicates in a register by name alone or by document number alone.
+POV: you search for duplicates by name only 💀
 
-In the video: a key from several fields, fuzzy matching, and why the final word should belong to a person, not an algorithm.
+Two kids named Oleksandr in one class: same name, different humans. Passports change too, so document number alone is also a skill issue.
 
-#dataquality #datagovernance #registers #dataanalytics #govtech
+The combo move: a key from several fields + fuzzy matching. And the final boss decision goes to a human, not the algorithm. Video explains 👆
+
+#dataquality #datagovernance #registers #meme
