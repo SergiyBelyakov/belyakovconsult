@@ -1,12 +1,12 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-09 19:32
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-09 20:32
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (duplicates-in-registers), спроба 3/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (duplicates-in-registers), спроба 1/3:
 YouTube (початок вивантаження): HTTP 400 {
   "error": {
     "code": 400,
@@ -21,33 +21,11 @@ YouTube (початок вивантаження): HTTP 400 {
   }
 }
 
-Більше спроб не буде — перевірте токен або текст.
 ```
 
 ## 2
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (scooter-cat-game), спроба 3/3:
-YouTube (початок вивантаження): HTTP 400 {
-  "error": {
-    "code": 400,
-    "message": "The user has exceeded the number of videos they may upload.",
-    "errors": [
-      {
-        "message": "The user has exceeded the number of videos they may upload.",
-        "domain": "youtube.video",
-        "reason": "uploadLimitExceeded"
-      }
-    ]
-  }
-}
-
-Більше спроб не буде — перевірте токен або текст.
-```
-
-## 3
-
-```
-✅ Опубліковано в Threads: scooter-cat-game
-https://www.threads.com/@belyakovconsult/post/Dfh4DBch1mn
+✅ Опубліковано в Threads: note-2026-11-09
+https://www.threads.com/@belyakovconsult/post/Dfh-4M1iVXN
 ```
