@@ -30,6 +30,10 @@ def main() -> int:
         return 1
 
     idx = {(a.slug, a.lang): a for a in articles}
+    import publish  # noqa: E402  перевірка: поле video допису веде на наявний файл (інакше вийде допис без відео)
+    for p in posts:
+        if p.video and not publish.video_file(p, cfg):
+            errors.append(f"{p.key}: відео «{p.video}» не знайдено (uk: site/assets/insights/<slug>/<файл>, en: .../<slug>/en/<файл>)")
     errors += [f"бренд: {x}" for x in brand.check()]
     for a in articles:
         where = f"{a.slug}/{a.lang}.md"

@@ -1737,25 +1737,6 @@
     "status": "published",
     "url": "https://youtube.com/shorts/iKKvSfG21Gc"
   },
-  "terrain-joke/instagram-uk": {
-    "at": "2026-11-09 21:06",
-    "attempts": 1,
-    "error": "Instagram: немає зображень для публікації",
-    "publish_at": "2026-11-09 21:05",
-    "status": "retry"
-  },
-  "terrain-joke/telegram-uk": {
-    "at": "2026-11-09 21:06",
-    "id": 53,
-    "status": "published",
-    "url": "https://t.me/belyakovconsult/53"
-  },
-  "terrain-joke/threads-uk": {
-    "at": "2026-11-09 21:06",
-    "id": "18110495777219851",
-    "status": "published",
-    "url": "https://www.threads.com/@belyakovconsult/post/DfiC2-5mcuo"
-  },
   "threads-check/threads-uk": {
     "at": "2026-10-26 00:12",
     "id": "17961394383230806",
