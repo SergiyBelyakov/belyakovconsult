@@ -1,12 +1,12 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-09 19:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-09 19:17
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (duplicates-in-registers), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (duplicates-in-registers), спроба 2/3:
 YouTube (початок вивантаження): HTTP 400 {
   "error": {
     "code": 400,
@@ -26,7 +26,7 @@ YouTube (початок вивантаження): HTTP 400 {
 ## 2
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (scooter-cat-game), спроба 1/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (scooter-cat-game), спроба 2/3:
 YouTube (початок вивантаження): HTTP 400 {
   "error": {
     "code": 400,
