@@ -169,15 +169,18 @@
 .sc-title .sc-actions, .sc-title .sc-check, .sc-title .sc-keys { justify-self: center; text-align: center; }
 .sc-kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .sc-touch-r { align-items: flex-end; }
-.sc-touch button.laser { width: 52px; height: 52px; align-self: flex-start; border-color: rgba(255, 96, 118, .7); background: rgba(255, 96, 118, .18); color: #FFB4C0; }
-.sc-touch button.laser:active { background: rgba(255, 96, 118, .5); }
+/* лівий кластер: лазер по центру над двома кнопками нахилу, щоб дотягнутися тим самим великим пальцем */
+.sc-touch > .sc-touch-l { flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; }
+.sc-touch-lean { display: flex; gap: 10px; }
+.sc-touch button.laser { width: 58px; height: 58px; border-color: rgba(255, 96, 118, .7); background: rgba(255, 96, 118, .18); color: #FFB4C0; }
+.sc-touch button.laser:active, .sc-touch button.laser.on { background: rgba(255, 96, 118, .5); }
 @media (max-width: 640px) {
   .sc-chars { grid-template-columns: 1fr; gap: 6px; }
   .sc-char { grid-template-columns: 96px minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 10px; padding: 8px 10px; }
   .sc-char canvas { grid-row: 1 / span 3; height: 70px; }
   .sc-char-stats { display: none; }
   .sc-kpis.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sc-touch button.laser { width: 48px; height: 48px; }
+  .sc-touch button.laser { width: 54px; height: 54px; }
   .sc-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .sc-lv { padding: 10px 11px; }
   .sc-lv strong { font-size: 14.5px; }
@@ -258,3 +261,23 @@
   .sc-nick-row { flex-wrap: wrap; }
   .sc-nick-row .btn { flex: 1 1 auto; }
 }
+
+/* ——— на весь екран: Fullscreen API або фіксований шар (iPhone); поле займає все місце над панеллю кнопок ——— */
+html.sc-noscroll, html.sc-noscroll body { overflow: hidden; }
+.sc-game.sc-full { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: none; height: 100vh; height: 100dvh; margin: 0;
+  padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)); background: #05070B; }
+.sc-full .sc-stage { flex: 1 1 0; min-height: 0; border-radius: 12px; }
+.sc-full .sc-controls { flex: 0 0 auto; flex-wrap: nowrap; }
+.sc-full .sc-controls .icon-btn { flex: 0 0 auto; }
+.sc-full .sc-msg { flex: 1 1 0; min-width: 0; min-height: 40px; flex-wrap: nowrap; align-items: center; padding: 7px 12px; white-space: nowrap; overflow: hidden; }
+.sc-full .sc-msg > * { flex: 0 0 auto; }
+.sc-full .sc-msg > span { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 520px) { .sc-full .sc-msg { display: none; } }
+.sc-full-btn.on { color: #60A5FA; border-color: rgba(96, 165, 250, .45); }
+.sc-rotate { display: none; }
+@media (orientation: portrait) and (hover: none) {
+  .sc-full .sc-rotate { position: absolute; left: 0; right: 0; top: 34%; z-index: 2; width: max-content; max-width: calc(100% - 32px); margin: 0 auto; display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+    border: 1px solid rgba(96, 165, 250, .45); border-radius: 18px; background: rgba(12, 16, 23, .88); color: #F4F6F8; font-size: 12.5px; line-height: 1.35; text-align: left; pointer-events: none; animation: sc-hint 6s ease forwards; }
+}
+.sc-rotate svg { flex: none; color: #60A5FA; }
+@keyframes sc-hint { 0%, 82% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }

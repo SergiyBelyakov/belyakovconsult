@@ -67,6 +67,9 @@ export default function GameView({ T, lang, onLead, track }) {
   const boardBack = useRef('title');
   const [msg, setMsg] = useState(null);
   const setPhase = p => { phaseRef.current = p; setPhaseState(p); };
+  // повний екран: Fullscreen API, а де його немає (iPhone), фіксований шар на весь екран; optOut: гравець сам вийшов, більше не розгортаємо
+  const root = useRef(null), fullRef = useRef(false), nativeRef = useRef(false), optOut = useRef(false), pageY = useRef(0);
+  const [full, setFull] = useState(false);
 
   useEffect(() => { setSound(sound); setMusic(music); save(PREFS, { char, sound, music }); }, [sound, music, char]);
 
@@ -106,8 +109,10 @@ export default function GameView({ T, lang, onLead, track }) {
     if (/scdebug/.test(location.search)) window.__sc = g;   // лише для автоматичних перевірок
     const canvas = cv.current, ctx = canvas.getContext('2d');
     const fit = () => {
-      const W = Math.max(300, Math.round(wrap.current.getBoundingClientRect().width));
-      const H = W < 620 ? Math.min(600, Math.round(W * 1.18)) : Math.max(420, Math.min(620, Math.round(W * 0.56)));
+      // на весь екран поле займає все місце над панеллю кнопок; на сторінці висота залежить від ширини
+      const st = wrap.current, W = Math.max(300, Math.round(fullRef.current ? st.clientWidth : st.getBoundingClientRect().width));
+      const H = fullRef.current ? Math.max(240, Math.round(st.clientHeight))
+        : W < 620 ? Math.min(600, Math.round(W * 1.18)) : Math.max(420, Math.min(620, Math.round(W * 0.56)));
       const dpr = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = W * dpr; canvas.height = H * dpr; canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -159,6 +164,53 @@ export default function GameView({ T, lang, onLead, track }) {
     return () => { window.removeEventListener('keydown', down); window.removeEventListener('keyup', up); window.removeEventListener('blur', blur); };
   }, []);
 
+  // ——— повний екран ———
+  const setFullMode = on => {
+    if (on) pageY.current = window.scrollY;   // після виходу сторінка повертається туди, де була гра
+    fullRef.current = on; setFull(on); document.documentElement.classList.toggle('sc-noscroll', on);
+    if (!on) requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, pageY.current)));
+  };
+  const enterFull = () => {
+    if (fullRef.current) return;
+    setFullMode(true);
+    const el = root.current, req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (!req) return;   // iPhone: лишається фіксований шар на весь екран
+    try {
+      nativeRef.current = true;
+      const p = req.call(el, { navigationUI: 'hide' });
+      // на телефоні гра горизонтальна: так видно більше траси (Android дозволяє повернути екран лише в повноекранному режимі)
+      const turn = () => { try { if (matchMedia('(pointer: coarse)').matches && screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {}); } catch { /* не підтримується */ } };
+      if (p && p.then) p.then(turn).catch(() => { nativeRef.current = false; }); else turn();
+    } catch { nativeRef.current = false; }
+  };
+  const exitFull = () => {
+    if (!fullRef.current) return;
+    setFullMode(false);
+    try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch { /* не підтримується */ }
+    if (nativeRef.current) {
+      nativeRef.current = false;
+      const ex = document.exitFullscreen || document.webkitExitFullscreen;
+      if (ex && (document.fullscreenElement || document.webkitFullscreenElement)) { try { const p = ex.call(document); if (p && p.catch) p.catch(() => {}); } catch { /* уже вийшли */ } }
+    }
+  };
+  const toggleFull = () => {
+    const on = !fullRef.current;
+    optOut.current = !on;
+    if (on) enterFull(); else exitFull();
+    if (wrap.current) wrap.current.focus({ preventScroll: true });
+    track && track('fullscreen', { on });
+  };
+  useEffect(() => {
+    // Esc або системний жест вийшли з повного екрана: прибрати й фіксований шар, більше самі не розгортаємо
+    const on = () => {
+      if (!(document.fullscreenElement || document.webkitFullscreenElement) && nativeRef.current) { nativeRef.current = false; optOut.current = true; setFullMode(false); }
+    };
+    document.addEventListener('fullscreenchange', on); document.addEventListener('webkitfullscreenchange', on);
+    return () => { document.removeEventListener('fullscreenchange', on); document.removeEventListener('webkitfullscreenchange', on); document.documentElement.classList.remove('sc-noscroll'); };
+  }, []);
+  // форма заявки відкривається поза грою, тож спершу виходимо з повного екрана
+  const lead = where => { exitFull(); onLead(where); };
+
   const pickChar = id => {
     setChar(id);
     const g = G.current; g.char = id;
@@ -167,6 +219,7 @@ export default function GameView({ T, lang, onLead, track }) {
   const brief = n => { setLv(n); setMsg(null); setPhase('brief'); };
   const start = () => {
     const g = G.current;
+    if (!optOut.current) enterFull();   // заїзд починається на весь екран (натискання кнопки дозволяє браузеру це зробити)
     g.mode = mode; g.quiet = false; g.setKeys(NOKEYS);
     g.load(LEVEL_IDS[lv], char); g.start();
     setTheme(isHell(LEVEL_IDS[lv]) ? 'hell' : 'main');
@@ -211,19 +264,24 @@ export default function GameView({ T, lang, onLead, track }) {
   const L = T.levels;
 
   return (
-    <div className="sc-game" onPointerDown={() => unlock()}>
+    <div className={'sc-game' + (full ? ' sc-full' : '')} ref={root} onPointerDown={() => unlock()}>
       <div className={'sc-stage' + (phase === 'play' ? ' playing' : '')} ref={wrap} tabIndex="-1" aria-label={T.title}>
         <canvas ref={cv} role="img" aria-label={T.title} />
         {phase === 'play' && (
           <div className="sc-touch" aria-hidden="true">
-            <div className="sc-touch-l"><button type="button" {...hold('back')}><Icon name="lean-back" size={26} /></button><button type="button" {...hold('fwd')}><Icon name="lean-fwd" size={26} /></button></div>
+            {/* лівий великий палець: лазер над кнопками нахилу; правий: гальмо й газ */}
+            <div className="sc-touch-l">
+              <button type="button" className="laser" onPointerDown={e => { e.preventDefault(); G.current.fire(); e.currentTarget.classList.add('on'); }}
+                onPointerUp={e => e.currentTarget.classList.remove('on')} onPointerCancel={e => e.currentTarget.classList.remove('on')} onContextMenu={e => e.preventDefault()}><Icon name="eye" size={26} /></button>
+              <div className="sc-touch-lean"><button type="button" {...hold('back')}><Icon name="lean-back" size={26} /></button><button type="button" {...hold('fwd')}><Icon name="lean-fwd" size={26} /></button></div>
+            </div>
             <div className="sc-touch-r">
-              <button type="button" className="laser" onPointerDown={e => { e.preventDefault(); G.current.fire(); }} onContextMenu={e => e.preventDefault()}><Icon name="eye" size={24} /></button>
               <button type="button" {...hold('brake')}><Icon name="pedal-brake" size={24} /></button>
               <button type="button" className="gas" {...hold('gas')}><Icon name="pedal-gas" size={26} /></button>
             </div>
           </div>
         )}
+        {phase === 'play' && full && <div className="sc-rotate" aria-hidden="true"><Icon name="phone-turn" size={18} />{U.rotate}</div>}
         {phase === 'title' && (
           <div className="sc-over sc-scroll sc-title">
             <span className="sc-logo">{T.short}</span>
@@ -326,7 +384,7 @@ export default function GameView({ T, lang, onLead, track }) {
             <p className="sc-final-total">{U.totalStars}: {mainStars} {U.of} {3 * MAIN_IDS.length}</p>
             <p>{U.finalText}</p>
             <div className="sc-actions center">
-              <button type="button" className="btn btn-primary" onClick={() => onLead('final')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
+              <button type="button" className="btn btn-primary" onClick={() => lead('final')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => openBoard('all', char)}><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => brief(0)}>{U.again}</button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
@@ -345,7 +403,7 @@ export default function GameView({ T, lang, onLead, track }) {
             <p>{T.hell.finalText}</p>
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary" onClick={() => openBoard('d4', char)} autoFocus><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
-              <button type="button" className="btn btn-ghost" onClick={() => onLead('hellFinal')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
+              <button type="button" className="btn btn-ghost" onClick={() => lead('hellFinal')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => brief(MAIN_IDS.length)}>{T.hell.enter}</button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
             </div>
@@ -375,6 +433,7 @@ export default function GameView({ T, lang, onLead, track }) {
         <button type="button" className={'icon-btn' + (phase === 'board' ? ' on' : '')} onClick={() => (phase === 'board' ? setPhase(boardBack.current) : openBoard(bScope, bChar))} aria-label={T.board.open} title={T.board.open}><Icon name="trophy" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (music ? ' on' : '')} onClick={() => { unlock(); setMus(!music); }} aria-pressed={music} aria-label={U.music} title={U.music}><Icon name="music" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (sound ? ' on' : '')} onClick={() => { unlock(); setSnd(!sound); }} aria-pressed={sound} aria-label={U.sound} title={U.sound}><Icon name="sound" size={18} /></button>
+        <button type="button" className={'icon-btn sc-full-btn' + (full ? ' on' : '')} onClick={toggleFull} aria-pressed={full} aria-label={full ? U.fullExit : U.fullEnter} title={full ? U.fullExit : U.fullEnter}><Icon name={full ? 'shrink' : 'expand'} size={18} /></button>
         <div className={'sc-msg' + (msg ? ' t-' + msg.tone : '')} role="status" aria-live="polite">
           {msg ? <><strong>{msg.title}</strong>{msg.text && <span>{msg.text}</span>}{msg.action === 'calm' && mode !== 'calm' && <button type="button" className="btn btn-ghost sc-msg-btn" onClick={() => { setMode('calm'); G.current.mode = 'calm'; setMsg(null); wrap.current.focus({ preventScroll: true }); }}>{T.msg.calmOn}</button>}</> : <><span className="muted sc-keys-inline">{hellNow ? U.controlsHell : U.controls}</span><span className="muted sc-touch-inline">{U.touch}</span></>}
         </div>

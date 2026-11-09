@@ -27,7 +27,8 @@ export class Game {
     this.state = 'idle';
   }
 
-  layout(W, H) { this.W = W; this.H = H; this.baseScale = Math.max(38, Math.min(70, Math.min(W / (W < 620 ? 9.5 : 11.5), H / 8.5))); }
+  // пікселів на метр: на великому повному екрані герой більший, а видно приблизно стільки ж траси, як на сторінці
+  layout(W, H) { this.W = W; this.H = H; this.baseScale = Math.max(38, Math.min(110, Math.min(W / (W < 620 ? 9.5 : 11.5), H / 8.5))); }
 
   load(id, char = this.char) {
     this.char = char;
