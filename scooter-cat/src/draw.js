@@ -3,6 +3,7 @@
 
 import { drawRider, drawFallen, drawEyeGlow } from './riders.js';
 import { bug, boom, BUG_COLS } from '../../laser-kitty/src/sprites.js';
+import { LAYER_COLORS, WF_COLORS } from './levels.js';
 
 const FONT = "Inter, 'Segoe UI', Arial, sans-serif", MONO = "ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace";
 export const COL = {
@@ -11,6 +12,8 @@ export const COL = {
   cat: '#F0964A', catD: '#C46C28', catL: '#FFC480', pink: '#FF8C96', dark: '#06080C',
   steel: '#AAB2C0', deck: '#283142', tire: '#121821', tireL: '#3A4558',
 };
+// плашки легенди для шарів і стовпчиків водоспаду
+const SWATCH = { L0: LAYER_COLORS[0], L1: LAYER_COLORS[1], L2: LAYER_COLORS[2], WT: WF_COLORS.total, WD: WF_COLORS.down };
 const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -29,8 +32,10 @@ export function drawGame(ctx, G) {
   glow.addColorStop(0, rgba(L.color, 0.07)); glow.addColorStop(1, rgba(L.color, 0));
   ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
 
-  grid(ctx, G, V);
+  const labels = grid(ctx, G, V);
   if (L.band) band(ctx, G, V);
+  decor(ctx, G, V);
+  gridLabels(ctx, labels, ['hist', 'pareto', 'stacked', 'waterfall'].includes(L.kind));
   ghosts(ctx, G, V);
   terrain(ctx, G, V);
   markers(ctx, G, V);
@@ -55,36 +60,220 @@ function scaleFor(L, region) {
 function fmtVal(G, v) {
   const L = G.L;
   if (L.unit === 'users') return G.T.fmt.users(v);
+  if (L.unit === 'pct') return G.T.fmt.pct0(v / 100);
   return G.T.fmt.num(v);
 }
 
+// Сітка: лінії одразу, підписи осей пізніше (gridLabels), щоб стовпчики й шари їх не перекривали
 function grid(ctx, G, V) {
   const L = G.L, two = (L.id === 'axis' || L.id === 'log') && L.gates[0].morph.t > 0;
   const split = two ? clamp(V.X(L.gates[0].at), 0, G.W) : G.W;
-  ctx.font = `500 11px ${FONT}`; ctx.textBaseline = 'bottom';
+  const out = [];
   const lines = (ticks, f, x0, x1, alpha, labelX) => {
     for (const v of ticks) {
       const y = V.Y(f(v));
-      if (y < 30 || y > G.H - 22 || x1 - x0 < 2) continue;
-      ctx.strokeStyle = `rgba(255,255,255,${0.065 * alpha})`; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + 0.5); ctx.lineTo(x1, Math.round(y) + 0.5); ctx.stroke();
-      if (labelX != null) { ctx.fillStyle = rgba(COL.faint, alpha); ctx.fillText(fmtVal(G, v), labelX, y - 3); }
+      if (y < 30 || y > G.H - 22) continue;
+      if (x1 - x0 >= 2) {
+        ctx.strokeStyle = `rgba(255,255,255,${0.065 * alpha})`; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + 0.5); ctx.lineTo(x1, Math.round(y) + 0.5); ctx.stroke();
+      }
+      if (labelX != null) out.push({ t: fmtVal(G, v), x: labelX, y: y - 3, a: alpha });
     }
   };
-  if (L.ticks) lines(L.ticks, L.yOf, 0, G.W, 1, 8);
+  if (L.panels) {
+    // малі мультиплікатори: сітка лише в межах панелей, шкала одна на всіх
+    for (const p of L.panels) lines(L.ticks, L.yOf, clamp(V.X(p.x0 - 1.2), 0, G.W), clamp(V.X(p.x1 + 1.2), 0, G.W), 1, null);
+    lines(L.ticks, L.yOf, 0, 0, 1, 8);
+  } else if (L.ticks) lines(L.ticks, L.yOf, 0, G.W, 1, 8);
   else {
     lines(L.ticksA, scaleFor(L, 'A'), 0, split, 1, split > 60 ? 8 : null);
     if (two) lines(L.ticksB, scaleFor(L, 'B'), split, G.W, L.gates[0].morph.t, split + 8);
   }
-  // мітки часу внизу
-  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-  for (const smp of L.samples) {
-    if (smp.i % L.xEvery || smp.x < V.xL || smp.x > V.xR) continue;
-    const x = V.X(smp.x);
+  // підписи осі x унизу: час за точками або свої позначки (кошики, товарні групи, статті)
+  const ticks = L.xTicks || L.samples.filter(s => !(s.i % L.xEvery)).map(s => ({ x: s.x, o: L.xLabel(s.i) }));
+  for (const t of ticks) {
+    if (t.x < V.xL || t.x > V.xR) continue;
+    const x = V.X(t.x);
     ctx.strokeStyle = 'rgba(255,255,255,.035)'; ctx.beginPath(); ctx.moveTo(Math.round(x) + 0.5, 30); ctx.lineTo(Math.round(x) + 0.5, G.H - 18); ctx.stroke();
-    ctx.fillStyle = COL.faint; ctx.fillText(G.T.xlabel(L.xLabel(smp.i)), x, G.H - 6);
+    out.push({ t: G.T.xlabel(t.o), x, y: G.H - 6, a: 1, c: true });
+  }
+  return out;
+}
+function gridLabels(ctx, list, pill) {
+  ctx.font = `500 11px ${FONT}`;
+  for (const l of list) {
+    ctx.textAlign = l.c ? 'center' : 'left'; ctx.textBaseline = l.c ? 'alphabetic' : 'bottom';
+    if (pill) {   // над стовпчиками й шарами підпис на темній плашці, щоб читався
+      const w = ctx.measureText(l.t).width + 8, x = l.c ? l.x - w / 2 : l.x - 4, y = l.c ? l.y - 11 : l.y - 13;
+      ctx.fillStyle = `rgba(11,15,22,${0.72 * l.a})`; ctx.fillRect(x, y, w, 15);
+    }
+    ctx.fillStyle = rgba(pill ? COL.muted : COL.faint, l.a); ctx.fillText(l.t, l.x, l.y);
+  }
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+}
+
+// ——— фон, що залежить від виду графіка: стовпчики гістограми й Парето, шари, водоспад, контрольні межі, панелі ———
+function decor(ctx, G, V) {
+  const k = G.L.kind;
+  if (k === 'hist') histBars(ctx, G, V);
+  else if (k === 'pareto') paretoBars(ctx, G, V);
+  else if (k === 'stacked') layers(ctx, G, V);
+  else if (k === 'waterfall') waterBars(ctx, G, V);
+  else if (k === 'control') limits(ctx, G, V);
+  else if (k === 'multiples') panels(ctx, G, V);
+}
+
+function tag(ctx, text, x, y, { align = 'center', color = COL.ink, border = 'rgba(255,255,255,.22)', bg = 'rgba(11,15,22,.88)', font = `600 11.5px ${FONT}` } = {}) {
+  ctx.font = font;
+  const w = ctx.measureText(text).width + 12, h = 19, bx = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x;
+  ctx.fillStyle = bg; ctx.fillRect(bx, y - h, w, h);
+  ctx.strokeStyle = border; ctx.lineWidth = 1; ctx.strokeRect(bx + 0.5, y - h + 0.5, w - 1, h - 1);
+  ctx.fillStyle = color; ctx.textAlign = 'left'; ctx.fillText(text, bx + 6, y - 5.5);
+}
+
+function histBars(ctx, G, V) {
+  const L = G.L, w = L.barW, base = V.Y(0);
+  for (const smp of L.samples) {
+    if (smp.x + w / 2 < V.xL || smp.x - w / 2 > V.xR) continue;
+    const top = V.Y(L.yOf(smp.v)), x0 = V.X(smp.x - w / 2) + 1, x1 = V.X(smp.x + w / 2) - 1;
+    ctx.fillStyle = rgba(L.color, 0.17); ctx.fillRect(x0, top, x1 - x0, base - top);
+    ctx.fillStyle = rgba(L.color, 0.55); ctx.fillRect(x0, top, x1 - x0, 2);
+  }
+  // медіана і середнє: вертикальні пунктири з підписами
+  for (const m of L.marks) {
+    if (m.x < V.xL || m.x > V.xR) continue;
+    const x = Math.round(V.X(m.x)) + 0.5, top = V.Y(L.terrain.height(m.x) + 2.3);
+    ctx.strokeStyle = m.key === 'mean' ? rgba(COL.coral, 0.85) : 'rgba(244,246,248,.8)'; ctx.lineWidth = 1.6;
+    ctx.setLineDash(m.key === 'mean' ? [7, 5] : [2, 4]);
+    ctx.beginPath(); ctx.moveTo(x, base); ctx.lineTo(x, top); ctx.stroke(); ctx.setLineDash([]);
+    tag(ctx, G.T.marks[m.key](m.v), x, top, { border: m.key === 'mean' ? rgba(COL.coral, 0.7) : 'rgba(255,255,255,.35)' });
+  }
+}
+
+function paretoBars(ctx, G, V) {
+  const L = G.L, w = L.barW, base = V.Y(0), alpha = { A: 0.5, B: 0.3, C: 0.16 };
+  ctx.font = `600 11px ${FONT}`; ctx.textAlign = 'center';
+  for (const smp of L.samples) {
+    const xc = smp.x - w / 2;
+    if (xc + w / 2 < V.xL || xc - w / 2 > V.xR) continue;
+    const top = V.Y(L.yOf(smp.share)), x0 = V.X(xc - w / 2) + 3, x1 = V.X(xc + w / 2) - 3;
+    ctx.fillStyle = rgba(L.color, alpha[smp.abc]); ctx.fillRect(x0, top, x1 - x0, base - top);
+    ctx.fillStyle = rgba(L.color, 0.85); ctx.fillRect(x0, top, x1 - x0, 2);
+    ctx.fillStyle = COL.muted; ctx.fillText(G.T.fmt.dec(smp.share) + '%', V.X(xc), top - 6);
   }
   ctx.textAlign = 'left';
+  // межа 80%: горизонтальний пунктир і підписи груп A, B, C над стовпчиками
+  const y80 = V.Y(L.yOf(80));
+  ctx.strokeStyle = 'rgba(244,246,248,.4)'; ctx.lineWidth = 1; ctx.setLineDash([6, 6]);
+  ctx.beginPath(); ctx.moveTo(0, Math.round(y80) + 0.5); ctx.lineTo(G.W, Math.round(y80) + 0.5); ctx.stroke(); ctx.setLineDash([]);
+  const zones = [['A', 0, L.k80], ['B', L.k80 + 1, L.k95], ['C', L.k95 + 1, L.samples.length - 1]];
+  for (const [z, a, b] of zones) {
+    const xa = a * w, xb = (b + 1) * w;
+    if (xb < V.xL || xa > V.xR) continue;
+    const xm = clamp((Math.max(xa, V.xL + 1) + Math.min(xb, V.xR - 1)) / 2, xa + 2, xb - 2);
+    tag(ctx, G.T.abc[z], V.X(xm), Math.min(G.H - 26, V.Y(0) + 30), { border: rgba(L.color, 0.6) });
+  }
+}
+
+function layers(ctx, G, V) {
+  const L = G.L, S = L.samples;
+  let i0 = 0, i1 = S.length - 1;
+  while (i0 < S.length - 1 && S[i0 + 1].x < V.xL) i0++;
+  while (i1 > 0 && S[i1 - 1].x > V.xR) i1--;
+  if (i1 <= i0) return;
+  let lower = S.map(() => 0);
+  L.layers.forEach((arr, k) => {
+    const upper = lower.map((y, m) => y + arr[m]);
+    ctx.beginPath();
+    for (let m = i0; m <= i1; m++) ctx[m === i0 ? 'moveTo' : 'lineTo'](V.X(S[m].x), V.Y(L.yOf(upper[m])));
+    for (let m = i1; m >= i0; m--) ctx.lineTo(V.X(S[m].x), V.Y(L.yOf(lower[m])));
+    ctx.closePath(); ctx.fillStyle = rgba(LAYER_COLORS[k], 0.62); ctx.fill();
+    // проміжок кольору тла між шарами
+    ctx.strokeStyle = COL.bg; ctx.lineWidth = 2; ctx.beginPath();
+    for (let m = i0; m <= i1; m++) ctx[m === i0 ? 'moveTo' : 'lineTo'](V.X(S[m].x), V.Y(L.yOf(upper[m])));
+    ctx.stroke();
+    // підпис шару в найтовщому видимому місці (низ екрана теж межа)
+    let best = null;
+    for (let m = i0; m <= i1; m++) {
+      const x = V.X(S[m].x);
+      if (x < 70 || x > G.W - 70) continue;
+      const yt = V.Y(L.yOf(upper[m])), yb = Math.min(V.Y(L.yOf(lower[m])), G.H - 26), th = yb - yt;
+      if (!best || th > best.th) best = { x, y: (yt + yb) / 2 + 4, th };
+    }
+    if (best && best.th > 22) {
+      ctx.font = `600 12px ${FONT}`; ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'center';
+      ctx.fillText(G.T.layers[k], best.x, best.y);
+      ctx.textAlign = 'left';
+    }
+    lower = upper;
+  });
+}
+
+function waterBars(ctx, G, V) {
+  const L = G.L, w = L.barW;
+  for (const b of L.bars) {
+    if (b.x + w / 2 < V.xL || b.x - w / 2 > V.xR) continue;
+    const x0 = V.X(b.x - w / 2), x1 = V.X(b.x + w / 2), yt = V.Y(L.yOf(b.hi)), yb = V.Y(L.yOf(b.lo));
+    const col = b.total ? WF_COLORS.total : WF_COLORS.down;
+    const grad = ctx.createLinearGradient(0, yt, 0, Math.max(yt + 30, yb));
+    grad.addColorStop(0, rgba(col, 0.55)); grad.addColorStop(1, rgba(col, 0.22));
+    ctx.fillStyle = grad; ctx.fillRect(x0, yt, x1 - x0, Math.max(2, yb - yt));
+    // значення: усередині стовпчика під верхом, а якщо він тонкий, то під ним
+    const f = v => (Math.abs(v - Math.round(v)) < 0.05 ? G.T.fmt.num(v) : G.T.fmt.dec(v));
+    const text = b.total ? f(b.hi) : '−' + f(-b.d);
+    ctx.font = `700 13px ${FONT}`; ctx.textAlign = 'center'; ctx.fillStyle = COL.ink;
+    ctx.fillText(text, (x0 + x1) / 2, yb - yt > 34 ? yt + 21 : yb + 17);
+    ctx.textAlign = 'left';
+  }
+  // базова лінія нуля
+  const y0 = Math.round(V.Y(0)) + 0.5;
+  ctx.strokeStyle = 'rgba(255,255,255,.28)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(G.W, y0); ctx.stroke();
+}
+
+function limits(ctx, G, V) {
+  const L = G.L, lim = L.limits, S = L.samples;
+  const xa = Math.max(0, V.X(L.x0 - 2)), xb = Math.min(G.W, V.X(L.x1 + 2));
+  if (xb <= xa) return;
+  const yU = V.Y(L.yOf(lim.ucl)), yL = V.Y(L.yOf(lim.lcl)), yM = V.Y(L.yOf(lim.mean));
+  ctx.fillStyle = rgba(L.color, 0.06); ctx.fillRect(xa, yU, xb - xa, yL - yU);
+  // серія вище середнього: підсвічена смуга під днями зсуву
+  const r0 = S[lim.run[0]].x - 1.3, r1 = S[lim.run[1]].x + 1.3;
+  if (r1 > V.xL && r0 < V.xR) { ctx.fillStyle = 'rgba(255,176,32,.08)'; ctx.fillRect(V.X(r0), yU, V.X(r1) - V.X(r0), yM - yU); }
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = rgba(COL.coral, 0.8); ctx.setLineDash([7, 5]);
+  for (const y of [yU, yL]) { ctx.beginPath(); ctx.moveTo(xa, Math.round(y) + 0.5); ctx.lineTo(xb, Math.round(y) + 0.5); ctx.stroke(); }
+  ctx.strokeStyle = rgba(COL.ghost, 0.85); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(xa, Math.round(yM) + 0.5); ctx.lineTo(xb, Math.round(yM) + 0.5); ctx.stroke();
+  // підписи меж: на широкому екрані ліворуч після підписів осі, на вузькому праворуч, щоб не накривати героя
+  const narrow = G.W < 560;
+  ctx.font = `600 11px ${FONT}`;
+  // текст підписів чорнилом, колір лінії лише в короткій позначці перед ним
+  [[yU, G.T.limits.ucl(lim.ucl), COL.coral], [yM, G.T.limits.mean(lim.mean), COL.ghost], [yL, G.T.limits.lcl(lim.lcl), COL.coral]].forEach(([y, t, c]) => {
+    if (y < 34 || y > G.H - 24) return;
+    const tw = ctx.measureText(t).width + 14, lx = narrow ? Math.min(xb, G.W) - tw - 10 : Math.max(xa + 8, 52);
+    if (lx < 4) return;
+    ctx.fillStyle = 'rgba(11,15,22,.82)'; ctx.fillRect(lx - 4, y - 17, tw + 8, 15);
+    ctx.fillStyle = c; ctx.fillRect(lx, y - 10.5, 9, 2);
+    ctx.fillStyle = COL.ink; ctx.fillText(t, lx + 14, y - 5);
+  });
+}
+
+function panels(ctx, G, V) {
+  const L = G.L, top = V.Y(L.panelTop), base = V.Y(0);
+  for (const p of L.panels) {
+    const xa = p.x0 - 1.2, xb = p.x1 + 1.2;
+    if (xb < V.xL || xa > V.xR) continue;
+    const x0 = V.X(xa), x1 = V.X(xb);
+    ctx.fillStyle = 'rgba(255,255,255,.025)'; ctx.fillRect(x0, top, x1 - x0, base - top);
+    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1; ctx.strokeRect(Math.round(x0) + 0.5, Math.round(top) + 0.5, Math.round(x1 - x0) - 1, Math.round(base - top));
+    ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.moveTo(x0, Math.round(base) + 0.5); ctx.lineTo(x1, Math.round(base) + 0.5); ctx.stroke();
+    // назва регіону над власною лінією панелі; поки панель на екрані, назва тримається біля лівого краю
+    ctx.font = `700 13px ${FONT}`;
+    const name = G.T.regions[p.key], tw = ctx.measureText(name).width;
+    const tx = clamp(x0 + 10, 12, x1 - tw - 10), ty = Math.max(top + 19, V.Y(Math.max(...p.v) * L.sY + 1.5));
+    ctx.fillStyle = 'rgba(11,15,22,.75)'; ctx.fillRect(tx - 5, ty - 15, tw + 10, 20);
+    ctx.fillStyle = COL.ink; ctx.fillText(name, tx, ty);
+  }
 }
 
 function band(ctx, G, V) {
@@ -140,39 +329,49 @@ function ghosts(ctx, G, V) {
   ctx.setLineDash([]);
 }
 
+// Вершини траси на ділянці [a, b] у видимій частині, без дна провалля; дорога прогнозу обривається на межі відомого
+function trackPts(L, V, a, b, hide) {
+  const T = L.terrain, X = T.X, Y = T.Y, pts = [];
+  const lo = Math.max(a, V.xL - 2), hi = Math.min(b, V.xR + 2, hide);
+  if (hi <= lo) return pts;
+  for (let i = T.seg(lo); i < T.n; i++) {
+    if (X[i] < a - 1e-6 || (L.floor != null && Y[i] <= L.floor + 1e-6)) continue;
+    if (X[i] > hi) {
+      if (hi === hide) pts.push([hide, T.height(hide)]);
+      else if (hi < b) pts.push([X[i], Y[i]]);   // за краєм екрана: лінія виходить за край
+      break;
+    }
+    pts.push([X[i], Y[i]]);
+  }
+  return pts;
+}
+
 function terrain(ctx, G, V) {
-  const L = G.L, T = L.terrain, X = T.X, Y = T.Y;
+  const L = G.L, T = L.terrain;
   const hideFrom = L.reveal ? G.revealX : Infinity;
   if (L.kind === 'bars') return bars(ctx, G, V);
-  let i0 = T.seg(V.xL - 2), i1 = i0;
-  while (i1 < T.n - 1 && X[i1] < V.xR + 2) i1++;
-  const xEnd = Math.min(V.xR + 2, hideFrom);
-  let top = Infinity;
-  ctx.beginPath();
-  ctx.moveTo(V.X(X[i0]), V.Y(Y[i0]));
-  top = V.Y(Y[i0]);
-  for (let i = i0 + 1; i <= i1; i++) {
-    if (X[i] > xEnd) { const ye = V.Y(T.height(xEnd)); ctx.lineTo(V.X(xEnd), ye); top = Math.min(top, ye); break; }
-    ctx.lineTo(V.X(X[i]), V.Y(Y[i]));
-    top = Math.min(top, V.Y(Y[i]));
+  // площа під лінією там, де немає власної заливки (стовпчики, шари, водоспад); провалля ділить трасу на шматки
+  const area = !['hist', 'pareto', 'stacked', 'waterfall'].includes(L.kind), base = L.panels ? V.Y(0) : G.H + 2;
+  const cuts = [-Infinity];
+  for (const p of L.pits) cuts.push(p.x0, p.x1);
+  cuts.push(Infinity);
+  for (let k = 0; k < cuts.length; k += 2) {
+    const pts = trackPts(L, V, cuts[k], cuts[k + 1], hideFrom);
+    if (pts.length < 2) continue;
+    if (area) {
+      let top = Infinity;
+      ctx.beginPath();
+      pts.forEach(([x, y], j) => { const py = V.Y(y); top = Math.min(top, py); ctx[j ? 'lineTo' : 'moveTo'](V.X(x), py); });
+      if (!Number.isFinite(top)) top = 0;
+      ctx.lineTo(V.X(pts[pts.length - 1][0]), base); ctx.lineTo(V.X(pts[0][0]), base); ctx.closePath();
+      const grad = ctx.createLinearGradient(0, Math.max(0, top), 0, Math.max(top + 1, Math.min(G.H, base)));
+      grad.addColorStop(0, rgba(L.color, 0.2)); grad.addColorStop(1, rgba(L.color, 0.03));
+      ctx.fillStyle = grad; ctx.fill();
+    }
+    ctx.beginPath();
+    pts.forEach(([x, y], j) => ctx[j ? 'lineTo' : 'moveTo'](V.X(x), V.Y(y)));
+    ctx.strokeStyle = L.color; ctx.lineWidth = 2.6; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke();
   }
-  if (!Number.isFinite(top)) top = 0;
-  // площа
-  ctx.save();
-  const lastX = Math.min(V.X(X[i1]), V.X(xEnd));
-  ctx.lineTo(lastX, G.H + 2); ctx.lineTo(V.X(X[i0]), G.H + 2); ctx.closePath();
-  const grad = ctx.createLinearGradient(0, Math.max(0, top), 0, G.H);
-  grad.addColorStop(0, rgba(L.color, 0.2)); grad.addColorStop(1, rgba(L.color, 0.03));
-  ctx.fillStyle = grad; ctx.fill();
-  ctx.restore();
-  // лінія
-  ctx.beginPath();
-  ctx.moveTo(V.X(X[i0]), V.Y(Y[i0]));
-  for (let i = i0 + 1; i <= i1; i++) {
-    if (X[i] > xEnd) { ctx.lineTo(V.X(xEnd), V.Y(T.height(xEnd))); break; }
-    ctx.lineTo(V.X(X[i]), V.Y(Y[i]));
-  }
-  ctx.strokeStyle = L.color; ctx.lineWidth = 2.6; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke();
   // край відомого: дорога розчиняється в тумані прогнозу
   if (hideFrom < V.xR + 2) {
     const x = V.X(hideFrom), y = V.Y(T.height(hideFrom));
@@ -209,6 +408,12 @@ function markers(ctx, G, V) {
     if (smp.x < V.xL || smp.x > V.xR) continue;
     if (L.reveal && smp.x > G.revealX) continue;
     const x = V.X(smp.x), y = V.Y(T.height(smp.x)), got = G.got.has(smp.i);
+    if (smp.sig) {   // контрольна карта: сигнал за межею (коло і знак оклику) або серія з одного боку від середнього
+      const out = smp.sig === 'out';
+      ctx.strokeStyle = out ? COL.coral : COL.amber; ctx.lineWidth = out ? 2 : 1.5;
+      ctx.beginPath(); ctx.arc(x, y, out ? 10 : 7.5, 0, Math.PI * 2); ctx.stroke();
+      if (out) { ctx.font = `800 13px ${FONT}`; ctx.fillStyle = COL.coral; ctx.textAlign = 'center'; ctx.fillText('!', x, y - 15); ctx.textAlign = 'left'; }
+    }
     ctx.beginPath(); ctx.arc(x, y, got ? 3.6 : 4.2, 0, Math.PI * 2);
     if (got) { ctx.fillStyle = L.color; ctx.fill(); }
     else { ctx.fillStyle = COL.bg; ctx.fill(); ctx.strokeStyle = L.color; ctx.lineWidth = 1.8; ctx.stroke(); }
@@ -348,8 +553,14 @@ function overview(ctx, G, box) {
     ctx.closePath(); ctx.fill();
   }
   ctx.strokeStyle = L.color; ctx.lineWidth = 1.4; ctx.lineJoin = 'round'; ctx.beginPath();
-  let on = false;
-  for (const s of S) { const y = val(s); if (y == null) { on = false; continue; } if (on) ctx.lineTo(px(s.x), py(y)); else { ctx.moveTo(px(s.x), py(y)); on = true; } }
+  let on = false, pr = null;
+  for (const s of S) {
+    const y = val(s);
+    if (y == null || (s.r != null && s.r !== pr)) on = false;   // панелі малих мультиплікаторів не з'єднуються
+    pr = s.r;
+    if (y == null) continue;
+    if (on) ctx.lineTo(px(s.x), py(y)); else { ctx.moveTo(px(s.x), py(y)); on = true; }
+  }
   ctx.stroke();
   for (const g of L.gates) { const x = px(Math.max(xa, Math.min(xb, g.x))); ctx.fillStyle = g.started ? rgba(COL.teal, 0.5) : COL.teal; ctx.fillRect(x - 1, y0 + 3, 2, mh - 6); }
   const cx = px(Math.max(xa, Math.min(xb, sc.x))), cy = py(Math.max(lo, Math.min(hi, sc.y - 0.55)));
@@ -384,9 +595,12 @@ function hud(ctx, G, V) {
   for (const [style, label] of items) {
     const w = 21 + ctx.measureText(label).width + 14;
     if (x + w > (narrow ? W - 8 : W * 0.66)) break;
-    ctx.strokeStyle = style === 'ghost' ? COL.ghost : style === 'err' ? COL.coral : L.color;
-    ctx.lineWidth = style === 'line' ? 2.6 : 1.7; ctx.setLineDash(style === 'line' ? [] : [5, 4]);
+    ctx.strokeStyle = style === 'ghost' ? COL.ghost : style === 'err' ? COL.coral : style === 'mean' ? COL.coral : L.color;
+    ctx.lineWidth = style === 'line' ? 2.6 : 1.7; ctx.setLineDash(style === 'line' ? [] : style === 'median' ? [2, 3] : [5, 4]);
+    if (style === 'median') ctx.strokeStyle = COL.ink;
     if (style === 'band') { ctx.fillStyle = rgba(L.color, 0.25); ctx.fillRect(x, ly - 8, 16, 8); }
+    else if (style === 'bar') { ctx.fillStyle = rgba(L.color, 0.4); ctx.fillRect(x, ly - 9, 16, 9); }
+    else if (SWATCH[style]) { ctx.fillStyle = rgba(SWATCH[style], 0.75); ctx.fillRect(x, ly - 9, 16, 9); }
     else { ctx.beginPath(); ctx.moveTo(x, ly - 3.5); ctx.lineTo(x + 16, ly - 3.5); ctx.stroke(); }
     ctx.setLineDash([]); ctx.fillStyle = COL.muted; ctx.fillText(label, x + 21, ly);
     x += w;

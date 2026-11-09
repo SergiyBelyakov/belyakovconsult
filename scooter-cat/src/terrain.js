@@ -23,6 +23,10 @@ export class Terrain {
   height(x) {
     const X = this.X, Y = this.Y;
     let i = this.seg(x);
+    // точно на вертикальній стінці (край стовпчика, провалля між панелями): верх стінки
+    let top = -Infinity;
+    for (let k = i; k < this.n && X[k] <= x + 1e-9; k++) if (X[k] >= x - 1e-9 && Y[k] > top) top = Y[k];
+    if (top > -Infinity) return top;
     while (i < this.n - 2 && X[i + 1] - X[i] < 1e-9) i++;
     const dx = X[i + 1] - X[i];
     if (dx < 1e-9) return Math.max(Y[i], Y[i + 1]);
@@ -32,6 +36,21 @@ export class Terrain {
 
   // середній нахил між x - h і x + h (радіани)
   angle(x, h = 0.5) { return Math.atan2(this.height(x + h) - this.height(x - h), 2 * h); }
+
+  // нахил самої поверхні біля x: середній кут відрізків на [x - h, x + h] без вертикальних стінок
+  // (на сходинках і краях стовпчиків це нахил полиці, а не обриву)
+  slope(x, h = 0.5) {
+    const X = this.X, Y = this.Y, a = x - h, b = x + h;
+    let sw = 0, sa = 0;
+    for (let i = this.seg(a); i < this.n - 1 && X[i] < b; i++) {
+      const dx = X[i + 1] - X[i];
+      if (dx < 1e-9) continue;
+      const w = Math.min(b, X[i + 1]) - Math.max(a, X[i]);
+      if (w <= 0) continue;
+      sw += w; sa += w * Math.atan2(Y[i + 1] - Y[i], dx);
+    }
+    return sw > 0 ? sa / sw : 0;
+  }
 
   // Найглибший дотик кола до траси: { nx, ny, pen } або null. Центр під поверхнею виштовхується вгору.
   contact(cx, cy, r) {

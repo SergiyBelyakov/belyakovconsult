@@ -3,8 +3,16 @@
 // Значення v переводяться у висоту траси y (метри) через шкалу рівня; «ворота» змінюють шкалу ділянки попереду.
 import { Terrain } from './terrain.js';
 
-export const LEVEL_IDS = ['trend', 'season', 'outliers', 'axis', 'log', 'forecast'];
-const COLORS = { trend: '#60A5FA', season: '#2DD4BF', outliers: '#C084FC', axis: '#22D3EE', log: '#F472B6', forecast: '#60A5FA' };
+// Рівні йдуть від легких до складних: чотири легкі траси, чотири середні, чотири складні
+export const LEVEL_IDS = ['trend', 'hist', 'season', 'pareto', 'outliers', 'axis', 'stacked', 'waterfall', 'log', 'control', 'multiples', 'forecast'];
+export const DIFF = { trend: 1, hist: 1, season: 1, pareto: 1, outliers: 2, axis: 2, stacked: 2, waterfall: 2, log: 3, control: 3, multiples: 3, forecast: 3 };
+const COLORS = {
+  trend: '#60A5FA', hist: '#FBBF24', season: '#2DD4BF', pareto: '#34D399', outliers: '#C084FC', axis: '#22D3EE',
+  stacked: '#E2E8F0', waterfall: '#60A5FA', log: '#F472B6', control: '#FB923C', multiples: '#818CF8', forecast: '#60A5FA',
+};
+// шари складеної площі (знизу вгору) і кольори водоспаду: категорії з перевіреної палітри для темного тла
+export const LAYER_COLORS = ['#3987E5', '#D95926', '#199E70'];
+export const WF_COLORS = { total: '#94A3B8', down: '#E66767' };
 
 export function rng(seed) {
   let a = seed >>> 0;
@@ -48,6 +56,16 @@ function geometry(xs, ys, mode, { barW = 0, step = 0.25, lead = 16, tail = 34 } 
   }
   push(x1 + tail, ys[ys.length - 1]); push(x1 + tail, ys[ys.length - 1] + 3);
   return { X, Y, x0, x1 };
+}
+
+// Траса з готових вершин (x не спадає): бортик і рівний розгін перед першою, рівний фініш і бортик після останньої
+function track(V, { lead = 16, tail = 34 } = {}) {
+  const X = [], Y = [];
+  const [xa, ya] = V[0], [xb, yb] = V[V.length - 1];
+  X.push(xa - lead, xa - lead); Y.push(ya + 3, ya);
+  for (const [x, y] of V) { X.push(x); Y.push(y); }
+  X.push(xb + tail, xb + tail); Y.push(yb, yb + 3);
+  return { X, Y, x0: xa, x1: xb };
 }
 
 // Ковзне середнє з центром у точці (для пунктиру тренду)
@@ -224,15 +242,178 @@ function forecast() {
   });
 }
 
-const BUILDERS = { trend, season, outliers, axis, log, forecast };
+// ——— 7. Гістограма: суми чеків за тиждень. Розподіл скошений, тому середній чек більший за типовий ———
+function hist() {
+  const R = rng(91), n = 4000, bw = 50, nb = 32, dx = 5;
+  const mu = Math.log(290), sg = 0.72, wq = 0.05, wm = 1350, ws = 110;   // звичайні покупки і 5% великих закупівель
+  const vals = Array.from({ length: n }, () => (R() < wq ? wm + ws * gauss(R) : Math.exp(mu + sg * gauss(R))));
+  const counts = new Array(nb).fill(0);
+  for (const u of vals) { const b = Math.floor(u / bw); if (b >= 0 && b < nb) counts[b]++; }
+  const pdf = u => (u <= 0 ? 0 : ((1 - wq) * Math.exp(-((Math.log(u) - mu) ** 2) / (2 * sg * sg))) / (u * sg * Math.sqrt(2 * Math.PI)))
+    + (wq * Math.exp(-((u - wm) ** 2) / (2 * ws * ws))) / (ws * Math.sqrt(2 * Math.PI));
+  const peak = Math.max(...counts), sY = 4.6 / peak, yOf = c => c * sY, xOf = u => (u / bw) * dx;
+  // траса: крива розподілу (скільки чеків очікувано потрапляє в кошик шириною 50 грн), стовпчики гістограми під нею
+  const V = [];
+  for (let x = 0; x < nb * dx; x += 0.25) V.push([x, yOf(n * bw * pdf((x / dx) * bw))]);
+  V.push([nb * dx, yOf(n * bw * pdf(nb * bw))]);
+  const g = track(V);
+  const med = median(vals), avg = mean(vals), below = vals.filter(u => u < avg).length / n, mode = counts.indexOf(peak);
+  const xs = counts.map((_, b) => (b + 0.5) * dx);
+  return base('hist', {
+    kind: 'hist', barW: dx, bugSpots: [[5], [9], [12, 1], [17], [21], [24, 1], [28]],
+    samples: counts.map((c, b) => ({ i: b, x: xs[b], v: c })), terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf, unit: 'count', xTicks: counts.map((_, b) => b).filter(b => b % 2 === 0).map(b => ({ x: b * dx, o: { k: 'uah', n: b * bw } })),
+    marks: [{ x: xOf(med), key: 'median', v: med }, { x: xOf(avg), key: 'mean', v: avg }],
+    notes: [{ i: mode, key: 'mode', args: { lo: mode * bw, hi: (mode + 1) * bw } }, { i: Math.round(avg / bw) + 3, key: 'meanPull', down: true }, { i: 27, key: 'tail' }],
+    checkpoints: [8, 15, 23].map(b => xs[b]),
+    ticks: [0, 100, 200, 300, 400], stats: { med, avg, below, n },
+  });
+}
+
+// ——— 8. Парето: виручка за товарними групами. Їдемо накопиченою часткою, стовпчики груп під нею ———
+function pareto() {
+  const R = rng(17), n = 20, w = 7, s = 0.042;
+  const raw = Array.from({ length: n }, (_, k) => Math.pow(k + 1, -1.3) * (1 + 0.06 * gauss(R))).sort((a, b) => b - a);
+  const tot = raw.reduce((a, b) => a + b, 0), share = raw.map(x => (100 * x) / tot);
+  let c = 0;
+  const cum = share.map(x => (c += x));
+  const k80 = cum.findIndex(q => q >= 80), k95 = cum.findIndex(q => q >= 95), yOf = p => p * s;
+  // накопичена частка в кінці кожного стовпчика; лінія починається з нуля на лівому краї першого
+  const g = track([[0, 0], ...cum.map((q, k) => [(k + 1) * w, yOf(q)])], { lead: 18 });
+  return base('pareto', {
+    kind: 'pareto', barW: w, camDrop: 1.6, bugSpots: [[1], [4, 1], [7], [10], [12, 1], [15], [17]],
+    samples: cum.map((q, k) => ({ i: k, x: (k + 1) * w, v: q, share: share[k], abc: k <= k80 ? 'A' : k <= k95 ? 'B' : 'C' })),
+    terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1, k80, k95,
+    yOf, unit: 'pct', xTicks: share.map((_, k) => ({ x: (k + 0.5) * w, o: { k: 'cat', n: k } })),
+    notes: [{ i: 0, key: 'leader', args: { p: share[0] } }, { i: k80, key: 'p80', args: { k: k80 + 1, n } }, { i: n - 4, key: 'longTail', args: { k: n - k80 - 1, p: 100 - cum[k80] } }],
+    checkpoints: [5, 10, 15].map(k => (k + 0.5) * w),
+    ticks: [0, 20, 40, 60, 80, 100], stats: { k: k80 + 1, n, top: share[0], cum: cum[k80], kb: k95 + 1 },
+  });
+}
+
+// ——— 9. Складена площа: виручка за каналами. Опт зникає, а ріст онлайну ховається на хвилях магазинів ———
+function stacked() {
+  const R = rng(63), N = 36, dx = 5, s = 0.065, lost = 20;
+  const F = [0.86, 0.84, 0.95, 0.98, 1.0, 0.97, 0.95, 0.98, 1.02, 1.05, 1.1, 1.3];
+  const layers = [[], [], []];   // знизу вгору: магазини, опт, онлайн
+  for (let m = 0; m < N; m++) {
+    layers[0].push(60 * (1 + 0.002 * m) * F[m % 12] + 1.5 * gauss(R));
+    layers[1].push(m < lost ? 24 + 1.2 * gauss(R) : 0);
+    layers[2].push(8 * Math.pow(1.047, m) * (0.6 + 0.4 * F[m % 12]) + 0.6 * gauss(R));
+  }
+  const tot = layers[0].map((v, m) => v + layers[1][m] + layers[2][m]);
+  const xs = tot.map((_, m) => m * dx), yOf = v => v * s;
+  const g = geometry(xs, tot.map(yOf), 'linear');
+  const on = layers[2], drop = tot[lost] / tot[lost - 1] - 1;
+  return base('stacked', {
+    kind: 'stacked', layers, camDrop: 1, bugSpots: [[4], [8, 1], [14], [17], [22], [27, 1], [31]],
+    samples: tot.map((v, m) => ({ i: m, x: xs[m], v })), terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf, unit: 'k', xLabel: i => ({ k: 'month', m: i % 12, y: 2023 + Math.floor(i / 12) }), xEvery: 3,
+    notes: [{ i: 6, key: 'bottomLayer', down: true }, { i: lost, key: 'lostWholesale', args: { d: drop }, warn: true }, { i: 29, key: 'onlineHidden', down: true }],
+    checkpoints: [9, 18, 27].map(m => xs[m] + 1),
+    ticks: [0, 40, 80, 120], stats: { growth: mean(on.slice(24)) / mean(on.slice(0, 12)), drop, whole: mean(layers[1].slice(0, lost)), on0: mean(on.slice(0, 12)), on2: mean(on.slice(24)) },
+  });
+}
+
+// ——— 10. Водоспад: від виручки до чистого прибутку. Сходинки вниз, проміжні підсумки стоять від нуля ———
+function waterfall() {
+  const steps = [['revenue', 132, 1], ['returns', -12], ['netRevenue', 0, 1], ['cogs', -62], ['gross', 0, 1], ['salaries', -21], ['rent', -7],
+    ['marketing', -9], ['logistics', -6], ['ebitda', 0, 1], ['depreciation', -4], ['interest', -2], ['tax', -1.62], ['net', 0, 1]];
+  const w = 7, gap = 2, s = 0.07, yOf = v => v * s;
+  let run = 0;
+  const bars = steps.map(([key, d, total], k) => {
+    const x = k * (w + gap);
+    if (total) { if (d) run = d; return { key, x, lo: 0, hi: run, d: run, total: true }; }
+    const a = run; run += d;
+    return { key, x, lo: Math.min(a, run), hi: Math.max(a, run), d, total: false };
+  });
+  // траса: верх кожного стовпчика і сполучна лінія на рівні поточної суми, з якої починається наступний стовпчик
+  const V = [];
+  bars.forEach((b, k) => {
+    V.push([b.x - w / 2, yOf(b.hi)], [b.x + w / 2, yOf(b.hi)]);
+    const nx = bars[k + 1];
+    if (nx && nx.hi < b.hi - 1e-9) V.push([b.x + w / 2, yOf(nx.hi)]);
+  });
+  const g = track(V);
+  const rev = bars[0].hi, net = bars[bars.length - 1].hi, cogs = -steps[3][1];
+  return base('waterfall', {
+    kind: 'waterfall', barW: w, bars, camDrop: 0.8, bugSpots: [[1], [3, 1], [6], [8], [10, 1], [12]],
+    samples: bars.map((b, k) => ({ i: k, x: b.x, v: b.d, total: b.total })), terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf, unit: 'k', xTicks: bars.map(b => ({ x: b.x, o: { k: 'wf', key: b.key } })),
+    notes: [{ i: 3, key: 'bigStep', args: { p: cogs / rev }, warn: true }, { i: 4, key: 'subtotal' }, { i: 12, key: 'netMargin', args: { p: net / rev } }],
+    checkpoints: [2, 5, 9].map(k => bars[k].x - w / 2 + 1.5),
+    ticks: [0, 40, 80, 120], stats: { rev, net, margin: net / rev, cogs, cogsShare: cogs / rev, ebitda: bars[9].hi },
+  });
+}
+
+// ——— 11. Контрольна карта: час доставки за днями. Між межами звичайний шум, за межами сигнал ———
+function control() {
+  const R = rng(29), N = 60, dx = 2.6, s = 0.17;
+  const raw = Array.from({ length: N }, () => 24 + 1.8 * gauss(R));
+  const b0 = raw.slice(0, 20), m0 = mean(b0);
+  let mr = 0;
+  for (let d = 1; d < 20; d++) mr += Math.abs(b0[d] - b0[d - 1]);
+  mr /= 19;
+  const ucl = m0 + 2.66 * mr, lcl = m0 - 2.66 * mr;   // межі XmR за першими 20 днями
+  const spike = 22, run0 = 38, run1 = 48, low = 53;
+  const v = raw.map(x => Math.max(lcl + 0.5, Math.min(ucl - 0.5, x)));
+  v[spike - 1] = ucl - 0.8; v[spike] = ucl + 4.5; v[spike + 1] = ucl - 1.2;   // збій на складі: три дні, один за межею
+  for (let d = run0; d <= run1; d++) v[d] = Math.min(ucl - 0.4, Math.max(m0 + 0.6, raw[d] + 2.4));   // новий перевізник: процес зсунувся
+  // яма нижче нижньої межі: пологий спуск і вихід, щоб у неї можна було заїхати, а не лише перестрибнути
+  v[low - 2] = m0 + 0.4; v[low - 1] = m0 - 1.6; v[low] = lcl - 1.4; v[low + 1] = lcl + 0.4; v[low + 2] = m0 - 0.6; v[low + 4] = Math.max(v[low + 4], m0 - 2);
+  const xs = v.map((_, d) => d * dx), yOf = h => (h - 12) * s;
+  const g = geometry(xs, v.map(yOf), 'linear');
+  const sig = v.map((x, d) => (x > ucl || x < lcl ? 'out' : d >= run0 && d <= run1 ? 'run' : null));
+  return base('control', {
+    kind: 'control', bugSpots: [[5], [11, 1], [17], [27], [33, 1], [44], [50]],
+    samples: v.map((x, d) => ({ i: d, x: xs[d], v: x, sig: sig[d] })), terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf, unit: 'h', xLabel: i => ({ k: 'day', n: i + 1 }), xEvery: 5, limits: { mean: m0, ucl, lcl, run: [run0, run1] },
+    notes: [{ i: 8, key: 'routine' }, { i: spike, key: 'signalOut', args: { d: spike + 1 }, warn: true }, { i: run0 + 4, key: 'signalRun', args: { d: run0 + 1, n: run1 - run0 + 1 } }, { i: low, key: 'signalLow', down: true }],
+    checkpoints: [15, 30, 45].map(d => xs[d] + 1),
+    ticks: [16, 20, 24, 28, 32, 36], stats: { mean: m0, ucl, lcl, spike: spike + 1, run: run0 + 1, runN: run1 - run0 + 1, low: low + 1 },
+  });
+}
+
+// ——— 12. Малі мультиплікатори: продажі п'яти регіонів, кожен на своїй панелі з однаковою шкалою ———
+function multiples() {
+  const R = rng(47), dx = 3.2, gap = 3, s = 0.022, floor = -4;
+  const F = [0.94, 0.9, 0.96, 0.98, 1.0, 0.98, 0.96, 0.98, 1.01, 1.04, 1.09, 1.24];
+  const regs = [['kyiv', 240, 0.06], ['lviv', 200, 0.4], ['dnipro', 170, 0.03], ['odesa', 150, -0.3], ['kharkiv', 120, 0.08]];
+  const samples = [], V = [], pits = [], panels = [];
+  let px = 0;
+  regs.forEach(([key, b, gr], r) => {
+    const xs = F.map((_, m) => px + m * dx), v = F.map((f, m) => b * (1 + (gr * (m - 5.5)) / 12) * f + 2 * gauss(R));
+    const ys = v.map(val => val * s), f = monotone(xs, ys);
+    // між панелями провалля: стрибок з грудня однієї панелі на січень наступної
+    if (r) { const [ex, ey] = V[V.length - 1]; V.push([ex, floor], [xs[0], floor]); pits.push({ x0: ex, x1: xs[0], y: Math.min(ey, ys[0]) - 0.8 }); }
+    for (let x = xs[0]; x < xs[11] - 1e-6; x += 0.25) V.push([x, f(x)]);
+    V.push([xs[11], ys[11]]);
+    v.forEach((val, m) => samples.push({ i: r * 12 + m, x: xs[m], v: val, r }));
+    panels.push({ key, x0: xs[0], x1: xs[11], v, g: v[10] / v[0] - 1, avg: mean(v) });
+    px = xs[11] + gap;
+  });
+  const g = track(V);
+  return base('multiples', {
+    kind: 'multiples', panels, pits, floor, panelTop: Math.max(...samples.map(q => q.v)) * s + 2.6, bugSpots: [[4], [8, 1], [15], [20], [27, 1], [32], [39], [44, 1], [51], [56]],
+    samples, terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf: val => val * s, sY: s, unit: 'k', xLabel: i => ({ k: 'monthShort', m: i % 12 }), xEvery: 3,
+    notes: [{ i: 2, key: 'sameScale' }, { i: 21, key: 'lvivGrowth', args: { g: panels[1].g } }, { i: 44, key: 'odesaFall', args: { g: panels[3].g }, warn: true }],
+    checkpoints: [12, 24, 36, 48].map(i => samples[i].x + 1.2),
+    ticks: [0, 100, 200, 300], stats: { lviv: panels[1].g, odesa: panels[3].g, ratio: panels[0].avg / panels[4].avg },
+  });
+}
+
+const BUILDERS = { trend, hist, season, pareto, outliers, axis, stacked, waterfall, log, control, multiples, forecast };
 export function buildLevel(id) {
   const L = BUILDERS[id]();
+  L.diff = DIFF[id];
+  L.pits = L.pits || [];
   L.spawnX = L.x0 - 9;
   L.finishX = L.x1 + 7;
   L.checkpoints = L.checkpoints.map(x => ({ x, hit: false }));
   // баги даних: сидять на лінії між точками (або над нею, якщо летять); на стовпчиках ближче до правого краю
-  const S = L.samples;
-  L.bugs = (L.bugSpots || []).map(([i, fly]) => ({ x: L.kind === 'bars' ? S[i].x + L.barW * 0.25 : (S[i].x + S[Math.min(S.length - 1, i + 1)].x) / 2, fly: !!fly, alive: true, dead: null }));
+  const S = L.samples, onBar = L.kind === 'bars' || L.kind === 'waterfall';
+  L.bugs = (L.bugSpots || []).map(([i, fly]) => ({ x: onBar ? S[i].x + L.barW * 0.25 : (S[i].x + S[Math.min(S.length - 1, i + 1)].x) / 2, fly: !!fly, alive: true, dead: null }));
   L.terrain.applyMorphs();
   return L;
 }

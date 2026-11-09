@@ -6,7 +6,8 @@ import { drawGame } from './draw.js';
 import { sfx, engine } from './audio.js';
 
 const DT = 1 / 600;
-export const PAR = { trend: 31, season: 30, outliers: 29, axis: 22, log: 33, forecast: 33 };   // ціль за часом, с: час автопілота котика на 10 м/с плюс 15%
+// ціль за часом, с: час автопілота котика на 10 м/с плюс 15%
+export const PAR = { trend: 31, hist: 19, season: 30, pareto: 19, outliers: 29, axis: 22, stacked: 23, waterfall: 17, log: 33, control: 21, multiples: 25, forecast: 33 };
 export const CHAR_IDS = ['cat', 'capy', 'head'];
 const LASER = { cool: 0.28, range: 10, cone: Math.cos((40 * Math.PI) / 180), life: 0.16 };
 
@@ -51,17 +52,23 @@ export class Game {
   }
 
   // Автопілот: тримає раму під схилом (моноколесо вертикально), рівну швидкість і стріляє в баги попереду
+  // нахил поверхні під x: без стінок сходинок, а над проваллям це нахил дальнього краю, куди приземлятися
+  surf(x, h = 0.6) {
+    for (const p of this.L.pits) if (x > p.x0 - 0.3 && x < p.x1 + 0.3) x = p.x1 + 0.9;
+    return this.L.terrain.slope(x, h);
+  }
+
   autopilot(vTarget = 9) {
-    const sc = this.sc, T = this.L.terrain, grounded = sc.grounded(), mono = !!sc.S.balance;
+    const sc = this.sc, grounded = sc.grounded(), mono = !!sc.S.balance;
     if (mono) {
       // моноколесо: на крутому підйомі відхилитися назад (голова далі від схилу), у повітрі тримати раму вертикально
-      const sl = T.angle(sc.x + 0.8, 0.7);
+      const sl = this.surf(sc.x + 0.8, 0.7);
       let e = -sc.a; e = Math.atan2(Math.sin(e), Math.cos(e));
       const u = e - 0.15 * sc.w;
       const lean = grounded ? (sl > 0.22 ? -1 : sl < -0.3 ? 1 : 0) : u > 0.08 ? -1 : u < -0.08 ? 1 : 0;
       this.input = { gas: sc.vx < vTarget, brake: sc.vx > vTarget + 2.5, lean };
     } else {
-      const tgt = T.angle(grounded ? sc.x + 0.5 : sc.x + sc.vx * 0.35, 0.6);
+      const tgt = this.surf(grounded ? sc.x + 0.5 : sc.x + sc.vx * 0.35, 0.6);
       let e = tgt - sc.a; e = Math.atan2(Math.sin(e), Math.cos(e));
       const u = e - 0.12 * sc.w;
       this.input = { gas: sc.vx < vTarget, brake: sc.vx > vTarget + 2.5, lean: u > 0.07 ? -1 : u < -0.07 ? 1 : 0 };
@@ -176,11 +183,14 @@ export class Game {
         this.emit({ type: 'bite', n: this.bitten }); this.snd('bite');
       }
     }
+    // провалля між панелями: хто не долетів, той падає
+    let pit = false;
+    for (const p of L.pits) if (sc.x > p.x0 - 0.4 && sc.x < p.x1 + 0.4 && sc.y < p.y) { sc.crashed = true; pit = true; break; }
     if (sc.crashed) {
       this.state = 'crash'; this.crashes++; this.crashT = 0;
       const [x, y] = sc.toWorld(...sc.headLocal());
-      this.rider = { x, y, vx: sc.vx * 0.8, vy: sc.vy * 0.6 + 2.2, a: sc.a, w: -sc.vx * 1.2 + sc.w * 0.5, r: sc.S.crash[0].r };
-      this.emit({ type: 'crash', n: this.crashes }); this.snd('crash', this.char);
+      this.rider = { x, y, vx: sc.vx * 0.8, vy: sc.vy * 0.6 + (pit ? 0 : 2.2), a: sc.a, w: -sc.vx * 1.2 + sc.w * 0.5, r: sc.S.crash[0].r };
+      this.emit({ type: 'crash', n: this.crashes, pit }); this.snd('crash', this.char);
       return;
     }
     if (sc.x > L.finishX) {
@@ -188,7 +198,7 @@ export class Game {
       return;
     }
     // герой став сторч і не рухається: вважаємо падінням
-    let rel = sc.a - (sc.S.balance ? 0 : T.angle(sc.x, 0.6)); rel = Math.atan2(Math.sin(rel), Math.cos(rel));
+    let rel = sc.a - (sc.S.balance ? 0 : this.surf(sc.x, 1)); rel = Math.atan2(Math.sin(rel), Math.cos(rel));
     this.tipT = Math.abs(rel) > 1.25 && sc.speed() < 0.8 ? this.tipT + dt : 0;
     if (this.tipT > 1) { sc.crashed = true; this.tipT = 0; }
     // застрягли: підказка про повернення на контрольну точку
@@ -227,7 +237,7 @@ export class Game {
   camera(dt) {
     const sc = this.sc, sp = Math.min(1, Math.abs(sc.vx) / 14);
     const tx = (this.rider && this.state === 'crash' ? (sc.x + this.rider.x) / 2 : sc.x) + sc.vx * 0.32;
-    const ty = sc.y + 0.6 + Math.max(-1.5, Math.min(1.5, sc.vy * 0.15));
+    const ty = sc.y + 0.6 - (this.L.camDrop || 0) + Math.max(-1.5, Math.min(1.5, sc.vy * 0.15));   // camDrop: показати більше графіка під героєм
     const ts = this.baseScale * (1 - 0.2 * sp);
     if (!this.cam) { this.cam = { x: tx, y: ty, s: ts }; return; }
     const k = 1 - Math.exp(-dt * 5), ks = 1 - Math.exp(-dt * 1.5);

@@ -1,11 +1,11 @@
 // Сторінка гри «Котик на самокаті»: бічне меню, гра, «Як грати», «Чого вчить», заявка на практикум.
 import { useState } from 'react';
 import { LANGS, STRINGS } from './i18n.js';
-import { LEVEL_IDS } from './levels.js';
+import { LEVEL_IDS, DIFF } from './levels.js';
 import { Icon } from '../../dashboard/src/icons.jsx';
 import { Button, Segmented } from '../../dashboard/src/ui.jsx';
 import { LeadModal } from '../../dashboard/src/lead.jsx';
-import GameView from './GameView.jsx';
+import GameView, { Diff } from './GameView.jsx';
 import { track } from './track.js';
 
 const NAV = [['game', 'gamepad'], ['how', 'book'], ['skills', 'check']];
@@ -97,7 +97,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
               const l = T.levels[id];
               return (
                 <article key={id} className="glass sc-level-card">
-                  <span className="sc-level">{T.ui.brief(k + 1)}</span>
+                  <span className="sc-level">{T.ui.brief(k + 1)} · <span className={'sc-diff d' + DIFF[id]}><Diff d={DIFF[id]} />{T.ui.diff[DIFF[id]]}</span></span>
                   <h3>{l.title}</h3>
                   <p className="sc-level-chart">{T.chart[id]}</p>
                   <p>{l.brief}</p>

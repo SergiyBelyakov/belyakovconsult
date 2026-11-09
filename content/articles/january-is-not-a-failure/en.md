@@ -38,7 +38,7 @@ carousel:
         - {value: "On December", note: "season, not a signal"}
   - title: Ride the season yourself
     text: A game where the track is a sales chart with a peak every December.
-    visual: {type: doc, label: "Scooter Cat", note: "Level 2: seasonality"}
+    visual: {type: doc, label: "Scooter Cat", note: "Level 3: seasonality"}
 ---
 
 An imagined scene. The first week of February, the January review. The slide shows sales down 38% on December. Someone asks what happened. The analyst explains that it is the same every year: December has holidays and bonuses, in January everyone takes a break from shopping. People listen, but the doubt stays. A year later it all repeats.
@@ -82,6 +82,6 @@ Before the monthly review:
 
 ## Ride the season yourself
 
-The learning section of the Data Lab now has a game, [Scooter Cat: Ride the Chart](/en/cases/scooter-cat/). The track is a chart, and level two is three years of sales with a peak every December and a drop every January. The dashed line shows the same month a year earlier, and after the level there is a debrief with the numbers of the track. Five more levels cover trend and noise, outliers, a truncated axis, a log scale and a forecast band.
+The learning section of the Data Lab now has a game, [Scooter Cat: Ride the Chart](/en/cases/scooter-cat/). The track is a chart, and level three is three years of sales with a peak every December and a drop every January. The dashed line shows the same month a year earlier, and after the level there is a debrief with the numbers of the track. Eleven more levels cover other report charts, from a histogram and a Pareto chart to a waterfall, a control chart and a forecast band.
 
 What do you compare January with in your reports?

@@ -2,6 +2,7 @@
 // кнопки для дотику, музика і звуки.
 import { useEffect, useRef, useState } from 'react';
 import { Game, LEVEL_IDS, PAR, CHAR_IDS } from './game.js';
+import { DIFF } from './levels.js';
 import { setSound, setMusic, unlock, pauseAll } from './audio.js';
 import { drawPreview } from './riders.js';
 import { Icon } from '../../dashboard/src/icons.jsx';
@@ -11,6 +12,9 @@ const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; 
 const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* приватне вікно */ } };
 const STATS = { cat: [3, 3, 3], capy: [2, 4, 2], head: [3, 1, 4] };
 const NOKEYS = { gas: false, brake: false, back: false, fwd: false };
+
+// складність траси: від однієї до трьох смужок, як рівень сигналу
+export function Diff({ d }) { return <i className={'sc-bars d' + d} aria-hidden="true">{[1, 2, 3].map(k => <b key={k} className={k <= d ? 'on' : ''} />)}</i>; }
 
 function Stars({ n, size }) { return <span className={'sc-stars' + (size ? ' ' + size : '')} aria-label={n + '/3'}>{[0, 1, 2].map(k => <i key={k} className={k < n ? 'on' : ''}>★</i>)}</span>; }
 
@@ -62,6 +66,7 @@ export default function GameView({ T, lang, onLead, track }) {
       else if (e.type === 'crash') {
         const tips = T.msg.tips;
         if (e.n === 3 && g.mode !== 'calm') setMsg({ tone: 'info', title: T.msg.calmTitle, text: T.msg.calmText, action: 'calm', k: Date.now() });
+        else if (e.pit) setMsg({ tone: 'bad', title: T.msg.pit, text: T.msg.pitText, k: Date.now() });
         else setMsg({ tone: 'bad', title: T.msg.crash, text: tips[tipRef.current++ % tips.length], k: Date.now() });
       }
       else if (e.type === 'stuck') setMsg({ tone: 'info', title: T.msg.stuck, text: T.msg.stuckText, k: Date.now() });
@@ -195,23 +200,28 @@ export default function GameView({ T, lang, onLead, track }) {
         )}
         {phase === 'menu' && (
           <div className="sc-over sc-scroll">
-            <div className="sc-menu-head"><h3>{U.levels}</h3><span className="muted">★ {totalStars} {U.of} 18</span></div>
-            <div className="sc-menu">
-              {LEVEL_IDS.map((id, k) => (
-                <button type="button" key={id} className="sc-lv" onClick={() => brief(k)} autoFocus={k === 0}>
-                  <span className="sc-lv-n">{U.brief(k + 1)}</span>
-                  <strong>{L[id].title}</strong>
-                  <small>{T.chart[id]}</small>
-                  <span className="sc-lv-foot"><Stars n={(rec[id] && rec[id].stars) || 0} />{rec[id] && rec[id].best != null && <em>{U.best} {F.time(rec[id].best)}</em>}</span>
-                </button>
-              ))}
-            </div>
+            <div className="sc-menu-head"><h3>{U.levels}</h3><span className="muted">★ {totalStars} {U.of} {3 * LEVEL_IDS.length}</span></div>
+            {[1, 2, 3].map(d => (
+              <section key={d} className="sc-league">
+                <h4 className={'sc-league-h d' + d}><Diff d={d} />{U.league[d]}</h4>
+                <div className="sc-menu">
+                  {LEVEL_IDS.map((id, k) => (DIFF[id] !== d ? null : (
+                    <button type="button" key={id} className="sc-lv" onClick={() => brief(k)} autoFocus={k === 0}>
+                      <span className="sc-lv-n">{U.brief(k + 1)}</span>
+                      <strong>{L[id].title}</strong>
+                      <small>{T.chart[id]}</small>
+                      <span className="sc-lv-foot"><Stars n={(rec[id] && rec[id].stars) || 0} />{rec[id] && rec[id].best != null && <em>{U.best} {F.time(rec[id].best)}</em>}</span>
+                    </button>
+                  )))}
+                </div>
+              </section>
+            ))}
             <div className="sc-actions center"><button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}><Icon name="back" size={16} /><span>{U.back}</span></button></div>
           </div>
         )}
         {phase === 'brief' && (
           <div className="sc-over sc-brief">
-            <span className="sc-level">{U.brief(lv + 1)} · {T.chart[LEVEL_IDS[lv]]}</span>
+            <span className="sc-level">{U.brief(lv + 1)} · <span className={'sc-diff d' + DIFF[LEVEL_IDS[lv]]}><Diff d={DIFF[LEVEL_IDS[lv]]} />{U.diff[DIFF[LEVEL_IDS[lv]]]}</span> · {T.chart[LEVEL_IDS[lv]]}</span>
             <h3>{L[LEVEL_IDS[lv]].title}</h3>
             <p>{L[LEVEL_IDS[lv]].brief}</p>
             <p className="sc-par muted">{T.chars[char].name} · {U.par}: {F.time(PAR[LEVEL_IDS[lv]])}{rec[LEVEL_IDS[lv]] && rec[LEVEL_IDS[lv]].best != null ? ` · ${U.best}: ${F.time(rec[LEVEL_IDS[lv]].best)}` : ''}</p>
@@ -259,7 +269,7 @@ export default function GameView({ T, lang, onLead, track }) {
           <div className="sc-over sc-scroll sc-final">
             <span className="sc-logo">{U.final}</span>
             <Stars n={3} size="big" />
-            <p className="sc-final-total">{U.totalStars}: {totalStars} {U.of} 18</p>
+            <p className="sc-final-total">{U.totalStars}: {totalStars} {U.of} {3 * LEVEL_IDS.length}</p>
             <p>{U.finalText}</p>
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary" onClick={() => onLead('final')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
