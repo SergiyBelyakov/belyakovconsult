@@ -559,6 +559,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/49"
   },
+  "duplicates-in-registers/threads-en": {
+    "at": "2026-11-09 18:02",
+    "id": "18119836831801805",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfhtwrjB2QM"
+  },
   "duplicates-in-registers/threads-uk": {
     "at": "2026-11-09 12:02",
     "id": "18124147970286795",
@@ -1006,6 +1012,13 @@
     "status": "published",
     "url": "https://youtube.com/shorts/2dM2QYL0JBQ"
   },
+  "iso-8000-8-quality-in-registers/youtube-en-4": {
+    "at": "2026-11-09 18:02",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
+    "publish_at": "2026-11-09 18:00",
+    "status": "retry"
+  },
   "iso-8000-8-quality-in-registers/youtube-uk": {
     "at": "2026-11-07 21:32",
     "attempts": 3,
@@ -1071,7 +1084,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-09 17:47",
+    "at": "2026-11-09 18:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1640,6 +1653,12 @@
     "privacy": "public",
     "status": "published",
     "url": "https://youtube.com/shorts/1g4S-zirG7g"
+  },
+  "scooter-cat-game/telegram-uk": {
+    "at": "2026-11-09 18:02",
+    "id": 52,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/52"
   },
   "six-seven/instagram-en": {
     "at": "2026-11-09 12:37",

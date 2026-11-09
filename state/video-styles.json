@@ -723,6 +723,7 @@
   },
   "scooter-cat-game#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-1.jpg",
     "icon": "service-financial-analytics.webp",
     "k": 42,
