@@ -1105,7 +1105,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-09 21:10",
+    "at": "2026-11-09 21:13",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1738,11 +1738,10 @@
     "url": "https://youtube.com/shorts/iKKvSfG21Gc"
   },
   "terrain-joke/instagram-uk": {
-    "at": "2026-11-09 21:10",
-    "attempts": 2,
-    "error": "Instagram: немає зображень для публікації",
-    "publish_at": "2026-11-09 21:05",
-    "status": "retry"
+    "at": "2026-11-09 21:13",
+    "id": "18077997278467424",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfiDl5ykaDv/"
   },
   "terrain-joke/telegram-uk": {
     "at": "2026-11-09 21:06",
