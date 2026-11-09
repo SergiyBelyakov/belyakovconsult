@@ -740,5 +740,15 @@
     "look": "glass",
     "music": "analytic",
     "wave": "wave-5.jpg"
+  },
+  "terrain-joke#1": {
+    "cover": "icon",
+    "frozen": true,
+    "globe": "globe-2.jpg",
+    "icon": "service-architecture.webp",
+    "k": 43,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-4.jpg"
   }
 }
