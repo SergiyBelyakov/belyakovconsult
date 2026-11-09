@@ -14,13 +14,13 @@ const RATING = {
   uk: {
     prefix: '', og: '/assets/cases/scooter-cat-rating-og.jpg', lab: 'Лабораторія даних', game: 'Котик на самокаті: проїдь графік', back: 'Повернутися до гри',
     title: 'Рейтинг гравців: Котик на самокаті | Belyakov Consult', name: 'Рейтинг гравців «Котика на самокаті»',
-    description: 'Хто найшвидше проїде графіки: рейтинг гри «Котик на самокаті» для кожного героя, легких, середніх і складних трас і всіх 12 рівнів разом.',
+    description: 'Хто найшвидше проїде графіки: рейтинг гри «Котик на самокаті» для кожного героя, легких, середніх і складних трас, пекельних трас Адіща і всіх 12 основних рівнів разом.',
     noscript: 'Рейтинг працює з увімкненим JavaScript. Увімкніть його, щоб побачити найшвидших гравців і своє місце.',
   },
   en: {
     prefix: '/en', og: '/assets/cases/scooter-cat-rating-og-en.jpg', lab: 'Data Lab', game: 'Scooter Cat: Ride the Chart', back: 'Back to the game',
     title: 'Leaderboard: Scooter Cat | Belyakov Consult', name: 'Scooter Cat leaderboard',
-    description: 'Who rides the charts fastest: the Scooter Cat leaderboard for each rider, for the easy, medium and hard tracks and for all 12 levels together.',
+    description: 'Who rides the charts fastest: the Scooter Cat leaderboard for each rider, for the easy, medium and hard tracks, the Hell tracks and all 12 main levels together.',
     noscript: 'The leaderboard needs JavaScript. Turn it on to see the fastest players and your place.',
   },
 };

@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Game, LEVEL_IDS, PAR, CHAR_IDS } from './game.js';
 import { DIFF } from './levels.js';
+import { MAIN_IDS, HELL_IDS, LIMIT } from './catalog.js';
 import { loadProgress, recordFinish, scopeStatus, scopesOf, loadPlayer, boardUrl } from './board.js';
 import Leaderboard, { BoardSubmit, ShareButton } from './Leaderboard.jsx';
 import { LANGS } from './i18n.js';
-import { setSound, setMusic, unlock, pauseAll } from './audio.js';
+import { setSound, setMusic, setTheme, unlock, pauseAll } from './audio.js';
 import { drawPreview } from './riders.js';
 import { Icon } from '../../dashboard/src/icons.jsx';
 
@@ -16,8 +17,13 @@ const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } cat
 const STATS = { cat: [3, 3, 3], capy: [2, 4, 2], head: [3, 1, 4] };
 const NOKEYS = { gas: false, brake: false, back: false, fwd: false };
 
-// складність траси: від однієї до трьох смужок, як рівень сигналу
-export function Diff({ d }) { return <i className={'sc-bars d' + d} aria-hidden="true">{[1, 2, 3].map(k => <b key={k} className={k <= d ? 'on' : ''} />)}</i>; }
+// складність траси: від однієї до трьох смужок, як рівень сигналу; Адіще позначає вогонь
+export function Diff({ d }) {
+  if (d === 4) return <i className="sc-bars d4" aria-hidden="true"><Icon name="flame" size={14} /></i>;
+  return <i className={'sc-bars d' + d} aria-hidden="true">{[1, 2, 3].map(k => <b key={k} className={k <= d ? 'on' : ''} />)}</i>;
+}
+const isHell = id => HELL_IDS.includes(id);
+const attractId = id => (isHell(id) ? MAIN_IDS[0] : id);   // заставка їде лише основними трасами
 
 function Stars({ n, size }) { return <span className={'sc-stars' + (size ? ' ' + size : '')} aria-label={n + '/3'}>{[0, 1, 2].map(k => <i key={k} className={k < n ? 'on' : ''}>★</i>)}</span>; }
 
@@ -44,7 +50,7 @@ function CharCard({ id, on, onPick, T }) {
 export default function GameView({ T, lang, onLead, track }) {
   const U = T.ui, F = T.fmt, prefix = LANGS.find(l => l.id === lang).prefix;
   const prefs0 = load(PREFS, {});
-  const wrap = useRef(null), cv = useRef(null), G = useRef(null), phaseRef = useRef('title'), tipRef = useRef(0), biteRef = useRef(0);
+  const wrap = useRef(null), cv = useRef(null), G = useRef(null), phaseRef = useRef('title'), tipRef = useRef(0), biteRef = useRef(0), tauntRef = useRef(0);
   const [phase, setPhaseState] = useState('title');
   const [lv, setLv] = useState(0);
   const [mode, setMode] = useState('normal');
@@ -71,6 +77,11 @@ export default function GameView({ T, lang, onLead, track }) {
       if (e.type === 'gate') { const q = T.gates[e.gate.key]; setMsg({ tone: 'info', title: q.title, text: q.text(e.gate.args || {}), k: Date.now() }); }
       else if (e.type === 'checkpoint') setMsg({ tone: 'good', title: T.msg.checkpoint(e.n), text: T.msg.checkpointText, k: Date.now() });
       else if (e.type === 'bite') { if (biteRef.current++ < 2) setMsg({ tone: 'bad', title: T.msg.bite, text: T.msg.biteText, k: Date.now() }); }
+      else if (e.type === 'crash' && e.hell) {
+        // Адіще: причина, сила удару і без співчуття
+        const H = T.hell, why = H.why[e.why] ? e.why : 'head', wt = H.whyText[why];
+        setMsg({ tone: 'bad', title: H.why[why], text: (typeof wt === 'function' ? wt(e.v || 0) : wt) + ' ' + H.taunts[tauntRef.current++ % H.taunts.length], k: Date.now() });
+      }
       else if (e.type === 'crash') {
         const tips = T.msg.tips;
         if (e.n === 3 && g.mode !== 'calm') setMsg({ tone: 'info', title: T.msg.calmTitle, text: T.msg.calmText, action: 'calm', k: Date.now() });
@@ -81,13 +92,13 @@ export default function GameView({ T, lang, onLead, track }) {
       else if (e.type === 'finish') {
         const s = e.summary, p = progRef.current, sc = scopesOf(s.id);
         const before = sc.map(x => scopeStatus(p, s.char, x));
-        const r = recordFinish(p, s.char, s.id, s.time, s.stars, g.mode === 'calm');
+        const r = recordFinish(p, s.char, s.id, s.time, s.stars, g.mode === 'calm' && !s.hell);
         s.newBest = r.better && r.old != null; s.best = r.best;
         // група рівнів пройдена вперше або її загальний час покращився: пропонуємо рейтинг
         s.board = sc.map(x => scopeStatus(p, s.char, x)).filter((st, k) => st.complete && (!before[k].complete || r.better));
         progRef.current = { ...p }; setProg(progRef.current);
         setSum(s); setPhase('end');
-        track && track('level_finish', { level: s.id, char: s.char, stars: s.stars, time: Math.round(s.time) });
+        track && track('level_finish', { level: s.id, char: s.char, stars: s.stars, time: Math.round(s.time), ...(s.hell ? { tries: s.tries } : {}) });
       }
     } });
     G.current = g;
@@ -111,10 +122,10 @@ export default function GameView({ T, lang, onLead, track }) {
       const dt = Math.min(1 / 30, (now - last) / 1000); last = now;
       const p = phaseRef.current;
       if (p === 'play') g.update(dt);
-      else if (p === 'title' || p === 'menu' || p === 'final' || (p === 'board' && ['title', 'menu', 'final'].includes(boardBack.current))) {
+      else if (['title', 'menu', 'final', 'hellFinal'].includes(p) || (p === 'board' && ['title', 'menu', 'final', 'hellFinal'].includes(boardBack.current))) {
         g.autopilot(8);
         g.update(reduced ? 0 : dt);
-        if (g.state === 'finish' && g.finishT > 2) { g.load(LEVEL_IDS[(LEVEL_IDS.indexOf(g.id) + 1) % LEVEL_IDS.length]); g.start(); }
+        if (g.state === 'finish' && g.finishT > 2) { g.load(MAIN_IDS[(MAIN_IDS.indexOf(g.id) + 1) % MAIN_IDS.length]); g.start(); }
       }
       g.draw(ctx);
       raf = requestAnimationFrame(loop);
@@ -151,25 +162,36 @@ export default function GameView({ T, lang, onLead, track }) {
   const pickChar = id => {
     setChar(id);
     const g = G.current; g.char = id;
-    if (phaseRef.current !== 'play') { g.load(g.id, id); g.start(); }
+    if (phaseRef.current !== 'play') { g.load(attractId(g.id), id); g.start(); }
   };
   const brief = n => { setLv(n); setMsg(null); setPhase('brief'); };
   const start = () => {
     const g = G.current;
     g.mode = mode; g.quiet = false; g.setKeys(NOKEYS);
     g.load(LEVEL_IDS[lv], char); g.start();
+    setTheme(isHell(LEVEL_IDS[lv]) ? 'hell' : 'main');
     biteRef.current = 0;
     setSum(null); setPhase('play');
     wrap.current.focus({ preventScroll: true });
     track && track('level_start', { level: LEVEL_IDS[lv], char, mode });
   };
-  const toMenu = p => { const g = G.current; g.setKeys(NOKEYS); g.quiet = true; if (p !== 'paused') { g.load(g.id, char); g.start(); } setPhase(p); };
-  const next = () => { if (lv >= LEVEL_IDS.length - 1) toMenu('final'); else brief(lv + 1); };
+  const toMenu = p => { const g = G.current; g.setKeys(NOKEYS); g.quiet = true; if (p !== 'paused') { g.load(attractId(g.id), char); g.start(); setTheme('main'); } setPhase(p); };
+  // після 12-го рівня фінал основної гри (з дверима в Адіще), після останньої пекельної траси фінал Адіща
+  const lastMain = lv === MAIN_IDS.length - 1, lastHell = lv >= LEVEL_IDS.length - 1;
+  const next = () => { if (lastMain) toMenu('final'); else if (lastHell) toMenu('hellFinal'); else brief(lv + 1); };
   const rec = prog.chars[char] || {};   // рекорди вибраного героя
-  const firstOpen = () => { const k = LEVEL_IDS.findIndex(id => !rec[id]); return k < 0 ? 0 : k; };
+  const firstOpen = () => {
+    const k = MAIN_IDS.findIndex(id => !rec[id]);
+    if (k >= 0) return k;
+    const h = HELL_IDS.findIndex(id => !rec[id]);
+    return h >= 0 ? MAIN_IDS.length + h : 0;
+  };
   const pause = () => { if (phase === 'play') { G.current.setKeys(NOKEYS); setPhase('paused'); } else if (phase === 'paused') setPhase('play'); };
   const toCp = () => { const g = G.current; if (phase === 'play' && (g.state === 'play' || g.state === 'crash')) g.respawn(); };
-  const totalStars = LEVEL_IDS.reduce((s, id) => s + ((rec[id] && rec[id].stars) || 0), 0);
+  const starsOf = ids => ids.reduce((s, id) => s + ((rec[id] && rec[id].stars) || 0), 0);
+  const totalStars = starsOf(LEVEL_IDS), mainStars = starsOf(MAIN_IDS), hellStars = starsOf(HELL_IDS);
+  const hellNow = phase === 'play' && isHell(LEVEL_IDS[lv]);
+  const hellSt = scopeStatus(prog, char, 'd4');
   // рейтинг: з гри стає на паузу, після закриття повертає туди, звідки відкрито
   const openBoard = (scope = 'all', ch = null) => {
     const from = phase === 'play' ? 'paused' : phase;
@@ -222,9 +244,10 @@ export default function GameView({ T, lang, onLead, track }) {
         {phase === 'menu' && (
           <div className="sc-over sc-scroll">
             <div className="sc-menu-head"><h3>{U.levels}</h3><span className="muted">{T.chars[char].short} · ★ {totalStars} {U.of} {3 * LEVEL_IDS.length}</span></div>
-            {[1, 2, 3].map(d => (
-              <section key={d} className="sc-league">
+            {[1, 2, 3, 4].map(d => (
+              <section key={d} className={'sc-league' + (d === 4 ? ' sc-league-hell' : '')}>
                 <h4 className={'sc-league-h d' + d}><Diff d={d} />{U.league[d]}</h4>
+                {d === 4 && <p className="sc-league-note">{T.hell.enterText}</p>}
                 <div className="sc-menu">
                   {LEVEL_IDS.map((id, k) => (DIFF[id] !== d ? null : (
                     <button type="button" key={id} className="sc-lv" onClick={() => brief(k)} autoFocus={k === 0}>
@@ -241,17 +264,24 @@ export default function GameView({ T, lang, onLead, track }) {
           </div>
         )}
         {phase === 'brief' && (
-          <div className="sc-over sc-brief">
+          <div className={'sc-over sc-brief' + (isHell(LEVEL_IDS[lv]) ? ' sc-brief-hell' : '')}>
             <span className="sc-level">{U.brief(lv + 1)} · <span className={'sc-diff d' + DIFF[LEVEL_IDS[lv]]}><Diff d={DIFF[LEVEL_IDS[lv]]} />{U.diff[DIFF[LEVEL_IDS[lv]]]}</span> · {T.chart[LEVEL_IDS[lv]]}</span>
             <h3>{L[LEVEL_IDS[lv]].title}</h3>
             <p>{L[LEVEL_IDS[lv]].brief}</p>
+            {isHell(LEVEL_IDS[lv]) && (
+              <div className="sc-hell-rules">
+                <strong><Icon name="flame" size={16} />{T.hell.rulesTitle}</strong>
+                <ul>{T.hell.rules(LIMIT[LEVEL_IDS[lv]]).map((r, k) => <li key={k}>{r}</li>)}</ul>
+                {mode === 'calm' && <p className="muted">{T.hell.calmOff}</p>}
+              </div>
+            )}
             <p className="sc-par muted">{T.chars[char].name} · {U.par}: {F.time(PAR[LEVEL_IDS[lv]])}{rec[LEVEL_IDS[lv]] && rec[LEVEL_IDS[lv]].best != null ? ` · ${U.best}: ${F.time(rec[LEVEL_IDS[lv]].best)}` : ''}</p>
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary sc-big" onClick={() => { unlock(); start(); }} autoFocus><Icon name="play" size={18} /><span>{U.start}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('menu')}>{U.menu}</button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
             </div>
-            <p className="sc-keys">{U.controls}</p>
+            <p className="sc-keys">{isHell(LEVEL_IDS[lv]) ? U.controlsHell : U.controls}</p>
             <p className="sc-keys touch">{U.touch}</p>
           </div>
         )}
@@ -274,13 +304,15 @@ export default function GameView({ T, lang, onLead, track }) {
                 <div><span>{U.time}</span><b>{F.time(sum.time)}</b><small>{U.par} {F.time(sum.par)}{sum.newBest ? ` · ${U.newBest}` : ''}</small></div>
                 <div><span>{U.points}</span><b>{sum.pts}/{sum.total}</b><small>{F.pct0(sum.share)}</small></div>
                 <div><span>{U.bugs}</span><b>{sum.zapped}/{sum.bugs}</b><small>{U.bitten(sum.bitten)}</small></div>
-                <div><span>{U.crashes}</span><b>{sum.crashes}</b><small>{U.best} {F.time(sum.best)}</small></div>
+                {sum.hell
+                  ? <div><span>{T.hell.tries}</span><b>{sum.tries}</b><small>{T.hell.triesNote} · {U.best} {F.time(sum.best)}</small></div>
+                  : <div><span>{U.crashes}</span><b>{sum.crashes}</b><small>{U.best} {F.time(sum.best)}</small></div>}
               </div>
               {sum.board && sum.board.length > 0 && <BoardSubmit key={sum.id + ':' + sum.time} T={T} lang={lang} char={sum.char} statuses={sum.board} prev={sum.boardRes} onResult={r => { sum.boardRes = r; }} onOpen={sc => openBoard(sc, sum.char)} track={track} />}
               <div className="sc-lesson"><span>{U.lesson}</span><h4>{lt.lessonTitle}</h4><p>{lt.lesson(sum.stats)}</p></div>
               <div className="sc-tip"><Icon name="info" size={16} /><div><strong>{U.tip}</strong><p>{lt.tip}</p></div></div>
               <div className="sc-actions">
-                <button type="button" className="btn btn-primary" onClick={next} autoFocus>{lv >= LEVEL_IDS.length - 1 ? U.final : U.next}</button>
+                <button type="button" className="btn btn-primary" onClick={next} autoFocus>{lastMain ? U.final : lastHell ? T.hell.final : U.next}</button>
                 <button type="button" className="btn btn-ghost" onClick={start}>{U.retry}</button>
                 <button type="button" className="btn btn-ghost" onClick={() => toMenu('menu')}>{U.menu}</button>
               </div>
@@ -291,12 +323,30 @@ export default function GameView({ T, lang, onLead, track }) {
           <div className="sc-over sc-scroll sc-final">
             <span className="sc-logo">{U.final}</span>
             <Stars n={3} size="big" />
-            <p className="sc-final-total">{U.totalStars}: {totalStars} {U.of} {3 * LEVEL_IDS.length}</p>
+            <p className="sc-final-total">{U.totalStars}: {mainStars} {U.of} {3 * MAIN_IDS.length}</p>
             <p>{U.finalText}</p>
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary" onClick={() => onLead('final')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => openBoard('all', char)}><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
-              <button type="button" className="btn btn-ghost" onClick={() => brief(0)} autoFocus>{U.again}</button>
+              <button type="button" className="btn btn-ghost" onClick={() => brief(0)}>{U.again}</button>
+              <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
+            </div>
+            <div className="sc-hell-door">
+              <p>{T.hell.enterText}</p>
+              <button type="button" className="btn sc-hell-btn" onClick={() => brief(MAIN_IDS.length)} autoFocus><Icon name="flame" size={16} /><span>{T.hell.enter}</span></button>
+            </div>
+          </div>
+        )}
+        {phase === 'hellFinal' && (
+          <div className="sc-over sc-scroll sc-final sc-final-hell">
+            <span className="sc-logo"><Icon name="flame" size={30} />{T.hell.final}</span>
+            <Stars n={3} size="big" />
+            <p className="sc-final-total">{U.totalStars}: {hellStars} {U.of} {3 * HELL_IDS.length}{hellSt.complete ? ` · ${T.hell.total}: ${F.time(hellSt.total)}` : ''}</p>
+            <p>{T.hell.finalText}</p>
+            <div className="sc-actions center">
+              <button type="button" className="btn btn-primary" onClick={() => openBoard('d4', char)} autoFocus><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
+              <button type="button" className="btn btn-ghost" onClick={() => onLead('hellFinal')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
+              <button type="button" className="btn btn-ghost" onClick={() => brief(MAIN_IDS.length)}>{T.hell.enter}</button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
             </div>
           </div>
@@ -320,13 +370,13 @@ export default function GameView({ T, lang, onLead, track }) {
       </div>
       <div className="sc-controls">
         <button type="button" className="icon-btn" onClick={pause} disabled={phase !== 'play' && phase !== 'paused'} aria-label={U.pause} title={U.pause}><Icon name={phase === 'paused' ? 'play' : 'pause'} size={18} /></button>
-        <button type="button" className="icon-btn" onClick={toCp} disabled={phase !== 'play'} aria-label={U.toCp} title={U.toCp}><Icon name="reset" size={18} /></button>
+        <button type="button" className="icon-btn" onClick={toCp} disabled={phase !== 'play'} aria-label={hellNow ? U.toStart : U.toCp} title={hellNow ? U.toStart : U.toCp}><Icon name="reset" size={18} /></button>
         <button type="button" className="icon-btn" onClick={() => toMenu('menu')} aria-label={U.levels} title={U.levels}><Icon name="grid" size={18} /></button>
         <button type="button" className={'icon-btn' + (phase === 'board' ? ' on' : '')} onClick={() => (phase === 'board' ? setPhase(boardBack.current) : openBoard(bScope, bChar))} aria-label={T.board.open} title={T.board.open}><Icon name="trophy" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (music ? ' on' : '')} onClick={() => { unlock(); setMus(!music); }} aria-pressed={music} aria-label={U.music} title={U.music}><Icon name="music" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (sound ? ' on' : '')} onClick={() => { unlock(); setSnd(!sound); }} aria-pressed={sound} aria-label={U.sound} title={U.sound}><Icon name="sound" size={18} /></button>
         <div className={'sc-msg' + (msg ? ' t-' + msg.tone : '')} role="status" aria-live="polite">
-          {msg ? <><strong>{msg.title}</strong>{msg.text && <span>{msg.text}</span>}{msg.action === 'calm' && mode !== 'calm' && <button type="button" className="btn btn-ghost sc-msg-btn" onClick={() => { setMode('calm'); G.current.mode = 'calm'; setMsg(null); wrap.current.focus({ preventScroll: true }); }}>{T.msg.calmOn}</button>}</> : <><span className="muted sc-keys-inline">{U.controls}</span><span className="muted sc-touch-inline">{U.touch}</span></>}
+          {msg ? <><strong>{msg.title}</strong>{msg.text && <span>{msg.text}</span>}{msg.action === 'calm' && mode !== 'calm' && <button type="button" className="btn btn-ghost sc-msg-btn" onClick={() => { setMode('calm'); G.current.mode = 'calm'; setMsg(null); wrap.current.focus({ preventScroll: true }); }}>{T.msg.calmOn}</button>}</> : <><span className="muted sc-keys-inline">{hellNow ? U.controlsHell : U.controls}</span><span className="muted sc-touch-inline">{U.touch}</span></>}
         </div>
       </div>
     </div>

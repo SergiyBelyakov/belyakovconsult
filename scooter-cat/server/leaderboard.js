@@ -2,7 +2,7 @@
 // Прив'язка бази в налаштуваннях проєкту Pages: змінна SCOOTER_DB. Таблиці створюються самі під час першого звернення.
 // Без прив'язки функція відповідає { ok: false, error: 'storage' }, а гра тримає результати в браузері й надішле їх пізніше.
 //
-// GET  /api/scooter/leaderboard?scope=all|d1|d2|d3&char=cat|capy|head&pid=…&limit=20  → таблиця
+// GET  /api/scooter/leaderboard?scope=all|d1|d2|d3|d4&char=cat|capy|head&pid=…&limit=20  → таблиця
 // POST /api/scooter/leaderboard  { key, nick, char, lang, entries: [{ scope, times: { рівень: с }, stars, calm }] }
 // Гравця визначає таємний ключ із браузера; публічний pid це хеш ключа, тож чужий результат за посиланням не переписати.
 // Модерація: у консолі D1 «UPDATE scooter_scores SET hidden = 1 WHERE nick = '…'» ховає запис із рейтингу.
@@ -96,7 +96,7 @@ export async function submitScore(request, env) {
     const char = CHAR_IDS.includes(b.char) ? b.char : null;
     if (!char) return json({ ok: false, error: 'char' }, 400);
     const lang = b.lang === 'en' ? 'en' : 'uk';
-    const list = Array.isArray(b.entries) ? b.entries.slice(0, 4) : [];
+    const list = Array.isArray(b.entries) ? b.entries.slice(0, SCOPE_IDS.length) : [];
     const entries = [];
     for (const e of list) {
       if (!e || !SCOPE_IDS.includes(e.scope) || entries.some(x => x.scope === e.scope)) return json({ ok: false, error: 'scope' }, 400);
@@ -147,8 +147,8 @@ export async function submitScore(request, env) {
 
 // ——— посилання на рейтинг із карткою: заголовок і опис прев'ю з місцем гравця ———
 const NAMES = {
-  uk: { scope: { d1: 'легкі траси', d2: 'середні траси', d3: 'складні траси', all: 'усі 12 трас' }, char: { cat: 'котик на самокаті', capy: 'капібара на скейті', head: 'голова аналітика на моноколесі' } },
-  en: { scope: { d1: 'easy tracks', d2: 'medium tracks', d3: 'hard tracks', all: 'all 12 tracks' }, char: { cat: 'Scooter Cat', capy: 'Skateboard Capybara', head: 'Head of Analytics on a unicycle' } },
+  uk: { scope: { d1: 'легкі траси', d2: 'середні траси', d3: 'складні траси', d4: 'адіще', all: 'усі 12 трас' }, char: { cat: 'котик на самокаті', capy: 'капібара на скейті', head: 'голова аналітика на моноколесі' } },
+  en: { scope: { d1: 'easy tracks', d2: 'medium tracks', d3: 'hard tracks', d4: 'hell tracks', all: 'all 12 tracks' }, char: { cat: 'Scooter Cat', capy: 'Skateboard Capybara', head: 'Head of Analytics on a unicycle' } },
 };
 export function fmtTime(s, lang) {
   const m = Math.floor(s / 60), r = s - m * 60, d = r.toFixed(1);

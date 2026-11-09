@@ -4,12 +4,15 @@
 import { Terrain } from './terrain.js';
 
 // Перелік рівнів і їхня складність живуть у catalog.js (його бере й функція рейтингу на Cloudflare)
-import { LEVEL_IDS, DIFF } from './catalog.js';
+import { LEVEL_IDS, DIFF, LIMIT } from './catalog.js';
 export { LEVEL_IDS, DIFF };
 const COLORS = {
   trend: '#60A5FA', hist: '#FBBF24', season: '#2DD4BF', pareto: '#34D399', outliers: '#C084FC', axis: '#22D3EE',
   stacked: '#E2E8F0', waterfall: '#60A5FA', log: '#F472B6', control: '#FB923C', multiples: '#818CF8', forecast: '#60A5FA',
+  candles: '#FDE047', gantt: '#F97316', tunnel: '#22D3EE', saw: '#F87171',
 };
+// свічки: зростання і падіння (синій і червоний замість зеленого й червоного: так розрізняють і люди з дальтонізмом)
+export const CANDLE_COLORS = { up: '#60A5FA', down: '#F87171' };
 // шари складеної площі (знизу вгору) і кольори водоспаду: категорії з перевіреної палітри для темного тла
 export const LAYER_COLORS = ['#3987E5', '#D95926', '#199E70'];
 export const WF_COLORS = { total: '#94A3B8', down: '#E66767' };
@@ -403,17 +406,153 @@ function multiples() {
   });
 }
 
-const BUILDERS = { trend, hist, season, pareto, outliers, axis, stacked, waterfall, log, control, multiples, forecast };
+// ——— «Адіще»: чотири траси з правилами ігор 90-х. Без контрольних точок: одне падіння і рівень спочатку ———
+const niceTicks = (lo, hi, step) => { const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) out.push(v); return out; };
+
+// Параметри пекельних трас підібрано прогонами: автопілот проходить кожну кожним героєм хоча б на двох швидкостях,
+// а «людина» (автопілот із затримкою реакції 70-150 мс і випадковими помилками) з першої спроби лише у 10-40% випадків.
+// Ліміт часу (LIMIT у catalog.js) не дає повзти: у коридорі повільна їзда безпечна, тож таймер змушує ризикувати
+
+// Адіще 1. Свічки: ціна акції щогодини; тихі години і сплески волатильності, коли кожна свічка це трамплін
+function candles() {
+  const R = rng(101), N = 72, dx = 2.3, s = 0.3;
+  const burst = i => (i >= 14 && i < 25) || (i >= 38 && i < 50) || (i >= 58 && i < 67);
+  const O = [], Hi = [], Lo = [], C = [];
+  let p = 100;
+  for (let i = 0; i < N; i++) {
+    const sd = burst(i) ? 2.2 : 0.75;
+    const d = Math.max(-3.7, Math.min(3.7, sd * gauss(R) + 0.05));   // година до години не більше ±3,7: круто, але проїзно
+    const o = p, c = o + d;
+    O.push(o); C.push(c);
+    Hi.push(Math.max(o, c) + Math.abs(gauss(R)) * sd * 0.45);
+    Lo.push(Math.min(o, c) - Math.abs(gauss(R)) * sd * 0.45);
+    p = c;
+  }
+  const xs = C.map((_, i) => i * dx), lo0 = Math.floor(Math.min(...Lo) / 2) * 2 - 2, yOf = v => (v - lo0) * s;
+  const g = geometry(xs, C.map(yOf), 'linear');
+  const ma = centeredMA(C, 12), rng_ = C.map((_, i) => (Hi[i] - Lo[i]) / O[i]);
+  const calmR = mean(rng_.filter((_, i) => !burst(i))), burstR = mean(rng_.filter((_, i) => burst(i)));
+  const peak = rng_.indexOf(Math.max(...rng_));
+  return base('candles', {
+    kind: 'candles', hell: true, ohlc: { O, H: Hi, L: Lo, C }, barW: dx * 0.6,
+    bugSpots: [[8], [19], [27, 1], [33], [44], [53, 1], [63]],
+    samples: C.map((c, i) => ({ i, x: xs[i], v: c })), terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf, unit: 'k', xLabel: i => ({ k: 'hour', n: i }), xEvery: 6,
+    ghosts: [{ key: 'ma', style: 'dash', pts: xs.map((x, i) => [x, yOf(ma[i])]) }],
+    notes: [{ i: 6, key: 'calmHours' }, { i: peak, key: 'volBurst', args: { r: rng_[peak] }, warn: true }, { i: 56, key: 'maTrend', down: true }],
+    checkpoints: [], ticks: niceTicks(lo0, Math.max(...Hi) + 4, 4),
+    stats: { change: C[N - 1] / O[0] - 1, maxRange: rng_[peak], calmR, burstR },
+  });
+}
+
+// Адіще 2. Гантт: критичний шлях проєкту. Задачі на ньому це платформи над прірвою, перерви між ними провалля,
+// а задачі з резервом намальовано пунктиром: вони не на критичному шляху і героя не тримають
+function gantt() {
+  const dx = 2.7, rowH = 0.9, floor = -6;
+  const T = [['brief', 0, 5, 1], ['data', 5, 6, 1], ['design', 6, 5, 0], ['model', 12, 4, 1], ['etl', 15, 7, 1], ['qa', 23, 3, 1], ['dash', 25, 6, 1],
+    ['docs', 26, 4, 0], ['review', 32, 2, 1], ['fix', 34, 4, 1], ['uat', 39, 3, 1], ['train', 41, 5, 1], ['comms', 43, 3, 0], ['launch', 47, 2, 1], ['support', 49, 6, 1]];
+  const top = T.length * rowH;
+  const tasks = T.map(([key, st, dur, crit], r) => ({ key, st, dur, crit: !!crit, r, x0: st * dx, x1: (st + dur) * dx, y: top - r * rowH }));
+  const cp = tasks.filter(t => t.crit), V = [], pits = [];
+  let wait = 0;
+  cp.forEach((t, k) => {
+    const nx = cp[k + 1];
+    if (!k) V.push([t.x0, t.y]);
+    V.push([t.x1, t.y]);
+    if (!nx) return;
+    if (nx.x0 > t.x1 + 1e-6) {   // перерва на критичному шляху: провалля до наступної задачі
+      V.push([t.x1, floor], [nx.x0, floor], [nx.x0, nx.y]);
+      pits.push({ x0: t.x1, x1: nx.x0, y: nx.y - 0.9 });
+      wait += nx.st - (t.st + t.dur);
+    } else V.push([t.x1, nx.y]);   // наступна задача вже йде: уступ униз
+  });
+  const g = track(V);
+  const end = cp[cp.length - 1].st + cp[cp.length - 1].dur;
+  // точка даних посередині тієї частини задачі, на яку можна заїхати (початок може ховатися під попередньою)
+  const samples = cp.map((t, i) => ({ i, x: ((i ? Math.max(t.x0, cp[i - 1].x1) : t.x0) + t.x1) / 2, v: t.dur, key: t.key }));
+  return base('gantt', {
+    kind: 'gantt', hell: true, tasks, pits, floor, rowH,
+    // баги: [задача критичного шляху, відступ від її початку, летить]; один сидить там, куди приземляєшся після провалля
+    bugAt: [[1, 6, 0], [2, 1.6, 0], [3, 7, 0], [4, 3.5, 1], [6, 2, 0], [8, 4, 0], [9, 4, 1], [10, 3, 1]].map(([k, d, f]) => [cp[k].x0 + d, f]),
+    samples, terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf: v => v, unit: 'k', xTicks: niceTicks(0, end, 7).map(d => ({ x: d * dx, o: { k: 'dayN', n: d } })),
+    notes: [{ i: 0, key: 'critPath' }, { i: 1, key: 'waitGap', warn: true, down: true }, { i: 5, key: 'slack' }, { i: 11, key: 'launch', args: { d: end } }],
+    checkpoints: [], ticks: [],
+    stats: { days: end, crit: cp.length, wait, tasks: tasks.length },
+  });
+}
+
+// Адіще 3. Коридор: мінімум і максимум температури в холодильній камері за кожні 2 години.
+// Мінімум це підлога, максимум це стеля: торкнувся стелі головою, і рівень спочатку
+function tunnel() {
+  const R = rng(131), N = 60, dx = 2.5, s = 0.62;
+  const door = { 9: 4.6, 21: 5.8, 22: 2.2, 33: 4.1, 45: 6.2, 46: 2.6, 57: 3.8 }, defrost = { 15: 1.6, 16: 2.1, 39: 1.8, 40: 2.2 };
+  const mn = [], mx = [];
+  for (let i = 0; i < N; i++) {
+    const h = (i % 12) * 2, night = h >= 0 && h < 6;   // ніч: камеру не відчиняють, коридор найвужчий
+    const lo = 3.1 + 0.5 * Math.sin((2 * Math.PI * i) / 12) + 0.25 * gauss(R) + (defrost[i] || 0) * 0.7;
+    const gap = (night ? 2.5 + 0.06 * gauss(R) : 3.1 + 0.3 * gauss(R)) + (door[i] || 0) + (defrost[i] || 0) * 0.4;
+    mn.push(lo); mx.push(lo + Math.max(2.45, gap));
+  }
+  const xs = mn.map((_, i) => i * dx), yOf = v => v * s;
+  const gf = geometry(xs, mn.map(yOf), 'smooth'), gc = geometry(xs, mx.map(yOf), 'smooth');
+  const avg = mean(mn.map((v, i) => (v + mx[i]) / 2)), exc = mx.filter(v => v > 8).length;
+  return base('tunnel', {
+    kind: 'tunnel', hell: true, ceil: new Terrain(gc.X, gc.Y), ceilRange: [gf.x0, gf.x1], lim: 8, mins: mn, maxs: mx,
+    bugSpots: [[7], [18], [27], [36], [43], [52]],
+    samples: mn.map((v, i) => ({ i, x: xs[i], v })), terrain: new Terrain(gf.X, gf.Y), x0: gf.x0, x1: gf.x1,
+    yOf, unit: 't', xLabel: i => ({ k: 'clock', n: (i % 12) * 2, d: Math.floor(i / 12) + 1 }), xEvery: 6,
+    ghosts: [{ key: 'avg', style: 'dash', pts: xs.map((x, i) => [x, yOf((mn[i] + mx[i]) / 2)]) }],
+    notes: [{ i: 1, key: 'nightSqueeze', down: true }, { i: 21, key: 'doorOpen', args: { v: mx[21] }, warn: true }, { i: 39, key: 'defrost' }, { i: 50, key: 'avgOk', args: { v: avg } }],
+    checkpoints: [], ticks: [0, 2, 4, 6, 8, 10, 12],
+    stats: { avg, exc, hours: exc * 2, max: Math.max(...mx) },
+  });
+}
+
+// Адіще 4. Пила дебіторки: рахунки накопичуються щодня, клієнти платять пачками. Кожна оплата це обрив,
+// а за ним новий підйом: на швидкості героя розбиває при приземленні. Дно пилки росте
+function saw() {
+  const R = rng(149), D = 120, dx = 1.6, s = 0.018;
+  const pay = [9, 18, 28, 37, 46, 56, 65, 74, 84, 93, 102, 112];
+  let b = 150, k = 0;
+  const V = [], samples = [], mins = [];
+  for (let d = 0; d <= D; d++) {
+    b += 10.5 + 1.2 * gauss(R);   // нові рахунки за день
+    const x = d * dx;
+    if (pay.includes(d)) {
+      const after = 150 + 10 * (k + 1) + 3 * gauss(R);   // після оплати лишається дедалі більше: дно росте
+      V.push([x, b * s], [x, after * s]);
+      mins.push({ d, v: after, before: b }); b = after; k++;
+    } else V.push([x, b * s]);
+    samples.push({ i: d, x, v: b });
+  }
+  const g = track(V);
+  const first = mins[0].v, last = mins[mins.length - 1].v;
+  return base('saw', {
+    kind: 'saw', hell: true, pays: mins,
+    bugSpots: [[16], [26], [44], [63], [82], [100], [110]],
+    samples, terrain: new Terrain(g.X, g.Y), x0: g.x0, x1: g.x1,
+    yOf: v => v * s, unit: 'k', xLabel: i => ({ k: 'day', n: i + 1 }), xEvery: 10,
+    ghosts: [{ key: 'bottom', style: 'dash', pts: mins.map(m => [m.d * dx, m.v * s]) }],
+    notes: [{ i: 9, key: 'payBatch', args: { v: mins[0].before - mins[0].v } }, { i: 40, key: 'peaks' }, { i: 84, key: 'bottomRises', args: { a: first, b: last }, warn: true, down: true }],
+    checkpoints: [], ticks: niceTicks(100, 400, 50),
+    stats: { first, last, growth: last / first - 1, pays: mins.length },
+  });
+}
+
+const BUILDERS = { trend, hist, season, pareto, outliers, axis, stacked, waterfall, log, control, multiples, forecast, candles, gantt, tunnel, saw };
 export function buildLevel(id) {
   const L = BUILDERS[id]();
   L.diff = DIFF[id];
+  if (LIMIT[id]) L.limit = LIMIT[id];
   L.pits = L.pits || [];
   L.spawnX = L.x0 - 9;
   L.finishX = L.x1 + 7;
   L.checkpoints = L.checkpoints.map(x => ({ x, hit: false }));
   // баги даних: сидять на лінії між точками (або над нею, якщо летять); на стовпчиках ближче до правого краю
   const S = L.samples, onBar = L.kind === 'bars' || L.kind === 'waterfall';
-  L.bugs = (L.bugSpots || []).map(([i, fly]) => ({ x: onBar ? S[i].x + L.barW * 0.25 : (S[i].x + S[Math.min(S.length - 1, i + 1)].x) / 2, fly: !!fly, alive: true, dead: null }));
+  L.bugs = L.bugAt ? L.bugAt.map(([x, fly]) => ({ x, fly: !!fly, alive: true, dead: null }))
+    : (L.bugSpots || []).map(([i, fly]) => ({ x: onBar ? S[i].x + L.barW * 0.25 : (S[i].x + S[Math.min(S.length - 1, i + 1)].x) / 2, fly: !!fly, alive: true, dead: null }));
   L.terrain.applyMorphs();
   return L;
 }

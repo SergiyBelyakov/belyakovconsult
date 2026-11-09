@@ -1,7 +1,8 @@
 // Рейтинг у браузері: рекорди кожного героя за рівнями, гравець (таємний ключ, нік, надіслані результати),
 // стан груп рівнів і звернення до функції рейтингу (/api/scooter/leaderboard). Якщо функція недоступна,
 // результати лишаються тут із позначкою «чекає» і йдуть у рейтинг під час наступної спроби.
-import { LEVEL_IDS, CHAR_IDS, SCOPE_IDS, SCOPES, DIFF } from './catalog.js';
+import { LEVEL_IDS, CHAR_IDS, SCOPE_IDS, SCOPES, scopesOf } from './catalog.js';
+export { scopesOf };
 
 const PROG = 'bc-scooter-cat-v2', OLD = 'bc-scooter-cat-v1', PLAYER = 'bc-scooter-cat-player';
 export const API = '/api/scooter/leaderboard';
@@ -46,7 +47,6 @@ export function scopeStatus(p, char, scope) {
     times: complete ? Object.fromEntries(ids.map(id => [id, Math.round(rec[id].best * 1000) / 1000])) : null,
   };
 }
-export const scopesOf = id => ['d' + DIFF[id], 'all'];
 
 // ——— гравець: таємний ключ (лише в цьому браузері), публічний pid від сервера, нік, надіслані результати ———
 function newKey() {

@@ -1,7 +1,8 @@
 // Тексти гри українською та англійською. Без довгих і середніх тире.
-import { LEVEL_IDS } from './levels.js';
+import { MAIN_IDS, HELL_IDS } from './catalog.js';
 export const LANGS = [{ id: 'uk', short: 'UA', prefix: '' }, { id: 'en', short: 'EN', prefix: '/en' }];
-const NL = LEVEL_IDS.length;
+const NM = MAIN_IDS.length, NH = HELL_IDS.length;
+const hh = n => String(n).padStart(2, '0') + ':00';
 const ukPl = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many; };
 
 // товарні групи (Парето) і статті водоспаду
@@ -42,11 +43,13 @@ const enF = {
 const uk = {
   fmt: ukF,
   xlabel: o => (o.k === 'week' ? `Тиж. ${o.n}` : o.k === 'day' ? `День ${o.n}` : o.k === 'monthN' ? `Міс. ${o.n}` : o.k === 'uah' ? `${ukNum.format(o.n)} грн`
-    : o.k === 'cat' ? CATS_UK[o.n] : o.k === 'wf' ? WF_UK[o.key] : o.k === 'monthShort' ? UK_M[o.m] : `${UK_M[o.m]} ${o.y}`),
+    : o.k === 'cat' ? CATS_UK[o.n] : o.k === 'wf' ? WF_UK[o.key] : o.k === 'monthShort' ? UK_M[o.m]
+    : o.k === 'hour' ? (o.n % 24 ? hh(o.n % 24) : `Доба ${o.n / 24 + 1}`) : o.k === 'clock' ? (o.n ? hh(o.n) : `Доба ${o.d}`) : o.k === 'dayN' ? `День ${o.n}`
+    : `${UK_M[o.m]} ${o.y}`),
   title: 'Котик на самокаті: проїдь графік', short: 'Котик на самокаті',
   kicker: 'Навчання • Гра • Читання графіків', demo: 'Фізика в стилі Gravity Defied', navCaption: 'Навчання',
-  tagline: 'Траса це графік. Дванадцять графіків зі звітів просто під колесами.',
-  intro: 'Гра в стилі Gravity Defied: герой на колесах їде трасою, яка насправді є графіком даних. Оберіть котика на самокаті, капібару на скейті або голову аналітика на моноколесі: усі троє стріляють лазерами з очей по багах даних. Дванадцять рівнів від легких до складних, і кожен це окремий вид графіка зі звітів: лінія з шумом і трендом, гістограма, сезонність, Парето, викиди, обрізана вісь, складена площа, водоспад, логарифмічна шкала, контрольна карта, панелі з однаковою шкалою і прогноз із коридором. Після кожного рівня короткий розбір: що це був за графік і як не помилитися, читаючи такий у звіті.',
+  tagline: 'Траса це графік. Дванадцять графіків зі звітів просто під колесами і ще чотири в Адіщі.',
+  intro: 'Гра в стилі Gravity Defied: герой на колесах їде трасою, яка насправді є графіком даних. Оберіть котика на самокаті, капібару на скейті або голову аналітика на моноколесі: усі троє стріляють лазерами з очей по багах даних. Дванадцять рівнів від легких до складних, і кожен це окремий вид графіка зі звітів: лінія з шумом і трендом, гістограма, сезонність, Парето, викиди, обрізана вісь, складена площа, водоспад, логарифмічна шкала, контрольна карта, панелі з однаковою шкалою і прогноз із коридором. Після кожного рівня короткий розбір: що це був за графік і як не помилитися, читаючи такий у звіті. А для тих, кому мало, є Адіще: свічки, діаграма Ганта, коридор температур і пила дебіторки з одним життям на трасу, як в іграх 90-х.',
   nav: { game: 'Гра', how: 'Як грати', skills: 'Чого вчить', rating: 'Рейтинг' },
   related: 'Також у навчанні', gallery: 'Галерея візуалізацій', kitty: 'Лазерне кошеня',
   chart: {
@@ -54,6 +57,8 @@ const uk = {
     axis: 'Виручка за місяцями, млн грн', log: 'Активні користувачі застосунку', forecast: 'Попит за місяцями, тис. од.',
     hist: 'Чеки за тиждень за сумою, кількість', pareto: 'Виручка за товарними групами, частка', stacked: 'Виручка за каналами, млн грн',
     waterfall: 'Від виручки до чистого прибутку, млн грн', control: 'Час доставки за днями, години', multiples: 'Продажі за регіонами, тис. грн',
+    candles: 'Ціна акції за годинами, $', gantt: 'План проєкту за днями: критичний шлях', tunnel: 'Температура в холодильній камері, °C',
+    saw: 'Дебіторська заборгованість за днями, тис. грн',
   },
   legend: {
     trend: [['line', 'Продажі'], ['ghost', 'Ковзне середнє, 7 тижнів']],
@@ -68,12 +73,18 @@ const uk = {
     waterfall: [['line', 'Поточна сума'], ['WT', 'Підсумок'], ['WD', 'Витрати']],
     control: [['line', 'Час доставки'], ['ghost', 'Середнє'], ['err', 'Контрольні межі']],
     multiples: [['line', 'Продажі, одна шкала для всіх панелей']],
+    candles: [['line', 'Ціна закриття'], ['ghost', 'Ковзне середнє, 12 год'], ['CU', 'Свічка росту'], ['CD', 'Свічка падіння']],
+    gantt: [['GC', 'Критична задача: тримає'], ['GS', 'Задача з резервом: не тримає']],
+    tunnel: [['line', 'Мінімум: підлога'], ['max', 'Максимум: стеля'], ['ghost', 'Середня'], ['lim', 'Норма від 2 до 8 °C']],
+    saw: [['line', 'Дебіторка'], ['ghost', 'Дно пилки: борг після оплат']],
   },
   marks: { median: v => `Медіана ${ukF.num(v)} грн`, mean: v => `Середнє ${ukF.num(v)} грн` },
   abc: { A: 'Група A: 80% виручки', B: 'Група B: ще 15%', C: 'Група C: останні 5%' },
   layers: ['Магазини', 'Опт', 'Онлайн'],
   limits: { ucl: v => `Верхня межа ${ukDec.format(v)}`, mean: v => `Середнє ${ukDec.format(v)}`, lcl: v => `Нижня межа ${ukDec.format(v)}` },
   regions: { kyiv: 'Київ', lviv: 'Львів', dnipro: 'Дніпро', odesa: 'Одеса', kharkiv: 'Харків' },
+  tasks: { brief: 'Бриф', data: 'Збір даних', design: 'Макет звіту', model: 'Модель даних', etl: 'ETL', qa: 'Перевірка даних', dash: 'Дашборд', docs: 'Документація',
+    review: 'Рев’ю', fix: 'Виправлення', uat: 'Приймання', train: 'Навчання', comms: 'Розсилка', launch: 'Запуск', support: 'Супровід' },
   notes: {
     mode: a => `Найчастіше чек від ${a.lo} до ${a.hi} грн`, meanPull: () => 'Середнє праворуч від медіани: його тягне довгий хвіст',
     tail: () => 'Великі закупівлі: їх мало, але вони піднімають середній чек',
@@ -98,6 +109,14 @@ const uk = {
     badMonth: () => 'Поганий місяць: −4%. На звичайній шкалі його не видно', viral: () => 'Вірусний місяць: +30%',
     slowing: a => `Нахил меншає: з ${a.m}-го місяця темп падає`, saturation: () => 'Насичення: ріст майже зупинився',
     today: () => 'Сьогодні: далі лише прогноз', band: () => 'Смуга: 80% можливих шляхів. Пунктир: медіана', wider: () => 'Чим далі, тим ширший коридор',
+    calmHours: () => 'Тихі години: свічки короткі, ціна майже стоїть', volBurst: a => `Сплеск волатильності: розмах ${ukDec.format(a.r * 100)}% за годину`,
+    maTrend: () => 'Ковзне середнє майже рівне: за три доби ціна там само, де була',
+    critPath: () => 'Критичний шлях: задачі без резерву. Затримка будь-якої зсуває запуск', waitGap: () => 'Перерва: модель чекає на дані. Провалля це день простою',
+    slack: () => 'Пунктир: задача з резервом. Вона може зсунутися, запуск ні', launch: a => `Запуск: день ${a.d}`,
+    nightSqueeze: () => 'Ніч: камеру не відчиняють, коридор найвужчий', doorOpen: a => `Двері відчинено: максимум ${ukDec.format(a.v)} °C при нормі до 8 °C`,
+    defrost: () => 'Відтавання: піднімаються і мінімум, і максимум', avgOk: a => `Середня ${ukDec.format(a.v)} °C у нормі, а максимуми ні`,
+    payBatch: a => `Клієнти заплатили пачкою: −${ukF.num(a.v)} тис. грн за день`, peaks: () => 'Між оплатами борг росте щодня',
+    bottomRises: a => `Дно пилки росте: з ${ukF.num(a.a)} до ${ukF.num(a.b)} тис. грн. Клієнти платять не все`,
   },
   gates: {
     zeroExtra: { short: 'Перевірка: ×10 від медіани', mark: a => `Помилка: ${ukF.num(a.rec)} → ${a.v}`, title: 'Правило перевірки: зайвий нуль', text: a => `${ukF.num(a.rec)} замість ${a.v}: значення вдесятеро більше за медіану. Правило позначило його, джерело підтвердило помилку.` },
@@ -109,6 +128,7 @@ const uk = {
   hud: {
     cp: n => `КТ ${n}`, finish: 'Фініш', par: 'Ціль', points: 'Точки', bugs: 'Баги', crashes: 'Падіння', go: '↑ газ', meow: 'Мяу!', zap: 'баг прибрано', bite: 'кусь!',
     back: n => (n ? `Повертаємося до КТ ${n}` : 'Повертаємося на старт'),
+    tries: 'Спроба', limit: 'Ліміт', again: n => `Спроба ${n}: з самого початку`,
   },
   levels: {
     trend: {
@@ -195,6 +215,34 @@ const uk = {
       lesson: s => `На однаковій шкалі видно і розмір, і форму: Київ продає вдвічі більше за Харків, Львів росте найшвидше (${ukF.pct(s.lviv)} від січня до листопада), а Одеса єдина падає (${ukF.pct(s.odesa)}). На одному графіку з п’ятьма лініями ці історії переплуталися б, а на панелях з різними шкалами всі регіони здавалися б однаково великими.`,
       tip: 'Зробіть окремий графік для кожного регіону й задайте всім однакові межі осі Y у «Формат осі». У Power BI для цього є поле Small multiples у лінійному і стовпчиковому графіку.',
     },
+    candles: {
+      title: 'Свічки',
+      brief: 'Ціна акції щогодини за три доби. Кожна свічка це година: тіло від ціни відкриття до ціни закриття, тонкі тіні до максимуму й мінімуму. Їдемо ціною закриття: у тихі години це рівна дорога, а в сплески волатильності кожна свічка це трамплін.',
+      lessonTitle: 'Волатильність видно за розмахом свічок',
+      lesson: s => `За три доби ціна змінилася лише на ${ukF.pct(s.change)}, а розмах однієї свічки доходив до ${ukDec.format(s.maxRange * 100)}% за годину. У сплесках середній розмах ${ukDec.format(s.burstR * 100)}%, у тихі години ${ukDec.format(s.calmR * 100)}%. Лінія закриття ховає цю мінливість, а свічки її показують: ряд той самий, але ризик у різні години різний.`,
+      tip: 'Excel: «Вставлення», «Біржова діаграма», «Відкриття, максимум, мінімум, закриття». Колонки мають іти саме в такому порядку. Для оцінки ризику порахуйте розмах: (максимум − мінімум) / відкриття.',
+    },
+    gantt: {
+      title: 'Критичний шлях',
+      brief: 'План проєкту на 55 днів. Їдемо задачами критичного шляху: кожна задача це платформа, а перерва між задачами це провалля. Задачі з резервом намальовано пунктиром: вони не на критичному шляху і героя не тримають.',
+      lessonTitle: 'Запуск тримає критичний шлях',
+      lesson: s => `З ${s.tasks} задач ${s.crit} лежать на критичному шляху: резерву в них немає, і день затримки будь-якої зсуває запуск на день. Перерви на шляху забрали ${s.wait} ${ukPl(s.wait, 'день', 'дні', 'днів')} з ${s.days}: стільки наступна задача чекала на попередню. Задачі з резервом можуть зсунутися без шкоди для запуску, тож стежте насамперед за критичними.`,
+      tip: 'В Excel діаграма Ганта будується з лінійчатої з накопиченням: перший ряд (дата початку) зробіть прозорим, другий (тривалість) залиште. Критичні задачі пофарбуйте окремо. У MS Project критичний шлях показує фільтр «Критичні задачі».',
+    },
+    tunnel: {
+      title: 'Коридор температур',
+      brief: 'Холодильна камера: мінімум і максимум температури за кожні дві години. Мінімум це підлога, максимум це стеля, і стелі торкатися не можна. Вночі коридор найвужчий, а коли відчиняють двері, стеля злітає вгору. Повзти не вийде: є ліміт часу.',
+      lessonTitle: 'Середнє в нормі ще не означає, що все гаразд',
+      lesson: s => `Середня температура за п’ять діб ${ukDec.format(s.avg)} °C, тобто в нормі від 2 до 8 °C. Але максимум виходив за 8 °C у ${s.exc} двогодинних інтервалах, разом до ${s.hours} годин, і сягав ${ukDec.format(s.max)} °C. Для холодового ланцюга важить не середнє, а скільки часу товар пробув поза нормою: показуйте мінімум і максимум або частку часу за межами.`,
+      tip: 'Покажіть мінімум і максимум двома лініями або смугою між ними й додайте лінії меж норми. Рахуйте не середнє, а частку часу поза нормою: =COUNTIF(C2:C61;">8")/COUNT(C2:C61).',
+    },
+    saw: {
+      title: 'Пила дебіторки',
+      brief: 'Дебіторська заборгованість щодня за чотири місяці. Нові рахунки додаються щодня, а клієнти платять пачками: кожна оплата це обрив. Пила сама по собі не страшна, стежте за її дном. І приземляйтеся м’яко: обривів дванадцять.',
+      lessonTitle: 'Дивіться на дно пилки',
+      lesson: s => `Борг після оплат виріс з ${ukF.num(s.first)} до ${ukF.num(s.last)} тис. грн, тобто на ${ukF.pct(s.growth).replace('+', '')} за чотири місяці. Піки перед оплатами нормальні: так працює відстрочка. Сигнал проблеми інший: дно пилки росте, отже частину рахунків не оплачують вчасно. Порахуйте, скільки боргу прострочено і на скільки днів.`,
+      tip: 'Рахуйте оборотність дебіторки в днях (DSO): дебіторка / виручка за період × кількість днів періоду. Якщо DSO росте, а продажі ні, клієнти платять повільніше. Додайте звіт про вік боргу: до 30 днів, від 31 до 60, від 61 до 90 і понад 90.',
+    },
   },
   msg: {
     checkpoint: n => `Контрольна точка ${n}`, checkpointText: 'Якщо герой упаде, він повернеться сюди.',
@@ -211,13 +259,15 @@ const uk = {
   },
   ui: {
     play: 'Грати', levels: 'Рівні', calm: 'Спокійний режим', calmHint: 'герой сам вирівнюється в повітрі', sound: 'Звук', on: 'увімк.', off: 'вимк.',
-    pause: 'Пауза', paused: 'Пауза', resume: 'Продовжити', restart: 'Почати рівень заново', toCp: 'До контрольної точки',
+    pause: 'Пауза', paused: 'Пауза', resume: 'Продовжити', restart: 'Почати рівень заново', toCp: 'До контрольної точки', toStart: 'Спочатку',
     controls: '↑ W газ · ↓ S гальмо · ← A нахил назад · → D нахил уперед · Пробіл лазер · R до контрольної точки · P пауза',
+    controlsHell: '↑ W газ · ↓ S гальмо · ← A нахил назад · → D нахил уперед · Пробіл лазер · R спочатку · P пауза',
     touch: 'На телефоні: ліворуч нахил, праворуч газ, гальмо і лазер.',
     music: 'Музика', laser: 'Лазер', chooseChar: 'Герой', bugs: 'Баги прибрано', bitten: n => `укусів: ${n}`,
-    brief: n => `Рівень ${n} з ${NL}`, diff: ['', 'Легкий', 'Середній', 'Складний'], league: ['', 'Легкі траси', 'Середні траси', 'Складні траси'],
+    brief: n => (n > NM ? `Траса ${n - NM} з ${NH}` : `Рівень ${n} з ${NM}`), diff: ['', 'Легкий', 'Середній', 'Складний', 'Адіще'],
+    league: ['', 'Легкі траси', 'Середні траси', 'Складні траси', 'Адіще: правила ігор 90-х'],
     start: 'Поїхали', next: 'Наступний рівень', retry: 'Ще раз', menu: 'Усі рівні', back: 'Назад',
-    finished: n => `Рівень ${n} пройдено`, time: 'Час', par: 'Ціль', points: 'Точки даних', crashes: 'Падіння', best: 'Рекорд', newBest: 'Новий рекорд',
+    finished: n => (n > NM ? `Адіще, траса ${n - NM} пройдена` : `Рівень ${n} пройдено`), time: 'Час', par: 'Ціль', points: 'Точки даних', crashes: 'Падіння', best: 'Рекорд', newBest: 'Новий рекорд',
     stars: ['Фініш', 'Точок 90% і більше', 'Час не гірший за ціль'],
     lesson: 'Чого навчив цей графік', tip: 'Як це робити в роботі',
     final: 'Дванадцять графіків проїхано', finalText: 'Тренд, а не зубці. Медіана для типового чека. Той самий місяць торік. Група A дає 80%. Викид ще не помилка. Стовпчики від нуля. Середні шари обманюють. Водоспад показує, куди йдуть гроші. Темп на логарифмічній шкалі. Сигнал лише за межами. Одна шкала для всіх панелей. Прогноз з коридором.',
@@ -232,7 +282,8 @@ const uk = {
       ['points', 'Точки даних', 'Кожна точка графіка це дані. Їдьте лінією, щоб зібрати їх: зібрані точки показують повноту даних. Стрибок над точкою її пропускає.'],
       ['laser', 'Лазери з очей', 'Пробіл або кнопка з оком: герой стріляє лазерами з очей у найближчий баг попереду. Баги даних сидять на лінії й літають над нею; неприбраний баг кусає і збиває швидкість.'],
       ['cp', 'Контрольні точки', 'Герой падає, коли торкається траси головою. Тоді він повертається до останньої контрольної точки. R повертає одразу.'],
-      ['board', 'Рейтинг', 'Пройдіть усі рівні групи одним героєм, впишіть нік і порівняйтеся з іншими: окремо за героями, за легкими, середніми й складними трасами і за всіма 12 рівнями.'],
+      ['board', 'Рейтинг', 'Пройдіть усі рівні групи одним героєм, впишіть нік і порівняйтеся з іншими: окремо за героями, за легкими, середніми й складними трасами, за Адіщем і за всіма 12 основними рівнями.'],
+      ['hell', 'Адіще', 'Чотири траси для тих, кому мало: одне життя без контрольних точок, баг убиває з першого дотику, жорстке приземлення розбиває героя, а таймер не чекає. Як в іграх 90-х.'],
     ],
     extra: 'За кожен рівень до трьох зірок: фініш, 90% точок даних і час не гірший за ціль. Рекорди зберігаються в цьому браузері.',
   },
@@ -243,8 +294,8 @@ const uk = {
   },
   board: {
     title: 'Рейтинг гравців', open: 'Рейтинг', page: 'Сторінка рейтингу',
-    scopes: { d1: 'Легкі траси', d2: 'Середні траси', d3: 'Складні траси', all: 'Усі 12 трас' },
-    scopeDone: { d1: 'Легкі траси пройдено', d2: 'Середні траси пройдено', d3: 'Складні траси пройдено', all: 'Усі 12 трас пройдено' },
+    scopes: { d1: 'Легкі траси', d2: 'Середні траси', d3: 'Складні траси', d4: 'Адіще', all: 'Усі 12 трас' },
+    scopeDone: { d1: 'Легкі траси пройдено', d2: 'Середні траси пройдено', d3: 'Складні траси пройдено', d4: 'Адіще пройдено', all: 'Усі 12 трас пройдено' },
     allChars: 'Усі герої', place: 'Місце', player: 'Гравець', time: 'Загальний час', stars: 'Зірки',
     you: 'ви', shared: 'за посиланням', calm: 'спокійний режим', noNick: 'Ви',
     players: n => `${n} ${ukPl(n, 'гравець', 'гравці', 'гравців')} у рейтингу`,
@@ -263,16 +314,28 @@ const uk = {
   },
   rating: {
     kicker: 'Навчання • Гра • Рейтинг', title: 'Рейтинг гравців «Котика на самокаті»',
-    intro: 'Хто найшвидше проїде графіки? Окремий рейтинг для кожного героя, для легких, середніх і складних трас і для всіх 12 рівнів разом. Рахується загальний час: сума найкращих часів рівнів групи, проїханих одним героєм.',
+    intro: 'Хто найшвидше проїде графіки? Окремий рейтинг для кожного героя, для легких, середніх і складних трас, для чотирьох трас Адіща і для всіх 12 основних рівнів разом. Рахується загальний час: сума найкращих часів рівнів групи, проїханих одним героєм.',
     play: 'Грати', how: 'Як потрапити в рейтинг', howText: 'Пройдіть усі рівні групи одним героєм, і гра запропонує вписати нік. Кращий час будь-якого рівня групи сам оновить ваш результат.',
     shareTitle: 'Посилання з карткою', shareText: 'Кнопка «Поділитися» дає посилання на рейтинг. У прев’ю в месенджерах і соцмережах видно картку гри, а якщо ви вже в рейтингу, то й ваше місце.',
     adKicker: 'Невеличка реклама ;)', adTitle: 'Графіки, які читають правильно',
     adText: 'Траси цієї гри зроблено з типових графіків зі звітів: гістограма, Парето, водоспад, контрольна карта, прогноз. Якщо у вашій команді такі графіки будують чи читають щодня, проведу практикум на прикладах ваших звітів: що показувати, як не ввести в оману і як швидко знайти головне.',
     adButton: 'Обговорити практикум', adLink: 'Бізнес-аналітика та звіти',
   },
+  hell: {
+    name: 'Адіще', rulesTitle: 'Правила Адіща',
+    rules: lim => ['Одне життя: будь-яке падіння, і траса спочатку. Контрольних точок немає.', 'Баг убиває з першого дотику. Лазер перегрівається: один постріл на 0,8 с.',
+      'Удар об трасу швидше за 7 м/с розбиває героя. Приземляйтеся м’яко.', `Ліміт часу ${lim} с. Не встигли, і все спочатку.`, 'Спокійного режиму, підказок і «+1» тут немає.'],
+    why: { land: 'Жорстке приземлення', wall: 'Удар об край', bug: 'Баг', ceil: 'Стеля', pit: 'Провалля', head: 'Падіння', time: 'Час вийшов' },
+    whyText: { land: v => `Удар ${ukDec.format(v)} м/с, а колеса витримують 7.`, wall: v => `Колесо влетіло в край на ${ukDec.format(v)} м/с. Бракувало швидкості.`, bug: 'Баг убиває з першого дотику.', ceil: 'Максимум температури це стеля коридору.', pit: 'Не долетіли.', head: 'Герой торкнувся траси.', time: 'Ліміт часу вичерпано.' },
+    taunts: ['Спочатку.', 'Ще раз. Ніхто не обіцяв, що буде легко.', '«Майже» не рахується.', 'Глибокий вдих. І знову.', 'Як у 1995-му: без збережень.', 'Траса та сама. Ви вже ні.', 'Пекло терпляче. Таймер ні.'],
+    tries: 'Спроб', triesNote: 'до чистого заїзду', enter: 'Спуститися в Адіще',
+    enterText: 'Чотири траси з правилами ігор 90-х: одне життя, без контрольних точок і підказок. Баги вбивають, а таймер не чекає.',
+    final: 'Адіще пройдено', total: 'Загальний час Адіща', calmOff: 'Спокійний режим тут не діє.',
+    finalText: 'Свічки, критичний шлях, коридор температур і пила дебіторки, кожна з одного життя. Волатильність видно за розмахом, запуск тримає критичний шлях, середнє в нормі ще не означає, що все гаразд, а дно пилки показує, хто не платить.',
+  },
   charStats: ['Швидкість', 'Стійкість', 'Політ'],
   skillsTitle: 'Чого вчить гра',
-  skillsLead: 'Дванадцять трас, і кожна це окремий вид графіка з типовою ситуацією зі звітів: чотири легкі, чотири середні й чотири складні. Після рівня розбір із числами цієї траси і порада, як робити те саме в Excel.',
+  skillsLead: 'Дванадцять трас, і кожна це окремий вид графіка з типовою ситуацією зі звітів: чотири легкі, чотири середні й чотири складні. А для тих, кому мало, ще чотири траси Адіща з правилами ігор 90-х. Після рівня розбір із числами цієї траси і порада, як робити те саме в Excel.',
   close: 'Закрити', menu: 'Меню', language: 'Мова',
   cta: 'Практикум з графіків', ctaLong: 'Обговорити практикум для команди', ctaSide: 'Звіти, які читають правильно', ctaSideText: 'Практикум для команди: як читати й будувати графіки, щоб вони не вводили в оману. На прикладах із ваших звітів.', ctaSideButton: 'Обговорити',
   foot: 'Котик на самокаті. Ряди в грі синтетичні.', dataNote: 'Усі ряди в грі синтетичні й створені для навчання; збіги з реальними компаніями випадкові.',
@@ -288,11 +351,13 @@ const uk = {
 const en = {
   fmt: enF,
   xlabel: o => (o.k === 'week' ? `Wk ${o.n}` : o.k === 'day' ? `Day ${o.n}` : o.k === 'monthN' ? `Mo ${o.n}` : o.k === 'uah' ? `UAH ${enNum.format(o.n)}`
-    : o.k === 'cat' ? CATS_EN[o.n] : o.k === 'wf' ? WF_EN[o.key] : o.k === 'monthShort' ? EN_M[o.m] : `${EN_M[o.m]} ${o.y}`),
+    : o.k === 'cat' ? CATS_EN[o.n] : o.k === 'wf' ? WF_EN[o.key] : o.k === 'monthShort' ? EN_M[o.m]
+    : o.k === 'hour' ? (o.n % 24 ? hh(o.n % 24) : `Day ${o.n / 24 + 1}`) : o.k === 'clock' ? (o.n ? hh(o.n) : `Day ${o.d}`) : o.k === 'dayN' ? `Day ${o.n}`
+    : `${EN_M[o.m]} ${o.y}`),
   title: 'Scooter Cat: Ride the Chart', short: 'Scooter Cat',
   kicker: 'Learning • Game • Reading charts', demo: 'Gravity Defied-style physics', navCaption: 'Learning',
-  tagline: 'The track is a chart. Twelve charts from real reports right under your wheels.',
-  intro: 'A game in the style of Gravity Defied: a rider on wheels takes a track that is really a data chart. Pick the cat on a scooter, the capybara on a skateboard or the Head of Analytics on an electric unicycle: all three fire lasers from their eyes at data bugs. Twelve levels from easy to hard, each one a different kind of chart from real reports: a noisy line with a trend, a histogram, seasonality, a Pareto chart, outliers, a truncated axis, a stacked area, a waterfall, a log scale, a control chart, small multiples on one scale and a forecast with an uncertainty band. After each level there is a short debrief: what the chart was and how not to misread one like it in a report.',
+  tagline: 'The track is a chart. Twelve charts from real reports right under your wheels, and four more in Hell.',
+  intro: 'A game in the style of Gravity Defied: a rider on wheels takes a track that is really a data chart. Pick the cat on a scooter, the capybara on a skateboard or the Head of Analytics on an electric unicycle: all three fire lasers from their eyes at data bugs. Twelve levels from easy to hard, each one a different kind of chart from real reports: a noisy line with a trend, a histogram, seasonality, a Pareto chart, outliers, a truncated axis, a stacked area, a waterfall, a log scale, a control chart, small multiples on one scale and a forecast with an uncertainty band. After each level there is a short debrief: what the chart was and how not to misread one like it in a report. And for those who want more there is Hell: candlesticks, a Gantt chart, a temperature corridor and a receivables saw, with one life per track, just like 90s games.',
   nav: { game: 'Game', how: 'How to play', skills: 'What it teaches', rating: 'Leaderboard' },
   related: 'Also in learning', gallery: 'Chart gallery', kitty: 'Laser Kitty',
   chart: {
@@ -300,6 +365,8 @@ const en = {
     axis: 'Monthly revenue, million UAH', log: 'Active app users', forecast: 'Monthly demand, thousand units',
     hist: 'Receipts in a week by amount, count', pareto: 'Revenue by product group, share', stacked: 'Revenue by channel, million UAH',
     waterfall: 'From revenue to net profit, million UAH', control: 'Daily delivery time, hours', multiples: 'Sales by region, thousand UAH',
+    candles: 'Hourly share price, $', gantt: 'Project plan by day: the critical path', tunnel: 'Cold room temperature, °C',
+    saw: 'Accounts receivable by day, thousand UAH',
   },
   legend: {
     trend: [['line', 'Sales'], ['ghost', '7-week moving average']],
@@ -314,12 +381,18 @@ const en = {
     waterfall: [['line', 'Running total'], ['WT', 'Total'], ['WD', 'Costs']],
     control: [['line', 'Delivery time'], ['ghost', 'Mean'], ['err', 'Control limits']],
     multiples: [['line', 'Sales, one scale for every panel']],
+    candles: [['line', 'Close'], ['ghost', '12-hour moving average'], ['CU', 'Up candle'], ['CD', 'Down candle']],
+    gantt: [['GC', 'Critical task: solid'], ['GS', 'Task with slack: not solid']],
+    tunnel: [['line', 'Minimum: the floor'], ['max', 'Maximum: the ceiling'], ['ghost', 'Average'], ['lim', 'Norm from 2 to 8 °C']],
+    saw: [['line', 'Receivables'], ['ghost', 'Saw bottom: debt after payments']],
   },
   marks: { median: v => `Median UAH ${enF.num(v)}`, mean: v => `Mean UAH ${enF.num(v)}` },
   abc: { A: 'Group A: 80% of revenue', B: 'Group B: the next 15%', C: 'Group C: the last 5%' },
   layers: ['Stores', 'Wholesale', 'Online'],
   limits: { ucl: v => `Upper limit ${enDec.format(v)}`, mean: v => `Mean ${enDec.format(v)}`, lcl: v => `Lower limit ${enDec.format(v)}` },
   regions: { kyiv: 'Kyiv', lviv: 'Lviv', dnipro: 'Dnipro', odesa: 'Odesa', kharkiv: 'Kharkiv' },
+  tasks: { brief: 'Brief', data: 'Data collection', design: 'Report mock-up', model: 'Data model', etl: 'ETL', qa: 'Data QA', dash: 'Dashboard', docs: 'Documentation',
+    review: 'Review', fix: 'Fixes', uat: 'Acceptance', train: 'Training', comms: 'Mailout', launch: 'Launch', support: 'Support' },
   notes: {
     mode: a => `The most common receipt: UAH ${a.lo} to ${a.hi}`, meanPull: () => 'The mean sits right of the median: the long tail pulls it',
     tail: () => 'Big purchases: few of them, but they lift the average receipt',
@@ -344,6 +417,14 @@ const en = {
     badMonth: () => 'A bad month: −4%. On a linear scale you cannot see it', viral: () => 'A viral month: +30%',
     slowing: a => `The slope eases: growth slows from month ${a.m}`, saturation: () => 'Saturation: growth has almost stopped',
     today: () => 'Today: only the forecast from here', band: () => 'Band: 80% of possible paths. Dashed: the median', wider: () => 'The further out, the wider the band',
+    calmHours: () => 'Quiet hours: short candles, the price barely moves', volBurst: a => `Volatility burst: a ${enDec.format(a.r * 100)}% range in one hour`,
+    maTrend: () => 'The moving average is almost flat: after three days the price is where it was',
+    critPath: () => 'Critical path: tasks with no slack. Any delay moves the launch', waitGap: () => 'A gap: the model waits for the data. The drop is a day lost',
+    slack: () => 'Dashed: a task with slack. It can slip, the launch cannot', launch: a => `Launch: day ${a.d}`,
+    nightSqueeze: () => 'Night: nobody opens the room, the corridor is at its narrowest', doorOpen: a => `Door left open: a maximum of ${enDec.format(a.v)} °C against a norm of 8 °C`,
+    defrost: () => 'Defrost: both the minimum and the maximum rise', avgOk: a => `The average of ${enDec.format(a.v)} °C is within the norm, the maximums are not`,
+    payBatch: a => `Customers paid in a batch: −${enF.num(a.v)} thousand UAH in a day`, peaks: () => 'Between payments the debt grows every day',
+    bottomRises: a => `The bottom of the saw rises: from ${enF.num(a.a)} to ${enF.num(a.b)} thousand UAH. Customers do not pay it all`,
   },
   gates: {
     zeroExtra: { short: 'Check: 10× the median', mark: a => `Error: ${enF.num(a.rec)} → ${a.v}`, title: 'Validation rule: an extra zero', text: a => `${enF.num(a.rec)} instead of ${a.v}: ten times the median. The rule flagged it and the source confirmed the error.` },
@@ -355,6 +436,7 @@ const en = {
   hud: {
     cp: n => `CP ${n}`, finish: 'Finish', par: 'Target', points: 'Points', bugs: 'Bugs', crashes: 'Falls', go: '↑ throttle', meow: 'Meow!', zap: 'bug zapped', bite: 'bite!',
     back: n => (n ? `Back to CP ${n}` : 'Back to the start'),
+    tries: 'Try', limit: 'Limit', again: n => `Attempt ${n}: from the very start`,
   },
   levels: {
     trend: {
@@ -441,6 +523,34 @@ const en = {
       lesson: s => `On one scale you see both size and shape: Kyiv sells twice as much as Kharkiv, Lviv grows fastest (${enF.pct(s.lviv)} from January to November), and Odesa is the only region falling (${enF.pct(s.odesa)}). On a single chart with five lines these stories would tangle, and on panels with different scales every region would look equally big.`,
       tip: 'Make a chart for each region and give them all the same Y axis bounds in Format Axis. Power BI has a Small multiples field in its line and column charts.',
     },
+    candles: {
+      title: 'Candlesticks',
+      brief: 'A share price every hour for three days. Each candle is one hour: the body runs from the open to the close, the thin wicks reach the high and the low. You ride the close: in quiet hours it is a flat road, and in volatility bursts every candle is a ramp.',
+      lessonTitle: 'Volatility shows in the candle ranges',
+      lesson: s => `Over three days the price moved only ${enF.pct(s.change)}, yet a single candle spanned up to ${enDec.format(s.maxRange * 100)}% in an hour. In the bursts the average range was ${enDec.format(s.burstR * 100)}%, in quiet hours ${enDec.format(s.calmR * 100)}%. A line of closes hides this variation and candles show it: the series is the same, but the risk differs from hour to hour.`,
+      tip: 'Excel: Insert, Stock chart, Open-High-Low-Close. The columns must come in exactly that order. To gauge risk, work out the range: (high − low) / open.',
+    },
+    gantt: {
+      title: 'Critical path',
+      brief: 'A 55-day project plan. You ride the tasks of the critical path: each task is a platform and a gap between tasks is a drop. Tasks with slack are drawn dashed: they are not on the critical path and will not hold your rider.',
+      lessonTitle: 'The critical path holds the launch',
+      lesson: s => `Of ${s.tasks} tasks, ${s.crit} lie on the critical path: they have no slack, and a day’s delay on any of them moves the launch by a day. Gaps on the path took ${s.wait} ${s.wait === 1 ? 'day' : 'days'} of ${s.days}: that is how long the next task waited for the previous one. Tasks with slack can slip without hurting the launch, so watch the critical ones first.`,
+      tip: 'In Excel a Gantt chart is a stacked bar chart: make the first series (start date) transparent and keep the second (duration). Colour the critical tasks separately. In MS Project the Critical Tasks filter shows the path.',
+    },
+    tunnel: {
+      title: 'Temperature corridor',
+      brief: 'A cold room: the minimum and maximum temperature in every two hours. The minimum is the floor, the maximum is the ceiling, and you must not touch the ceiling. At night the corridor is at its narrowest; when someone opens the door the ceiling shoots up. Crawling will not work: there is a time limit.',
+      lessonTitle: 'An average within the norm does not mean all is well',
+      lesson: s => `The average temperature over five days was ${enDec.format(s.avg)} °C, inside the norm of 2 to 8 °C. Yet the maximum went above 8 °C in ${s.exc} two-hour intervals, up to ${s.hours} hours in all, and reached ${enDec.format(s.max)} °C. For a cold chain the average matters less than how long the goods spent outside the norm: show the minimum and the maximum, or the share of time out of range.`,
+      tip: 'Show the minimum and maximum as two lines or as a band between them and add the norm limits as lines. Count not the average but the share of time outside the norm: =COUNTIF(C2:C61,">8")/COUNT(C2:C61).',
+    },
+    saw: {
+      title: 'The receivables saw',
+      brief: 'Accounts receivable, day by day, for four months. New invoices add up every day and customers pay in batches: every payment is a cliff. The saw itself is fine; watch its bottom. And land softly: there are twelve cliffs.',
+      lessonTitle: 'Watch the bottom of the saw',
+      lesson: s => `The debt left after payments grew from ${enF.num(s.first)} to ${enF.num(s.last)} thousand UAH, that is by ${enF.pct(s.growth).replace('+', '')} in four months. The peaks before payments are normal: that is how payment terms work. The warning sign is different: the bottom of the saw keeps rising, so part of the invoices is not paid on time. Find out how much of the debt is overdue and by how many days.`,
+      tip: 'Track days sales outstanding (DSO): receivables / revenue for the period × days in the period. If DSO rises while sales do not, customers are paying more slowly. Add an aging report: under 30 days, 31 to 60, 61 to 90 and over 90.',
+    },
   },
   msg: {
     checkpoint: n => `Checkpoint ${n}`, checkpointText: 'If your rider falls, it comes back here.',
@@ -457,13 +567,15 @@ const en = {
   },
   ui: {
     play: 'Play', levels: 'Levels', calm: 'Calm mode', calmHint: 'your rider levels itself in the air', sound: 'Sound', on: 'on', off: 'off',
-    pause: 'Pause', paused: 'Paused', resume: 'Resume', restart: 'Restart the level', toCp: 'To the checkpoint',
+    pause: 'Pause', paused: 'Paused', resume: 'Resume', restart: 'Restart the level', toCp: 'To the checkpoint', toStart: 'From the start',
     controls: '↑ W throttle · ↓ S brake · ← A lean back · → D lean forward · Space laser · R to checkpoint · P pause',
+    controlsHell: '↑ W throttle · ↓ S brake · ← A lean back · → D lean forward · Space laser · R restart · P pause',
     touch: 'On a phone: lean on the left; throttle, brake and laser on the right.',
     music: 'Music', laser: 'Laser', chooseChar: 'Rider', bugs: 'Bugs zapped', bitten: n => `bites: ${n}`,
-    brief: n => `Level ${n} of ${NL}`, diff: ['', 'Easy', 'Medium', 'Hard'], league: ['', 'Easy tracks', 'Medium tracks', 'Hard tracks'],
+    brief: n => (n > NM ? `Track ${n - NM} of ${NH}` : `Level ${n} of ${NM}`), diff: ['', 'Easy', 'Medium', 'Hard', 'Hell'],
+    league: ['', 'Easy tracks', 'Medium tracks', 'Hard tracks', 'Hell: 90s game rules'],
     start: 'Go', next: 'Next level', retry: 'Again', menu: 'All levels', back: 'Back',
-    finished: n => `Level ${n} complete`, time: 'Time', par: 'Target', points: 'Data points', crashes: 'Falls', best: 'Best', newBest: 'New best',
+    finished: n => (n > NM ? `Hell track ${n - NM} done` : `Level ${n} complete`), time: 'Time', par: 'Target', points: 'Data points', crashes: 'Falls', best: 'Best', newBest: 'New best',
     stars: ['Finish', '90% of points or more', 'Time within the target'],
     lesson: 'What this chart taught', tip: 'How to do it at work',
     final: 'Twelve charts ridden', finalText: 'The trend, not the teeth. The median for the typical receipt. The same month last year. Group A brings 80%. An outlier is not always an error. Bars from zero. Middle layers mislead. A waterfall shows where the money goes. Growth rates on a log scale. Signals only beyond the limits. One scale for every panel. Forecasts with a band.',
@@ -478,7 +590,8 @@ const en = {
       ['points', 'Data points', 'Every point on the chart is data. Ride along the line to collect them: collected points show how complete your data is. Jumping over a point misses it.'],
       ['laser', 'Eye lasers', 'Space or the eye button: your rider fires lasers from its eyes at the nearest bug ahead. Data bugs sit on the line and fly above it; a bug you miss bites and costs you speed.'],
       ['cp', 'Checkpoints', 'A rider falls when its head touches the track and returns to the last checkpoint. R takes you back at once.'],
-      ['board', 'Leaderboard', 'Finish every level of a group with one rider, enter a nickname and compare yourself with others: by rider, by easy, medium and hard tracks and over all 12 levels.'],
+      ['board', 'Leaderboard', 'Finish every level of a group with one rider, enter a nickname and compare yourself with others: by rider, by easy, medium and hard tracks, in Hell and over all 12 main levels.'],
+      ['hell', 'Hell', 'Four tracks for those who want more: one life and no checkpoints, a bug kills at first touch, a hard landing wrecks your rider and the timer does not wait. Just like 90s games.'],
     ],
     extra: 'Each level gives up to three stars: the finish, 90% of the data points and a time within the target. Best times are saved in this browser.',
   },
@@ -489,8 +602,8 @@ const en = {
   },
   board: {
     title: 'Leaderboard', open: 'Leaderboard', page: 'Leaderboard page',
-    scopes: { d1: 'Easy tracks', d2: 'Medium tracks', d3: 'Hard tracks', all: 'All 12 tracks' },
-    scopeDone: { d1: 'Easy tracks done', d2: 'Medium tracks done', d3: 'Hard tracks done', all: 'All 12 tracks done' },
+    scopes: { d1: 'Easy tracks', d2: 'Medium tracks', d3: 'Hard tracks', d4: 'Hell', all: 'All 12 tracks' },
+    scopeDone: { d1: 'Easy tracks done', d2: 'Medium tracks done', d3: 'Hard tracks done', d4: 'Hell done', all: 'All 12 tracks done' },
     allChars: 'All riders', place: 'Place', player: 'Player', time: 'Total time', stars: 'Stars',
     you: 'you', shared: 'from the link', calm: 'calm mode', noNick: 'You',
     players: n => `${n} ${n === 1 ? 'player' : 'players'} on the board`,
@@ -509,16 +622,28 @@ const en = {
   },
   rating: {
     kicker: 'Learning • Game • Leaderboard', title: 'Scooter Cat leaderboard',
-    intro: 'Who rides the charts fastest? A separate leaderboard for each rider, for the easy, medium and hard tracks and for all 12 levels together. The score is the total time: the sum of the best times on the group’s levels, ridden with one rider.',
+    intro: 'Who rides the charts fastest? A separate leaderboard for each rider, for the easy, medium and hard tracks, for the four Hell tracks and for all 12 main levels together. The score is the total time: the sum of the best times on the group’s levels, ridden with one rider.',
     play: 'Play', how: 'How to get on the board', howText: 'Finish every level of a group with one rider and the game will ask for your nickname. A better time on any level of the group updates your result automatically.',
     shareTitle: 'A link with a card', shareText: 'The Share button gives you a link to the leaderboard. Messengers and social networks show the game card in the preview, and your place once you are on the board.',
     adKicker: 'A small ad ;)', adTitle: 'Charts people read correctly',
     adText: 'The tracks in this game are made of typical report charts: a histogram, a Pareto chart, a waterfall, a control chart, a forecast. If your team builds or reads such charts every day, I run a workshop on examples from your own reports: what to show, how not to mislead and how to find the main point fast.',
     adButton: 'Discuss a workshop', adLink: 'Business analytics and reporting',
   },
+  hell: {
+    name: 'Hell', rulesTitle: 'Hell rules',
+    rules: lim => ['One life: any fall and the track starts over. No checkpoints.', 'A bug kills at first touch. The laser overheats: one shot every 0.8 s.',
+      'Hitting the track faster than 7 m/s wrecks your rider. Land softly.', `Time limit ${lim} s. Run out and it all starts over.`, 'No calm mode, no hints and no “+1” here.'],
+    why: { land: 'Hard landing', wall: 'Hit the edge', bug: 'Bug', ceil: 'Ceiling', pit: 'The drop', head: 'Wipeout', time: 'Time is up' },
+    whyText: { land: v => `An impact of ${enDec.format(v)} m/s; the wheels take 7.`, wall: v => `A wheel hit the edge at ${enDec.format(v)} m/s. Not enough speed.`, bug: 'A bug kills at first touch.', ceil: 'The maximum temperature is the ceiling of the corridor.', pit: 'You fell short.', head: 'Your rider touched the track.', time: 'The time limit ran out.' },
+    taunts: ['From the start.', 'Again. Nobody said it would be easy.', '“Almost” does not count.', 'Deep breath. And again.', 'Like 1995: no saves.', 'Same track. You are not the same rider.', 'Hell is patient. The timer is not.'],
+    tries: 'Attempts', triesNote: 'to a clean run', enter: 'Descend into Hell',
+    enterText: 'Four tracks with 90s game rules: one life, no checkpoints, no hints. Bugs kill and the timer does not wait.',
+    final: 'Hell is done', total: 'Total Hell time', calmOff: 'Calm mode does not work here.',
+    finalText: 'Candlesticks, a critical path, a temperature corridor and a receivables saw, each on a single life. Volatility shows in the range, the critical path holds the launch, an average within the norm does not mean all is well, and the bottom of the saw shows who is not paying.',
+  },
   charStats: ['Speed', 'Stability', 'Air'],
   skillsTitle: 'What the game teaches',
-  skillsLead: 'Twelve tracks, each a different kind of chart with a typical situation from real reports: four easy, four medium and four hard. After each level there is a debrief with the numbers of that track and a tip on doing the same in Excel.',
+  skillsLead: 'Twelve tracks, each a different kind of chart with a typical situation from real reports: four easy, four medium and four hard. For those who want more, four Hell tracks with 90s game rules. After each level there is a debrief with the numbers of that track and a tip on doing the same in Excel.',
   close: 'Close', menu: 'Menu', language: 'Language',
   cta: 'Chart workshop', ctaLong: 'Discuss a workshop for your team', ctaSide: 'Reports people read correctly', ctaSideText: 'A team workshop on reading and building charts that do not mislead. With examples from your own reports.', ctaSideButton: 'Discuss',
   foot: 'Scooter Cat. The series in the game are synthetic.', dataNote: 'All series in the game are synthetic and made for learning; any resemblance to real companies is accidental.',

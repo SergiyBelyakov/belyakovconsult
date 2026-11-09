@@ -7,9 +7,13 @@ import { sfx, engine } from './audio.js';
 
 const DT = 1 / 600;
 // ціль за часом, с: час автопілота котика на 10 м/с плюс 15%
-export const PAR = { trend: 31, hist: 19, season: 30, pareto: 19, outliers: 29, axis: 22, stacked: 23, waterfall: 17, log: 33, control: 21, multiples: 25, forecast: 33 };
+// у пеклі: найшвидший прохід автопілота (будь-який герой, будь-яка швидкість без падіння) плюс 10%
+export const PAR = { trend: 31, hist: 19, season: 30, pareto: 19, outliers: 29, axis: 22, stacked: 23, waterfall: 17, log: 33, control: 21, multiples: 25, forecast: 33,
+  candles: 22, gantt: 16, tunnel: 20, saw: 24 };
 export const CHAR_IDS = ['cat', 'capy', 'head'];
 const LASER = { cool: 0.28, range: 10, cone: Math.cos((40 * Math.PI) / 180), life: 0.16 };
+// «Адіще»: жорстке приземлення (нормальна швидкість колеса при дотику, м/с) розбиває героя, після падіння рівень спочатку
+export const HELL = { land: 7, restart: 1.1, cool: 0.8 };   // cool: лазер перегрівається, без кулемета
 
 export class Game {
   constructor({ T, lang, emit, reduced = false }) {
@@ -36,7 +40,7 @@ export class Game {
     this.crashT = 0; this.rider = null; this.revealX = this.L.reveal ? this.L.reveal.x0 : Infinity;
     this.finished = false; this.finishT = 0; this.stuckT = 0; this.hint = null; this.tipT = 0;
     this.fx = []; this.beams = []; this.cam = null; this.acc = 0; this.cool = 0; this.eyeT = 0;
-    this.zapped = 0; this.bitten = 0;
+    this.zapped = 0; this.bitten = 0; this.hell = !!this.L.hell; this.tries = 1; this.why = null; this.whyV = null; this.safeT = 0;
     this.L.gates.forEach(g => { g.started = false; g.morph.t = 0; });
     this.L.terrain.applyMorphs();
     this.state = 'ready';
@@ -66,17 +70,28 @@ export class Game {
       let e = -sc.a; e = Math.atan2(Math.sin(e), Math.cos(e));
       const u = e - 0.15 * sc.w;
       const lean = grounded ? (sl > 0.22 ? -1 : sl < -0.3 ? 1 : 0) : u > 0.08 ? -1 : u < -0.08 ? 1 : 0;
-      this.input = { gas: sc.vx < vTarget, brake: sc.vx > vTarget + 2.5, lean };
+      this.input = { gas: sc.vx < vTarget && (grounded || !this.L.hell), brake: sc.vx > vTarget + 2.5, lean };
     } else {
       const tgt = this.surf(grounded ? sc.x + 0.5 : sc.x + sc.vx * 0.35, 0.6);
       let e = tgt - sc.a; e = Math.atan2(Math.sin(e), Math.cos(e));
       const u = e - 0.12 * sc.w;
       this.input = { gas: sc.vx < vTarget, brake: sc.vx > vTarget + 2.5, lean: u > 0.07 ? -1 : u < -0.07 ? 1 : 0 };
     }
-    if (this.L.bugs.some(b => b.alive && b.x > sc.x + 0.8 && b.x < sc.x + 7.5)) this.fire();
+    // стріляти, коли лазер влучить у баг, що справді загрожує: той, що сидить на трасі, або летить на висоті голови
+    const t = this.cool > 0 ? null : this.target();
+    if (t && t.b && t.b.x > sc.x + 0.8 && t.d < 7.5 && (!t.b.fly || Math.abs(t.by - t.hy) < 1.3)) this.fire();
+  }
+
+  // «Адіще»: рівень з самого початку, лічильник спроб іде далі
+  restartHell() {
+    const tries = this.tries + 1;
+    this.load(this.id, this.char);
+    this.tries = tries; this.start();
+    this.emit({ type: 'restart', tries });
   }
 
   respawn() {
+    if (this.hell) return this.restartHell();
     const L = this.L;
     this.sc.place(L.terrain, this.cp.x);
     this.rider = null; this.crashT = 0; this.stuckT = 0; this.tipT = 0; this.state = 'play';
@@ -85,23 +100,29 @@ export class Game {
   }
 
   // ——— лазер з очей: б'є найближчий баг попереду (автонаведення в конусі), інакше світить уперед до траси ———
-  fire() {
-    if (this.state !== 'play' || this.cool > 0) return false;
-    this.cool = LASER.cool; this.eyeT = 0.18;
-    const sc = this.sc, eyes = sc.eyesWorld(), [hx, hy] = sc.toWorld(...sc.headLocal());
+  // ціль лазера: найближчий живий баг у конусі погляду, якого не закриває траса
+  target() {
+    const sc = this.sc, [hx, hy] = sc.toWorld(...sc.headLocal());
     // куди дивиться герой: уздовж рами, а моноколесо (рама майже вертикальна) уздовж схилу під колесом
-    const aim = sc.S.balance ? this.L.terrain.angle(sc.x + 0.6, 0.8) : sc.a;
+    const aim = sc.S.balance ? this.surf(sc.x + 0.6, 0.8) : sc.a;
     const fx = Math.cos(aim), fy = Math.sin(aim);
-    let best = null, bd = Infinity;
+    let best = null;
     for (const b of this.L.bugs) {
       if (!b.alive) continue;
       const [bx, by] = this.bugPos(b), dx = bx - hx, dy = by - hy, d = Math.hypot(dx, dy);
       if (d < 0.4 || d > LASER.range || (dx * fx + dy * fy) / d < LASER.cone) continue;
       if (!this.sight(hx, hy, bx, by)) continue;
-      if (d < bd) { bd = d; best = b; }
+      if (!best || d < best.d) best = { b, d, bx, by };
     }
+    return best ? { ...best, hx, hy, aim } : { b: null, hx, hy, aim };
+  }
+
+  fire() {
+    if (this.state !== 'play' || this.cool > 0) return false;
+    this.cool = this.hell ? HELL.cool : LASER.cool; this.eyeT = 0.18;
+    const sc = this.sc, eyes = sc.eyesWorld(), { b: best, hx, hy, aim } = this.target();
     let tx, ty;
-    if (best) { [tx, ty] = this.bugPos(best); best.alive = false; best.dead = 0; this.zapped++; this.pops.push({ x: tx, y: ty, t: 0, k: 'zap' }); }
+    if (best) { [tx, ty] = this.bugPos(best); best.alive = false; best.dead = 0; this.zapped++; if (!this.hell) this.pops.push({ x: tx, y: ty, t: 0, k: 'zap' }); }
     else {
       const a = aim - 0.12, dx = Math.cos(a), dy = Math.sin(a);
       let d = LASER.range;
@@ -136,16 +157,17 @@ export class Game {
       // фізика фіксованим кроком
       const inp = this.state === 'play' ? this.input : { gas: false, brake: this.state === 'finish', lean: 0 };
       this.acc += Math.min(dt, 1 / 20);
-      const assist = this.mode === 'calm' ? 1 : 0;
+      const assist = this.mode === 'calm' && !this.hell ? 1 : 0;   // у пеклі спокійного режиму немає
       while (this.acc >= DT) {
         sc.step(DT, inp, L.terrain, assist);
         if (this.rider) this.stepRider(DT);
         this.acc -= DT;
       }
-      if (this.safeT > 0) { this.safeT -= dt; sc.crashed = false; }
+      if (this.state === 'play' && this.hell && sc.land > HELL.land && !sc.crashed) { sc.crashed = true; this.why = Math.abs(sc.landNy) < 0.6 ? 'wall' : 'land'; this.whyV = sc.land; }
+      if (this.safeT > 0) { this.safeT -= dt; sc.crashed = false; this.why = null; }
       this.effects(dt);
       if (this.state === 'play') this.rules(dt);
-      else if (this.state === 'crash') { this.crashT += dt; if (this.crashT > 1.25) this.respawn(); }
+      else if (this.state === 'crash') { this.crashT += dt; if (this.crashT > (this.hell ? HELL.restart : 1.25)) this.respawn(); }
       else if (this.state === 'finish') { this.finishT += dt; if (this.finishT > 0.9 && !this.summarySent) { this.summarySent = true; this.emit({ type: 'finish', summary: this.summary() }); } }
       if (!this.quiet) engine(this.state === 'play' ? Math.abs(sc.wh[0].om) * sc.S.r : 0, this.state === 'play' && this.input.gas);
     } else engine(0, false);
@@ -167,7 +189,7 @@ export class Game {
       if (this.got.has(s.i) || Math.abs(s.x - sc.x) > 1.1) continue;
       if (s.x > this.revealX + 0.5) continue;
       const y = T.height(s.x);
-      if (Math.abs(sc.y - h0 - y) < 1.25) { this.got.add(s.i); this.pops.push({ x: s.x, y, t: 0 }); this.snd('point'); }
+      if (Math.abs(sc.y - h0 - y) < 1.25) { this.got.add(s.i); if (!this.hell) { this.pops.push({ x: s.x, y, t: 0 }); this.snd('point'); } }
     }
     if (L.reveal) this.revealX = Math.max(this.revealX, sc.x + L.reveal.dist);
     // баги, яких не прибрали лазером, кусаються: герой спотикається
@@ -177,20 +199,30 @@ export class Game {
       const [bx, by] = this.bugPos(b);
       if (Math.hypot(bx - sc.x, by - sc.y) < 0.62 || Math.hypot(bx - hx, by - hy) < 0.5) {
         b.alive = false; b.dead = 0; this.bitten++;
+        if (this.hell) { sc.crashed = true; this.why = 'bug'; this.snd('bite'); break; }   // у пеклі баг убиває
         sc.vx *= 0.55; sc.wh.forEach(W => { W.vx *= 0.55; W.om *= 0.55; });
         if (sc.grounded()) sc.vy += 1.4;
         this.pops.push({ x: bx, y: by, t: 0, k: 'bite' });
         this.emit({ type: 'bite', n: this.bitten }); this.snd('bite');
       }
     }
-    // провалля між панелями: хто не долетів, той падає
+    // провалля між панелями й задачами: хто не долетів, той падає
     let pit = false;
-    for (const p of L.pits) if (sc.x > p.x0 - 0.4 && sc.x < p.x1 + 0.4 && sc.y < p.y) { sc.crashed = true; pit = true; break; }
+    for (const p of L.pits) if (sc.x > p.x0 - 0.4 && sc.x < p.x1 + 0.4 && sc.y < p.y) { sc.crashed = true; pit = true; this.why = 'pit'; break; }
+    // пекельний таймер: не встиг, рівень спочатку
+    if (this.hell && L.limit && this.time > L.limit && !sc.crashed) { sc.crashed = true; this.why = 'time'; }
+    // стеля коридору: голова, тулуб чи колесо торкнулися максимуму
+    if (L.ceil && !sc.crashed) {
+      const [c0, c1] = L.ceilRange, hit = (x, y) => x >= c0 && x <= c1 && y > L.ceil.height(x);
+      if (sc.crashPoints().some(({ p, r }) => hit(p[0], p[1] + r)) || sc.wh.some(W => hit(W.x, W.y + sc.S.r))) { sc.crashed = true; this.why = 'ceil'; }
+    }
     if (sc.crashed) {
+      if (!this.why) this.why = 'head';
       this.state = 'crash'; this.crashes++; this.crashT = 0;
       const [x, y] = sc.toWorld(...sc.headLocal());
       this.rider = { x, y, vx: sc.vx * 0.8, vy: sc.vy * 0.6 + (pit ? 0 : 2.2), a: sc.a, w: -sc.vx * 1.2 + sc.w * 0.5, r: sc.S.crash[0].r };
-      this.emit({ type: 'crash', n: this.crashes, pit }); this.snd('crash', this.char);
+      this.emit({ type: 'crash', n: this.crashes, pit, hell: this.hell, why: this.why, v: this.whyV, tries: this.tries }); this.snd('crash', this.char);
+      this.lastWhy = this.why; this.why = null; this.whyV = null;
       return;
     }
     if (sc.x > L.finishX) {
@@ -203,9 +235,9 @@ export class Game {
     if (this.tipT > 1) { sc.crashed = true; this.tipT = 0; }
     // застрягли: підказка про повернення на контрольну точку
     if (sc.speed() < 0.25 && this.started) this.stuckT += dt; else this.stuckT = 0;
-    if (this.stuckT > 3.5 && !this.hint) { this.hint = 'stuck'; this.emit({ type: 'stuck' }); }
+    if (this.stuckT > 3.5 && !this.hint && !this.hell) { this.hint = 'stuck'; this.emit({ type: 'stuck' }); }   // у пеклі без підказок
     if (this.stuckT < 0.1) this.hint = null;
-    if (sc.y < -40 || sc.x < L.x0 - 30) this.respawn();
+    if (sc.y < -40 || sc.x < L.x0 - 30) { if (this.hell) { sc.crashed = true; this.why = 'pit'; } else this.respawn(); }
   }
 
   stepRider(dt) {
@@ -248,7 +280,7 @@ export class Game {
     const L = this.L, total = L.samples.length, pts = this.got.size, share = pts / total;
     const stars = 1 + (share >= 0.9 ? 1 : 0) + (this.time <= this.par ? 1 : 0);
     return { id: this.id, index: L.index, char: this.char, time: this.time, par: this.par, pts, total, share, crashes: this.crashes, stars, stats: L.stats,
-      bugs: L.bugs.length, zapped: this.zapped, bitten: this.bitten };
+      bugs: L.bugs.length, zapped: this.zapped, bitten: this.bitten, hell: this.hell, tries: this.tries };
   }
 
   draw(ctx) { drawGame(ctx, this); }

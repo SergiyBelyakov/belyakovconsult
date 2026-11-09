@@ -162,7 +162,7 @@ export class Scooter {
     }
 
     // колеса й траса: удар, тертя, кочення
-    let landing = 0;
+    let landing = 0, landNy = 1;
     for (const W of this.wh) {
       if (W.ground > 0) W.ground -= dt;
       for (let k = 0; k < 2; k++) {
@@ -174,7 +174,7 @@ export class Scooter {
         if (vn < 0) {
           jn = -vn * S.mw;
           W.vx += (ct.nx * jn * (1 + S.e)) / S.mw; W.vy += (ct.ny * jn * (1 + S.e)) / S.mw;
-          if (W.ground <= 0) landing = Math.max(landing, -vn);
+          if (W.ground <= 0 && -vn > landing) { landing = -vn; landNy = ct.ny; }
         }
         const tx = ct.ny, ty = -ct.nx;
         const slip = W.vx * tx + W.vy * ty + W.om * S.r;
@@ -185,7 +185,7 @@ export class Scooter {
         W.ground = 0.06;
       }
     }
-    if (landing > 0) this.land = Math.max(this.land, landing);
+    if (landing > this.land) { this.land = landing; this.landNy = landNy; }   // landNy: майже 0, якщо удар об стінку, а не об землю
 
     // рама об трасу (дека, педалі): ковзає з тертям, без падіння
     this.scrape = Math.max(0, this.scrape - dt);

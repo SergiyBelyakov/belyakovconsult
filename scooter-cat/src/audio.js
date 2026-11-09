@@ -1,4 +1,4 @@
-// Звук на WebAudio: 8-бітна мелодія (власна, 16 тактів по колу), гудіння мотора, лазер, точки, ворота і голоси героїв.
+// Звук на WebAudio: дві 8-бітні мелодії (основна і пекельна, обидві власні), гудіння мотора, лазер, точки, ворота і голоси героїв.
 // Браузер дозволяє звук лише після дії гравця, тому контекст створює unlock() на першому натисканні.
 let ctx = null, sfxOn = true, musicOn = true, eng = null, master = null, mus = null, pulse = null;
 
@@ -36,40 +36,74 @@ function noise(t, dur, gain, dest, hp = 0) {
   g.connect(dest); s.start(t);
 }
 
-// ——— мелодія: такти по 8 восьмих; ноти MIDI-назвами, тривалість у восьмих ———
+// ——— мелодії: такти по 8 восьмих; ноти MIDI-назвами, тривалість у восьмих ———
 const NAMES = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 const midi = s => { const m = s.match(/^([A-G])(#?)(\d)$/); return 12 * (+m[3] + 1) + NAMES[m[1]] + (m[2] ? 1 : 0); };
 const hz = n => 440 * 2 ** ((n - 69) / 12);
-const LEAD = [
-  'E5 2 G5 1 C6 1 B5 2 G5 2', 'D5 2 G5 1 B5 1 A5 2 G5 2', 'C5 1 E5 1 A5 2 G5 1 E5 1 A5 2', 'F5 2 A5 1 C6 1 D6 2 C6 2',
-  'E6 2 D6 1 C6 1 G5 2 E5 2', 'D5 1 G5 1 B5 2 D6 2 B5 2', 'A5 1 C6 1 F6 2 E6 1 C6 1 A5 2', 'G5 2 B5 2 D6 4',
-  'A5 2 C6 2 E6 2 C6 2', 'F5 2 A5 2 C6 2 A5 2', 'G5 1 A5 1 G5 1 E5 1 C5 2 E5 2', 'D5 2 F5 1 G5 1 B5 4',
-  'C6 1 B5 1 A5 2 E5 2 A5 2', 'A5 1 G5 1 F5 2 C6 2 A5 2', 'B5 2 D6 2 G6 2 F6 2', 'E6 4 C6 4',
-];
-// акорди тактів: корінь і тризвук (C, G, Am, F ...)
-const CHORDS = ['C', 'G', 'Am', 'F', 'C', 'G', 'F', 'G', 'Am', 'F', 'C', 'G', 'Am', 'F', 'G', 'C'];
-const TRIAD = { C: [48, 52, 55], G: [43, 47, 50], Am: [45, 48, 52], F: [41, 45, 48] };
-const BPM = 144, S16 = 60 / BPM / 4, BARS = LEAD.length;
-const leadAt = new Map();
-LEAD.forEach((bar, b) => {
-  const tok = bar.split(' ');
-  let pos = 0;
-  for (let k = 0; k < tok.length; k += 2) { const len = +tok[k + 1] * 2; leadAt.set(b * 16 + pos, { n: midi(tok[k]) - 12, len }); pos += len; }
+function theme({ lead, chords, triad, bpm, play }) {
+  const leadAt = new Map();
+  lead.forEach((bar, b) => {
+    const tok = bar.split(' ');
+    let pos = 0;
+    for (let k = 0; k < tok.length; k += 2) { const len = +tok[k + 1] * 2; leadAt.set(b * 16 + pos, { n: midi(tok[k]) - 12, len }); pos += len; }
+  });
+  return { leadAt, chords, triad, S16: 60 / bpm / 4, steps: lead.length * 16, play };
+}
+// основна: мажорна, 144 удари на хвилину, 16 тактів по колу
+const MAIN = theme({
+  lead: [
+    'E5 2 G5 1 C6 1 B5 2 G5 2', 'D5 2 G5 1 B5 1 A5 2 G5 2', 'C5 1 E5 1 A5 2 G5 1 E5 1 A5 2', 'F5 2 A5 1 C6 1 D6 2 C6 2',
+    'E6 2 D6 1 C6 1 G5 2 E5 2', 'D5 1 G5 1 B5 2 D6 2 B5 2', 'A5 1 C6 1 F6 2 E6 1 C6 1 A5 2', 'G5 2 B5 2 D6 4',
+    'A5 2 C6 2 E6 2 C6 2', 'F5 2 A5 2 C6 2 A5 2', 'G5 1 A5 1 G5 1 E5 1 C5 2 E5 2', 'D5 2 F5 1 G5 1 B5 4',
+    'C6 1 B5 1 A5 2 E5 2 A5 2', 'A5 1 G5 1 F5 2 C6 2 A5 2', 'B5 2 D6 2 G6 2 F6 2', 'E6 4 C6 4',
+  ],
+  // акорди тактів: корінь і тризвук (C, G, Am, F ...)
+  chords: ['C', 'G', 'Am', 'F', 'C', 'G', 'F', 'G', 'Am', 'F', 'C', 'G', 'Am', 'F', 'G', 'C'],
+  triad: { C: [48, 52, 55], G: [43, 47, 50], Am: [45, 48, 52], F: [41, 45, 48] },
+  bpm: 144,
+  play(th, st, t, S16) {
+    const bar = Math.floor(st / 16), s = st % 16, ch = th.triad[th.chords[bar]];
+    const L = th.leadAt.get(st);
+    if (L) osc('pulse', hz(L.n), t, L.len * S16 * 0.92, 0.05, mus);
+    if (s % 2 === 0) { const e = s / 2, root = ch[0] - 12; osc('triangle', hz(e % 2 ? root + 12 : e === 4 ? root + 7 : root), t, S16 * 1.8, 0.11, mus); }
+    osc('pulse', hz(ch[s % 3] + 12), t, S16 * 0.8, 0.012, mus);   // тихе арпеджіо шістнадцятими
+    if (s === 0 || s === 8) osc('sine', 150, t, 0.12, 0.2, mus, 45);   // бочка
+    if (s === 4 || s === 12) noise(t, 0.09, 0.06, mus, 1200);           // малий барабан
+    if (s % 4 === 2) noise(t, 0.03, 0.02, mus, 6000);                   // хет
+  },
 });
-let timer = null, nextT = 0, step = 0;
-function playStep(st, t) {
-  const bar = Math.floor(st / 16), s = st % 16, ch = TRIAD[CHORDS[bar]];
-  const L = leadAt.get(st);
-  if (L) osc('pulse', hz(L.n), t, L.len * S16 * 0.92, 0.05, mus);
-  if (s % 2 === 0) { const e = s / 2, root = ch[0] - 12; osc('triangle', hz(e % 2 ? root + 12 : e === 4 ? root + 7 : root), t, S16 * 1.8, 0.11, mus); }
-  osc('pulse', hz(ch[s % 3] + 12), t, S16 * 0.8, 0.012, mus);   // тихе арпеджіо шістнадцятими
-  if (s === 0 || s === 8) osc('sine', 150, t, 0.12, 0.2, mus, 45);   // бочка
-  if (s === 4 || s === 12) noise(t, 0.09, 0.06, mus, 1200);           // малий барабан
-  if (s % 4 === 2) noise(t, 0.03, 0.02, mus, 6000);                   // хет
+// Адіще: мі мінор із фригійською секундою, 168 ударів, бас восьмими й бочка на кожну чверть
+const HELL = theme({
+  lead: [
+    'E5 1 G5 1 B5 1 E6 1 D#6 2 B5 2', 'C6 1 B5 1 A5 1 G5 1 F#5 2 E5 2', 'G5 1 C6 1 E6 1 D6 1 C6 2 G5 2', 'F#5 1 A5 1 D6 1 C6 1 A5 2 F#5 2',
+    'B5 2 E6 1 F6 1 E6 2 B5 2', 'C6 1 A5 1 E6 1 C6 1 B5 2 A5 2', 'G5 2 B5 1 C6 1 E6 2 G6 2', 'F#6 2 D#6 2 B5 2 A5 1 G5 1',
+  ],
+  chords: ['Em', 'Em', 'C', 'D', 'Em', 'Am', 'C', 'B'],
+  triad: { Em: [52, 55, 59], C: [48, 52, 55], D: [50, 54, 57], Am: [45, 48, 52], B: [47, 51, 54] },
+  bpm: 168,
+  play(th, st, t, S16) {
+    const bar = Math.floor(st / 16), s = st % 16, ch = th.triad[th.chords[bar]];
+    const L = th.leadAt.get(st);
+    if (L) osc('pulse', hz(L.n), t, L.len * S16 * 0.85, 0.05, mus);
+    if (s % 2 === 0) { const root = ch[0] - 12; osc('triangle', hz(s % 4 === 2 ? root + 12 : root), t, S16 * 1.6, 0.12, mus); }   // бас восьмими
+    osc('pulse', hz(ch[(s * 2) % 3] + 12), t, S16 * 0.7, 0.01, mus);
+    if (s % 4 === 0) osc('sine', 165, t, 0.11, 0.22, mus, 40);          // бочка на кожну чверть
+    if (s === 4 || s === 12) noise(t, 0.1, 0.07, mus, 1400);            // малий барабан
+    if (s % 2 === 1) noise(t, 0.025, 0.016, mus, 7000);                 // хет шістнадцятими
+  },
+});
+const THEMES = { main: MAIN, hell: HELL };
+let TH = MAIN, timer = null, nextT = 0, step = 0;
+// перемкнути мелодію (основна або пекельна): нова починає з першого такту
+export function setTheme(name) {
+  const th = THEMES[name] || MAIN;
+  if (th === TH) return;
+  TH = th; step = 0;
+  if (ctx) nextT = Math.max(nextT, ctx.currentTime + 0.05);
 }
 function schedule() {
   if (!ctx) return;
-  while (nextT < ctx.currentTime + 0.15) { playStep(step, nextT); nextT += S16; step = (step + 1) % (BARS * 16); }
+  while (nextT < ctx.currentTime + 0.15) { TH.play(TH, step, nextT, TH.S16); nextT += TH.S16; step = (step + 1) % TH.steps; }
 }
 function startMusic() { if (timer || !ctx) return; nextT = ctx.currentTime + 0.06; step = 0; timer = setInterval(schedule, 25); schedule(); }
 function stopMusic() { if (timer) { clearInterval(timer); timer = null; } }

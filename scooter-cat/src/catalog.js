@@ -1,24 +1,33 @@
 // Перелік рівнів, героїв і груп рейтингу: спільний для гри в браузері й для функції рейтингу на Cloudflare
 // (тут лише дані й прості перевірки, без фізики й малювання, щоб функція не тягнула за собою всю гру).
 
-// Рівні йдуть від легких до складних: чотири легкі траси, чотири середні, чотири складні
-export const LEVEL_IDS = ['trend', 'hist', 'season', 'pareto', 'outliers', 'axis', 'stacked', 'waterfall', 'log', 'control', 'multiples', 'forecast'];
-export const DIFF = { trend: 1, hist: 1, season: 1, pareto: 1, outliers: 2, axis: 2, stacked: 2, waterfall: 2, log: 3, control: 3, multiples: 3, forecast: 3 };
+// Рівні йдуть від легких до складних: чотири легкі траси, чотири середні, чотири складні,
+// а після них чотири траси «Адіще» з правилами ігор 90-х (без контрольних точок і поблажок)
+export const MAIN_IDS = ['trend', 'hist', 'season', 'pareto', 'outliers', 'axis', 'stacked', 'waterfall', 'log', 'control', 'multiples', 'forecast'];
+export const HELL_IDS = ['candles', 'gantt', 'tunnel', 'saw'];
+export const LEVEL_IDS = [...MAIN_IDS, ...HELL_IDS];
+export const DIFF = { trend: 1, hist: 1, season: 1, pareto: 1, outliers: 2, axis: 2, stacked: 2, waterfall: 2, log: 3, control: 3, multiples: 3, forecast: 3, candles: 4, gantt: 4, tunnel: 4, saw: 4 };
 export const CHAR_IDS = ['cat', 'capy', 'head'];
 
-// Групи рейтингу: кожна група складності окремо і всі 12 рівнів разом
-export const SCOPE_IDS = ['d1', 'd2', 'd3', 'all'];
+// Групи рейтингу: кожна група складності окремо, «Адіще» окремо і всі 12 основних рівнів разом
+export const SCOPE_IDS = ['d1', 'd2', 'd3', 'd4', 'all'];
 export const SCOPES = {
   d1: LEVEL_IDS.filter(id => DIFF[id] === 1),
   d2: LEVEL_IDS.filter(id => DIFF[id] === 2),
   d3: LEVEL_IDS.filter(id => DIFF[id] === 3),
-  all: LEVEL_IDS,
+  d4: HELL_IDS,
+  all: MAIN_IDS,
 };
+export const scopesOf = id => SCOPE_IDS.filter(sc => SCOPES[sc].includes(id));
 
-// Найкоротший правдоподібний час рівня, с: 75% часу автопілота на граничній швидкості (котик, 13,5 м/с).
+// Найкоротший правдоподібний час рівня, с: 75% часу автопілота на граничній швидкості (котик, 13,5 м/с),
+// а в Адіщі близько 65% найшвидшого проходу без падіння (на граничній швидкості там розбиваються).
 // Швидший результат у рейтинг не приймається: так виглядає підправлений у консолі час, а не заїзд.
-export const FLOOR = { trend: 18, hist: 11, season: 16, pareto: 10, outliers: 16, axis: 12, stacked: 13, waterfall: 9, log: 20, control: 12, multiples: 14, forecast: 19 };
+export const FLOOR = { trend: 18, hist: 11, season: 16, pareto: 10, outliers: 16, axis: 12, stacked: 13, waterfall: 9, log: 20, control: 12, multiples: 14, forecast: 19, candles: 12, gantt: 9, tunnel: 11, saw: 14 };
 export const CEIL = 3600;
+
+// Адіще: ліміт часу траси, с (не встиг, і траса спочатку)
+export const LIMIT = { candles: 33, gantt: 25, tunnel: 25, saw: 31 };
 
 // Нік: від 2 до 20 символів, літери будь-якої абетки, цифри, пробіл і _ - . ' ; без посилань і лайки
 // (корені підібрано так, щоб не чіпати звичайні слова: «команда», «Себастьян», «педикюр», «сукупність»)

@@ -3,7 +3,7 @@
 
 import { drawRider, drawFallen, drawEyeGlow } from './riders.js';
 import { bug, boom, BUG_COLS } from '../../laser-kitty/src/sprites.js';
-import { LAYER_COLORS, WF_COLORS } from './levels.js';
+import { LAYER_COLORS, WF_COLORS, CANDLE_COLORS } from './levels.js';
 
 const FONT = "Inter, 'Segoe UI', Arial, sans-serif", MONO = "ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace";
 export const COL = {
@@ -13,7 +13,7 @@ export const COL = {
   steel: '#AAB2C0', deck: '#283142', tire: '#121821', tireL: '#3A4558',
 };
 // плашки легенди для шарів і стовпчиків водоспаду
-const SWATCH = { L0: LAYER_COLORS[0], L1: LAYER_COLORS[1], L2: LAYER_COLORS[2], WT: WF_COLORS.total, WD: WF_COLORS.down };
+const SWATCH = { L0: LAYER_COLORS[0], L1: LAYER_COLORS[1], L2: LAYER_COLORS[2], WT: WF_COLORS.total, WD: WF_COLORS.down, CU: CANDLE_COLORS.up, CD: CANDLE_COLORS.down };
 const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -31,6 +31,11 @@ export function drawGame(ctx, G) {
   const glow = ctx.createRadialGradient(W * 0.7, H * 0.1, 0, W * 0.7, H * 0.1, W * 0.8);
   glow.addColorStop(0, rgba(L.color, 0.07)); glow.addColorStop(1, rgba(L.color, 0));
   ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+  if (L.hell) {   // Адіще: жар знизу
+    const ember = ctx.createLinearGradient(0, H, 0, H * 0.45);
+    ember.addColorStop(0, rgba(COL.ruby, 0.16)); ember.addColorStop(1, rgba(COL.ruby, 0));
+    ctx.fillStyle = ember; ctx.fillRect(0, H * 0.45, W, H * 0.55);
+  }
 
   const labels = grid(ctx, G, V);
   if (L.band) band(ctx, G, V);
@@ -121,6 +126,91 @@ function decor(ctx, G, V) {
   else if (k === 'waterfall') waterBars(ctx, G, V);
   else if (k === 'control') limits(ctx, G, V);
   else if (k === 'multiples') panels(ctx, G, V);
+  else if (k === 'candles') candles(ctx, G, V);
+  else if (k === 'gantt') gantt(ctx, G, V);
+  else if (k === 'tunnel') tunnel(ctx, G, V);
+  else if (k === 'saw') saw(ctx, G, V);
+}
+
+// ——— Адіще ———
+// свічки: тінь від мінімуму до максимуму, тіло від відкриття до закриття; лінія закриття (траса) проходить краями тіл
+function candles(ctx, G, V) {
+  const L = G.L, { O, H, L: Lo, C } = L.ohlc, w = L.barW;
+  for (const smp of L.samples) {
+    const i = smp.i;
+    if (smp.x + w < V.xL || smp.x - w > V.xR) continue;
+    const up = C[i] >= O[i], col = up ? CANDLE_COLORS.up : CANDLE_COLORS.down, x = Math.round(V.X(smp.x)) + 0.5;
+    ctx.strokeStyle = rgba(col, 0.8); ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.moveTo(x, V.Y(L.yOf(H[i]))); ctx.lineTo(x, V.Y(L.yOf(Lo[i]))); ctx.stroke();
+    const yO = V.Y(L.yOf(O[i])), yC = V.Y(L.yOf(C[i])), x0 = Math.round(V.X(smp.x - w / 2)), x1 = Math.round(V.X(smp.x + w / 2));
+    const top = Math.round(Math.min(yO, yC)), h = Math.max(2, Math.round(Math.abs(yO - yC)));
+    ctx.fillStyle = rgba(col, up ? 0.38 : 0.6); ctx.fillRect(x0, top, x1 - x0, h);
+    ctx.strokeStyle = rgba(col, 0.95); ctx.lineWidth = 1; ctx.strokeRect(x0 + 0.5, top + 0.5, x1 - x0 - 1, h - 1);
+  }
+}
+
+// Гантт: критичні задачі суцільними смугами (по них їде герой), задачі з резервом пунктиром; назви на смугах
+function gantt(ctx, G, V) {
+  const L = G.L, th = L.rowH * 0.62 * V.s;
+  ctx.font = `600 11.5px ${FONT}`;
+  for (const t of L.tasks) {
+    if (t.x1 < V.xL || t.x0 > V.xR) continue;
+    const x0 = Math.round(V.X(t.x0)), x1 = Math.round(V.X(t.x1)), yt = Math.round(V.Y(t.y));
+    if (t.crit) {
+      const grad = ctx.createLinearGradient(0, yt, 0, yt + th);
+      grad.addColorStop(0, rgba(L.color, 0.5)); grad.addColorStop(1, rgba(L.color, 0.22));
+      ctx.fillStyle = grad; ctx.fillRect(x0, yt, x1 - x0, th);
+    } else {
+      ctx.setLineDash([5, 4]); ctx.strokeStyle = 'rgba(244,246,248,.5)'; ctx.lineWidth = 1.3;
+      ctx.strokeRect(x0 + 0.5, yt + 0.5, x1 - x0 - 1, th - 1); ctx.setLineDash([]);
+    }
+    // назва в межах видимої частини смуги: тримається лівого краю екрана, поки смуга на ньому
+    const name = G.T.tasks[t.key], tw = ctx.measureText(name).width, vx0 = Math.max(x0, 0), vx1 = Math.min(x1, G.W);
+    if (tw + 12 > vx1 - vx0) continue;
+    ctx.fillStyle = t.crit ? COL.ink : COL.muted;
+    ctx.fillText(name, clamp(x0 + 6, 6, x1 - tw - 6), yt + th / 2 + 4);
+  }
+}
+
+// коридор: межі норми, стеля (максимум) і небезпечна зона над нею
+function tunnel(ctx, G, V) {
+  const L = G.L, Cl = L.ceil, [c0, c1] = L.ceilRange;
+  const norm = [[8, COL.coral, [6, 5]], [2, COL.coral, [6, 5]]];
+  for (const [v, c, dash] of norm) {
+    const y = Math.round(V.Y(L.yOf(v))) + 0.5;
+    if (y < 30 || y > G.H - 20) continue;
+    ctx.strokeStyle = rgba(c, 0.7); ctx.lineWidth = 1.3; ctx.setLineDash(dash);
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(G.W, y); ctx.stroke(); ctx.setLineDash([]);
+  }
+  const pts = [];
+  for (let i = Cl.seg(Math.max(c0, V.xL - 2)); i < Cl.n; i++) {
+    const x = Cl.X[i];
+    if (x < c0 - 1e-6) continue;
+    if (x > c1 + 1e-6) break;
+    pts.push([V.X(x), V.Y(Cl.Y[i])]);
+    if (x > V.xR + 2) break;
+  }
+  if (pts.length < 2) return;
+  let low = 0;
+  ctx.beginPath();
+  pts.forEach(([x, y], j) => { low = Math.max(low, y); ctx[j ? 'lineTo' : 'moveTo'](x, y); });
+  ctx.lineTo(pts[pts.length - 1][0], 0); ctx.lineTo(pts[0][0], 0); ctx.closePath();
+  const grad = ctx.createLinearGradient(0, 0, 0, Math.max(1, low));
+  grad.addColorStop(0, rgba(COL.ruby, 0.05)); grad.addColorStop(1, rgba(COL.ruby, 0.24));
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath(); pts.forEach(([x, y], j) => ctx[j ? 'lineTo' : 'moveTo'](x, y));
+  ctx.strokeStyle = COL.coral; ctx.lineWidth = 2.6; ctx.lineJoin = 'round'; ctx.stroke();
+}
+
+// пила: біля кожного обриву сума оплати
+function saw(ctx, G, V) {
+  const L = G.L;
+  ctx.font = `600 11px ${FONT}`; ctx.fillStyle = COL.muted;
+  for (const m of L.pays) {
+    const x = L.samples[m.d].x;
+    if (x < V.xL || x > V.xR) continue;
+    ctx.fillText('−' + G.T.fmt.num(m.before - m.v), V.X(x) + 5, V.Y(L.yOf(m.v)) + 15);
+  }
 }
 
 function tag(ctx, text, x, y, { align = 'center', color = COL.ink, border = 'rgba(255,255,255,.22)', bg = 'rgba(11,15,22,.88)', font = `600 11.5px ${FONT}` } = {}) {
@@ -351,7 +441,7 @@ function terrain(ctx, G, V) {
   const hideFrom = L.reveal ? G.revealX : Infinity;
   if (L.kind === 'bars') return bars(ctx, G, V);
   // площа під лінією там, де немає власної заливки (стовпчики, шари, водоспад); провалля ділить трасу на шматки
-  const area = !['hist', 'pareto', 'stacked', 'waterfall'].includes(L.kind), base = L.panels ? V.Y(0) : G.H + 2;
+  const area = !['hist', 'pareto', 'stacked', 'waterfall', 'candles', 'gantt'].includes(L.kind), base = L.panels ? V.Y(0) : G.H + 2;
   const cuts = [-Infinity];
   for (const p of L.pits) cuts.push(p.x0, p.x1);
   cuts.push(Infinity);
@@ -575,19 +665,25 @@ function hud(ctx, G, V) {
   ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(0, 0, W, 3);
   ctx.fillStyle = L.color; ctx.fillRect(0, 0, W * prog, 3);
   const narrow = W < 560;
-  const mm = Math.floor(G.time / 60), ss = G.time - mm * 60;
-  const time = `${mm}:${ss < 10 ? '0' : ''}${ss.toFixed(1)}`;
-  const stats = `${T.hud.par} ${Math.floor(G.par / 60)}:${String(G.par % 60).padStart(2, '0')} · ${T.hud.points} ${G.got.size}/${L.samples.length} · ${T.hud.bugs} ${G.zapped}/${L.bugs.length} · ${T.hud.crashes} ${G.crashes}`;
+  const clock = t => { const mm = Math.floor(t / 60), ss = t - mm * 60; return `${mm}:${ss < 10 ? '0' : ''}${ss.toFixed(1)}`; };
+  const mmss = t => `${Math.floor(t / 60)}:${String(Math.round(t % 60)).padStart(2, '0')}`;
+  // у пеклі великий годинник рахує назад до ліміту
+  const left = L.hell ? Math.max(0, L.limit - G.time) : 0, time = L.hell ? clock(left) : clock(G.time);
+  const stats = L.hell
+    ? `${T.hud.tries} ${G.tries} · ${T.hud.limit} ${mmss(L.limit)} · ${T.hud.par} ${mmss(G.par)} · ${T.hud.points} ${G.got.size}/${L.samples.length} · ${T.hud.bugs} ${G.zapped}/${L.bugs.length}`
+    : `${T.hud.par} ${mmss(G.par)} · ${T.hud.points} ${G.got.size}/${L.samples.length} · ${T.hud.bugs} ${G.zapped}/${L.bugs.length} · ${T.hud.crashes} ${G.crashes}`;
   ctx.textBaseline = 'alphabetic';
   // назва графіка, час
   ctx.font = `600 ${narrow ? 12 : 13}px ${FONT}`; ctx.fillStyle = COL.ink;
   ctx.fillText(T.chart[L.id], 12, 24, W - (narrow ? 96 : 140));
   ctx.textAlign = 'right'; ctx.font = `700 ${narrow ? 16 : 18}px ${MONO}`;
-  ctx.fillStyle = G.time > G.par && G.started ? COL.amber : COL.ink; ctx.fillText(time, W - 12, 25);
+  ctx.fillStyle = L.hell ? (left < 5 && G.started ? (G.t % 0.5 < 0.25 ? COL.rubyL : COL.ink) : left < 10 && G.started ? COL.amber : COL.ink)
+    : G.time > G.par && G.started ? COL.amber : COL.ink;
+  ctx.fillText(time, W - 12, 25);
   ctx.font = `500 11.5px ${FONT}`; ctx.fillStyle = COL.muted;
   if (!narrow) ctx.fillText(stats, W - 12, 44);
   ctx.textAlign = 'left';
-  if (narrow) ctx.fillText(stats, 12, 42);
+  if (narrow) ctx.fillText(stats, 12, 42, W - 24);
   // легенда
   const items = T.legend[L.id] || [];
   let x = 12; const ly = narrow ? 98 : 44;
@@ -595,11 +691,12 @@ function hud(ctx, G, V) {
   for (const [style, label] of items) {
     const w = 21 + ctx.measureText(label).width + 14;
     if (x + w > (narrow ? W - 8 : W * 0.66)) break;
-    ctx.strokeStyle = style === 'ghost' ? COL.ghost : style === 'err' ? COL.coral : style === 'mean' ? COL.coral : L.color;
-    ctx.lineWidth = style === 'line' ? 2.6 : 1.7; ctx.setLineDash(style === 'line' ? [] : style === 'median' ? [2, 3] : [5, 4]);
+    ctx.strokeStyle = style === 'ghost' ? COL.ghost : ['err', 'mean', 'max', 'lim'].includes(style) ? COL.coral : L.color;
+    ctx.lineWidth = style === 'line' || style === 'max' ? 2.6 : 1.7; ctx.setLineDash(style === 'line' || style === 'max' ? [] : style === 'median' ? [2, 3] : [5, 4]);
     if (style === 'median') ctx.strokeStyle = COL.ink;
     if (style === 'band') { ctx.fillStyle = rgba(L.color, 0.25); ctx.fillRect(x, ly - 8, 16, 8); }
-    else if (style === 'bar') { ctx.fillStyle = rgba(L.color, 0.4); ctx.fillRect(x, ly - 9, 16, 9); }
+    else if (style === 'bar' || style === 'GC') { ctx.fillStyle = rgba(L.color, style === 'GC' ? 0.5 : 0.4); ctx.fillRect(x, ly - 9, 16, 9); }
+    else if (style === 'GS') { ctx.strokeStyle = 'rgba(244,246,248,.6)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 2]); ctx.strokeRect(x + 0.5, ly - 8.5, 15, 8); }
     else if (SWATCH[style]) { ctx.fillStyle = rgba(SWATCH[style], 0.75); ctx.fillRect(x, ly - 9, 16, 9); }
     else { ctx.beginPath(); ctx.moveTo(x, ly - 3.5); ctx.lineTo(x + 16, ly - 3.5); ctx.stroke(); }
     ctx.setLineDash([]); ctx.fillStyle = COL.muted; ctx.fillText(label, x + 21, ly);
@@ -613,8 +710,8 @@ function hud(ctx, G, V) {
   }
   if (G.state === 'crash') {
     ctx.textAlign = 'center'; ctx.font = `800 26px ${FONT}`; ctx.fillStyle = COL.rubyL;
-    ctx.fillText(T.hud.meow, W / 2, G.H * 0.3);
-    ctx.font = `500 13px ${FONT}`; ctx.fillStyle = COL.muted; ctx.fillText(T.hud.back(G.cp.n), W / 2, G.H * 0.3 + 24);
+    ctx.fillText(L.hell ? T.hell.why[G.lastWhy] || T.hud.meow : T.hud.meow, W / 2, G.H * 0.3);
+    ctx.font = `500 13px ${FONT}`; ctx.fillStyle = COL.muted; ctx.fillText(L.hell ? T.hud.again(G.tries + 1) : T.hud.back(G.cp.n), W / 2, G.H * 0.3 + 24);
     ctx.textAlign = 'left';
   }
 }

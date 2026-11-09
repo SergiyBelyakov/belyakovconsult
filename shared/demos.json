@@ -667,19 +667,19 @@
       "lang": {
         "uk": {
           "title": "Котик на самокаті: гра про читання графіків | Belyakov Consult",
-          "description": "Гра в стилі Gravity Defied: котик, капібара чи голова аналітика їдуть графіками й лазерами з очей прибирають баги. 12 трас: від гістограми до водоспаду.",
+          "description": "Гра в стилі Gravity Defied: котик, капібара чи голова аналітика їдуть графіками й лазерами з очей прибирають баги. 12 трас і ще 4 пекельні в Адіщі.",
           "name": "Котик на самокаті: проїдь графік",
-          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб проїхати дванадцять трас-графіків: тренд, гістограму, Парето, водоспад, контрольну карту, прогноз та інші.",
+          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб проїхати дванадцять трас-графіків: тренд, гістограму, Парето, водоспад, контрольну карту, прогноз та інші, а потім чотири траси Адіща.",
           "kind": "Навчання · гра",
-          "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіками. Дванадцять трас від легких до складних, розбір після кожної і рейтинг гравців."
+          "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіками. Дванадцять трас від легких до складних, розбір після кожної, рейтинг гравців і чотири траси Адіща з правилами ігор 90-х."
         },
         "en": {
           "title": "Scooter Cat: a game about reading charts | Belyakov Consult",
-          "description": "A Gravity Defied-style game: a cat, a capybara or the Head of Analytics ride charts and zap data bugs with eye lasers. 12 tracks, from histogram to waterfall.",
+          "description": "A Gravity Defied-style game: a cat, a capybara or the Head of Analytics ride charts and zap data bugs with eye lasers. 12 tracks and 4 more in Hell mode.",
           "name": "Scooter Cat: Ride the Chart",
-          "noscript": "The game needs JavaScript. Turn it on to ride twelve chart tracks: trend, histogram, Pareto, waterfall, control chart, forecast and more.",
+          "noscript": "The game needs JavaScript. Turn it on to ride twelve chart tracks: trend, histogram, Pareto, waterfall, control chart, forecast and more, and then four Hell tracks.",
           "kind": "Learning · game",
-          "teaser": "A Gravity Defied-style game: three riders with laser eyes ride charts. Twelve tracks from easy to hard, a debrief after each and a leaderboard."
+          "teaser": "A Gravity Defied-style game: three riders with laser eyes ride charts. Twelve tracks from easy to hard, a debrief after each, a leaderboard and four Hell tracks with 90s game rules."
         }
       },
       "audiences": [

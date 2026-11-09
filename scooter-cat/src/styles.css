@@ -56,7 +56,29 @@
 .sc-bars b:nth-child(1) { height: 5px; } .sc-bars b:nth-child(2) { height: 8px; } .sc-bars b:nth-child(3) { height: 11px; }
 .sc-bars.d1 b.on { background: #10B981; } .sc-bars.d2 b.on { background: #FFB020; } .sc-bars.d3 b.on { background: #FF6076; }
 .sc-diff { display: inline-flex; align-items: center; gap: 4px; }
-.sc-diff.d1 { color: #34D399; } .sc-diff.d2 { color: #FFB020; } .sc-diff.d3 { color: #FF8C96; }
+.sc-diff.d1 { color: #34D399; } .sc-diff.d2 { color: #FFB020; } .sc-diff.d3 { color: #FF8C96; } .sc-diff.d4 { color: #FF6076; }
+/* Адіще: вогонь замість смужок, рубінова рамка групи, правила на брифі, двері з фіналу */
+.sc-bars.d4 { align-items: center; color: #FF6076; filter: drop-shadow(0 0 4px rgba(217, 4, 41, .7)); }
+.sc-league-hell { margin-top: 10px !important; padding: 12px; border: 1px solid rgba(217, 4, 41, .45); border-radius: var(--r-ctl); background: linear-gradient(180deg, rgba(217, 4, 41, .1), rgba(217, 4, 41, .02)); }
+.sc-league-hell .sc-league-h { color: #FFB4BE; }
+.sc-league-note { margin: -2px 0 2px; font-size: 12.5px; line-height: 1.5; color: #C9D0D9; }
+.sc-league-hell .sc-lv:hover, .sc-league-hell .sc-lv:focus-visible { border-color: #FF6076; background: rgba(217, 4, 41, .1); }
+.sc-brief-hell { overflow-y: auto; align-content: safe center; background: radial-gradient(120% 90% at 50% 110%, rgba(217, 4, 41, .28), rgba(6, 8, 12, .78) 60%); }
+@media (max-width: 640px) { .sc-brief-hell { align-content: start; } .sc-hell-rules li { font-size: 12.5px; } }
+.sc-brief-hell .sc-level { color: #FF8C96; }
+.sc-hell-rules { display: grid; gap: 6px; padding: 12px 14px; border: 1px solid rgba(255, 96, 118, .45); border-radius: var(--r-ctl); background: rgba(217, 4, 41, .08); text-align: left; }
+.sc-hell-rules strong { display: flex; align-items: center; gap: 8px; font: 700 14px var(--heading); color: #FFB4BE; }
+.sc-hell-rules ul { display: grid; gap: 4px; margin: 0; padding-left: 18px; }
+.sc-hell-rules li { font-size: 13px; line-height: 1.5; color: #E2E6EC; }
+.sc-hell-rules li::marker { color: #FF6076; }
+.sc-hell-rules p { font-size: 12.5px; }
+.sc-hell-door { display: grid; justify-items: center; gap: 8px; margin-top: 8px; padding: 14px 16px; border: 1px solid rgba(217, 4, 41, .45); border-radius: var(--r-ctl); background: rgba(217, 4, 41, .08); }
+.sc-hell-door p { font-size: 13px; }
+.sc-hell-btn { height: 42px; padding: 0 18px; border: 1px solid #FF6076; background: linear-gradient(180deg, #D90429, #A0031F); color: #fff; font-weight: 700; box-shadow: 0 0 22px rgba(217, 4, 41, .45); }
+.sc-hell-btn:hover, .sc-hell-btn:focus-visible { background: linear-gradient(180deg, #F0123A, #B5052A); }
+.sc-final-hell .sc-logo { display: inline-flex; align-items: center; gap: 10px; color: #FFE4E8; text-shadow: 0 0 26px rgba(217, 4, 41, .7); }
+.sc-final-hell .sc-logo svg { color: #FF6076; }
+.sc-final-hell { background: radial-gradient(120% 90% at 50% 110%, rgba(217, 4, 41, .3), rgba(6, 8, 12, .8) 60%); }
 .sc-stars i { font-style: normal; font-size: 15px; color: rgba(255, 255, 255, .18); margin-right: 1px; }
 .sc-stars i.on { color: #FFB020; text-shadow: 0 0 8px rgba(255, 176, 32, .45); }
 .sc-stars.big i { font-size: 24px; }

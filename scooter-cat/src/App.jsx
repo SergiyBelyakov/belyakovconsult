@@ -13,7 +13,7 @@ import GameView, { Diff } from './GameView.jsx';
 import { track } from './track.js';
 
 const NAV = [['game', 'gamepad'], ['how', 'book'], ['skills', 'check']];
-const HOW_ICON = { gas: 'pedal-gas', lean: 'lean-fwd', points: 'target', laser: 'eye', cp: 'reset', board: 'trophy' };
+const HOW_ICON = { gas: 'pedal-gas', lean: 'lean-fwd', points: 'target', laser: 'eye', cp: 'reset', board: 'trophy', hell: 'flame' };
 
 // Сторінка рейтингу: група й герой з адреси (?s=…&c=…), підсвічений гравець за посиланням (?p=…)
 function RatingMain({ T, lang, prefix, game, onLead }) {
