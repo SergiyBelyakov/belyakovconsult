@@ -633,6 +633,58 @@
         "geospatial-analysis",
         "data-analysis"
       ]
+    },
+    {
+      "slug": "scooter-cat",
+      "dir": "scooter-cat",
+      "attr": "data-scooter-cat",
+      "anchor": "scooter-cat",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "business-intelligence",
+        "data-analysis",
+        "management-analytics"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "scooter-cat/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Котик на самокаті: гра про читання графіків | Belyakov Consult",
+          "description": "Гра в стилі Gravity Defied: котик, капібара чи голова аналітика їдуть трасою-графіком і лазерами з очей прибирають баги. Тренд, сезонність, викиди, прогноз.",
+          "name": "Котик на самокаті: проїдь графік",
+          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб проїхати шість трас-графіків і навчитися читати тренд, сезонність, викиди й прогноз.",
+          "kind": "Навчання · гра",
+          "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіком. Шість трас, шість пасток зі звітів і розбір після кожної."
+        },
+        "en": {
+          "title": "Scooter Cat: a game about reading charts | Belyakov Consult",
+          "description": "A Gravity Defied-style game: a cat, a capybara or the Head of Analytics ride a chart and zap data bugs with eye lasers. Trend, seasonality, outliers, forecast.",
+          "name": "Scooter Cat: Ride the Chart",
+          "noscript": "The game needs JavaScript. Turn it on to ride six chart tracks and learn to read trends, seasonality, outliers and forecasts.",
+          "kind": "Learning · game",
+          "teaser": "A Gravity Defied-style game: three riders with laser eyes ride a chart. Six tracks, six report traps and a debrief after each."
+        }
+      },
+      "audiences": [
+        "learning"
+      ]
     }
   ],
   "exhibits": [

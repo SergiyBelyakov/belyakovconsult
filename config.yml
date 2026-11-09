@@ -248,6 +248,7 @@ post_links:
   kitty: /cases/laser-kitty/
   twin: /cases/community-twin/
   routes: /cases/route-planning/
+  scooter: /cases/scooter-cat/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:
