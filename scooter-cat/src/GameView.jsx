@@ -3,11 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Game, LEVEL_IDS, PAR, CHAR_IDS } from './game.js';
 import { DIFF } from './levels.js';
+import { loadProgress, recordFinish, scopeStatus, scopesOf, loadPlayer, boardUrl } from './board.js';
+import Leaderboard, { BoardSubmit, ShareButton } from './Leaderboard.jsx';
+import { LANGS } from './i18n.js';
 import { setSound, setMusic, unlock, pauseAll } from './audio.js';
 import { drawPreview } from './riders.js';
 import { Icon } from '../../dashboard/src/icons.jsx';
 
-const STORE = 'bc-scooter-cat-v1', PREFS = 'bc-scooter-cat-prefs';
+const PREFS = 'bc-scooter-cat-prefs';
 const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch { return d; } };
 const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* приватне вікно */ } };
 const STATS = { cat: [3, 3, 3], capy: [2, 4, 2], head: [3, 1, 4] };
@@ -39,7 +42,7 @@ function CharCard({ id, on, onPick, T }) {
 }
 
 export default function GameView({ T, lang, onLead, track }) {
-  const U = T.ui, F = T.fmt;
+  const U = T.ui, F = T.fmt, prefix = LANGS.find(l => l.id === lang).prefix;
   const prefs0 = load(PREFS, {});
   const wrap = useRef(null), cv = useRef(null), G = useRef(null), phaseRef = useRef('title'), tipRef = useRef(0), biteRef = useRef(0);
   const [phase, setPhaseState] = useState('title');
@@ -49,8 +52,13 @@ export default function GameView({ T, lang, onLead, track }) {
   const [sound, setSnd] = useState(prefs0.sound !== false);
   const [music, setMus] = useState(prefs0.music !== false);
   const [sum, setSum] = useState(null);
-  const [rec, setRec] = useState(() => load(STORE, {}));
-  const recRef = useRef(rec);
+  // рекорди кожного героя окремо (для рейтингу за героями)
+  const [prog, setProg] = useState(() => loadProgress());
+  const progRef = useRef(prog);
+  // рейтинг поверх гри: група, герой (null: усі), куди повертатися
+  const [bScope, setBScope] = useState('all');
+  const [bChar, setBChar] = useState(null);
+  const boardBack = useRef('title');
   const [msg, setMsg] = useState(null);
   const setPhase = p => { phaseRef.current = p; setPhaseState(p); };
 
@@ -71,11 +79,13 @@ export default function GameView({ T, lang, onLead, track }) {
       }
       else if (e.type === 'stuck') setMsg({ tone: 'info', title: T.msg.stuck, text: T.msg.stuckText, k: Date.now() });
       else if (e.type === 'finish') {
-        const s = e.summary, r = recRef.current, old = r[s.id] || {};
-        const better = old.best == null || s.time < old.best;
-        s.newBest = better && old.best != null; s.best = better ? s.time : old.best;
-        const nr = { ...r, [s.id]: { best: s.best, stars: Math.max(old.stars || 0, s.stars), char: better ? s.char : old.char } };
-        recRef.current = nr; save(STORE, nr); setRec(nr);
+        const s = e.summary, p = progRef.current, sc = scopesOf(s.id);
+        const before = sc.map(x => scopeStatus(p, s.char, x));
+        const r = recordFinish(p, s.char, s.id, s.time, s.stars, g.mode === 'calm');
+        s.newBest = r.better && r.old != null; s.best = r.best;
+        // група рівнів пройдена вперше або її загальний час покращився: пропонуємо рейтинг
+        s.board = sc.map(x => scopeStatus(p, s.char, x)).filter((st, k) => st.complete && (!before[k].complete || r.better));
+        progRef.current = { ...p }; setProg(progRef.current);
         setSum(s); setPhase('end');
         track && track('level_finish', { level: s.id, char: s.char, stars: s.stars, time: Math.round(s.time) });
       }
@@ -101,7 +111,7 @@ export default function GameView({ T, lang, onLead, track }) {
       const dt = Math.min(1 / 30, (now - last) / 1000); last = now;
       const p = phaseRef.current;
       if (p === 'play') g.update(dt);
-      else if (p === 'title' || p === 'menu' || p === 'final') {
+      else if (p === 'title' || p === 'menu' || p === 'final' || (p === 'board' && ['title', 'menu', 'final'].includes(boardBack.current))) {
         g.autopilot(8);
         g.update(reduced ? 0 : dt);
         if (g.state === 'finish' && g.finishT > 2) { g.load(LEVEL_IDS[(LEVEL_IDS.indexOf(g.id) + 1) % LEVEL_IDS.length]); g.start(); }
@@ -124,6 +134,7 @@ export default function GameView({ T, lang, onLead, track }) {
       const g = G.current, k = e.key.toLowerCase();
       if (skip(e)) return;
       if (phaseRef.current === 'paused' && (k === 'p' || k === 'з' || k === 'escape')) { e.preventDefault(); setPhase('play'); return; }
+      if (phaseRef.current === 'board' && k === 'escape') { e.preventDefault(); setPhase(boardBack.current); return; }
       if (phaseRef.current !== 'play') return;
       unlock();
       if (map[k]) { e.preventDefault(); g.setKeys({ [map[k]]: true }); }
@@ -154,10 +165,19 @@ export default function GameView({ T, lang, onLead, track }) {
   };
   const toMenu = p => { const g = G.current; g.setKeys(NOKEYS); g.quiet = true; if (p !== 'paused') { g.load(g.id, char); g.start(); } setPhase(p); };
   const next = () => { if (lv >= LEVEL_IDS.length - 1) toMenu('final'); else brief(lv + 1); };
+  const rec = prog.chars[char] || {};   // рекорди вибраного героя
   const firstOpen = () => { const k = LEVEL_IDS.findIndex(id => !rec[id]); return k < 0 ? 0 : k; };
   const pause = () => { if (phase === 'play') { G.current.setKeys(NOKEYS); setPhase('paused'); } else if (phase === 'paused') setPhase('play'); };
   const toCp = () => { const g = G.current; if (phase === 'play' && (g.state === 'play' || g.state === 'crash')) g.respawn(); };
   const totalStars = LEVEL_IDS.reduce((s, id) => s + ((rec[id] && rec[id].stars) || 0), 0);
+  // рейтинг: з гри стає на паузу, після закриття повертає туди, звідки відкрито
+  const openBoard = (scope = 'all', ch = null) => {
+    const from = phase === 'play' ? 'paused' : phase;
+    if (phase === 'play') G.current.setKeys(NOKEYS);
+    boardBack.current = from === 'board' ? boardBack.current : from;
+    setBScope(scope); setBChar(ch); setPhase('board');
+    track && track('board_open', { from, scope });
+  };
 
   // кнопки для дотику: кожна тримається, поки тримають палець
   const hold = key => ({
@@ -192,6 +212,7 @@ export default function GameView({ T, lang, onLead, track }) {
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary sc-big" onClick={() => { unlock(); brief(firstOpen()); }} autoFocus><Icon name="play" size={18} /><span>{U.play}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('menu')}><span>{U.levels}</span>{totalStars > 0 && <small className="sc-badge">★ {totalStars}</small>}</button>
+              <button type="button" className="btn btn-ghost" onClick={() => openBoard('all', null)}><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
             </div>
             <label className="sc-check"><input type="checkbox" checked={mode === 'calm'} onChange={e => setMode(e.target.checked ? 'calm' : 'normal')} /><span>{U.calm}<small> · {U.calmHint}</small></span></label>
             <p className="sc-keys">{U.controls}</p>
@@ -200,7 +221,7 @@ export default function GameView({ T, lang, onLead, track }) {
         )}
         {phase === 'menu' && (
           <div className="sc-over sc-scroll">
-            <div className="sc-menu-head"><h3>{U.levels}</h3><span className="muted">★ {totalStars} {U.of} {3 * LEVEL_IDS.length}</span></div>
+            <div className="sc-menu-head"><h3>{U.levels}</h3><span className="muted">{T.chars[char].short} · ★ {totalStars} {U.of} {3 * LEVEL_IDS.length}</span></div>
             {[1, 2, 3].map(d => (
               <section key={d} className="sc-league">
                 <h4 className={'sc-league-h d' + d}><Diff d={d} />{U.league[d]}</h4>
@@ -255,6 +276,7 @@ export default function GameView({ T, lang, onLead, track }) {
                 <div><span>{U.bugs}</span><b>{sum.zapped}/{sum.bugs}</b><small>{U.bitten(sum.bitten)}</small></div>
                 <div><span>{U.crashes}</span><b>{sum.crashes}</b><small>{U.best} {F.time(sum.best)}</small></div>
               </div>
+              {sum.board && sum.board.length > 0 && <BoardSubmit key={sum.id + ':' + sum.time} T={T} lang={lang} char={sum.char} statuses={sum.board} prev={sum.boardRes} onResult={r => { sum.boardRes = r; }} onOpen={sc => openBoard(sc, sum.char)} track={track} />}
               <div className="sc-lesson"><span>{U.lesson}</span><h4>{lt.lessonTitle}</h4><p>{lt.lesson(sum.stats)}</p></div>
               <div className="sc-tip"><Icon name="info" size={16} /><div><strong>{U.tip}</strong><p>{lt.tip}</p></div></div>
               <div className="sc-actions">
@@ -273,16 +295,34 @@ export default function GameView({ T, lang, onLead, track }) {
             <p>{U.finalText}</p>
             <div className="sc-actions center">
               <button type="button" className="btn btn-primary" onClick={() => onLead('final')}><Icon name="mail" size={16} /><span>{U.cta}</span></button>
+              <button type="button" className="btn btn-ghost" onClick={() => openBoard('all', char)}><Icon name="trophy" size={16} /><span>{T.board.open}</span></button>
               <button type="button" className="btn btn-ghost" onClick={() => brief(0)} autoFocus>{U.again}</button>
               <button type="button" className="btn btn-ghost" onClick={() => setPhase('title')}>{U.chooseChar}</button>
             </div>
           </div>
         )}
+        {phase === 'board' && (() => {
+          const pl = loadPlayer(), mine = pl.pid && Object.keys(pl.subs).some(k => k.startsWith(bScope + ':') && (!bChar || k.endsWith(':' + bChar)));
+          return (
+            <div className="sc-over sc-scroll sc-board-over">
+              <div className="sc-menu-head">
+                <h3 className="sc-board-title"><Icon name="trophy" size={20} />{T.board.title}</h3>
+                <div className="sc-board-actions">
+                  <ShareButton T={T} url={boardUrl(prefix, bScope, bChar, mine ? pl.pid : null)} track={track} />
+                  <a className="btn btn-ghost" href={`${prefix}/cases/scooter-cat/rating/?s=${bScope}&c=${bChar || 'any'}`}>{T.board.page}</a>
+                </div>
+              </div>
+              <Leaderboard T={T} lang={lang} prefix={prefix} scope={bScope} char={bChar} onScope={setBScope} onChar={setBChar} track={track} />
+              <div className="sc-actions center"><button type="button" className="btn btn-ghost" onClick={() => setPhase(boardBack.current)} autoFocus><Icon name="back" size={16} /><span>{U.back}</span></button></div>
+            </div>
+          );
+        })()}
       </div>
       <div className="sc-controls">
         <button type="button" className="icon-btn" onClick={pause} disabled={phase !== 'play' && phase !== 'paused'} aria-label={U.pause} title={U.pause}><Icon name={phase === 'paused' ? 'play' : 'pause'} size={18} /></button>
         <button type="button" className="icon-btn" onClick={toCp} disabled={phase !== 'play'} aria-label={U.toCp} title={U.toCp}><Icon name="reset" size={18} /></button>
         <button type="button" className="icon-btn" onClick={() => toMenu('menu')} aria-label={U.levels} title={U.levels}><Icon name="grid" size={18} /></button>
+        <button type="button" className={'icon-btn' + (phase === 'board' ? ' on' : '')} onClick={() => (phase === 'board' ? setPhase(boardBack.current) : openBoard(bScope, bChar))} aria-label={T.board.open} title={T.board.open}><Icon name="trophy" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (music ? ' on' : '')} onClick={() => { unlock(); setMus(!music); }} aria-pressed={music} aria-label={U.music} title={U.music}><Icon name="music" size={18} /></button>
         <button type="button" className={'icon-btn sc-sound' + (sound ? ' on' : '')} onClick={() => { unlock(); setSnd(!sound); }} aria-pressed={sound} aria-label={U.sound} title={U.sound}><Icon name="sound" size={18} /></button>
         <div className={'sc-msg' + (msg ? ' t-' + msg.tone : '')} role="status" aria-live="polite">

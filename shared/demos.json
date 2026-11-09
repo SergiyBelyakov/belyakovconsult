@@ -671,7 +671,7 @@
           "name": "Котик на самокаті: проїдь графік",
           "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб проїхати дванадцять трас-графіків: тренд, гістограму, Парето, водоспад, контрольну карту, прогноз та інші.",
           "kind": "Навчання · гра",
-          "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіками. Дванадцять трас від легких до складних і розбір після кожної."
+          "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіками. Дванадцять трас від легких до складних, розбір після кожної і рейтинг гравців."
         },
         "en": {
           "title": "Scooter Cat: a game about reading charts | Belyakov Consult",
@@ -679,7 +679,7 @@
           "name": "Scooter Cat: Ride the Chart",
           "noscript": "The game needs JavaScript. Turn it on to ride twelve chart tracks: trend, histogram, Pareto, waterfall, control chart, forecast and more.",
           "kind": "Learning · game",
-          "teaser": "A Gravity Defied-style game: three riders with laser eyes ride charts. Twelve tracks from easy to hard and a debrief after each."
+          "teaser": "A Gravity Defied-style game: three riders with laser eyes ride charts. Twelve tracks from easy to hard, a debrief after each and a leaderboard."
         }
       },
       "audiences": [

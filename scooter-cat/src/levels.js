@@ -3,9 +3,9 @@
 // Значення v переводяться у висоту траси y (метри) через шкалу рівня; «ворота» змінюють шкалу ділянки попереду.
 import { Terrain } from './terrain.js';
 
-// Рівні йдуть від легких до складних: чотири легкі траси, чотири середні, чотири складні
-export const LEVEL_IDS = ['trend', 'hist', 'season', 'pareto', 'outliers', 'axis', 'stacked', 'waterfall', 'log', 'control', 'multiples', 'forecast'];
-export const DIFF = { trend: 1, hist: 1, season: 1, pareto: 1, outliers: 2, axis: 2, stacked: 2, waterfall: 2, log: 3, control: 3, multiples: 3, forecast: 3 };
+// Перелік рівнів і їхня складність живуть у catalog.js (його бере й функція рейтингу на Cloudflare)
+import { LEVEL_IDS, DIFF } from './catalog.js';
+export { LEVEL_IDS, DIFF };
 const COLORS = {
   trend: '#60A5FA', hist: '#FBBF24', season: '#2DD4BF', pareto: '#34D399', outliers: '#C084FC', axis: '#22D3EE',
   stacked: '#E2E8F0', waterfall: '#60A5FA', log: '#F472B6', control: '#FB923C', multiples: '#818CF8', forecast: '#60A5FA',

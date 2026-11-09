@@ -1,7 +1,8 @@
 """Сторінки «Політика конфіденційності» (uk: /privacy/, en: /en/privacy/) у шаблоні сайту.
 
 Зміст описує лише те, що сайт справді робить: форма зв'язку (ім'я, пошта, текст) через Formspree, хостинг
-Cloudflare, шрифти Google Fonts, без аналітики й cookie для відстеження. Публікація в соцмережі через офіційні API
+Cloudflare, рейтинг гри «Котик на самокаті» (нік і час, які гравець сам надсилає; база Cloudflare D1),
+шрифти Google Fonts, без аналітики й cookie для відстеження. Публікація в соцмережі через офіційні API
 стосується лише власних матеріалів. Також додає посилання на політику під кожною формою зв'язку.
 
 Запуск: python scripts/make_privacy.py
@@ -18,13 +19,13 @@ from build_site import meta_block  # noqa: E402
 from common import ROOT, load_config  # noqa: E402
 from shell import Shell  # noqa: E402
 
-UPDATED = {"uk": "2 листопада 2026", "en": "2 November 2026"}
+UPDATED = {"uk": "9 листопада 2026", "en": "9 November 2026"}
 
 CONTENT = {
     "uk": dict(
         title="Політика конфіденційності",
         description="Які дані збирає сайт Belyakov Consult через форму зв'язку, навіщо, хто ще їх бачить і як їх видалити.",
-        lead="Коротко: сайт збирає лише те, що ви самі пишете у формі зв'язку, і лише для того, щоб відповісти.",
+        lead="Коротко: сайт збирає лише те, що ви самі пишете у формі зв'язку чи надсилаєте в рейтинг гри, і лише для того, щоб відповісти або показати рейтинг.",
         updated="Оновлено",
         sections=[
             ("Хто обробляє дані", [
@@ -33,6 +34,9 @@ CONTENT = {
             ("Які дані я отримую", [
                 "Через форму зв'язку: ім'я, робочу електронну пошту і текст звернення.",
                 "Якщо ви пишете на пошту, у Telegram, WhatsApp чи соцмережі: ті дані, які ви самі надсилаєте.",
+                "Рейтинг гри «Котик на самокаті»: нік, герой, час і зірки, які ви самі надсилаєте після проходження групи рівнів. "
+                "Їх бачать усі відвідувачі сторінки рейтингу. Щоб захистити рейтинг від спаму, зберігається хеш IP-адреси (не сама адреса) "
+                "не довше доби. Рекорди гри, нік і випадковий ключ гравця зберігаються лише у вашому браузері (localStorage).",
                 "Сайт не використовує вебаналітику, рекламні трекери чи файли cookie для відстеження відвідувачів."]),
             ("Навіщо", [
                 "Щоб відповісти на ваше звернення, обговорити задачу і, якщо ми домовимося, працювати разом. "
@@ -40,7 +44,7 @@ CONTENT = {
             ("Хто ще технічно бачить дані", [
                 "<strong>Formspree</strong>: сервіс, який доставляє повідомлення з форми мені на пошту. Він обробляє дані форми "
                 "відповідно до власної політики конфіденційності; його сервери можуть бути за межами України та ЄС.",
-                "<strong>Cloudflare</strong>: хостинг сайту. Як і будь-який хостинг, веде технічні журнали запитів "
+                "<strong>Cloudflare</strong>: хостинг сайту і база рейтингу гри. Як і будь-який хостинг, веде технічні журнали запитів "
                 "(IP-адреса, браузер, час) для роботи й захисту сайту.",
                 "<strong>Google Fonts</strong>: шрифти сайту завантажуються із серверів Google, тому ваш браузер передає Google IP-адресу."]),
             ("Соцмережі й автоматична публікація", [
@@ -49,7 +53,9 @@ CONTENT = {
                 "На сторінках у соцмережах діють правила відповідних платформ."]),
             ("Скільки зберігаються дані", [
                 "Листування зберігається, доки воно потрібне для відповіді та співпраці. Ви можете будь-коли попросити його видалити, "
-                "якщо закон не вимагає зберігати його довше."]),
+                "якщо закон не вимагає зберігати його довше.",
+                "Записи рейтингу гри зберігаються, доки працює гра. Щоб видалити свій запис, напишіть нік на "
+                '<a href="mailto:hello@belyakovconsult.com">hello@belyakovconsult.com</a>.']),
             ("Ваші права", [
                 "Ви можете дізнатися, які ваші дані в мене є, виправити чи видалити їх, відкликати згоду або заперечити проти обробки. "
                 'Для цього напишіть на <a href="mailto:hello@belyakovconsult.com">hello@belyakovconsult.com</a>; я відповім протягом місяця.',
@@ -64,7 +70,7 @@ CONTENT = {
     "en": dict(
         title="Privacy policy",
         description="What data the Belyakov Consult website collects through the contact form, why, who else sees it and how to have it deleted.",
-        lead="In short: the website collects only what you write in the contact form, and only so that I can reply.",
+        lead="In short: the website collects only what you write in the contact form or submit to the game leaderboard, and only to reply or to show the leaderboard.",
         updated="Updated",
         sections=[
             ("Who processes the data", [
@@ -73,6 +79,9 @@ CONTENT = {
             ("What data I receive", [
                 "Through the contact form: your name, work email and the text of your message.",
                 "If you write by email, Telegram, WhatsApp or social media: the data you choose to send.",
+                "The Scooter Cat game leaderboard: the nickname, rider, time and stars you choose to submit after finishing a group of levels. "
+                "Everyone who opens the leaderboard sees them. To protect the leaderboard from spam, a hash of the IP address (not the address itself) "
+                "is kept for no longer than a day. Game records, your nickname and a random player key are stored only in your browser (localStorage).",
                 "The website uses no web analytics, advertising trackers or tracking cookies."]),
             ("Why", [
                 "To reply to your enquiry, discuss your task and, if we agree, work together. "
@@ -80,7 +89,7 @@ CONTENT = {
             ("Who else technically sees the data", [
                 "<strong>Formspree</strong>: the service that delivers form messages to my email. It processes form data under its own "
                 "privacy policy; its servers may be located outside Ukraine and the EU.",
-                "<strong>Cloudflare</strong>: website hosting. Like any host, it keeps technical request logs "
+                "<strong>Cloudflare</strong>: website hosting and the game leaderboard database. Like any host, it keeps technical request logs "
                 "(IP address, browser, time) to run and protect the site.",
                 "<strong>Google Fonts</strong>: the site's fonts load from Google servers, so your browser shares your IP address with Google."]),
             ("Social media and automated publishing", [
@@ -89,7 +98,9 @@ CONTENT = {
                 "The social media pages are governed by the rules of the respective platforms."]),
             ("How long the data is kept", [
                 "Correspondence is kept as long as it is needed to reply and to work together. You can ask for it to be deleted at any time, "
-                "unless the law requires it to be kept longer."]),
+                "unless the law requires it to be kept longer.",
+                "Game leaderboard entries are kept while the game runs. To have your entry deleted, send your nickname to "
+                '<a href="mailto:hello@belyakovconsult.com">hello@belyakovconsult.com</a>.']),
             ("Your rights", [
                 "You can find out what data I hold about you, correct or delete it, withdraw consent or object to processing. "
                 'Write to <a href="mailto:hello@belyakovconsult.com">hello@belyakovconsult.com</a>; I will reply within one month.',

@@ -228,6 +228,26 @@ export function drawEyeGlow(ctx, V, eyes, k) {
   }
 }
 
+// Аватар героя для рейтингу: голова крупним планом у колі
+export function drawAvatar(canvas, char) {
+  const ctx = canvas.getContext('2d'), dpr = Math.min(3, window.devicePixelRatio || 1);
+  const D = canvas.clientWidth || 28;
+  canvas.width = D * dpr; canvas.height = D * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, D, D);
+  ctx.save();
+  ctx.beginPath(); ctx.arc(D / 2, D / 2, D / 2, 0, Math.PI * 2); ctx.clip();
+  ctx.fillStyle = { cat: '#2A2216', capy: '#241E19', head: '#1B2230' }[char] || '#1B2230'; ctx.fillRect(0, 0, D, D);
+  // центр і розмір кадру в локальних координатах героя (метри)
+  const [cx, cy, size] = { cat: [0.05, 0.05, 0.62], capy: [0.42, 0.36, 0.56], head: [0.04, -0.01, 0.66] }[char] || [0, 0, 0.6];
+  const s = D / size;
+  ctx.translate(D / 2, D / 2); ctx.scale(s, -s); ctx.translate(-cx, -cy);
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (char === 'capy') capy(ctx, 0, 0, false);
+  else if (char === 'head') analystHead(ctx, 0, 0, 0, false);
+  else catHead(ctx, 0, 0, false);
+  ctx.restore();
+}
+
 // Прев'ю героя для вибору: малює на окремому canvas без траси
 export function drawPreview(canvas, char, t = 0) {
   const ctx = canvas.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1);

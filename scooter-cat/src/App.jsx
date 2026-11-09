@@ -1,7 +1,11 @@
 // Сторінка гри «Котик на самокаті»: бічне меню, гра, «Як грати», «Чого вчить», заявка на практикум.
-import { useState } from 'react';
+// Та сама збірка показує й сторінку рейтингу (data-view="rating"): таблицю, посилання й невеличку рекламу.
+import { useEffect, useState } from 'react';
 import { LANGS, STRINGS } from './i18n.js';
 import { LEVEL_IDS, DIFF } from './levels.js';
+import { CHAR_IDS, SCOPE_IDS } from './catalog.js';
+import { loadPlayer, boardUrl } from './board.js';
+import Leaderboard, { ShareButton } from './Leaderboard.jsx';
 import { Icon } from '../../dashboard/src/icons.jsx';
 import { Button, Segmented } from '../../dashboard/src/ui.jsx';
 import { LeadModal } from '../../dashboard/src/lead.jsx';
@@ -9,9 +13,52 @@ import GameView, { Diff } from './GameView.jsx';
 import { track } from './track.js';
 
 const NAV = [['game', 'gamepad'], ['how', 'book'], ['skills', 'check']];
-const HOW_ICON = { gas: 'pedal-gas', lean: 'lean-fwd', points: 'target', laser: 'eye', cp: 'reset' };
+const HOW_ICON = { gas: 'pedal-gas', lean: 'lean-fwd', points: 'target', laser: 'eye', cp: 'reset', board: 'trophy' };
 
-export default function App({ initialLang, base: assetBase, onSite }) {
+// Сторінка рейтингу: група й герой з адреси (?s=…&c=…), підсвічений гравець за посиланням (?p=…)
+function RatingMain({ T, lang, prefix, game, onLead }) {
+  const R = T.rating, q = new URLSearchParams(location.search);
+  const [scope, setScope] = useState(SCOPE_IDS.includes(q.get('s')) ? q.get('s') : 'all');
+  const [char, setChar] = useState(CHAR_IDS.includes(q.get('c')) ? q.get('c') : null);
+  const highlight = /^[0-9a-f]{20}$/.test(q.get('p') || '') ? q.get('p') : null;
+  useEffect(() => {
+    try { const u = new URL(location.href); u.searchParams.set('s', scope); u.searchParams.set('c', char || 'any'); history.replaceState(null, '', u); } catch { /* без адреси */ }
+  }, [scope, char]);
+  const pl = loadPlayer(), mine = pl.pid && Object.keys(pl.subs).some(k => k.startsWith(scope + ':') && (!char || k.endsWith(':' + char)));
+  return (
+    <>
+      <section className="hero sc-hero">
+        <div className="hero-text">
+          <div className="kicker"><span className="ruby-dot" />{R.kicker}</div>
+          <h1>{R.title}</h1>
+          <p>{R.intro}</p>
+          <div className="sc-hero-actions">
+            <Button kind="primary" icon="play" href={game}>{R.play}</Button>
+            <ShareButton T={T} url={boardUrl(prefix, scope, char, mine ? pl.pid : null)} track={track} />
+          </div>
+        </div>
+      </section>
+      <section id="sc-rating" className="sc-section glass sc-board-card">
+        <Leaderboard T={T} lang={lang} prefix={prefix} scope={scope} char={char} onScope={setScope} onChar={setChar} big highlight={highlight} track={track} />
+      </section>
+      <section className="sc-section sc-rating-how">
+        <div className="glass sc-how-card"><span className="sc-how-icon"><Icon name="trophy" size={18} /></span><h3>{R.how}</h3><p>{R.howText}</p></div>
+        <div className="glass sc-how-card"><span className="sc-how-icon"><Icon name="share" size={18} /></span><h3>{R.shareTitle}</h3><p>{R.shareText}</p></div>
+      </section>
+      <section className="sc-section sc-ad glass" aria-label={R.adKicker}>
+        <span className="sc-ad-kicker">{R.adKicker}</span>
+        <h2 className="sc-h2">{R.adTitle}</h2>
+        <p>{R.adText}</p>
+        <div className="sc-actions">
+          <Button kind="primary" icon="mail" onClick={() => onLead('rating')}>{R.adButton}</Button>
+          <Button kind="ghost" href={prefix + '/business-intelligence/'}>{R.adLink}</Button>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default function App({ initialLang, base: assetBase, onSite, view = 'game' }) {
   const lang = initialLang, T = STRINGS[lang];
   const [menu, setMenu] = useState(false);
   const [lead, setLead] = useState(null);
@@ -26,6 +73,8 @@ export default function App({ initialLang, base: assetBase, onSite }) {
     location.href = LANGS.find(l => l.id === id).prefix + path + location.search;
   };
   const openLead = where => { setLead(where); track('lead_open', { where }); };
+  const gamePath = langPrefix + '/cases/scooter-cat/', ratingPath = langPrefix + '/cases/scooter-cat/rating/';
+  const rating = view === 'rating';
   return (
     <div className="app motion">
       <div className="bg" aria-hidden="true"><div className="bg-wave" /><div className="bg-grid" /><div className="bg-glow g1" /><div className="bg-glow g2" /></div>
@@ -37,11 +86,14 @@ export default function App({ initialLang, base: assetBase, onSite }) {
         </a>
         <p className="nav-caption">{T.navCaption}</p>
         <nav>
-          {NAV.map(([id, icon]) => (
+          {rating ? (
+            <a className="nav-item" href={gamePath}><Icon name="gamepad" size={18} /><span>{T.nav.game}</span></a>
+          ) : NAV.map(([id, icon]) => (
             <a key={id} href={'#' + id} className={'nav-item' + (active === id ? ' active' : '')} onClick={e => { e.preventDefault(); go(id); }}>
               <Icon name={icon} size={18} /><span>{T.nav[id]}</span>
             </a>
           ))}
+          <a className={'nav-item' + (rating ? ' active' : '')} href={ratingPath}><Icon name="trophy" size={18} /><span>{T.nav.rating}</span></a>
         </nav>
         <p className="nav-caption">{T.related}</p>
         <nav>
@@ -67,6 +119,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
           </div>
         </header>
 
+        {rating ? <RatingMain T={T} lang={lang} prefix={langPrefix} game={gamePath} onLead={openLead} /> : (<>
         <section className="hero sc-hero">
           <div className="hero-text">
             <div className="kicker"><span className="ruby-dot" />{T.kicker}<span className="demo-badge">{T.demo}</span></div>
@@ -108,6 +161,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
             })}
           </div>
         </section>
+        </>)}
 
         <footer className="footer">
           <div className="foot-brand">
