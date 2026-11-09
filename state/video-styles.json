@@ -140,6 +140,15 @@
     "music": "cinematic",
     "wave": "wave-1.jpg"
   },
+  "date-format-trap#1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-management-analytics.webp",
+    "k": 40,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-2.jpg"
+  },
   "document-type-matters#1": {
     "cover": "icon",
     "globe": "globe-1.jpg",
