@@ -142,6 +142,7 @@
   },
   "date-format-trap#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-2.jpg",
     "icon": "service-management-analytics.webp",
     "k": 40,
