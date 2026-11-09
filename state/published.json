@@ -536,6 +536,12 @@
     "status": "published",
     "url": "https://youtube.com/shorts/-wHlvPH35v8"
   },
+  "duplicates-in-registers/instagram-uk": {
+    "at": "2026-11-09 14:02",
+    "id": "17936600358146069",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfhSWl-jaA6/"
+  },
   "duplicates-in-registers/telegram-uk": {
     "at": "2026-11-09 10:02",
     "id": 49,
@@ -1581,7 +1587,7 @@
     "url": "https://www.instagram.com/reel/DfZ1EaAmTax/"
   },
   "pixel-audit/linkedinpage-en": {
-    "at": "2026-11-09 13:48",
+    "at": "2026-11-09 14:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-06 15:30",
