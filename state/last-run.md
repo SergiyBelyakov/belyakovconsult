@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-10 03:06
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-10 06:05
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в YouTube Shorts: completeness-is-not-quality
-https://youtube.com/shorts/3MwQDUrOSio
+✅ Опубліковано в YouTube Shorts: data-quality-dashboard-demo
+https://youtube.com/shorts/Ef7fZw5JRnM
 ```

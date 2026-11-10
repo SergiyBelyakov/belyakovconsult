@@ -530,6 +530,13 @@
     "status": "published",
     "url": "https://youtube.com/shorts/HDHHht3f9Xg"
   },
+  "data-quality-dashboard-demo/youtube-uk-4": {
+    "at": "2026-11-10 06:05",
+    "id": "Ef7fZw5JRnM",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/Ef7fZw5JRnM"
+  },
   "date-format-trap/instagram-en": {
     "at": "2026-11-09 11:02",
     "id": "17994164121025266",
@@ -1112,7 +1119,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-10 05:47",
+    "at": "2026-11-10 06:05",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
