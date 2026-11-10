@@ -2,7 +2,7 @@
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
     "linkedinpage": "2026-11-10 06:36",
-    "threads": "2026-11-08 12:32"
+    "threads": "2026-11-10 12:32"
   },
   "bi-audit-20min/instagram-en": {
     "at": "2026-11-08 20:32",
@@ -588,6 +588,12 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfhSWl-jaA6/"
   },
+  "duplicates-in-registers/instagram-uk-2": {
+    "at": "2026-11-10 12:32",
+    "id": "18031339403882770",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/Dfjs6FUAsJW/"
+  },
   "duplicates-in-registers/telegram-uk": {
     "at": "2026-11-09 10:02",
     "id": 49,
@@ -1139,7 +1145,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-10 12:21",
+    "at": "2026-11-10 12:32",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1789,6 +1795,19 @@
     "privacy": "public",
     "status": "published",
     "url": "https://youtube.com/shorts/iKKvSfG21Gc"
+  },
+  "teen-aura-check/telegram-uk": {
+    "at": "2026-11-10 12:32",
+    "id": 55,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/55"
+  },
+  "teen-aura-check/threads-en": {
+    "at": "2026-11-10 12:32",
+    "auth_error": true,
+    "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"An unknown error occurred\",\"type\":\"OAuthException\",\"code\":1,\"error_data\":\"Video transcode has failed\",\"error_subcode\":2207032,\"is_transient\":false,\"error_user_title\":\"Cannot Create Media\",\"error_user_msg\":\"Create media fail, please try to re-create",
+    "publish_at": "2026-11-10 12:30",
+    "status": "retry"
   },
   "terrain-joke/instagram-uk": {
     "at": "2026-11-09 21:13",
