@@ -1152,7 +1152,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-10 17:32",
+    "at": "2026-11-10 17:48",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1816,7 +1816,7 @@
     "url": "https://t.me/belyakovconsult/55"
   },
   "teen-aura-check/threads-en": {
-    "at": "2026-11-10 17:32",
+    "at": "2026-11-10 17:48",
     "auth_error": true,
     "error": "Threads (публікація): HTTP 400 {\"error\":{\"message\":\"An unknown error occurred\",\"type\":\"OAuthException\",\"code\":1,\"error_data\":\"Video transcode has failed\",\"error_subcode\":2207032,\"is_transient\":false,\"error_user_title\":\"Cannot Create Media\",\"error_user_msg\":\"Create media fail, please try to re-create",
     "publish_at": "2026-11-10 12:30",
