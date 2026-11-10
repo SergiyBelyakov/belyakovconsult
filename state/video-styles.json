@@ -198,6 +198,7 @@
   },
   "duplicates-in-registers#2": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-2.jpg",
     "icon": "service-governance.webp",
     "k": 16,
