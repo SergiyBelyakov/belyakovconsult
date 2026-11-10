@@ -51,7 +51,7 @@ const uk = {
   tagline: 'Траса це графік. Дванадцять графіків зі звітів просто під колесами і ще чотири в Адіщі.',
   intro: 'Гра в стилі Gravity Defied: герой на колесах їде трасою, яка насправді є графіком даних. Оберіть котика на самокаті, капібару на скейті або голову аналітика на моноколесі: усі троє стріляють лазерами з очей по багах даних. Дванадцять рівнів від легких до складних, і кожен це окремий вид графіка зі звітів: лінія з шумом і трендом, гістограма, сезонність, Парето, викиди, обрізана вісь, складена площа, водоспад, логарифмічна шкала, контрольна карта, панелі з однаковою шкалою і прогноз із коридором. Після кожного рівня короткий розбір: що це був за графік і як не помилитися, читаючи такий у звіті. А для тих, кому мало, є Адіще: свічки, діаграма Ганта, коридор температур і пила дебіторки з одним життям на трасу, як в іграх 90-х.',
   nav: { game: 'Гра', how: 'Як грати', skills: 'Чого вчить', rating: 'Рейтинг' },
-  related: 'Також у навчанні', gallery: 'Галерея візуалізацій', kitty: 'Лазерне кошеня',
+  related: 'Також у навчанні', gallery: 'Галерея візуалізацій', kitty: 'Лазерне кошеня', jackpot: 'Котячий джекпот',
   chart: {
     trend: 'Продажі за тижнями, тис. грн', season: 'Продажі за місяцями, тис. грн', outliers: 'Платежі за днями, тис. грн',
     axis: 'Виручка за місяцями, млн грн', log: 'Активні користувачі застосунку', forecast: 'Попит за місяцями, тис. од.',
@@ -360,7 +360,7 @@ const en = {
   tagline: 'The track is a chart. Twelve charts from real reports right under your wheels, and four more in Hell.',
   intro: 'A game in the style of Gravity Defied: a rider on wheels takes a track that is really a data chart. Pick the cat on a scooter, the capybara on a skateboard or the Head of Analytics on an electric unicycle: all three fire lasers from their eyes at data bugs. Twelve levels from easy to hard, each one a different kind of chart from real reports: a noisy line with a trend, a histogram, seasonality, a Pareto chart, outliers, a truncated axis, a stacked area, a waterfall, a log scale, a control chart, small multiples on one scale and a forecast with an uncertainty band. After each level there is a short debrief: what the chart was and how not to misread one like it in a report. And for those who want more there is Hell: candlesticks, a Gantt chart, a temperature corridor and a receivables saw, with one life per track, just like 90s games.',
   nav: { game: 'Game', how: 'How to play', skills: 'What it teaches', rating: 'Leaderboard' },
-  related: 'Also in learning', gallery: 'Chart gallery', kitty: 'Laser Kitty',
+  related: 'Also in learning', gallery: 'Chart gallery', kitty: 'Laser Kitty', jackpot: 'Jackpot Cat',
   chart: {
     trend: 'Weekly sales, thousand UAH', season: 'Monthly sales, thousand UAH', outliers: 'Daily payments, thousand UAH',
     axis: 'Monthly revenue, million UAH', log: 'Active app users', forecast: 'Monthly demand, thousand units',

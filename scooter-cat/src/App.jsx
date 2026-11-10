@@ -99,6 +99,7 @@ export default function App({ initialLang, base: assetBase, onSite, view = 'game
         <nav>
           <a className="nav-item" href={site + '/cases/chart-gallery/'}><Icon name="gallery" size={18} /><span>{T.gallery}</span></a>
           <a className="nav-item" href={site + '/cases/laser-kitty/'}><Icon name="kitty" size={18} /><span>{T.kitty}</span></a>
+          <a className="nav-item" href={site + '/cases/jackpot-cat/'}><Icon name="slot" size={18} /><span>{T.jackpot}</span></a>
         </nav>
         <div className="side-cta">
           <span className="signal-line" />

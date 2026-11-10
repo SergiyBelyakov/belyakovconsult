@@ -249,6 +249,7 @@ post_links:
   twin: /cases/community-twin/
   routes: /cases/route-planning/
   scooter: /cases/scooter-cat/
+  jackpot: /cases/jackpot-cat/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

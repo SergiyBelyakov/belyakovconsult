@@ -43,6 +43,7 @@ export default function App({ initialLang, base: assetBase, onSite }) {
         <nav>
           <a className="nav-item" href={(onSite ? langPrefix : 'https://www.belyakovconsult.com' + langPrefix) + '/cases/chart-gallery/'}><Icon name="gallery" size={18} /><span>{T.gallery}</span></a>
           <a className="nav-item" href={(onSite ? langPrefix : 'https://www.belyakovconsult.com' + langPrefix) + '/cases/scooter-cat/'}><Icon name="gamepad" size={18} /><span>{T.scooter}</span></a>
+          <a className="nav-item" href={(onSite ? langPrefix : 'https://www.belyakovconsult.com' + langPrefix) + '/cases/jackpot-cat/'}><Icon name="slot" size={18} /><span>{T.jackpot}</span></a>
         </nav>
         <div className="side-cta">
           <span className="signal-line" />

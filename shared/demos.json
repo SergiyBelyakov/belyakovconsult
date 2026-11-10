@@ -685,6 +685,58 @@
       "audiences": [
         "learning"
       ]
+    },
+    {
+      "slug": "jackpot-cat",
+      "dir": "jackpot-cat",
+      "attr": "data-jackpot-cat",
+      "anchor": "jackpot-cat",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-analysis",
+        "management-analytics",
+        "financial-analytics"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "jackpot-cat/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Котячий джекпот: гра про ймовірність і ризик | Belyakov Consult",
+          "description": "Чесний ігровий автомат 80-х: видно шанс кожної комбінації. Шість дослідів про очікуване значення, малу вибірку, серії та рідкісний ризик. Без грошей.",
+          "name": "Котячий джекпот: порахуй удачу",
+          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб покрутити чесний автомат і пройти шість дослідів про ймовірність: очікуване значення, малу вибірку, серії, «майже виграш», розкид і рідкісну подію.",
+          "kind": "Навчання · гра",
+          "teaser": "Автомат 80-х, який показує свою математику: котики й капібари платять, баги псують лінію, три Data Boss обнуляють баланс. Шість дослідів про ймовірність і ризик із прогнозом і розбором."
+        },
+        "en": {
+          "title": "Jackpot Cat: a game about probability and risk | Belyakov Consult",
+          "description": "An honest 80s slot machine that shows the odds of every combination. Six experiments on expected value, small samples, streaks and rare risk. No money.",
+          "name": "Jackpot Cat: Do the Math",
+          "noscript": "The game needs JavaScript. Turn it on to spin an honest slot machine and run six experiments on probability: expected value, small samples, streaks, the near miss, spread and the rare event.",
+          "kind": "Learning · game",
+          "teaser": "An 80s slot machine that shows its math: cats and capybaras pay, bugs spoil the line, three Data Bosses wipe the balance. Six experiments on probability and risk, each with a prediction and a debrief."
+        }
+      },
+      "audiences": [
+        "learning"
+      ]
     }
   ],
   "exhibits": [

@@ -5,7 +5,7 @@ const ukPl = (n, one, few, many) => { const r = ukRule.select(Math.round(Math.ab
 
 const uk = {
   demoName: 'Лазерне кошеня', navCaption: 'Навчання', kicker: 'Навчання • Гра • Якість даних', demo: 'Аркада на справжніх помилках',
-  title: 'Лазерне кошеня проти багів даних', tagline: 'Справжні помилки, справжні дублікати, лазерні очі.', related: 'Також у навчанні', gallery: 'Галерея візуалізацій', scooter: 'Котик на самокаті',
+  title: 'Лазерне кошеня проти багів даних', tagline: 'Справжні помилки, справжні дублікати, лазерні очі.', related: 'Також у навчанні', gallery: 'Галерея візуалізацій', scooter: 'Котик на самокаті', jackpot: 'Котячий джекпот',
   intro: 'Аркада, в якій записи летять строєм, як у старих автоматах. Помилки й дублікати в них справжні: 31 лютого, test@test.com, та сама людина з телефоном в іншому форматі. Видаляйте, виправляйте, об’єднуйте, а коректні записи пропускайте до сховища.',
   nav: { game: 'Гра', how: 'Як грати', skills: 'Чого вчить' },
   levelBanner: n => `РІВЕНЬ ${n}`,
@@ -113,7 +113,7 @@ const uk = {
 
 const en = {
   demoName: 'Laser Kitty', navCaption: 'Learning', kicker: 'Learning • Game • Data quality', demo: 'Arcade on real data errors',
-  title: 'Laser Kitty vs the Data Bugs', tagline: 'Real errors, real duplicates, laser eyes.', related: 'Also in learning', gallery: 'Chart gallery', scooter: 'Scooter Cat',
+  title: 'Laser Kitty vs the Data Bugs', tagline: 'Real errors, real duplicates, laser eyes.', related: 'Also in learning', gallery: 'Chart gallery', scooter: 'Scooter Cat', jackpot: 'Jackpot Cat',
   intro: 'An arcade game where records fly in formation like in old cabinets. The errors and duplicates in them are real: 31 February, test@test.com, the same person with a phone in another format. Delete, fix, merge, and let correct records through to the warehouse.',
   nav: { game: 'Game', how: 'How to play', skills: 'What it teaches' },
   levelBanner: n => `LEVEL ${n}`,
