@@ -742,6 +742,15 @@
     "music": "analytic",
     "wave": "wave-5.jpg"
   },
+  "teen-aura-check#1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-consulting.webp",
+    "k": 44,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-7.jpg"
+  },
   "terrain-joke#1": {
     "cover": "icon",
     "frozen": true,
