@@ -1,11 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-11 03:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-11 06:02
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
 ✅ Опубліковано в YouTube Shorts: bi-is-not-for-fixing-sources
-https://youtube.com/shorts/GO3lMClbz3Y
+https://youtube.com/shorts/ORH58Wah1-M
 ```
