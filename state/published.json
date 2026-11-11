@@ -1219,7 +1219,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-11 08:47",
+    "at": "2026-11-11 08:50",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1917,6 +1917,24 @@
     "privacy": "public",
     "status": "published",
     "url": "https://youtube.com/shorts/ak01b0ghnhk"
+  },
+  "teen-tier-list/instagram-en": {
+    "at": "2026-11-11 08:50",
+    "id": "18102921065074640",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/Dfl4OsbinrT/"
+  },
+  "teen-tier-list/telegram-uk": {
+    "at": "2026-11-11 08:50",
+    "id": 56,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/56"
+  },
+  "teen-tier-list/threads-en": {
+    "at": "2026-11-11 08:50",
+    "id": "18129406757494016",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/Dfl4TDHBRG0"
   },
   "terrain-joke/instagram-uk": {
     "at": "2026-11-09 21:13",

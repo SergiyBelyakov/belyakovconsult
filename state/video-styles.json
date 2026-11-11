@@ -752,6 +752,15 @@
     "music": "ambient",
     "wave": "wave-7.jpg"
   },
+  "teen-tier-list#1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-quality.webp",
+    "k": 45,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-3.jpg"
+  },
   "terrain-joke#1": {
     "cover": "icon",
     "frozen": true,
