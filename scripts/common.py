@@ -283,8 +283,14 @@ def youtube_posts(cfg: dict, posts: list) -> list:
             continue
         out.append(yt)
     step = timedelta(hours=float(yc.get("backfill_every_hours", 3)))
-    for k, p in enumerate(sorted(queue, key=lambda q: (q.publish_at, q.lang))):
+    # Уже вивантажені ролики черги місць не займають: крок рахується лише між тими, що чекають (з 11.11.2026,
+    # щоб зміна backfill_every_hours не переставляла давно опубліковане й не відкладала решту на тижні).
+    k = 0
+    for p in sorted(queue, key=lambda q: (q.publish_at, q.lang)):
+        if (state.get(p.key) or {}).get("status") == "published":
+            continue
         out.append(replace(p, publish_at=backfill + k * step, auto_time=False, max_late=48.0))
+        k += 1
     return out
 
 

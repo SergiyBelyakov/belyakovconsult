@@ -84,7 +84,8 @@ def main() -> int:
         if any(ch in p.body for ch in "\u2013\u2014"):
             warns.append(f"{where}: є тире «—» або «–»; за профілем голосу їх не використовуємо (список: «•» або 1., 2.)")
         langs = cfg["channels"][p.channel].get("languages")
-        if langs and p.lang not in langs:
+        yt_src = p.channel == "instagram" and p.lang in ((cfg["channels"].get("youtube") or {}).get("languages") or [])
+        if langs and p.lang not in langs and not yt_src:   # UA-файли Instagram лишаються джерелом для YouTube Shorts
             errors.append(f"{where}: канал {p.channel} публікує лише {', '.join(langs)}, допис мовою {p.lang} не вийде")
         limit = cfg["channels"][p.channel]["max_chars"]
         parts = post_parts(p, cfg)

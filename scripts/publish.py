@@ -248,6 +248,24 @@ def main() -> int:
             admin(f"⏭ Пропущено прострочений допис ({late_h:.0f} год): {name}, {post.slug}. "
                   f"Змініть publish_at у {post.path.name}, якщо його треба опублікувати.")
             continue
+        # Запізнілі дописи (конвеєр стояв, ключ не працював, GitHub затримав запуск) не виходять пачкою серед ночі:
+        # нотатки після grace_minutes пропускаються, решта виходить по одній на канал і мову не частіше gap_minutes
+        # і не в quiet_hours (київський час). Див. late_policy у config.yml.
+        lp = cfg.get("late_policy") or {}
+        if lp and late_h * 60 > int(lp.get("grace_minutes", 90)):
+            if post.kind == "note" and lp.get("skip_late_notes", True):
+                state[post.key] = {"status": "skipped-late", "at": fmt_dt(t), "publish_at": fmt_dt(post.publish_at)}
+                print(f"Нотатка запізнилася на {late_h:.1f} год, пропущено: {post.key}")
+                continue
+            q0, q1 = (lp.get("quiet_hours") or [0, 8])[:2]
+            if (q0 <= t.hour < q1) if q0 <= q1 else (t.hour >= q0 or t.hour < q1):
+                print(f"Запізнілий допис чекає ранку (тихі години {q0}:00–{q1}:00): {post.key}")
+                continue
+            last = last_published(state, post.channel, post.lang)
+            gap = int(lp.get("gap_minutes", 90))
+            if last and (t.replace(tzinfo=None) - last).total_seconds() < gap * 60:
+                print(f"Запізнілий допис чекає проміжку {gap} хв після попереднього в {post.channel}-{post.lang}: {post.key}")
+                continue
         parts = post_parts(post, cfg)
         vid = video_url(post, cfg)
         card_dir = note_asset_dir(cfg, post) if post.kind == "note" else _asset_dir(post, cfg)

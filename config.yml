@@ -15,6 +15,15 @@ timezone: Europe/Kyiv
 # його не публікуємо автоматично, а надсилаємо нагадування.
 max_late_hours: 48   # запуски GitHub за розкладом бувають із затримкою
 
+# 11.11.2026: запізнілі дописи не виходять пачкою (10–11.11 після збою ключа Threads 4 нотатки вийшли разом о 00:34).
+# Якщо допис запізнився більше ніж на grace_minutes: нотатку пропускаємо (вона прив'язана до вечірнього слота),
+# решта виходить по одній на канал і мову не частіше gap_minutes і не в quiet_hours (з..до, київський час).
+late_policy:
+  grace_minutes: 90
+  gap_minutes: 90
+  skip_late_notes: true
+  quiet_hours: [0, 8]
+
 site:
   base_url: https://www.belyakovconsult.com
   name: Belyakov Consult
@@ -133,7 +142,10 @@ channels:
     media: motion
   instagram:
     enabled: true
-    languages: [uk, en]
+    # 11.11.2026: лише EN. Друга копія того самого відео (UA після EN чи навпаки) Instagram майже не показує:
+    # 110 проти 1, 47 проти 2, 52 проти 3 охоплених (експорт інсайтів). UA Reels повертати лише з окремим відео.
+    # YouTube Shorts бере UA-дописи з тих самих файлів далі (channels.youtube.languages).
+    languages: [en]
     max_chars: 2200
     auto: true              # з секретом INSTAGRAM_TOKEN карусель публікується сама; без нього підпис і картки йдуть вам у Telegram
     api_version: v26.0
@@ -146,8 +158,8 @@ channels:
     max_chars: 4900
     media: motion
     start: "2026-11-06 15:00"   # раніші дописи в Shorts не дублюються...
-    backfill_at: "2026-11-07 03:00"   # ...крім тих, що вже вийшли в Instagram: черга з цього часу
-    backfill_every_hours: 3           # на прохання 07.11: по одному Shorts кожні 3 години
+    backfill_at: "2026-11-12 10:00"   # ...крім тих, що вже вийшли в Instagram: черга з цього часу (було 07.11 03:00; 11.11 черга перезапущена з кроком 12 год)
+    backfill_every_hours: 12          # 11.11: було 3 (на прохання 07.11); після 10.11 Shorts просіли до 1–34 переглядів, зменшуємо частоту
     offset_minutes: 30          # для дописів із явним часом: через 30 хв після Reels
     skip_slugs: [bi-audit-20min]   # перевикладені ролики, що вже є в Shorts
 
