@@ -743,6 +743,15 @@
     "music": "analytic",
     "wave": "wave-5.jpg"
   },
+  "teen-3am#1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-data-analysis.webp",
+    "k": 46,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-6.jpg"
+  },
   "teen-aura-check#1": {
     "cover": "icon",
     "frozen": true,
