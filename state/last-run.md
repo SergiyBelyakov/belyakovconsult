@@ -1,25 +1,18 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 3. Час: 2026-11-11 08:50
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 2. Час: 2026-11-11 09:02
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в Instagram: teen-tier-list
-https://www.instagram.com/reel/Dfl4OsbinrT/
+✅ Опубліковано в YouTube Shorts: bi-is-not-for-fixing-sources
+https://youtube.com/shorts/aMZMBa0VvqY
 ```
 
 ## 2
 
 ```
-✅ Опубліковано в Telegram: teen-tier-list
-https://t.me/belyakovconsult/56
-```
-
-## 3
-
-```
-✅ Опубліковано в Threads: teen-tier-list
-https://www.threads.com/@belyakovconsult/post/Dfl4TDHBRG0
+✅ Опубліковано в Instagram: note-2026-11-11
+https://www.instagram.com/p/Dfl5kWsEXSW/
 ```
