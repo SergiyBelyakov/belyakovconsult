@@ -661,6 +661,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/54"
   },
+  "duplicates-in-registers/telegram-uk-3": {
+    "at": "2026-11-11 10:02",
+    "id": 57,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/57"
+  },
   "duplicates-in-registers/threads-en": {
     "at": "2026-11-09 18:02",
     "id": "18119836831801805",
@@ -1226,7 +1232,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-11 09:47",
+    "at": "2026-11-11 10:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
