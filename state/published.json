@@ -1238,7 +1238,7 @@
     "url": "https://www.instagram.com/reel/Dff5e8YgSn0/"
   },
   "laser-kitty-game/linkedinpage-en": {
-    "at": "2026-11-11 12:47",
+    "at": "2026-11-11 13:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 01:00",
@@ -1936,6 +1936,13 @@
     "id": "18109166903637515",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfmRtQyhYy4"
+  },
+  "teen-3am/youtube-en": {
+    "at": "2026-11-11 13:02",
+    "id": "efboAPJpRzI",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/efboAPJpRzI"
   },
   "teen-aura-check/instagram-en": {
     "at": "2026-11-10 17:02",
