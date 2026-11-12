@@ -631,6 +631,12 @@
     "status": "published",
     "url": "https://t.me/belyakovconsult/59"
   },
+  "document-type-matters/threads-uk": {
+    "at": "2026-11-12 12:02",
+    "id": "18170685277474304",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/Dfoy-fjAs4e"
+  },
   "duplicates-in-registers/instagram-en": {
     "at": "2026-11-09 15:02",
     "id": "18138832042649929",
@@ -1316,11 +1322,9 @@
     "url": "https://www.instagram.com/reel/DfcdO68gLxN/"
   },
   "laser-kitty/linkedinpage-en": {
-    "at": "2026-11-12 11:47",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-12 12:02",
     "publish_at": "2026-11-09 12:00",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "laser-kitty/telegram-uk": {
     "at": "2026-11-07 16:32",
@@ -1982,6 +1986,13 @@
     "id": "18182452957431922",
     "status": "published",
     "url": "https://www.instagram.com/reel/DfhIrhtCeUD/"
+  },
+  "six-seven/linkedinpage-en": {
+    "at": "2026-11-12 12:02",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-09 12:35",
+    "status": "retry"
   },
   "six-seven/telegram-uk": {
     "at": "2026-11-09 12:37",
