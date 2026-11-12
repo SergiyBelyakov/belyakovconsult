@@ -1,5 +1,5 @@
 {
-  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти. Поле featured у демо: напрями, на сторінках яких демо стоїть першим у блоці «Подивитися в лабораторії».",
+  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти. Поле featured у демо: напрями, на сторінках яких демо стоїть першим у блоці «Подивитися в лабораторії». Поле first_for: вкладки блоку «Пропозиції» на головній, де демо стоїть першим.",
   "demos": [
     {
       "slug": "data-quality-dashboard",
@@ -736,6 +736,66 @@
       },
       "audiences": [
         "learning"
+      ]
+    },
+    {
+      "slug": "monitoring-evaluation",
+      "dir": "me-demo",
+      "attr": "data-me-demo",
+      "anchor": "monitoring-evaluation",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-strategy",
+        "management-analytics",
+        "data-quality",
+        "business-intelligence"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "me-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Демо моніторингу й оцінки програм (M&E) | Belyakov Consult",
+          "description": "Інтерактивна система M&E умовної донорської програми в шести областях: рамка результатів, таблиця з 22 показників із прогнозом, охоплення без подвійного обліку, освоєний обсяг бюджету, перевірка якості даних партнерів і оцінка ефекту різницею різниць на синтетичних даних.",
+          "name": "Моніторинг і оцінка програм (M&E)",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо показує моніторинг і оцінку умовної програми: рамку результатів, показники з планом, фактом і прогнозом, охоплення в областях і громадах, бюджет проти зробленого, якість даних і ефект програми на синтетичних даних.",
+          "kind": "M&E · програми й донори",
+          "teaser": "Рамка результатів, 22 показники з прогнозом, гроші проти зробленого, перевірка даних партнерів і чесна оцінка ефекту: три способи рахувати дають +13, −1 і +7 в.п."
+        },
+        "en": {
+          "title": "Programme monitoring and evaluation (M&E) demo | Belyakov Consult",
+          "description": "An interactive M&E system for a fictional donor programme in six oblasts: a results framework, a table of 22 indicators with forecasts, reach without double counting, earned value, partner data quality checks and an impact evaluation by difference in differences on synthetic data.",
+          "name": "Programme monitoring and evaluation (M&E)",
+          "noscript": "The demo needs JavaScript. It shows monitoring and evaluation of a fictional programme: a results framework, indicators with plan, actual and forecast, reach by oblast and community, budget against work done, data quality and programme impact on synthetic data.",
+          "kind": "M&E · programmes and donors",
+          "teaser": "A results framework, 22 indicators with forecasts, money against work done, partner data checks and an honest impact estimate: three ways to count give +13, −1 and +7 pp."
+        }
+      },
+      "audiences": [
+        "donors",
+        "public"
+      ],
+      "first_for": [
+        "donors"
+      ],
+      "featured": [
+        "data-strategy"
       ]
     }
   ],

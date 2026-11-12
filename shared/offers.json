@@ -76,7 +76,7 @@
     },
     {
       "id": "donors",
-      "image": "data-quality-dashboard",
+      "image": "monitoring-evaluation",
       "services": ["data-strategy", "data-quality", "business-intelligence"],
       "extras": [
         {"kind": "sample", "path": "/cases/data-quality-dashboard/#reports", "title": {"uk": "PDF-звіт з методикою розрахунку", "en": "PDF report with the calculation method", "pt": "Relatório PDF com a metodologia de cálculo"}},
@@ -84,11 +84,11 @@
       ],
       "lang": {
         "uk": {"tab": "Програмам та донорам", "topic": "Програми й донори", "title": "Показники результату з доказами", "text": "Для міжнародних програм і їхніх партнерів: індикатори, що відповідають цілям програми, джерело й методика для кожного числа, моніторинг і звіт, який витримує перевірку донора.",
-               "tasks": ["Індикатори змін для людей замість підрахунку заходів", "Методика, джерела й перевірка якості для кожного показника", "Дашборд моніторингу й PDF-звіт для партнера"]},
+               "tasks": ["Індикатори змін для людей замість підрахунку заходів", "Методика, джерела й перевірка якості для кожного показника", "Дашборд моніторингу й PDF-звіт для партнера", "Оцінка ефекту з порівняльною групою замість «до і після»"]},
         "en": {"tab": "Programmes and donors", "topic": "Programmes and donors", "title": "Outcome indicators backed by evidence", "text": "For international programmes and their partners: indicators that match programme goals, a source and a method for every number, monitoring and a report that stands up to donor review.",
-               "tasks": ["Indicators of change for people, not counts of activities", "A method, sources and quality checks for every indicator", "A monitoring dashboard and a PDF report for partners"]},
+               "tasks": ["Indicators of change for people, not counts of activities", "A method, sources and quality checks for every indicator", "A monitoring dashboard and a PDF report for partners", "Impact evaluation with a comparison group instead of before and after"]},
         "pt": {"tab": "Programas e doadores", "topic": "Programas e doadores", "title": "Indicadores de resultado com evidência", "text": "Para programas internacionais e os seus parceiros: indicadores alinhados com os objetivos do programa, fonte e método para cada número, monitorização e um relatório que resiste à verificação do doador.",
-               "tasks": ["Indicadores de mudança para as pessoas, não contagem de atividades", "Método, fontes e verificação de qualidade para cada indicador", "Painel de monitorização e relatório em PDF para parceiros"]}
+               "tasks": ["Indicadores de mudança para as pessoas, não contagem de atividades", "Método, fontes e verificação de qualidade para cada indicador", "Painel de monitorização e relatório em PDF para parceiros", "Avaliação de impacto com grupo de comparação em vez de antes e depois"]}
       }
     }
   ]

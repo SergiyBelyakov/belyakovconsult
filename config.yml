@@ -262,6 +262,7 @@ post_links:
   routes: /cases/route-planning/
   scooter: /cases/scooter-cat/
   jackpot: /cases/jackpot-cat/
+  me: /cases/monitoring-evaluation/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

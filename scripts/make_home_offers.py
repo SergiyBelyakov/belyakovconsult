@@ -51,7 +51,8 @@ def image(name: str, lang: str) -> str:
 
 def proofs(a: dict, demos: list, lang: str, ui: dict) -> list[dict]:
     out = []
-    for d in demos:
+    # поле first_for у маніфесті: вкладки, де демо стоїть першим (решта в порядку маніфесту)
+    for d in sorted(demos, key=lambda d: 0 if a["id"] in d.get("first_for", []) else 1):
         if a["id"] not in d.get("audiences", []):
             continue
         use = lang if lang in d["langs"] else "en"
