@@ -654,6 +654,13 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/Dfoy-fjAs4e"
   },
+  "document-type-matters/youtube-uk": {
+    "at": "2026-11-12 19:02",
+    "attempts": 1,
+    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
+    "publish_at": "2026-11-12 19:00",
+    "status": "retry"
+  },
   "duplicates-in-registers/instagram-en": {
     "at": "2026-11-09 15:02",
     "id": "18138832042649929",
@@ -2139,7 +2146,7 @@
     "url": "https://www.instagram.com/reel/DfiDl5ykaDv/"
   },
   "terrain-joke/linkedinpage-uk": {
-    "at": "2026-11-12 18:47",
+    "at": "2026-11-12 19:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 21:05",
