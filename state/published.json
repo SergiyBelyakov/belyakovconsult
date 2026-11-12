@@ -630,6 +630,12 @@
     "status": "published",
     "url": "https://youtube.com/shorts/-wHlvPH35v8"
   },
+  "document-type-matters/instagram-en": {
+    "at": "2026-11-12 18:32",
+    "id": "18117196346024141",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DfpfhtQk5d0/"
+  },
   "document-type-matters/telegram-uk": {
     "at": "2026-11-12 10:03",
     "id": 59,
@@ -1974,11 +1980,9 @@
     "url": "https://www.instagram.com/reel/DfhxQBxCdbM/"
   },
   "scooter-cat-game/linkedinpage-en": {
-    "at": "2026-11-12 18:18",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-12 18:32",
     "publish_at": "2026-11-09 18:30",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "scooter-cat-game/telegram-uk": {
     "at": "2026-11-09 18:02",
@@ -2133,6 +2137,13 @@
     "id": "18077997278467424",
     "status": "published",
     "url": "https://www.instagram.com/reel/DfiDl5ykaDv/"
+  },
+  "terrain-joke/linkedinpage-uk": {
+    "at": "2026-11-12 18:32",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-09 21:05",
+    "status": "retry"
   },
   "terrain-joke/telegram-uk": {
     "at": "2026-11-09 21:06",
