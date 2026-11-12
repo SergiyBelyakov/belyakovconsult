@@ -1215,11 +1215,11 @@
     "url": "https://youtube.com/shorts/2dM2QYL0JBQ"
   },
   "iso-8000-8-quality-in-registers/youtube-en-4": {
-    "at": "2026-11-09 18:32",
-    "attempts": 3,
-    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
-    "publish_at": "2026-11-09 18:00",
-    "status": "failed"
+    "at": "2026-11-12 10:47",
+    "id": "_IKacZ_xdIY",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/_IKacZ_xdIY"
   },
   "iso-8000-8-quality-in-registers/youtube-uk": {
     "at": "2026-11-12 10:17",
@@ -1316,7 +1316,7 @@
     "url": "https://www.instagram.com/reel/DfcdO68gLxN/"
   },
   "laser-kitty/linkedinpage-en": {
-    "at": "2026-11-12 10:32",
+    "at": "2026-11-12 10:47",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-09 12:00",
