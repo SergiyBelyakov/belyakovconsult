@@ -1,12 +1,12 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-12 17:47
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-12 18:03
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⚠️ Не вдалося опублікувати в YouTube Shorts (teen-npc-vs-main), спроба 2/3:
+⚠️ Не вдалося опублікувати в YouTube Shorts (teen-npc-vs-main), спроба 3/3:
 YouTube (початок вивантаження): HTTP 400 {
   "error": {
     "code": 400,
@@ -21,4 +21,12 @@ YouTube (початок вивантаження): HTTP 400 {
   }
 }
 
+Більше спроб не буде — перевірте токен або текст.
+```
+
+## 2
+
+```
+✅ Опубліковано в Threads: document-type-matters
+https://www.threads.com/@belyakovconsult/post/DfpcNUDNdHi
 ```
