@@ -802,11 +802,11 @@
     "url": "https://youtube.com/shorts/7Sjtzrc0uco"
   },
   "duplicates-in-registers/youtube-uk-2": {
-    "at": "2026-11-10 19:32",
-    "attempts": 3,
-    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
-    "publish_at": "2026-11-10 19:00",
-    "status": "failed"
+    "at": "2026-11-12 22:47",
+    "id": "lWwUc0RKwOg",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/lWwUc0RKwOg"
   },
   "duplicates-in-registers/youtube-uk-3": {
     "at": "2026-11-11 19:04",
@@ -2108,7 +2108,7 @@
     "url": "https://www.instagram.com/reel/DfkLvh5kXCi/"
   },
   "teen-aura-check/linkedinpage-en": {
-    "at": "2026-11-12 22:32",
+    "at": "2026-11-12 22:47",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-10 12:30",
