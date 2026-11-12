@@ -24,9 +24,9 @@ BI-платформу часто обирають за демо: гарні гр
 }
 </style>
 
-<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=uk&amp;embed=1" title="Інтерактивна схема: п’ять BI-платформ за десятьма критеріями" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
+<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme/?lang=uk&amp;embed=1" title="Інтерактивна схема: п’ять BI-платформ за десятьма критеріями" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
 
-<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=uk">Відкрити схему на окремій сторінці</a></p>
+<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme/?lang=uk">Відкрити схему на окремій сторінці</a></p>
 
 ## Як читати схему
 

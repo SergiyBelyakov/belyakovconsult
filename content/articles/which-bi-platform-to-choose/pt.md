@@ -24,9 +24,9 @@ Juntei cinco plataformas num único mapa com dez critérios: Power BI, Tableau, 
 }
 </style>
 
-<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=pt&amp;embed=1" title="Mapa interativo: cinco plataformas de BI em dez critérios" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
+<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme/?lang=pt&amp;embed=1" title="Mapa interativo: cinco plataformas de BI em dez critérios" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
 
-<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=pt">Abrir o mapa numa página separada</a></p>
+<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme/?lang=pt">Abrir o mapa numa página separada</a></p>
 
 ## Como ler o mapa
 

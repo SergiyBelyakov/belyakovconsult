@@ -24,9 +24,9 @@ I put five platforms into one map across ten criteria: Power BI, Tableau, Qlik, 
 }
 </style>
 
-<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=en&amp;embed=1" title="Interactive map: five BI platforms across ten criteria" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
+<div class="bc-scheme"><iframe src="/assets/insights/which-bi-platform-to-choose/scheme/?lang=en&amp;embed=1" title="Interactive map: five BI platforms across ten criteria" loading="lazy" allow="fullscreen" allowfullscreen></iframe></div>
 
-<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme.html?lang=en">Open the map on a separate page</a></p>
+<p class="bc-scheme-open"><a href="/assets/insights/which-bi-platform-to-choose/scheme/?lang=en">Open the map on a separate page</a></p>
 
 ## How to read the map
 
