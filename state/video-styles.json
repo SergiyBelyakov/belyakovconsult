@@ -764,6 +764,15 @@
     "music": "ambient",
     "wave": "wave-7.jpg"
   },
+  "teen-npc-vs-main#1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-geospatial.webp",
+    "k": 47,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-2.jpg"
+  },
   "teen-tier-list#1": {
     "cover": "icon",
     "frozen": true,
