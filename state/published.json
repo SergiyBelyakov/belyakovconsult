@@ -1,7 +1,7 @@
 {
   "_auth_alerts": {
     "instagram": "2026-10-28 07:37",
-    "linkedinpage": "2026-11-11 18:53",
+    "linkedinpage": "2026-11-12 08:03",
     "threads": "2026-11-10 18:33"
   },
   "bi-audit-20min/instagram-en": {
@@ -1308,6 +1308,13 @@
     "id": "17898688749417978",
     "status": "published",
     "url": "https://www.instagram.com/reel/DfcdO68gLxN/"
+  },
+  "laser-kitty/linkedinpage-en": {
+    "at": "2026-11-12 08:03",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-09 12:00",
+    "status": "retry"
   },
   "laser-kitty/telegram-uk": {
     "at": "2026-11-07 16:32",
