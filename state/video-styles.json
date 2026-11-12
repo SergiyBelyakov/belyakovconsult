@@ -152,6 +152,7 @@
   },
   "document-type-matters#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-1.jpg",
     "icon": "service-architecture.webp",
     "k": 18,
