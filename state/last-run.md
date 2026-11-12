@@ -1,17 +1,18 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-12 12:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 2. Час: 2026-11-12 12:32
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⏭ Пропущено прострочений допис (72 год): LinkedIn (сторінка Belyakov Consult), laser-kitty. Змініть publish_at у linkedinpage-en.md, якщо його треба опублікувати.
+✅ Опубліковано в Telegram: teen-npc-vs-main
+https://t.me/belyakovconsult/60
 ```
 
 ## 2
 
 ```
-✅ Опубліковано в Threads: document-type-matters
-https://www.threads.com/@belyakovconsult/post/Dfoy-fjAs4e
+✅ Опубліковано в Threads: teen-npc-vs-main
+https://www.threads.com/@belyakovconsult/post/Dfo2ZcJzlKo
 ```
