@@ -606,6 +606,13 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/Dfg9uLjCCFs/"
   },
+  "date-format-trap/linkedinpage-en": {
+    "at": "2026-11-12 12:47",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-09 15:00",
+    "status": "retry"
+  },
   "date-format-trap/telegram-uk": {
     "at": "2026-11-09 11:33",
     "id": 50,
@@ -1339,11 +1346,11 @@
     "url": "https://www.threads.com/@belyakovconsult/post/Dfcq_2LTQcn"
   },
   "laser-kitty/youtube-en": {
-    "at": "2026-11-07 18:02",
-    "attempts": 3,
-    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
-    "publish_at": "2026-11-07 17:30",
-    "status": "failed"
+    "at": "2026-11-12 12:47",
+    "id": "J1u4qcN04ms",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/J1u4qcN04ms"
   },
   "linkedin-check/linkedin-uk": {
     "at": "2026-10-25 23:05",
@@ -1988,11 +1995,9 @@
     "url": "https://www.instagram.com/reel/DfhIrhtCeUD/"
   },
   "six-seven/linkedinpage-en": {
-    "at": "2026-11-12 12:32",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-12 12:47",
     "publish_at": "2026-11-09 12:35",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "six-seven/telegram-uk": {
     "at": "2026-11-09 12:37",
