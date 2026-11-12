@@ -1,10 +1,24 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-12 15:02
+Режим: live лише для: instagram, linkedinpage, telegram, threads, youtube. Оброблено дописів: 0. Час: 2026-11-12 15:47
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-⏭ Пропущено прострочений допис (72 год): LinkedIn (сторінка Belyakov Consult), date-format-trap. Змініть publish_at у linkedinpage-en.md, якщо його треба опублікувати.
+⚠️ Не вдалося опублікувати в YouTube Shorts (scooter-cat-game), спроба 1/3:
+YouTube (початок вивантаження): HTTP 400 {
+  "error": {
+    "code": 400,
+    "message": "The user has exceeded the number of videos they may upload.",
+    "errors": [
+      {
+        "message": "The user has exceeded the number of videos they may upload.",
+        "domain": "youtube.video",
+        "reason": "uploadLimitExceeded"
+      }
+    ]
+  }
+}
+
 ```
