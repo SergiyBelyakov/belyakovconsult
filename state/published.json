@@ -714,9 +714,19 @@
     "publish_at": "2026-11-09 17:00",
     "status": "skipped-late"
   },
+  "duplicates-in-registers/linkedinpage-en-2": {
+    "at": "2026-11-13 00:02",
+    "publish_at": "2026-11-10 17:00",
+    "status": "skipped-late"
+  },
   "duplicates-in-registers/linkedinpage-uk": {
     "at": "2026-11-12 00:03",
     "publish_at": "2026-11-09 13:30",
+    "status": "skipped-late"
+  },
+  "duplicates-in-registers/linkedinpage-uk-2": {
+    "at": "2026-11-13 00:02",
+    "publish_at": "2026-11-10 13:30",
     "status": "skipped-late"
   },
   "duplicates-in-registers/telegram-uk": {
