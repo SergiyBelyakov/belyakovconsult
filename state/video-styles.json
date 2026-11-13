@@ -162,6 +162,7 @@
   },
   "document-type-matters#2": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-2.jpg",
     "icon": "service-quality.webp",
     "k": 19,
