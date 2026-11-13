@@ -2047,6 +2047,12 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/DfsVpg-lJbi"
   },
+  "note-2026-11-13/threads-uk": {
+    "at": "2026-11-13 22:02",
+    "id": "17940959583123975",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfscaZbnSc8"
+  },
   "note-2026-11-13/threads-uk-2": {
     "at": "2026-11-13 20:32",
     "id": "18115739312324370",
@@ -2253,7 +2259,7 @@
     "url": "https://www.instagram.com/reel/Dfl4OsbinrT/"
   },
   "teen-tier-list/linkedinpage-en": {
-    "at": "2026-11-13 21:47",
+    "at": "2026-11-13 22:02",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-11 08:50",
