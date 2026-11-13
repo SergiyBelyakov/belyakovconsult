@@ -690,6 +690,13 @@
     "status": "published",
     "url": "https://youtube.com/shorts/HwtJJmj_RjE"
   },
+  "document-type-matters/youtube-en-2": {
+    "at": "2026-11-13 20:32",
+    "id": "-9gErZc_KEU",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/-9gErZc_KEU"
+  },
   "document-type-matters/youtube-uk": {
     "at": "2026-11-12 19:32",
     "attempts": 3,
@@ -2034,6 +2041,12 @@
     "status": "published",
     "url": "https://www.instagram.com/p/Dfr6E2eFEdM/"
   },
+  "note-2026-11-13/threads-uk-2": {
+    "at": "2026-11-13 20:32",
+    "id": "18115739312324370",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfsSE9ZGQkA"
+  },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
@@ -2234,7 +2247,7 @@
     "url": "https://www.instagram.com/reel/Dfl4OsbinrT/"
   },
   "teen-tier-list/linkedinpage-en": {
-    "at": "2026-11-13 20:17",
+    "at": "2026-11-13 20:32",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-11 08:50",
