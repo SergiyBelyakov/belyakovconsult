@@ -496,3 +496,11 @@ CLASSES = {c.name: c for c in (Sunset, Sunrise, Drone, Tunnel, City, Orbit, Terr
 
 def make(name: str):
     return CLASSES[name]()
+
+
+# ще 10 заставок у стилістиці демо сайту (scripts/premium_demo_scenes.py)
+import premium_demo_scenes as _demo  # noqa: E402
+
+DEMO_SCENES = list(_demo.SCENES)
+SCENES += DEMO_SCENES
+CLASSES.update(_demo.CLASSES)

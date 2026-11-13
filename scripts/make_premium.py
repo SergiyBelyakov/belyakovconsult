@@ -1,7 +1,7 @@
 """Шаблон преміум-роликів (9:16, 24 с): формат, затверджений власником 13.11.2026 після тестового «Night Drive».
 
 Кожен ролик збирається з варіантів, щоб формат не повторювався:
-  scene   одна з 10 заставок із різною перспективою й рухом камери (scripts/premium_scenes.py)
+  scene   одна з 20 заставок: 10 synthwave (scripts/premium_scenes.py) і 10 у стилі демо сайту (premium_demo_scenes.py)
   track   одна з 5 мелодій (make_nightdrive.TRACKS: Night Drive, Neon Rain, Chrome Dawn, Glass City, Midnight Ledger)
   layout  center | left (редакторський, з рубіновою лінією)
   reveal  slide | mask | focus: як з'являються заголовки
@@ -15,7 +15,7 @@
 
 Запуск: python scripts/make_premium.py <slug> <N> <мова> <папка>
         python scripts/make_premium.py --next     (які заставка й мелодія наступні за ротацією)
-        python scripts/make_premium.py --reel <файл.mp4>   (показовий ролик: 10 заставок і 5 мелодій)
+        python scripts/make_premium.py --reel <файл.mp4> [demo]   (показовий ролик: 10 заставок і 5 мелодій; demo: заставки в стилі демо сайту)
 """
 from __future__ import annotations
 
@@ -675,7 +675,7 @@ def render(key: str, lang: str, out: Path) -> Path:
     return out
 
 
-def reel(out: Path) -> Path:
+def reel(out: Path, names=None, first=1) -> Path:
     """Показовий ролик формату: 10 заставок по 2.4 с і 5 мелодій по 4.8 с (частина драйву кожної)."""
     import wave as wv
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -699,7 +699,8 @@ def reel(out: Path) -> Path:
         w.setsampwidth(2)
         w.setframerate(nd.SR)
         w.writeframes(audio.clip(-32768, 32767).astype("<i2").tobytes())
-    scenes = [ps.make(n) for n in ps.SCENES]
+    names = names or ps.SCENES[:10]
+    scenes = [ps.make(n) for n in names]
     lock = brand.lockup(52)
     fl = brand.font("body-semi", 30)
     fn = brand.font("head", 64)
@@ -713,8 +714,8 @@ def reel(out: Path) -> Path:
             scenes[i].draw(fr, st)
             d = ImageDraw.Draw(fr)
             u = ease((t - i * 2.4) / 0.4)
-            tracked(d, f"SCENE {i + 1:02d} / 10", fl, W / 2, 300, (*SILVER, int(255 * u)), 6)
-            name = ps.SCENES[i].upper()
+            tracked(d, f"SCENE {i + first:02d} / {len(ps.SCENES)}", fl, W / 2, 300, (*SILVER, int(255 * u)), 6)
+            name = names[i].upper()
             d.text(((W - fn.getlength(name)) / 2, 352 + (1 - u) * 20), name, font=fn, fill=(*WHITE, int(255 * u)))
             tr = nd.TRACKS[min(4, int(t / 4.8))]["name"].upper()
             tracked(d, f"TRACK  ·  {tr}", fl, W / 2, 452, (*RUBY, int(255 * u)), 5)
@@ -728,7 +729,8 @@ if __name__ == "__main__":
     if sys.argv[1] == "--next":
         print(*suggest_next())
     elif sys.argv[1] == "--reel":
-        print(reel(Path(sys.argv[2])))
+        demo = len(sys.argv) > 3 and sys.argv[3] == "demo"
+        print(reel(Path(sys.argv[2]), ps.DEMO_SCENES if demo else None, 11 if demo else 1))
     else:
         slug, n, lang, folder = sys.argv[1], int(sys.argv[2]), sys.argv[3], Path(sys.argv[4])
         print(render(f"{slug}:{n}", lang, folder / f"premium-e{n}-9x16.mp4"))

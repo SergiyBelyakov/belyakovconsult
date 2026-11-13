@@ -9,7 +9,7 @@
 STORIES = {
     # ---------------------------------------------------------------- document-type-matters, епізод 1
     "document-type-matters:2": {
-        "style": {"scene": "tunnel", "track": 1, "layout": "center", "reveal": "mask", "outro": "iris", "panel": "frost"},
+        "style": {"scene": "network", "track": 1, "layout": "center", "reveal": "mask", "outro": "iris", "panel": "frost"},
         "en": {
             "hook": ("DATA EXCHANGE  ·  REGISTERS", "123456", "One number, two different people. Your system links them as one person."),
             "q": ("Would you approve a payment on this match?", "Four reasons numbers collide."),
@@ -87,7 +87,7 @@ STORIES = {
     },
     # ---------------------------------------------------------------- document-type-matters, епізод 3
     "document-type-matters:4": {
-        "style": {"scene": "drone", "track": 3, "layout": "center", "reveal": "slide", "outro": "fade", "panel": "frost"},
+        "style": {"scene": "fraud", "track": 3, "layout": "center", "reveal": "slide", "outro": "fade", "panel": "frost"},
         "en": {
             "hook": ("DATA EXCHANGE  ·  AUDIT", "30 min", "to learn how many records you have matched to the wrong person."),
             "q": ("Do you know this number today?", "One sample. Two counts."),
@@ -203,7 +203,7 @@ STORIES = {
     },
     # ---------------------------------------------------------------- report-changed-after-month-end, епізод 2
     "report-changed-after-month-end:3": {
-        "style": {"scene": "glass", "track": 1, "layout": "left", "reveal": "slide", "outro": "fade", "panel": "line"},
+        "style": {"scene": "dashboard", "track": 1, "layout": "left", "reveal": "slide", "outro": "fade", "panel": "line"},
         "en": {
             "hook": ("REPORT TO LEADERSHIP  ·  LAST MONTH", "1,240", "You showed this number a month ago. Can you get it again today?"),
             "q": ("If leadership asks, can you reproduce it?", "A 20-minute check."),
