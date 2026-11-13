@@ -744,14 +744,14 @@ def epiano(note, dur, wobble=None):
     return x * np.exp(-t * 1.6) * edge(n, 0.005, 0.1)
 
 
-def lead(note, dur):
+def lead(note, dur, cutoff=3400):
     n = int((dur + 0.08) * SR)
     t = tt(n)
     vib = 0.16 * np.clip((t - 0.18) / 0.2, 0, 1) * np.sin(2 * np.pi * 5.6 * t)
     f = midi(note) * 2 ** (vib / 12)
     x = 0.5 * saw(f, n) + 0.5 * saw(f * 1.006, n, 0.3) + 0.25 * square(f * 0.5, n)
     env = np.clip(t / 0.012, 0, 1) * np.where(t < dur, 1.0 - 0.25 * np.clip(t / 0.4, 0, 1), 0.75 * np.exp(-(t - dur) * 40))
-    return lpf(x, 3400) * env
+    return lpf(x, cutoff) * env
 
 
 def cowbell(note, dur=0.28):
@@ -849,36 +849,101 @@ CH = {"Fmaj7": (41, [57, 60, 64, 65]), "Em7": (40, [55, 59, 62, 64]), "Am": (45,
       "F": (41, [57, 60, 65]), "C": (48, [55, 60, 64]), "G": (43, [55, 59, 62]), "Am9": (45, [57, 60, 64, 71])}
 
 
-def soundtrack(path: Path, story_sfx=None, transpose: int = 0):
-    """Трек ролика. story_sfx(dry, send): власні звуки сюжету замість звуків Night Drive; transpose: зсув тональності."""
+CH.update({"Em": (40, [55, 59, 64]), "Dm": (38, [57, 62, 65]), "E": (40, [56, 59, 64]), "Dm7": (38, [57, 60, 62, 65]),
+           "Am7": (45, [55, 60, 64, 67]), "G6": (43, [55, 59, 62, 64])})
+
+# П'ять мелодій формату (однаковий темп 100 уд/хв, щоб події сюжету лягали на долі). Ноти в ля мінорі, key зсуває.
+# drive: (акорд, такт, зсув у долях, тривалість у долях); lead: (нота, восьмі) на 3 такти; cow: ковбел по 16-х.
+TRACKS = [
+    {"name": "Night Drive", "key": 0, "intro": ("Fmaj7", "Em7"),
+     "ep": [(0.0, 76, 1.15), (1.2, 72, 1.15), (2.4, 71, 0.9), (3.3, 67, 1.4)],
+     "drive": [("Am", 2, 0, 4), ("F", 3, 0, 4), ("C", 4, 0, 2), ("G", 4, 2, 2)], "arp": [0, 1, 2, 3, 2, 1, 2, 3],
+     "lead": [(76, 3), (74, 1), (72, 2), (69, 2), (72, 2), (69, 2), (65, 3), (67, 1), (67, 2), (72, 2), (74, 2), (71, 2)],
+     "lead_cut": 3400, "drums": "straight", "phonk": ("Am", "F"),
+     "cow": {0: [(0, 81), (3, 84), (6, 81), (8, 79), (10, 76), (11, 79), (14, 81)],
+             1: [(0, 81), (3, 84), (6, 81), (8, 77), (10, 76), (11, 72), (14, 76)]},
+     "glide": [[(0, 33), (6, 36), (10, 33)], [(0, 29), (8, 29), (12, 31)]],
+     "reveal": ([55, 60, 64, 67, 72], 36), "outro": (("F", 2600), ("Am9", 1700)),
+     "lead2": [(79, 4), (76, 2), (74, 2), (72, 6), (76, 2), (69, 8)]},
+    {"name": "Neon Rain", "key": -2, "intro": ("Dm7", "Em7"),
+     "ep": [(0.0, 72, 1.15), (1.2, 69, 1.15), (2.4, 71, 0.9), (3.3, 74, 1.4)],
+     "drive": [("Am", 2, 0, 4), ("G", 3, 0, 4), ("F", 4, 0, 2), ("E", 4, 2, 2)], "arp": [0, 2, 1, 3, 0, 2, 1, 3],
+     "lead": [(72, 2), (76, 2), (77, 3), (76, 1), (74, 2), (71, 2), (72, 2), (69, 2), (69, 2), (72, 2), (71, 2), (68, 2)],
+     "lead_cut": 2600, "drums": "clap", "phonk": ("Am", "E"),
+     "cow": {0: [(0, 76), (2, 79), (4, 76), (7, 81), (10, 79), (12, 76)],
+             1: [(0, 80), (2, 76), (4, 80), (7, 83), (10, 80), (12, 76)]},
+     "glide": [[(0, 33), (8, 31), (12, 33)], [(0, 28), (6, 32), (10, 28)]],
+     "reveal": ([55, 60, 64, 67, 72], 36), "outro": (("G", 2600), ("Am9", 1700)),
+     "lead2": [(76, 4), (74, 2), (72, 2), (71, 6), (72, 2), (69, 8)]},
+    {"name": "Chrome Dawn", "key": 3, "intro": ("Fmaj7", "G6"),
+     "ep": [(0.0, 77, 0.55), (0.6, 76, 0.55), (1.2, 72, 1.1), (2.4, 74, 0.9), (3.3, 71, 1.4)],
+     "drive": [("F", 2, 0, 4), ("G", 3, 0, 4), ("Em", 4, 0, 2), ("Am", 4, 2, 2)], "arp": [0, 1, 2, 1, 0, 1, 2, 3],
+     "lead": [(69, 1), (72, 1), (77, 2), (76, 2), (72, 2), (74, 3), (71, 1), (67, 2), (71, 2), (71, 2), (67, 2), (69, 4)],
+     "lead_cut": 3400, "drums": "straight", "phonk": ("Am", "G"),
+     "cow": {0: [(0, 81), (3, 79), (6, 76), (8, 81), (11, 84), (14, 81)],
+             1: [(0, 79), (3, 74), (6, 71), (8, 79), (11, 83), (14, 79)]},
+     "glide": [[(0, 33), (6, 33), (10, 36)], [(0, 31), (8, 31), (12, 26)]],
+     "reveal": ([53, 57, 60, 65, 69], 41), "outro": (("Dm7", 2600), ("Am9", 1700)),
+     "lead2": [(81, 4), (79, 2), (76, 2), (77, 6), (76, 2), (72, 8)]},
+    {"name": "Glass City", "key": -4, "intro": ("Am7", "Fmaj7"),
+     "ep": [(0.0, 76, 1.15), (1.2, 79, 1.15), (2.4, 77, 0.9), (3.3, 72, 1.4)],
+     "drive": [("Am", 2, 0, 4), ("Em", 3, 0, 4), ("F", 4, 0, 2), ("G", 4, 2, 2)], "arp": [0, 2, 1, 2, 0, 2, 1, 2],
+     "lead": [(64, 2), (69, 2), (72, 2), (71, 2), (67, 3), (64, 1), (71, 2), (67, 2), (69, 2), (72, 2), (74, 2), (71, 2)],
+     "lead_cut": 2200, "drums": "half", "phonk": ("Am", "F"),
+     "cow": {0: [(0, 76), (3, 76), (6, 79), (8, 81), (10, 79), (13, 76)],
+             1: [(0, 77), (3, 77), (6, 81), (8, 84), (10, 81), (13, 77)]},
+     "glide": [[(0, 33), (6, 36), (10, 33)], [(0, 29), (8, 29), (12, 31)]],
+     "reveal": ([55, 59, 62, 67, 71], 43), "outro": (("F", 2600), ("Am9", 1700)),
+     "lead2": [(76, 2), (79, 2), (81, 4), (79, 4), (76, 4), (69, 8)]},
+    {"name": "Midnight Ledger", "key": 1, "intro": ("Dm7", "Fmaj7"),
+     "ep": [(0.0, 74, 1.15), (1.2, 77, 1.15), (2.4, 76, 0.9), (3.3, 72, 1.4)],
+     "drive": [("Dm", 2, 0, 4), ("Am", 3, 0, 4), ("F", 4, 0, 2), ("G", 4, 2, 2)], "arp": [0, 1, 2, 3, 0, 1, 2, 3],
+     "lead": [(74, 2), (77, 2), (76, 2), (74, 2), (72, 3), (69, 1), (76, 4), (77, 2), (76, 2), (74, 2), (71, 2)],
+     "lead_cut": 4200, "drums": "clap", "phonk": ("Dm", "Am"),
+     "cow": {0: [(0, 77), (3, 81), (6, 77), (8, 74), (10, 77), (11, 81), (14, 77)],
+             1: [(0, 76), (3, 81), (6, 76), (8, 72), (10, 76), (11, 79), (14, 76)]},
+     "glide": [[(0, 26), (6, 29), (10, 26)], [(0, 33), (8, 33), (12, 31)]],
+     "reveal": ([53, 57, 60, 65, 69], 41), "outro": (("G", 2600), ("Am9", 1700)),
+     "lead2": [(79, 4), (77, 2), (76, 2), (74, 6), (72, 2), (69, 8)]},
+]
+
+
+def cow_hits(track: int = 0):
+    cow = TRACKS[track]["cow"]
+    return [T_PHONK + bar * BAR + s * S16 for bar in (0, 1) for s, _ in cow[bar]]
+
+
+def soundtrack(path: Path, story_sfx=None, transpose: int = 0, track: int = 0):
+    """Трек ролика. track: одна з п'яти мелодій TRACKS; story_sfx(dry, send): власні звуки сюжету замість звуків
+    Night Drive; transpose: додатковий зсув тональності."""
     global TRANSPOSE
-    TRANSPOSE = transpose
+    P = TRACKS[track]
+    TRANSPOSE = P["key"] + transpose
     dur = TOTAL + 1.0
     dry, send, padbus = Bus(dur), Bus(dur), Bus(dur)
 
     # ---- 0..4.8 vaporwave і chillwave
     def wob(t):          # «плівка запускається» + повільне плавання тону
         return -7.0 * np.clip(1 - t / 0.4, 0, 1) ** 2 + 0.22 * np.sin(2 * np.pi * 0.55 * t)
-    for bar, ch in enumerate(("Fmaj7", "Em7")):
+    for bar, ch in enumerate(P["intro"]):
         root, tones = CH[ch]
         w = (lambda tt_, b=bar: wob(tt_ + b * BAR)) if bar else wob
-        l, r = pad([m - 0 for m in tones] + [root + 12], BAR, cutoff=1300, attack=0.05 if bar == 0 else 0.2, release=0.4, wobble=w)
+        l, r = pad(list(tones) + [root + 12], BAR, cutoff=1300, attack=0.05 if bar == 0 else 0.2, release=0.4, wobble=w)
         padbus.put2(l, r, bar * BAR, 0.9)
         n = int(BAR * SR)
         send.put(lpf(np.sin(2 * np.pi * np.cumsum(midi(root) * 2 ** (w(tt(n)) / 12)) / SR), 400) * edge(n, 0.02, 0.3), bar * BAR, 0.2)
-    for at, m, d in [(0.0, 76, 1.15), (1.2, 72, 1.15), (2.4, 71, 0.9), (3.3, 67, 1.4)]:
+    for at, m, d in P["ep"]:
         send.put(lpf(epiano(m, d, lambda x, a=at: wob(x + a)), 2200), at, 0.3, pan=0.25)
     for at in (0.0, 2.4):
         dry.put(kick80(0.1), at, 0.55)
     for at in (1.2, 3.6):
-        send.put(snare_lofi(int(at * 10)), at, 0.32)
+        send.put(snare_lofi(int(at * 10) + track), at, 0.32)
     for i in range(8):
-        dry.put(hat_c(i, 0.5), i * B + (0.07 if i % 2 else 0.0), 0.16 if i % 2 else 0.1, pan=0.3)
-    cr = crackle(int((T_DROP + 0.3) * SR))
+        dry.put(hat_c(i + 10 * track, 0.5), i * B + (0.07 if i % 2 else 0.0), 0.16 if i % 2 else 0.1, pan=0.3)
+    cr = crackle(int((T_DROP + 0.3) * SR), 7 + track)
     dry.put(cr * np.clip((T_DROP + 0.3 - tt(len(cr))) / 0.5, 0, 1), 0.0, 0.08)
-    # наростання: шум, що злітає, реверс тарілки, дріб
     n = int(1.8 * SR)
-    dry.put(sweep_bp(noise(n, 21), 300, 7000) * np.linspace(0, 1, n) ** 2, T_DROP - 1.8, 0.5)
+    dry.put(sweep_bp(noise(n, 21 + track), 300, 7000) * np.linspace(0, 1, n) ** 2, T_DROP - 1.8, 0.5)
     dry.put(cymbal(31, 1.2)[::-1], T_DROP - 1.2, 0.35)
     at, step, g = T_DROP - 2 * B, S16, 0.12
     while at < T_DROP - 0.01:
@@ -889,55 +954,58 @@ def soundtrack(path: Path, story_sfx=None, transpose: int = 0):
         at += step
 
     # ---- 4.8..12 synthwave і retrowave
-    prog = [("Am", 2, 4), ("F", 3, 4), ("C", 4, 2), ("G", 4, 2)]   # акорд, такт, тривалість у долях
-    for ch, bar, beats in prog:
+    for ch, bar, off, beats in P["drive"]:
         root, tones = CH[ch]
-        t0 = bar * BAR + (2 * B if (ch == "G") else 0.0)
-        l, r = pad(tones + [tones[0] + 12], beats * B, cutoff=2300, attack=0.04, release=0.25)
+        t0 = bar * BAR + off * B
+        l, r = pad(list(tones) + [tones[0] + 12], beats * B, cutoff=2300, attack=0.04, release=0.25)
         padbus.put2(l, r, t0, 1.0)
-        for s in range(beats * 4):
-            at = t0 + s * S16
-            dry.put(bass_note(root - 12 + (12 if s % 2 else 0), S16 * 0.92), at, 0.42)
+        for s_ in range(beats * 4):
+            at = t0 + s_ * S16
+            dry.put(bass_note(root - 12 + (12 if s_ % 2 else 0), S16 * 0.92), at, 0.42)
             arp = [tones[0] + 12, tones[1] + 12, tones[2] + 12, tones[0] + 24]
-            idx = [0, 1, 2, 3, 2, 1, 2, 3][s % 8]
-            send.put(pluck(arp[idx], S16 * 0.9), at, 0.13, pan=(-0.4 if s % 2 else 0.4))
+            idx = P["arp"][s_ % 8]
+            send.put(pluck(arp[idx], S16 * 0.9), at, 0.13, pan=(-0.4 if s_ % 2 else 0.4))
     for i in range(int((T_PHONK - T_DROP) / B)):
         at = T_DROP + i * B
         dry.put(kick80(), at, 0.95)
-        if i % 2 == 1:
+        if P["drums"] == "half":
+            if i % 4 == 2:
+                send.put(snare_gated(i), at, 0.6)
+        elif i % 2 == 1:
             send.put(snare_gated(i), at, 0.55)
+            if P["drums"] == "clap":
+                send.put(clap(i + 40), at, 0.3)
         for e in range(4):
             dry.put(hat_c(i * 4 + e, 1.0), at + e * S16, 0.18 if e % 2 else 0.1, pan=0.35)
-        dry.put(hat_o(i), at + B / 2, 0.07, pan=-0.3)
+        dry.put(hat_o(i), at + B / 2, 0.07 if P["drums"] != "half" else 0.11, pan=-0.3)
     dry.put(cymbal(1), T_DROP, 0.4)
-    melody = [(76, 3), (74, 1), (72, 2), (69, 2), (72, 2), (69, 2), (65, 3), (67, 1), (67, 2), (72, 2), (74, 2), (71, 2)]
     at = T_DROP
-    for m, e in melody:
-        sig = lead(m, e * B / 2 * 0.95)
+    for m, e in P["lead"]:
+        sig = lead(m, e * B / 2 * 0.95, P["lead_cut"])
         send.put(sig, at, 0.17)
         for k, (dl, g, pn) in enumerate(((0.75 * B, 0.33, -0.6), (1.5 * B, 0.18, 0.6), (2.25 * B, 0.09, -0.6))):
             send.put(lpf(sig, 2400 - 500 * k), at + dl, 0.17 * g, pan=pn)   # пінг-понг відлуння
         at += e * B / 2
 
     # ---- 12..16.8 phonkwave і cyberpunk
-    for bar, ch in enumerate(("Am", "F")):
+    for bar, ch in enumerate(P["phonk"]):
         root, tones = CH[ch]
         t0 = T_PHONK + bar * BAR
-        l, r = pad(tones, BAR, cutoff=1150, attack=0.03, release=0.3)
+        l, r = pad(list(tones), BAR, cutoff=1150, attack=0.03, release=0.3)
         padbus.put2(l, r, t0, 0.8)
-        for s in (0, 6, 10):
-            dry.put(kick808(), t0 + s * S16, 0.8)
-        for s in (4, 12):
-            send.put(clap(bar * 10 + s), t0 + s * S16, 0.42)
-        for s in range(16):
-            if s in (14, 15):
+        for s_ in (0, 6, 10):
+            dry.put(kick808(), t0 + s_ * S16, 0.8)
+        for s_ in (4, 12):
+            send.put(clap(bar * 10 + s_ + track), t0 + s_ * S16, 0.42)
+        for s_ in range(16):
+            if s_ in (14, 15):
                 continue
-            dry.put(hat_c(200 + bar * 16 + s, 1.0), t0 + s * S16, 0.15 if s % 2 else 0.09, pan=0.3)
+            dry.put(hat_c(200 + bar * 16 + s_, 1.0), t0 + s_ * S16, 0.15 if s_ % 2 else 0.09, pan=0.3)
         for k in range(3):                                   # тріоль хетів у кінці такту
             dry.put(hat_c(300 + bar * 3 + k, 1.0), t0 + 14 * S16 + k * (2 * S16 / 3), 0.14, pan=0.3)
-        for s, m in COW[bar]:
-            send.put(cowbell(m), t0 + s * S16, 0.2, pan=0.15)
-        glide = [(0.0, 33), (6 * S16, 36), (10 * S16, 33)] if bar == 0 else [(0.0, 29), (8 * S16, 29), (12 * S16, 31)]
+        for s_, m in P["cow"][bar]:
+            send.put(cowbell(m), t0 + s_ * S16, 0.2, pan=0.15)
+        glide = [(st * S16, nt) for st, nt in P["glide"][bar]]
         dry.put(bass808(glide, BAR), t0, 0.55)
         n = int(BAR * SR)                                    # кібер-бас: перевантажена пила під 808
         grit = np.tanh(3.0 * lpf(saw(midi(root - 12), n), 700)) * edge(n, 0.01, 0.05)
@@ -949,23 +1017,24 @@ def soundtrack(path: Path, story_sfx=None, transpose: int = 0):
     dry.put(kick80(), T_BAND + 2 * B, 0.8)
     send.put(snare_gated(77), T_BAND + B, 0.5)
     send.put(snare_gated(78), T_BAND + 3 * B, 0.5)
-    l, r = pad([55, 60, 64, 67, 72], BAR, cutoff=3600, attack=0.01, release=0.4)
+    rv_notes, rv_root = P["reveal"]
+    l, r = pad(rv_notes, BAR, cutoff=3600, attack=0.01, release=0.4)
     padbus.put2(l, r, T_BAND, 1.1)
-    dry.put(bass_note(36, BAR * 0.95, 400), T_BAND, 0.5)
-    for i, (ch, cut) in enumerate((("F", 2600), ("Am9", 1700))):
+    dry.put(bass_note(rv_root, BAR * 0.95, 400), T_BAND, 0.5)
+    for i, (ch, cut) in enumerate(P["outro"]):
         root, tones = CH[ch]
         t0 = T_END + i * BAR
-        l, r = pad(tones + [tones[0] + 12], BAR, cutoff=cut, attack=0.3, release=1.6 if i else 0.5)
+        l, r = pad(list(tones) + [tones[0] + 12], BAR, cutoff=cut, attack=0.3, release=1.6 if i else 0.5)
         padbus.put2(l, r, t0, 0.95)
         n = int(BAR * SR)
         dry.put(lpf(np.sin(2 * np.pi * midi(root - 12) * tt(n)), 300) * edge(n, 0.05, 0.4), t0, 0.22)
-        for s in range(8):
-            at = t0 + s * B / 2
-            g = 0.1 * (1 - (i * 8 + s) / 18)
-            send.put(pluck(tones[s % len(tones)] + 12, B / 2 * 0.9, 2000), at, g, pan=(-0.5 if s % 2 else 0.5))
+        for s_ in range(8):
+            at = t0 + s_ * B / 2
+            g = 0.1 * (1 - (i * 8 + s_) / 18)
+            send.put(pluck(tones[s_ % len(tones)] + 12, B / 2 * 0.9, 2000), at, g, pan=(-0.5 if s_ % 2 else 0.5))
     at = T_BAND
-    for m, e in [(79, 4), (76, 2), (74, 2), (72, 6), (76, 2), (69, 8)]:
-        sig = lead(m, e * B / 2 * 0.95)
+    for m, e in P["lead2"]:
+        sig = lead(m, e * B / 2 * 0.95, P["lead_cut"])
         send.put(sig, at, 0.14)
         send.put(lpf(sig, 2000), at + 0.75 * B, 0.05, pan=0.6)
         at += e * B / 2

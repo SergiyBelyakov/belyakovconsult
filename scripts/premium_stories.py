@@ -1,7 +1,7 @@
 """Історії для преміум-роликів (scripts/make_premium.py). Ключ: «<slug>:<номер допису>».
 
-Кожна історія: хук-біль керівника (мітка, велике число чи слово, ставка), питання, дві перевірки чи кроки
-(type: rows | flow | columns), результат, висновок, одна дія у фіналі. Події перевірки: індекси 0, 1, 2.
+Кожна історія: style (заставка, мелодія, макет, поява, фінал, панель; без style діє ротація), хук-біль керівника (мітка, велике число чи слово, ставка), питання, дві перевірки чи кроки
+(type: rows | flow | columns | split | timeline | chips | stack), результат, висновок, одна дія у фіналі. Події перевірки: індекси 0, 1, 2.
 Стан картки KPI: (подія, значення, пігулка, добре?), подія: start, c1, c2, c1e0..c2e2.
 Цифри й записи в роликах ілюстративні, як і в статтях.
 """
@@ -9,15 +9,14 @@
 STORIES = {
     # ---------------------------------------------------------------- document-type-matters, епізод 1
     "document-type-matters:2": {
-        "transpose": 2,
+        "style": {"scene": "tunnel", "track": 1, "layout": "center", "reveal": "mask", "outro": "iris", "panel": "frost"},
         "en": {
             "hook": ("DATA EXCHANGE  ·  REGISTERS", "123456", "One number, two different people. Your system links them as one person."),
             "q": ("Would you approve a payment on this match?", "Four reasons numbers collide."),
             "c1": {"label": "REASONS 1 AND 2", "title": "Shared numbers", "sub": "Each document type has its own numbering. The series sits in another field.",
-                   "type": "rows", "table": "REGISTER A  +  REGISTER B",
-                   "rows": [{"l": "Birth certificate, series in another field", "v": "123456", "flag": "SAME NUMBER", "at": 0},
-                            {"l": "Booklet passport, series in another field", "v": "123456", "flag": "SAME NUMBER", "at": 1},
-                            {"l": "System decision", "v": "Same person", "flag": "FALSE MATCH", "at": 2}]},
+                   "type": "split", "table": "REGISTER A  +  REGISTER B", "link": "SYSTEM: SAME PERSON", "link_bad": True,
+                   "cards": [{"c": "Birth certificate", "v": "123456", "n": "Series in another field"},
+                             {"c": "Booklet passport", "v": "123456", "n": "Series in another field"}]},
             "c2": {"label": "REASONS 3 AND 4", "title": "Invisible people", "sub": "A lost leading zero or a Latin letter, and a real match disappears.",
                    "type": "rows", "table": "WHAT THE SYSTEM COMPARES",
                    "rows": [{"l": "Stored as a number in Excel", "v": "012345", "v2": "12345", "flag": "ZERO LOST", "at": 0},
@@ -33,10 +32,9 @@ STORIES = {
             "hook": ("ОБМІН ДАНИМИ  ·  РЕЄСТРИ", "123456", "Один номер, двоє різних людей. Система вважає їх однією особою."),
             "q": ("Ви б погодили виплату за таким збігом?", "Чотири причини, чому номери збігаються."),
             "c1": {"label": "ПРИЧИНИ 1 І 2", "title": "Спільні номери", "sub": "У кожного типу документа своя нумерація, а серія живе в іншому полі.",
-                   "type": "rows", "table": "РЕЄСТР А  +  РЕЄСТР Б",
-                   "rows": [{"l": "Свідоцтво про народження, серія в іншому полі", "v": "123456", "flag": "ТОЙ САМИЙ НОМЕР", "at": 0},
-                            {"l": "Паспорт-книжечка, серія в іншому полі", "v": "123456", "flag": "ТОЙ САМИЙ НОМЕР", "at": 1},
-                            {"l": "Рішення системи", "v": "Та сама особа", "flag": "ХИБНИЙ ЗБІГ", "at": 2}]},
+                   "type": "split", "table": "РЕЄСТР А  +  РЕЄСТР Б", "link": "СИСТЕМА: ТА САМА ОСОБА", "link_bad": True,
+                   "cards": [{"c": "Свідоцтво про народження", "v": "123456", "n": "Серія в іншому полі"},
+                             {"c": "Паспорт-книжечка", "v": "123456", "n": "Серія в іншому полі"}]},
             "c2": {"label": "ПРИЧИНИ 3 І 4", "title": "Невидимі люди", "sub": "Загублений нуль або латинська літера, і справжній збіг зникає.",
                    "type": "rows", "table": "ЩО ПОРІВНЮЄ СИСТЕМА",
                    "rows": [{"l": "Збережено як число в Excel", "v": "012345", "v2": "12345", "flag": "НУЛЬ ЗНИК", "at": 0},
@@ -51,16 +49,14 @@ STORIES = {
     },
     # ---------------------------------------------------------------- document-type-matters, епізод 2
     "document-type-matters:3": {
-        "transpose": -2,
+        "style": {"scene": "city", "track": 2, "layout": "left", "reveal": "focus", "outro": "wipe", "panel": "line"},
         "en": {
             "hook": ("DATA QUALITY  ·  REGISTERS", "VALID", "A phone number just passed as a passport. Your check only counts characters."),
             "q": ("Would you sign a report built on this register?", "Two fixes. Neither is expensive."),
             "c1": {"label": "FIX 1 OF 2", "title": "A rule per type", "sub": "The document type decides the format.",
-                   "type": "rows", "table": "FORMAT RULES",
-                   "rows": [{"l": "ID card", "v": "9 digits", "flag": "RULE", "at": 0, "bad": False},
-                            {"l": "Booklet passport", "v": "2 letters + 6 digits", "flag": "RULE", "at": 1, "bad": False},
-                            {"l": "Birth certificate", "v": "Series + 6 digits", "flag": "RULE", "at": 2, "bad": False},
-                            {"l": "Foreign document", "v": "Country of issue required", "flag": "RULE", "at": 2, "bad": False}]},
+                   "type": "chips", "table": "FORMAT RULES",
+                   "chips": [{"c": "ID card", "v": "9 digits"}, {"c": "Booklet passport", "v": "2 letters + 6 digits"},
+                             {"c": "Birth certificate", "v": "Series + 6 digits"}, {"c": "Foreign document", "v": "Country required"}]},
             "c2": {"label": "FIX 2 OF 2", "title": "Reject with a reason", "sub": "A rejected record goes back with a reason instead of vanishing.",
                    "type": "flow", "table": "WHERE TO CHECK",
                    "steps": ["Type sets the rule", "Check at data entry", "Check on receipt", "Reject with a reason"]},
@@ -75,11 +71,9 @@ STORIES = {
             "hook": ("ЯКІСТЬ ДАНИХ  ·  РЕЄСТРИ", "ВАЛІДНО", "Номер телефону щойно пройшов як паспорт. Перевірка рахує лише символи."),
             "q": ("Ви б підписали звіт на основі такого реєстру?", "Два виправлення. Жодне не дороге."),
             "c1": {"label": "ВИПРАВЛЕННЯ 1 / 2", "title": "Правило для типу", "sub": "Тип документа визначає формат.",
-                   "type": "rows", "table": "ПРАВИЛА ФОРМАТУ",
-                   "rows": [{"l": "ID-картка", "v": "9 цифр", "flag": "ПРАВИЛО", "at": 0, "bad": False},
-                            {"l": "Паспорт-книжечка", "v": "2 літери + 6 цифр", "flag": "ПРАВИЛО", "at": 1, "bad": False},
-                            {"l": "Свідоцтво про народження", "v": "Серія + 6 цифр", "flag": "ПРАВИЛО", "at": 2, "bad": False},
-                            {"l": "Іноземний документ", "v": "Країна видачі обов'язкова", "flag": "ПРАВИЛО", "at": 2, "bad": False}]},
+                   "type": "chips", "table": "ПРАВИЛА ФОРМАТУ",
+                   "chips": [{"c": "ID-картка", "v": "9 цифр"}, {"c": "Паспорт-книжечка", "v": "2 літери + 6 цифр"},
+                             {"c": "Свідоцтво про народження", "v": "Серія + 6 цифр"}, {"c": "Іноземний документ", "v": "Країна обов'язкова"}]},
             "c2": {"label": "ВИПРАВЛЕННЯ 2 / 2", "title": "Відмова з причиною", "sub": "Відхилений запис повертається з причиною, а не зникає.",
                    "type": "flow", "table": "ДЕ ПЕРЕВІРЯТИ",
                    "steps": ["Тип задає правило", "Перевірка при введенні", "Перевірка при отриманні", "Відмова з причиною"]},
@@ -93,7 +87,7 @@ STORIES = {
     },
     # ---------------------------------------------------------------- document-type-matters, епізод 3
     "document-type-matters:4": {
-        "transpose": 1,
+        "style": {"scene": "drone", "track": 3, "layout": "center", "reveal": "slide", "outro": "fade", "panel": "frost"},
         "en": {
             "hook": ("DATA EXCHANGE  ·  AUDIT", "30 min", "to learn how many records you have matched to the wrong person."),
             "q": ("Do you know this number today?", "One sample. Two counts."),
@@ -101,10 +95,10 @@ STORIES = {
                    "type": "columns", "tag": "THE GAP = FALSE MATCHES",
                    "cols": [{"c": "By number only", "v": "Count A", "h": 1.0}, {"c": "By full key", "v": "Count B", "h": 0.72}]},
             "c2": {"label": "STEP 2 OF 2", "title": "Read the contract", "sub": "One “document number” field means every receiver guesses the type.",
-                   "type": "rows", "table": "EXCHANGE CONTRACT",
-                   "rows": [{"l": "document_number", "v": "Text"},
-                            {"l": "document_type", "v": "Not sent", "flag": "MISSING", "at": 0},
-                            {"l": "series", "v": "Inside the number", "flag": "MIXED", "at": 1}]},
+                   "type": "stack", "table": "EXCHANGE CONTRACT",
+                   "cards": [{"l": "document_number", "v": "Text"},
+                             {"l": "document_type", "v": "Not sent", "flag": "MISSING"},
+                             {"l": "series", "v": "Inside the number", "flag": "MIXED"}]},
             "kpi": {"label": "FALSE MATCHES", "states": [("start", "Unknown", "UNMEASURED", False),
                                                         ("c1e2", "Measured", "KNOWN", True)]},
             "result": ("RESULT", "The gap", "The gap between two counts is your number of false matches."),
@@ -118,10 +112,10 @@ STORIES = {
                    "type": "columns", "tag": "РІЗНИЦЯ = ХИБНІ ЗБІГИ",
                    "cols": [{"c": "Лише за номером", "v": "Підсумок А", "h": 1.0}, {"c": "За повним ключем", "v": "Підсумок Б", "h": 0.72}]},
             "c2": {"label": "КРОК 2 / 2", "title": "Контракт обміну", "sub": "Одне поле «номер документа», і кожен отримувач вгадує тип.",
-                   "type": "rows", "table": "КОНТРАКТ ОБМІНУ",
-                   "rows": [{"l": "document_number", "v": "Текст"},
-                            {"l": "document_type", "v": "Не передається", "flag": "НЕМАЄ", "at": 0},
-                            {"l": "series", "v": "Всередині номера", "flag": "ЗМІШАНО", "at": 1}]},
+                   "type": "stack", "table": "КОНТРАКТ ОБМІНУ",
+                   "cards": [{"l": "document_number", "v": "Текст"},
+                             {"l": "document_type", "v": "Не передається", "flag": "НЕМАЄ"},
+                             {"l": "series", "v": "Всередині номера", "flag": "ЗМІШАНО"}]},
             "kpi": {"label": "ХИБНІ ЗБІГИ", "states": [("start", "Невідомо", "НЕ ВИМІРЯНО", False),
                                                       ("c1e2", "Виміряно", "ВІДОМО", True)]},
             "result": ("РЕЗУЛЬТАТ", "Різниця", "Різниця між двома підрахунками і є кількістю хибних збігів."),
@@ -131,7 +125,7 @@ STORIES = {
     },
     # ---------------------------------------------------------------- report-changed-after-month-end, основний
     "report-changed-after-month-end:1": {
-        "transpose": -1,
+        "style": {"scene": "mirror", "track": 4, "layout": "left", "reveal": "mask", "outro": "iris", "panel": "line"},
         "en": {
             "hook": ("OCTOBER REPORT", "1,287", "On 5 November you showed leadership 1,240. Same report, same October."),
             "q": ("Which number is right?", "Nobody broke anything."),
@@ -139,8 +133,9 @@ STORIES = {
                    "type": "columns", "tag": "+47  ·  LATE RECORDS",
                    "cols": [{"c": "Report on 5 Nov", "v": "1,240", "h": 0.86}, {"c": "Report on 20 Nov", "v": "1,287", "h": 0.9}]},
             "c2": {"label": "THE FIX", "title": "Freeze it", "sub": "A snapshot on the cut-off date. Revisions with a reason.",
-                   "type": "flow", "table": "HOW A NUMBER STAYS DEFENSIBLE",
-                   "steps": ["Cut-off date", "Snapshot on that date", "Published version", "Revision with a reason"]},
+                   "type": "timeline", "table": "HOW A NUMBER STAYS DEFENSIBLE",
+                   "nodes": [{"v": "Cut-off", "c": "Date agreed"}, {"v": "Snapshot", "c": "Taken on that date"},
+                             {"v": "1,240", "c": "Published version"}, {"v": "1,287", "c": "Revision with a reason"}]},
             "kpi": {"label": "OCTOBER, NEW APPLICATIONS", "states": [("start", "1,240", "PUBLISHED", True),
                                                                     ("c1e1", "1,287", "CHANGED SILENTLY", False),
                                                                     ("c2e2", "1,240 + revision", "EXPLAINED", True)]},
@@ -155,8 +150,9 @@ STORIES = {
                    "type": "columns", "tag": "+47  ·  ЗАПІЗНІЛІ ЗАПИСИ",
                    "cols": [{"c": "Звіт 5 листопада", "v": "1 240", "h": 0.86}, {"c": "Звіт 20 листопада", "v": "1 287", "h": 0.9}]},
             "c2": {"label": "РІШЕННЯ", "title": "Зафіксуйте", "sub": "Знімок на дату зрізу. Перегляди з причиною.",
-                   "type": "flow", "table": "ЯК ЧИСЛО ЛИШАЄТЬСЯ ЗАХИЩЕНИМ",
-                   "steps": ["Дата зрізу", "Знімок на цю дату", "Опублікована версія", "Перегляд з причиною"]},
+                   "type": "timeline", "table": "ЯК ЧИСЛО ЛИШАЄТЬСЯ ЗАХИЩЕНИМ",
+                   "nodes": [{"v": "Зріз", "c": "Дату погоджено"}, {"v": "Знімок", "c": "Зроблено на цю дату"},
+                             {"v": "1 240", "c": "Опублікована версія"}, {"v": "1 287", "c": "Перегляд з причиною"}]},
             "kpi": {"label": "ЖОВТЕНЬ, НОВІ ЗАЯВИ", "states": [("start", "1 240", "ОПУБЛІКОВАНО", True),
                                                              ("c1e1", "1 287", "ЗМІНИЛОСЬ МОВЧКИ", False),
                                                              ("c2e2", "1 240 + перегляд", "ПОЯСНЕНО", True)]},
@@ -167,13 +163,14 @@ STORIES = {
     },
     # ---------------------------------------------------------------- report-changed-after-month-end, епізод 1
     "report-changed-after-month-end:2": {
-        "transpose": 3,
+        "style": {"scene": "terrain", "track": 0, "layout": "center", "reveal": "focus", "outro": "wipe", "panel": "frost"},
         "en": {
             "hook": ("MONTH-END CLOSE", "October", "closed on 31 October. Its numbers kept changing all of November."),
             "q": ("Can you defend last month's number?", "Three ordinary reasons it moves."),
             "c1": {"label": "REASON 1", "title": "Late records", "sub": "The event happened in October and reached the system in November.",
-                   "type": "flow", "table": "ONE APPLICATION", "last_bad": True,
-                   "steps": ["Event on 28 October", "Entered on 12 November", "October report: +1"]},
+                   "type": "timeline", "table": "ONE APPLICATION", "last_bad": True,
+                   "nodes": [{"v": "28 Oct", "c": "The event happens"}, {"v": "12 Nov", "c": "Entered into the system"},
+                             {"v": "+1", "c": "October report changes"}]},
             "c2": {"label": "REASONS 2 AND 3", "title": "Statuses and duplicates", "sub": "Approved became rejected. Three records became one.",
                    "type": "rows", "table": "REGISTER, OCTOBER",
                    "rows": [{"l": "Application 0417 on 5 November", "v": "Approved", "v2": "Rejected", "flag": "NEW STATUS", "at": 0},
@@ -189,8 +186,9 @@ STORIES = {
             "hook": ("ЗАКРИТТЯ МІСЯЦЯ", "Жовтень", "закрили 31 жовтня. Його цифри змінювалися ще весь листопад."),
             "q": ("Ви зможете захистити цифру минулого місяця?", "Три звичайні причини, чому вона рухається."),
             "c1": {"label": "ПРИЧИНА 1", "title": "Запізнілі записи", "sub": "Подія сталася в жовтні, а в систему потрапила в листопаді.",
-                   "type": "flow", "table": "ОДНА ЗАЯВА", "last_bad": True,
-                   "steps": ["Подія 28 жовтня", "Внесено 12 листопада", "Звіт за жовтень: +1"]},
+                   "type": "timeline", "table": "ОДНА ЗАЯВА", "last_bad": True,
+                   "nodes": [{"v": "28 жовт.", "c": "Подія сталася"}, {"v": "12 лист.", "c": "Внесено в систему"},
+                             {"v": "+1", "c": "Звіт за жовтень змінився"}]},
             "c2": {"label": "ПРИЧИНИ 2 І 3", "title": "Статуси і дублі", "sub": "«Схвалено» стало «відхилено». Три записи стали одним.",
                    "type": "rows", "table": "РЕЄСТР, ЖОВТЕНЬ",
                    "rows": [{"l": "Заява 0417 на 5 листопада", "v": "Схвалено", "v2": "Відхилено", "flag": "НОВИЙ СТАТУС", "at": 0},
@@ -205,7 +203,7 @@ STORIES = {
     },
     # ---------------------------------------------------------------- report-changed-after-month-end, епізод 2
     "report-changed-after-month-end:3": {
-        "transpose": -3,
+        "style": {"scene": "glass", "track": 1, "layout": "left", "reveal": "slide", "outro": "fade", "panel": "line"},
         "en": {
             "hook": ("REPORT TO LEADERSHIP  ·  LAST MONTH", "1,240", "You showed this number a month ago. Can you get it again today?"),
             "q": ("If leadership asks, can you reproduce it?", "A 20-minute check."),
