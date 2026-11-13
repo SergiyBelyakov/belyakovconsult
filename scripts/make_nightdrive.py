@@ -552,8 +552,11 @@ def tt(n):
     return np.arange(n) / SR
 
 
+TRANSPOSE = 0          # зсув тональності для шаблонних роликів (півтони)
+
+
 def midi(m):
-    return 440.0 * 2 ** ((m - 69) / 12)
+    return 440.0 * 2 ** ((m + TRANSPOSE - 69) / 12)
 
 
 def edge(n, a=0.003, r=0.02):
@@ -846,7 +849,10 @@ CH = {"Fmaj7": (41, [57, 60, 64, 65]), "Em7": (40, [55, 59, 62, 64]), "Am": (45,
       "F": (41, [57, 60, 65]), "C": (48, [55, 60, 64]), "G": (43, [55, 59, 62]), "Am9": (45, [57, 60, 64, 71])}
 
 
-def soundtrack(path: Path):
+def soundtrack(path: Path, story_sfx=None, transpose: int = 0):
+    """Трек ролика. story_sfx(dry, send): власні звуки сюжету замість звуків Night Drive; transpose: зсув тональності."""
+    global TRANSPOSE
+    TRANSPOSE = transpose
     dur = TOTAL + 1.0
     dry, send, padbus = Bus(dur), Bus(dur), Bus(dur)
 
@@ -965,15 +971,19 @@ def soundtrack(path: Path):
         at += e * B / 2
 
     # ---- звуки сюжету
-    for tz in ZAPS:
-        dry.put(scan_sfx(), tz - 0.4, 0.16, pan=0.2)
-        send.put(shatter_sfx(int(tz * 10)), tz, 0.32)
-    for i, te in enumerate(EATS):
-        send.put(collapse_sfx(i), te - 0.02, 0.3, pan=-0.2)
-    for tk, _ in KPI[1:]:
-        for k in range(3):
-            dry.put(tick_sfx(1700 + 200 * k), tk + 0.05 + k * 0.09, 0.07)
-    dry.put(sfx_ding(1320, 1.2), T_REAL, 0.18)
+    if story_sfx:
+        story_sfx(dry, send)
+    else:
+        for tz in ZAPS:
+            dry.put(scan_sfx(), tz - 0.4, 0.16, pan=0.2)
+            send.put(shatter_sfx(int(tz * 10)), tz, 0.32)
+        for i, te in enumerate(EATS):
+            send.put(collapse_sfx(i), te - 0.02, 0.3, pan=-0.2)
+        for tk, _ in KPI[1:]:
+            for k in range(3):
+                dry.put(tick_sfx(1700 + 200 * k), tk + 0.05 + k * 0.09, 0.07)
+        dry.put(sfx_ding(1320, 1.2), T_REAL, 0.18)
+    TRANSPOSE = 0
 
     # ---- зведення: качання паду від бочки, реверб, м'яке обмеження
     duck = np.ones(len(padbus.L))

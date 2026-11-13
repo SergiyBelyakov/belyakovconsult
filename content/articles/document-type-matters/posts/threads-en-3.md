@@ -1,7 +1,8 @@
 ---
+video: en/premium-e3-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-Your "field is not empty" check: can't tell an ID number from a date in the wrong box 🤡 Your length check: passport, phone number, whatever, come in.
+A phone number just passed as a passport: your check only counts characters. Would you sign a report built on that register?
 <!-- next -->
-Rule per document type, no cap: ID card 9 digits, booklet passport 2 letters + 6 digits, birth certificate series + 6 digits. Check at entry AND on receipt.
+A rule per document type: ID card 9 digits, booklet passport 2 letters + 6 digits, birth certificate series + 6 digits. Check at entry and on receipt.
 <!-- next -->
-And a failed record comes back with a reason. No ghosting. Breakdown: {{link}}
+A rejected record goes back with a reason instead of vanishing. Breakdown: {{link}}

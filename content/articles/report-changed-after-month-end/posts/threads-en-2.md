@@ -1,4 +1,5 @@
 ---
+video: en/premium-e2-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
 Where does a new number in an old report come from? Usually from three sources. A late record: an application from 28 October entered on 12 November.
 <!-- next -->

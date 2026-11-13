@@ -1,7 +1,8 @@
 ---
+video: en/premium-e2-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-Document numbers collide way more than you think 💀 4 reasons: separate numbering, series in another field, lost leading zeros, Latin letters cosplaying as Cyrillic.
+One number, two different people, and your system links them as one. Would you approve a payment on that match?
 <!-- next -->
-My fave: the number got saved as a number. 012345 → 12345. Excel isn't evil, it just thinks leading zeros are cringe. Now it's someone else's number.
+Four reasons numbers collide: separate numbering per type, the series in another field, Excel dropping the leading zero (012345 becomes 12345), and Latin letters that look Cyrillic.
 <!-- next -->
-Latin A and Cyrillic А look identical. To the system they're strangers, so the same person can't be found 🫠 Breakdown: {{link}}
+Match on type, series and number, never on the number alone. Breakdown: {{link}}

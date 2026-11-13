@@ -1,10 +1,13 @@
 ---
 link: false
+video: en/premium-e2-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-POV: Excel decided your leading zero was "useless" 💀
+One number, two different people. Your system links them as one person.
 
-012345 → 12345. Congrats, that's now a totally different document. Your register: "it's a match!" Bro, it's not.
+Four reasons document numbers collide: each type has its own numbering, the series sits in another field, Excel drops the leading zero, and a Latin A looks exactly like a Cyrillic А.
 
-In the video: 4 reasons document numbers collide, plus how look-alike letters make the same person go invisible 🫠
+The fix: match on type, series and number, never on the number alone.
 
-#dataquality #registers #govtech #meme
+Send this to whoever owns your data exchange.
+
+#dataquality #registers #govtech #dataexchange

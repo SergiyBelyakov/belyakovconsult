@@ -1,10 +1,13 @@
 ---
 link: false
+video: en/premium-e4-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-Side quest, 30 minutes, no cap 🔥
+30 minutes to learn how many records you have matched to the wrong person.
 
-Count matches twice: by number only, then by type + series + number. The gap = how many records are matched wrong right now.
+Match two registers twice: by number only, then by type, series and number. The gap between the two counts is your number of false matches.
 
-In the video: how to run it, where to look in the exchange contract, and a question at the end. Drop your answer in the comments 👇
+Then open the exchange contract. One "document number" field means every receiver guesses the type.
 
-#dataquality #registers #govtech #meme
+Send this to whoever runs your registers.
+
+#dataquality #registers #govtech #dataexchange

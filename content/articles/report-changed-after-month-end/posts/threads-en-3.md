@@ -1,4 +1,5 @@
 ---
+video: en/premium-e3-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
 A 20-minute check: calculate today an indicator you showed last month and compare it with the published one.
 <!-- next -->

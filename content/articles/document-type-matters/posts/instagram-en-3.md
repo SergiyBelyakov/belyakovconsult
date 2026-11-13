@@ -1,11 +1,14 @@
 ---
 link: false
+video: en/premium-e3-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-Nobody:
-Your length check: "passport? phone number? same vibe, let it in" 🤡
+A phone number just passed as a passport. Your check only counts characters.
 
-One rule for every document type is a skill issue.
+Two fixes, neither expensive:
+1. A format rule per document type. ID card: 9 digits. Booklet passport: 2 letters and 6 digits. Birth certificate: series and 6 digits.
+2. Check at entry and on receipt, and send a rejected record back with a reason instead of letting it vanish.
 
-In the video: one format rule per document type, where to run it, and why a rejected record should come back with a reason instead of just vanishing like my homework.
+Validate by type, not by length.
+Send this to whoever owns data quality.
 
-#dataquality #datagovernance #registers #meme
+#dataquality #datagovernance #registers #govtech

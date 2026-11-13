@@ -1,5 +1,6 @@
 ---
 link: false
+video: en/premium-e2-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
 An application from 28 October, entered on 12 November, quietly changes the October report. And that is only one of the reasons.
 

@@ -1,10 +1,16 @@
 ---
 link: false
+video: en/premium-e1-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
-POV: you open the October report on 5 November and on 20 November and get two different numbers 😭
+On 5 November you showed leadership 1,240. On 20 November the same October report says 1,287.
 
-Nobody broke anything. The past in data just keeps changing, it's giving time travel.
+Nobody broke anything. Late records, backdated fixes, new statuses and merged duplicates keep changing the past in your data.
 
-Video: current state vs history, and how to freeze a published number 🧊
+The fix is architecture, not a dashboard: a snapshot on the cut-off date, a published version, and every revision shown with a reason.
 
-#dataanalytics #businessintelligence #reporting #meme
+A published number never changes silently.
+Send this to whoever presents numbers to leadership.
+
+Figures are illustrative.
+
+#businessintelligence #reporting #dataarchitecture #leadership

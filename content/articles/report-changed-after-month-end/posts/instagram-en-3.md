@@ -1,5 +1,6 @@
 ---
 link: false
+video: en/premium-e3-9x16.mp4   # преміум-формат (затверджено 13.11)
 ---
 Can you get today the same number you showed leadership a month ago? The check takes 20 minutes.
 
