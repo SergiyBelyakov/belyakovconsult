@@ -346,6 +346,15 @@
     "music": "cinematic",
     "wave": "wave-5.jpg"
   },
+  "night-drive#1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-governance.webp",
+    "k": 48,
+    "look": "glass",
+    "music": "analytic",
+    "wave": "wave-5.jpg"
+  },
   "note-2026-10-28#instagram-en-1": {
     "cover": "frame",
     "globe": "globe-2.jpg",
