@@ -348,6 +348,7 @@
   },
   "night-drive#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-1.jpg",
     "icon": "service-governance.webp",
     "k": 48,
