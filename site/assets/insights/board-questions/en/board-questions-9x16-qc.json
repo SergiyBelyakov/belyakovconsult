@@ -1,0 +1,15 @@
+{
+ "words_per_second": {
+  "hook": 2.92,
+  "title": 2.5,
+  "q1": 2.78,
+  "q2": 3.06,
+  "q3": 3.06,
+  "take": 2.92,
+  "end": 3.06
+ },
+ "reading_ok": true,
+ "text_contrast_min": 18.2,
+ "safe_zones": "text y 250..1150, x 60..1020; device lower area may sit under platform buttons",
+ "flat_area_std": 7.04
+}
