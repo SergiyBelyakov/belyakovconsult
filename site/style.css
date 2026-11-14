@@ -1005,6 +1005,9 @@ img { max-width:100%; }
 @media(max-width:600px){.header .social-top{display:none}}
 .social-modern{flex-wrap:wrap;align-items:center}
 .social-modern .social-circle{flex:none}
+/* Six social circles (with YouTube) stay on one row on phones */
+@media(max-width:440px){.social-modern{gap:10px}.social-modern .social-circle{width:44px;height:44px}}
+@media(max-width:360px){.social-modern{gap:7px}.social-modern .social-circle{width:40px;height:40px}}
 .social-modern .bc-social-footer{font-size:.8rem;margin:0;line-height:1.5;padding:8px 0}
 .bc-social-link[aria-label^="Instagram"] svg{fill:none}
 

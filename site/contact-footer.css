@@ -925,6 +925,8 @@
 @media (max-width:600px){#contact .header .social-top,#contact:is(.header .social-top){display:none}}
 #contact .social-modern,#contact:is(.social-modern){flex-wrap:wrap;align-items:center}
 #contact .social-modern .social-circle,#contact:is(.social-modern .social-circle){flex:none}
+@media (max-width:440px){#contact .social-modern{gap:10px}#contact .social-modern .social-circle{width:44px;height:44px}}
+@media (max-width:360px){#contact .social-modern{gap:7px}#contact .social-modern .social-circle{width:40px;height:40px}}
 #contact .social-modern .bc-social-footer,#contact:is(.social-modern .bc-social-footer){font-size:.8rem;margin:0;line-height:1.5;padding:8px 0}
 #contact .bc-social-link[aria-label^="Instagram"] svg,#contact:is(.bc-social-link[aria-label^="Instagram"] svg){fill:none}
 #contact .bc-social-link[aria-label^="Instagram"] rect,#contact:is(.bc-social-link[aria-label^="Instagram"] rect),#contact .bc-social-link[aria-label^="Instagram"] circle:not([fill="currentColor"]),#contact:is(.bc-social-link[aria-label^="Instagram"] circle:not([fill="currentColor"])){fill:none}
