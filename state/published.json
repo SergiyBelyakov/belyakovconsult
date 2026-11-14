@@ -683,6 +683,16 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfupPRkmQuf/"
   },
+  "document-type-matters/linkedinpage-en": {
+    "at": "2026-11-15 00:02",
+    "publish_at": "2026-11-12 17:00",
+    "status": "skipped-late"
+  },
+  "document-type-matters/linkedinpage-uk": {
+    "at": "2026-11-15 00:02",
+    "publish_at": "2026-11-12 13:30",
+    "status": "skipped-late"
+  },
   "document-type-matters/telegram-uk": {
     "at": "2026-11-12 10:03",
     "id": 59,
