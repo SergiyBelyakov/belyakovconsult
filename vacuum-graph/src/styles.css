@@ -1,0 +1,122 @@
+/* Belyakov Consult · гра «Пилосос і граф».
+   Основа: каркас і скло спільних демо. Тут ігрове поле, накладки, кнопки дій і розділи під грою (префікс vg-). */
+@import "../../fraud-demo/src/styles.css";
+
+.vg-hero { margin-bottom: 8px; }
+.vg-hero .hero-text { max-width: 880px; }
+.vg-section { margin-bottom: 26px; }
+.vg-h2 { margin: 0 0 12px; font-size: 20px; }
+
+/* --- поле --- */
+.vg-game { display: grid; gap: 10px; }
+.vg-stage { position: relative; width: 100%; border: 1px solid rgba(217, 4, 41, .35); border-radius: var(--r); overflow: hidden; background: #0C0F15; box-shadow: 0 0 0 1px rgba(255, 255, 255, .04), 0 18px 60px rgba(0, 0, 0, .45); outline: none; }
+.vg-stage:focus-visible { box-shadow: 0 0 0 2px var(--ruby); }
+.vg-stage canvas { display: block; touch-action: none; image-rendering: pixelated; }
+.vg-stage.playing canvas { cursor: pointer; }
+.vg-over { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; align-content: center; gap: 12px; padding: 24px; text-align: center; background: rgba(6, 8, 12, .76); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.vg-over > * { max-width: 660px; }
+.vg-over p { color: #C9D0D9; line-height: 1.55; }
+.vg-over.vg-scroll { place-items: start center; align-content: start; overflow-y: auto; text-align: left; }
+.vg-over.vg-scroll > * { width: 100%; }
+.vg-pixel { font: 800 clamp(22px, 3.4vw, 34px)/1.15 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; letter-spacing: .04em; text-transform: uppercase; color: #FF6076; text-shadow: 3px 3px 0 #8C001A, 0 0 22px rgba(217, 4, 41, .45); }
+.vg-scroll .vg-pixel { text-align: center; display: block; }
+.vg-center { text-align: center; }
+.vg-level { font: 700 12px ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; color: #FF6076; }
+.vg-brief h3 { font: 800 26px var(--heading); }
+.vg-ex { display: grid; gap: 6px; padding: 0; margin: 4px 0 0; list-style: none; text-align: left; }
+.vg-ex li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: #C9D0D9; }
+.vg-ex code { padding: 2px 8px; border: 1px solid var(--line-2); border-radius: 4px; background: rgba(255, 255, 255, .04); font: 500 12.5px ui-monospace, Menlo, Consolas, monospace; color: #F4F6F8; overflow-wrap: anywhere; }
+.vg-ex svg { color: #8EA0B8; flex: none; }
+.vg-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.vg-actions.center { justify-content: center; }
+.vg-big { height: 46px; padding: 0 22px; font-size: 15px; }
+.vg-check { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: #C9D0D9; cursor: pointer; }
+.vg-check input { width: 16px; height: 16px; accent-color: var(--ruby); }
+.vg-check small { color: var(--muted); font-size: 12.5px; }
+.vg-keys { font: 500 12px ui-monospace, Menlo, Consolas, monospace; color: #8EA0B8 !important; }
+.vg-keys.touch, .vg-touch-inline { display: none; }
+@media (hover: none) { .vg-keys, .vg-keys-inline { display: none; } .vg-keys.touch { display: block; } .vg-touch-inline { display: inline; } }
+
+/* --- розбір рівня --- */
+.vg-recap { display: grid; gap: 12px; padding: 4px 0 12px; }
+.vg-recap-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.vg-recap-head h3 { font: 700 20px var(--heading); }
+.vg-stars i { font-style: normal; font-size: 22px; color: rgba(255, 255, 255, .18); margin-left: 2px; }
+.vg-stars i.on { color: #FFB020; text-shadow: 0 0 10px rgba(255, 176, 32, .5); }
+.vg-warn { padding: 8px 12px; border: 1px solid rgba(255, 176, 32, .4); border-radius: var(--r-ctl); background: rgba(255, 176, 32, .07); font-size: 13px; }
+.vg-warn.bad { border-color: rgba(255, 96, 118, .5); background: rgba(217, 4, 41, .1); }
+.vg-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.vg-kpis.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.vg-kpis div { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-ctl); background: rgba(255, 255, 255, .03); text-align: left; min-width: 0; }
+.vg-kpis span { font-size: 11.5px; color: var(--muted); }
+.vg-kpis b { font: 600 22px var(--body); font-variant-numeric: tabular-nums; }
+.vg-skills { display: grid; gap: 6px; }
+.vg-skill { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(70px, 1fr) auto; align-items: center; gap: 10px; font-size: 13px; color: #C9D0D9; text-align: left; }
+.vg-bar { display: block; height: 7px; border-radius: 4px; background: #1C2A42; overflow: hidden; }
+.vg-bar i { display: block; height: 100%; border-radius: 4px; background: #2DD4BF; }
+.vg-skill b { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vg-recap h4 { margin: 4px 0 0; font: 600 11px var(--body); letter-spacing: .12em; text-transform: uppercase; color: #8EA0B8; }
+.vg-mistakes { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.vg-mistakes li { display: grid; gap: 3px; padding: 9px 12px; border-left: 2px solid #FF6076; background: rgba(255, 96, 118, .05); font-size: 12.8px; line-height: 1.5; text-align: left; }
+.vg-mistakes li.half { border-left-color: #FFB020; background: rgba(255, 176, 32, .05); }
+.vg-mistakes li.miss { border-left-color: #8EA0B8; background: rgba(142, 160, 184, .05); }
+.vg-mistakes strong { font-size: 13.5px; }
+.vg-rec { color: #F4F6F8; overflow-wrap: anywhere; }
+.vg-clean { color: #8FF5E5 !important; }
+.vg-tip { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; padding: 10px 12px; border: 1px solid rgba(45, 212, 191, .3); border-radius: var(--r-ctl); background: rgba(45, 212, 191, .05); text-align: left; }
+.vg-tip svg { color: #2DD4BF; margin-top: 2px; }
+.vg-tip strong { font-size: 13px; }
+.vg-tip p { margin-top: 2px; font-size: 12.8px; line-height: 1.55; overflow-wrap: anywhere; }
+.vg-tip.small { grid-template-columns: 14px minmax(0, 1fr); padding: 8px 10px; margin-top: auto; }
+.vg-final { text-align: center; }
+.vg-final .vg-kpis, .vg-final .vg-skills { max-width: 560px; margin: 0 auto; }
+
+/* --- кнопки дій і повідомлення --- */
+.vg-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.vg-spacer { flex: 1; }
+.vg-btn { position: relative; display: inline-flex; align-items: center; gap: 9px; height: 46px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: var(--r-ctl); background: rgba(14, 18, 26, .7); color: var(--ink); font: 600 13.5px var(--body); overflow: hidden; transition: border-color .15s, background .15s, transform .08s; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.vg-btn:hover:not(:disabled) { border-color: var(--line-3); background: rgba(255, 255, 255, .06); }
+.vg-btn:active:not(:disabled) { transform: translateY(1px); }
+.vg-btn:disabled { opacity: .55; }
+.vg-btn i { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+.vg-btn kbd { padding: 1px 6px; border: 1px solid var(--line-2); border-radius: 4px; font: 500 11px ui-monospace, Menlo, Consolas, monospace; color: var(--muted); }
+.b-suck i, .vg-how-icon.k-suck { background: #C084FC; box-shadow: 0 0 10px rgba(192, 132, 252, .5); border-radius: 50%; }
+.b-cut i, .vg-how-icon.k-cut { background: #FF6076; box-shadow: 0 0 10px rgba(255, 96, 118, .6); }
+.b-scan i, .vg-how-icon.k-scan { background: #FFB020; box-shadow: 0 0 10px rgba(255, 176, 32, .5); }
+.b-seal i { background: #2DD4BF; }
+.vg-charge { position: absolute; left: 0; bottom: 0; height: 3px; background: #FFB020; transition: width .2s; }
+.vg-btn.b-scan.ready { border-color: rgba(255, 176, 32, .7); animation: vg-pulse-a 1s ease-in-out infinite alternate; }
+.vg-btn.b-seal { border-color: #D90429; background: rgba(217, 4, 41, .18); animation: vg-pulse 1s ease-in-out infinite alternate; }
+@keyframes vg-pulse { from { box-shadow: 0 0 0 rgba(217, 4, 41, 0); } to { box-shadow: 0 0 18px rgba(217, 4, 41, .55); } }
+@keyframes vg-pulse-a { from { box-shadow: 0 0 0 rgba(255, 176, 32, 0); } to { box-shadow: 0 0 16px rgba(255, 176, 32, .45); } }
+@media (prefers-reduced-motion: reduce) { .vg-btn.b-scan.ready, .vg-btn.b-seal { animation: none; } }
+.vg-sound.on { color: #2DD4BF; border-color: rgba(45, 212, 191, .45); }
+.vg-msg { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--line); border-left-width: 3px; border-radius: var(--r-ctl); background: rgba(12, 16, 23, .6); font-size: 13px; line-height: 1.5; color: #C9D0D9; }
+.vg-msg strong { color: var(--ink); }
+.vg-msg.t-good { border-left-color: #2DD4BF; }
+.vg-msg.t-bad { border-left-color: #FF6076; }
+.vg-msg.t-info { border-left-color: #FFB020; }
+@media (max-width: 640px) {
+  .vg-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto auto; }
+  .vg-btn { justify-content: center; flex-direction: column; gap: 3px; height: 62px; padding: 6px 4px; font-size: 12.5px; }
+  .vg-btn kbd, .vg-spacer { display: none; }
+  .vg-btn.b-seal { grid-column: 1 / -1; flex-direction: row; height: 46px; }
+  .vg-kpis, .vg-kpis.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vg-kpis b { font-size: 18px; }
+  .vg-over { padding: 16px; }
+  .vg-brief h3 { font-size: 22px; }
+}
+
+/* --- як грати і навички --- */
+.vg-how { display: grid; grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 12px; }
+.vg-how-card { display: grid; gap: 8px; align-content: start; padding: 16px; }
+.vg-how-card h3 { font-size: 15px; }
+.vg-how-card p { font-size: 13px; line-height: 1.6; color: #C9D0D9; }
+.vg-how-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; color: #0C0F15; }
+.vg-how-icon.k-keep { background: #8FF5E5; box-shadow: 0 0 10px rgba(143, 245, 229, .35); }
+.vg-how-icon.k-bugs { background: #AAB2C0; }
+.vg-extra { max-width: 880px; margin-top: 12px; font-size: 13.5px; line-height: 1.6; }
+.vg-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 12px; }
+.vg-level-card { display: flex; flex-direction: column; gap: 8px; padding: 16px; min-width: 0; }
+.vg-level-card h3 { font-size: 16px; }
+.vg-level-card > p { font-size: 13px; line-height: 1.6; color: #C9D0D9; }

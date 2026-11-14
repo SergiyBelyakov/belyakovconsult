@@ -264,6 +264,7 @@ post_links:
   jackpot: /cases/jackpot-cat/
   me: /cases/monitoring-evaluation/
   maturity: /cases/data-maturity/
+  vacuum: /cases/vacuum-graph/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:
