@@ -70,7 +70,10 @@ def telegram_send_photos(chat_id: str, paths: list[Path], caption: str | None = 
         _check(r, "Telegram (фото)")
 
 
-def telegram_video(chat_id: str, video_url: str, caption: str | None = None, reply_to: int | None = None) -> dict:
+def telegram_video(chat_id: str, video_url: str, caption: str | None = None, reply_to: int | None = None,
+                   local_path: Path | None = None) -> dict:
+    """Відео за посиланням із сайту; якщо Telegram не може його забрати (файл понад 20 МБ, кеш сайту ще старий),
+    завантажуємо файл напряму з репозиторію (до 50 МБ)."""
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     payload = {"chat_id": chat_id, "video": video_url, "supports_streaming": True,
                "width": 1080, "height": 1920}
@@ -78,7 +81,18 @@ def telegram_video(chat_id: str, video_url: str, caption: str | None = None, rep
         payload.update(caption=md_to_telegram_html(caption), parse_mode="HTML")
     if reply_to:
         payload["reply_parameters"] = {"message_id": reply_to}
-    data = _check(requests.post(f"https://api.telegram.org/bot{token}/sendVideo", json=payload, timeout=120), "Telegram (відео)")
+    try:
+        data = _check(requests.post(f"https://api.telegram.org/bot{token}/sendVideo", json=payload, timeout=120), "Telegram (відео)")
+    except ChannelError as e:
+        if not (local_path and Path(local_path).exists() and "HTTP URL content" in str(e)):
+            raise
+        import json
+        form = {k: (json.dumps(v) if isinstance(v, dict) else str(v).lower() if isinstance(v, bool) else str(v))
+                for k, v in payload.items() if k != "video"}
+        with open(local_path, "rb") as fh:
+            r = requests.post(f"https://api.telegram.org/bot{token}/sendVideo", data=form, timeout=300,
+                              files={"video": (Path(local_path).name, fh, "video/mp4")})
+        data = _check(r, "Telegram (відео, файлом)")
     msg = data.get("result", {})
     chat = msg.get("chat", {})
     url = f"https://t.me/{chat['username']}/{msg.get('message_id')}" if chat.get("username") else None
@@ -88,16 +102,16 @@ def telegram_video(chat_id: str, video_url: str, caption: str | None = None, rep
 TG_CAPTION_LIMIT = 1024
 
 
-def publish_telegram(parts: list[str], video_url: str | None = None) -> dict:
+def publish_telegram(parts: list[str], video_url: str | None = None, local_path: Path | None = None) -> dict:
     chat = os.environ["TELEGRAM_CHANNEL_ID"]
     text = "\n\n".join(parts)
     if not video_url:
         return telegram_send(chat, text)
     if len(md_to_telegram_html(text)) <= TG_CAPTION_LIMIT:
-        return telegram_video(chat, video_url, caption=text)
+        return telegram_video(chat, video_url, caption=text, local_path=local_path)
     # Текст довший за підпис до відео: спершу текст, відео відповіддю на нього
     first = telegram_send(chat, text, preview=False)
-    vid = telegram_video(chat, video_url, reply_to=first["id"])
+    vid = telegram_video(chat, video_url, reply_to=first["id"], local_path=local_path)
     return {**first, "extra_ids": [vid.get("id")]}      # відео окремим повідомленням: id потрібен для заміни
 
 

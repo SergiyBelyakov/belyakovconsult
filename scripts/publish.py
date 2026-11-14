@@ -171,7 +171,7 @@ _YT_PRIVATE_NOTED = False
 def send(post, parts, cfg) -> dict:
     video = video_url(post, cfg)
     if post.channel == "telegram":
-        return channels.publish_telegram(parts, video)
+        return channels.publish_telegram(parts, video, local_video(post, cfg) if video else None)
     if post.channel == "threads":
         return channels.publish_threads(parts, video)
     if post.channel == "linkedin":
