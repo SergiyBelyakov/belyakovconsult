@@ -46,7 +46,7 @@ KICKER = {
     "data-journey": {"uk": "Шлях даних", "en": "The data journey", "pt": "O percurso dos dados"},
     "insights": {"uk": "Матеріали", "en": "Insights", "pt": "Artigos"},
 }
-IMAGE = {"": "hero.webp", "cases": "case-social.webp", "sergiy-belyakov": "service-consulting.webp",
+IMAGE = {"": "hero.webp", "cases": "case-social.webp", "sergiy-belyakov": "sergiy-belyakov.webp",
          "data-journey": "hero.webp", "insights": "service-data-analysis.webp", **SERVICE}
 SERVICE_LABEL = {"uk": "Послуги", "en": "Services", "pt": "Serviços"}
 HANDLE_AUTHOR = {"uk": "Сергій Бєляков", "en": "Sergiy Belyakov", "pt": "Sergiy Belyakov"}

@@ -1,0 +1,95 @@
+{
+  "_about": "Дані блоку «Досвід» на сторінці «Про мене» (/sergiy-belyakov/, UA, EN, PT). Після змін: python scripts/make_about.py. Етапи йдуть від найновішого. start і end у форматі РРРР-ММ (end включно; null означає, що етап триває). donors: хто фінансував (us, uk, ca, wb), за ними працює фільтр. as_of: місяць, на який пораховано статичну шкалу для браузерів без скриптів; зі скриптом шкала рахується від поточної дати. Усі факти погоджено із Сергієм 14.11.2026: назви організацій без посад, нинішнє місце роботи в державному секторі не називаємо.",
+  "min_year": 2012,
+  "as_of": "2026-11",
+  "donors": ["us", "uk", "ca", "wb"],
+  "stages": [
+    {"id": "momentum", "start": "2025-01", "end": null, "donors": ["us"]},
+    {"id": "public", "start": "2024-04", "end": null, "donors": [], "default": true},
+    {"id": "ministry", "start": "2022-11", "end": "2025-07", "donors": ["wb"]},
+    {"id": "alinea", "start": "2019-11", "end": "2022-11", "donors": ["ca"]},
+    {"id": "bc", "start": "2016-10", "end": null, "donors": []},
+    {"id": "deloitte", "start": "2015-05", "end": "2019-09", "donors": ["us", "uk"]},
+    {"id": "worldbank", "start": "2012-07", "end": "2012-09", "donors": ["wb"]}
+  ],
+  "lang": {
+    "uk": {
+      "kicker": "Досвід",
+      "title": "Понад 10 років у даних: державний сектор і міжнародні програми",
+      "lead": "Охорона здоров’я, соціальний захист, реабілітація. Частина етапів триває паралельно, тому досвід показано шкалою, а не списком.",
+      "filter": "Донори програм",
+      "all": "Усі",
+      "hint": "Оберіть етап або донора",
+      "today": "сьогодні",
+      "rows_label": "Етапи досвіду",
+      "since": "з {y}",
+      "donors": {"us": "Уряд США", "uk": "Уряд Великої Британії", "ca": "Уряд Канади", "wb": "Світовий банк"},
+      "stages": {
+        "momentum": {"name": "Momentum Wheels for Humanity", "note": "Реабілітація. Проєкт за підтримки уряду США."},
+        "public": {"name": "Державний сектор", "note": "Керую аналітичним напрямом."},
+        "ministry": {"name": "Міністерство соціальної політики України", "note": "Проєкт Світового банку, згодом радник Міністра з аналізу даних."},
+        "alinea": {"name": "Alinea International", "note": "Моніторинг і оцінка реформ. Проєкт за підтримки уряду Канади."},
+        "bc": {"name": "Belyakov Consult", "note": "Незалежна практика: консультації, аналітичні проєкти, супровід команд."},
+        "deloitte": {"name": "Deloitte", "note": "Охорона здоров’я. Проєкти за підтримки USAID та UK aid."},
+        "worldbank": {"name": "Світовий банк", "note": "Управління земельними ресурсами. Короткостроковий проєкт."}
+      },
+      "meta": [
+        {"label": "Освіта", "values": ["Київський національний університет імені Тараса Шевченка", "Southern Maine Community College, США"]},
+        {"label": "Сертифікати", "values": ["Neo4j Certified Professional", "Neo4j Graph Data Science"]},
+        {"label": "Мови", "values": ["Українська, англійська"]}
+      ]
+    },
+    "en": {
+      "kicker": "Experience",
+      "title": "Over 10 years in data: public sector and international programmes",
+      "lead": "Health, social protection, rehabilitation. Some stages run in parallel, so the experience is shown on a timeline rather than in a list.",
+      "filter": "Programme donors",
+      "all": "All",
+      "hint": "Pick a stage or a donor",
+      "today": "today",
+      "rows_label": "Experience stages",
+      "since": "since {y}",
+      "donors": {"us": "US Government", "uk": "UK Government", "ca": "Government of Canada", "wb": "World Bank"},
+      "stages": {
+        "momentum": {"name": "Momentum Wheels for Humanity", "note": "Rehabilitation. A project supported by the US Government."},
+        "public": {"name": "Public sector", "note": "I lead analytics work."},
+        "ministry": {"name": "Ministry of Social Policy of Ukraine", "note": "A World Bank project, then Adviser to the Minister on data analysis."},
+        "alinea": {"name": "Alinea International", "note": "Monitoring and evaluation of reforms. A project supported by the Government of Canada."},
+        "bc": {"name": "Belyakov Consult", "note": "Independent practice: advisory sessions, analytical projects, support to teams."},
+        "deloitte": {"name": "Deloitte", "note": "Health. Projects supported by USAID and UK aid."},
+        "worldbank": {"name": "World Bank", "note": "Land governance. A short assignment."}
+      },
+      "meta": [
+        {"label": "Education", "values": ["Taras Shevchenko National University of Kyiv", "Southern Maine Community College, USA"]},
+        {"label": "Certificates", "values": ["Neo4j Certified Professional", "Neo4j Graph Data Science"]},
+        {"label": "Languages", "values": ["Ukrainian, English"]}
+      ]
+    },
+    "pt": {
+      "kicker": "Experiência",
+      "title": "Mais de 10 anos em dados: setor público e programas internacionais",
+      "lead": "Saúde, proteção social, reabilitação. Algumas etapas decorrem em paralelo, por isso a experiência é mostrada numa linha do tempo e não numa lista.",
+      "filter": "Doadores dos programas",
+      "all": "Todos",
+      "hint": "Escolha uma etapa ou um doador",
+      "today": "hoje",
+      "rows_label": "Etapas da experiência",
+      "since": "desde {y}",
+      "donors": {"us": "Governo dos EUA", "uk": "Governo do Reino Unido", "ca": "Governo do Canadá", "wb": "Banco Mundial"},
+      "stages": {
+        "momentum": {"name": "Momentum Wheels for Humanity", "note": "Reabilitação. Projeto apoiado pelo Governo dos EUA."},
+        "public": {"name": "Setor público", "note": "Lidero trabalho analítico."},
+        "ministry": {"name": "Ministério da Política Social da Ucrânia", "note": "Projeto do Banco Mundial e, depois, conselheiro do Ministro para a análise de dados."},
+        "alinea": {"name": "Alinea International", "note": "Monitorização e avaliação de reformas. Projeto apoiado pelo Governo do Canadá."},
+        "bc": {"name": "Belyakov Consult", "note": "Prática independente: sessões de consultoria, projetos analíticos, acompanhamento de equipas."},
+        "deloitte": {"name": "Deloitte", "note": "Saúde. Projetos apoiados pela USAID e pela UK aid."},
+        "worldbank": {"name": "Banco Mundial", "note": "Governação fundiária. Projeto de curta duração."}
+      },
+      "meta": [
+        {"label": "Formação", "values": ["Universidade Nacional Taras Shevchenko de Kyiv", "Southern Maine Community College, EUA"]},
+        {"label": "Certificações", "values": ["Neo4j Certified Professional", "Neo4j Graph Data Science"]},
+        {"label": "Línguas", "values": ["Ucraniano, inglês"]}
+      ]
+    }
+  }
+}
