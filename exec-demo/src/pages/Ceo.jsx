@@ -163,7 +163,7 @@ export default function Ceo({ ctx }) {
               <p>{T.ceo.finalText}</p>
             </div>
             <div className="ceo-final-actions">
-              <Button kind="primary" icon="mail" onClick={() => openLead('ceo-maturity', { kind: 'maturity', message: summary() })}>{T.ceo.ctaMaturity}</Button>
+              <a className="btn btn-primary" href={ctx.maturityHref} onClick={() => track && track('ceo_maturity')}><Icon name="arrowRight" size={16} /><span>{T.ceo.ctaMaturity}</span></a>
               <Button icon="mail" onClick={() => openLead('ceo-system', { message: summary() })}>{T.ceo.ctaSystem}</Button>
               <Button icon="reset" onClick={start}>{T.ceo.again}</Button>
               <Button icon="flask" onClick={() => go('scenarios')}>{T.ceo.toSim}</Button>

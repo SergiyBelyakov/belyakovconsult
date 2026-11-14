@@ -263,6 +263,7 @@ post_links:
   scooter: /cases/scooter-cat/
   jackpot: /cases/jackpot-cat/
   me: /cases/monitoring-evaluation/
+  maturity: /cases/data-maturity/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:

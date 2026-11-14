@@ -210,6 +210,8 @@ export default function App({ initialLang, base: assetBase, onSite }) {
     T, f, lang, ind, setInd, D, unit, setUnit, i, setI, sig, setSig, drv, setDrv, presets, setPresets, S, go, navigate, notify, unitName, exportCsv,
     openLead, openExplain, openCause, applyPresets, applySliders, per, setPer, causePath: null, setCausePath: null, causeFocus, setCauseFocus,
     cashTerms, setCashTerms, linkSel, setLinkSel, ceo, setCeo, startTour, track,
+    // виклик CEO веде на самооцінку зрілості даних у Лабораторії
+    maturityHref: (onSite ? '' : 'https://www.belyakovconsult.com') + LANGS.find(l => l.id === lang).prefix + '/cases/data-maturity/',
   };
   // шлях дерева причин зберігаємо як найглибший вузол; сторінка відновлює гілку від кореня
   ctx.causePath = causeNode ? causeNode.split('/').map((_, k, a) => a.slice(0, k + 1).join('/')) : null;

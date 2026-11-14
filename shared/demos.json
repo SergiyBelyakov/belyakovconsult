@@ -797,6 +797,123 @@
       "featured": [
         "data-strategy"
       ]
+    },
+    {
+      "slug": "data-maturity",
+      "dir": "maturity-demo",
+      "attr": "data-maturity-demo",
+      "anchor": "data-maturity",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-strategy",
+        "data-governance",
+        "data-quality",
+        "data-architecture",
+        "business-intelligence"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "maturity-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img",
+            "img"
+          ],
+          [
+            "dashboard/public/pdf-fonts",
+            "pdf-fonts"
+          ],
+          [
+            "dashboard/vendor",
+            "vendor"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Оцінка зрілості даних організації: безкоштовний тест | Belyakov Consult",
+          "description": "Оцінка зрілості роботи з даними приблизно за 10 хвилин: 32 питання у восьми вимірах від стратегії й управління до якості, довідників, аналітики, людей і безпеки, рівень від 1 до 5, сильні й слабкі місця, дорожня карта на 30, 90 і 180 днів і PDF-звіт. Відповіді лишаються у вашому браузері.",
+          "name": "Оцінка зрілості даних",
+          "noscript": "Для оцінки потрібен JavaScript. Оцінка складається з 32 питань у восьми вимірах і показує рівень зрілості роботи з даними, пріоритети й дорожню карту. Відповіді не залишають ваш браузер.",
+          "kind": "Інструмент · оцінка зрілості",
+          "teaser": "32 питання у восьми вимірах: рівень зрілості від 1 до 5, профіль проти цілі, пріоритети, дорожня карта на 30, 90 і 180 днів і PDF-звіт. Відповіді лишаються у вашому браузері."
+        },
+        "en": {
+          "title": "Data maturity assessment for organisations: a free self check | Belyakov Consult",
+          "description": "Assess how mature your work with data is in about 10 minutes: 32 questions in eight dimensions from strategy and governance to quality, reference data, analytics, people and security, a level from 1 to 5, strengths and gaps, a 30, 90 and 180 day roadmap and a PDF report. Your answers stay in your browser.",
+          "name": "Data maturity assessment",
+          "noscript": "The assessment needs JavaScript. It has 32 questions in eight dimensions and shows your data maturity level, priorities and a roadmap. Your answers never leave your browser.",
+          "kind": "Tool · maturity assessment",
+          "teaser": "32 questions in eight dimensions: a maturity level from 1 to 5, your profile against a target, priorities, a 30, 90 and 180 day roadmap and a PDF report. Your answers stay in your browser."
+        }
+      },
+      "audiences": [
+        "business",
+        "public",
+        "communities",
+        "donors"
+      ],
+      "featured": [
+        "data-strategy",
+        "data-governance"
+      ]
+    },
+    {
+      "slug": "vacuum-graph",
+      "dir": "vacuum-graph",
+      "attr": "data-vacuum-graph",
+      "anchor": "vacuum-graph",
+      "status": "draft",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-quality",
+        "data-governance",
+        "data-architecture"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "vacuum-graph/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Пилосос і граф: гра про чистку мережевих даних | Belyakov Consult",
+          "description": "Аркада в стилі Pac-Man на графі зв’язків: робот-пилосос прибирає сироти, зливає дублікати, розрізає хибні зв’язки й не чіпає вузли-мости, бо граф розпадеться. Розбір після кожного рівня.",
+          "name": "Пилосос і граф",
+          "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб прибрати граф: сироти, дублікати, хибні зв’язки й вузли-мости, які чіпати не можна.",
+          "kind": "Навчання · гра",
+          "teaser": "Pac-Man на графі зв’язків: прибрати сироти, злити дублікати, розрізати хибні зв’язки й не з’їсти вузол-міст, бо граф розпадеться."
+        },
+        "en": {
+          "title": "Robo Vac and the Graph: a game about cleaning network data | Belyakov Consult",
+          "description": "A Pac-Man style arcade on a relationship graph: a robot vacuum removes orphans, merges duplicates, cuts false links and leaves bridge nodes alone, or the graph falls apart. A breakdown after every level.",
+          "name": "Robo Vac and the Graph",
+          "noscript": "The game needs JavaScript. Turn it on to clean a graph: orphans, duplicates, false links and the bridge nodes you must not touch.",
+          "kind": "Learning · game",
+          "teaser": "Pac-Man on a relationship graph: remove orphans, merge duplicates, cut false links and do not swallow a bridge node, or the graph falls apart."
+        }
+      },
+      "audiences": [
+        "learning"
+      ]
     }
   ],
   "exhibits": [

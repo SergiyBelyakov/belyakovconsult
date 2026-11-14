@@ -1,0 +1,13 @@
+import { createRoot } from 'react-dom/client';
+import '../../exec-demo/src/icons.js';
+import './icons.js';
+import App from './App.jsx';
+import './styles.css';
+
+// Ресурси лежать поруч зі скриптом (assets/), тож сторінки обома мовами беруть одні й ті самі файли.
+const script = document.currentScript || document.querySelector('script[data-maturity-demo]');
+const BASE = new URL('./', script ? script.src : location.href).href;
+const root = document.getElementById('root');
+const lang = ['uk', 'en'].includes(document.documentElement.lang) ? document.documentElement.lang : 'uk';
+
+createRoot(root).render(<App initialLang={lang} base={BASE} onSite={root.dataset.site === '1'} />);

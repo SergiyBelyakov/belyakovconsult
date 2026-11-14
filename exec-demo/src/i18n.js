@@ -455,8 +455,8 @@ const uk = {
     cashTitle: 'Гроші: база і ваші рішення', cashSub: t => `Поріг ${t}. Червоні точки: місяці нижче порогу.`, yours: 'Ваші рішення',
     tradeTitle: 'Що дало кожне рішення', tradeSub: 'Кожне рішення окремо проти бази і компроміс, який за ним стоїть.',
     eff: (c, f) => `EBITDA ${f.signedMoney(c.ebitda)} · гроші ${f.signedMoney(c.minCash)} · кадровий ризик ${sgn(c.wf)}${f.int(Math.abs(c.wf))} · обсяг ${f.signedPct(c.vol)}`,
-    finalTitle: 'А як із цим у вашій компанії?', finalText: 'Така панель на ваших даних показує причину, рішення і прогнозований результат в одному місці. Почати можна з оцінки аналітичної зрілості: які дані вже є, яких бракує і що дасть найбільший ефект.',
-    ctaMaturity: 'Отримати оцінку аналітичної зрілості', ctaSystem: 'Обговорити подібну систему', again: 'Пройти ще раз', toSim: 'Відкрити повний симулятор',
+    finalTitle: 'А як із цим у вашій компанії?', finalText: 'Така панель на ваших даних показує причину, рішення і прогнозований результат в одному місці. Почати можна з оцінки зрілості даних: 32 питання, близько 10 хвилин, і видно, що вже є, чого бракує і що дасть найбільший ефект.',
+    ctaMaturity: 'Оцінити зрілість даних', ctaSystem: 'Обговорити подібну систему', again: 'Пройти ще раз', toSim: 'Відкрити повний симулятор',
     leadMsg: (t, e, c, s) => `Пройшов виклик «Роль CEO» у демо панелі керівника: ${t.join('; ')}. Результат: EBITDA ${e}, гроші ${c}, оцінка ${s}. Про нашу компанію: `,
   },
   explain: {
@@ -1061,8 +1061,8 @@ const en = {
     cashTitle: 'Cash: base case and your decisions', cashSub: t => `Threshold ${t}. Red dots: months below it.`, yours: 'Your decisions',
     tradeTitle: 'What each decision brought', tradeSub: 'Each decision on its own against the base case, and the trade-off behind it.',
     eff: (c, f) => `EBITDA ${f.signedMoney(c.ebitda)} · cash ${f.signedMoney(c.minCash)} · workforce risk ${sgn(c.wf)}${f.int(Math.abs(c.wf))} · volume ${f.signedPct(c.vol)}`,
-    finalTitle: 'And how is it in your company?', finalText: 'A dashboard like this on your data shows the cause, the decision and the expected result in one place. A good start is an analytics maturity assessment: what data you already have, what is missing and what will bring the largest effect.',
-    ctaMaturity: 'Get an analytics maturity assessment', ctaSystem: 'Discuss a similar system', again: 'Try again', toSim: 'Open the full simulator',
+    finalTitle: 'And how is it in your company?', finalText: 'A dashboard like this on your data shows the cause, the decision and the expected result in one place. A good start is the data maturity assessment: 32 questions, about 10 minutes, and you can see what you already have, what is missing and what will bring the largest effect.',
+    ctaMaturity: 'Assess your data maturity', ctaSystem: 'Discuss a similar system', again: 'Try again', toSim: 'Open the full simulator',
     leadMsg: (t, e, c, s) => `I took the "Be the CEO" challenge in the executive dashboard demo: ${t.join('; ')}. Result: EBITDA ${e}, cash ${c}, score ${s}. About our company: `,
   },
   explain: {
