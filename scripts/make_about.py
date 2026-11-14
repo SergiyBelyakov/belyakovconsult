@@ -1,12 +1,12 @@
 """Блок «Досвід» на сторінці «Про мене» (/sergiy-belyakov/, UA, EN, PT): одна інтерактивна лінія часу.
 
-Дані й тексти лежать у shared/about.json: етапи (організація, місяці початку й кінця, хто фінансував),
+Дані й тексти лежать у shared/about.json: етапи (назва, початок і кінець, хто фінансував, речення-пояснення),
 підписи трьома мовами і тихий рядок фактів під лінією (освіта, сертифікати, мови).
 Скрипт малює розділ і ставить його між маркерами <!-- about-experience:start --> і
 <!-- about-experience:end --> на кожній мовній сторінці. Решту сторінки (перший екран із портретом,
 вступ, послуги) скрипт не чіпає.
 
-На широкому екрані (від 1100 px, зі скриптом site/profile.js) це горизонтальна лінія від першого року
+На широкому екрані (від 1241 px, як і повне меню в шапці; зі скриптом site/profile.js) це горизонтальна лінія від першого року
 до сьогодні. Кожен етап стоїть точкою у місяці свого початку, підписи чергуються над і під лінією.
 Вибраний етап підсвічує на лінії свою тривалість, курсор року показує, що йшло паралельно,
 фільтр донорів пригашує решту. На вузькому екрані й без JavaScript це вертикальний список
@@ -44,7 +44,9 @@ ARROW_NEXT = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9.5 5.5 16 1
 
 
 def month(value: str, end: bool = False) -> float:
-    """РРРР-ММ у роки з дробом: початок місяця або його кінець."""
+    """РРРР-ММ у роки з дробом: початок місяця або його кінець. Лише рік (РРРР): середина року."""
+    if "-" not in value:
+        return int(value) + 0.5
     y, m = (int(x) for x in value.split("-"))
     return round(y + (m if end else m - 1) / 12, 3)
 
@@ -117,7 +119,7 @@ def render(data: dict, lang: str) -> str:
             f'<span aria-hidden="true" class="exp-node"></span>'
             f'<span class="exp-label"><span class="exp-name">{e(x["name"])}</span>'
             f'<span class="exp-years">{e(years(t, start, end))}</span></span>'
-            f'<span class="exp-note">{e(x["note"])}</span></button></li>'
+            + (f'<span class="exp-note">{e(x["note"])}</span>' if x.get("note") else "") + '</button></li>'
         )
     meta = "".join(f'<div><span>{e(m["label"])}</span><p>{"<br/>".join(e(v) for v in m["values"])}</p></div>' for m in t["meta"])
 
@@ -169,8 +171,8 @@ def problems(data: dict) -> list[str]:
             if not t.get(key):
                 out.append(f"{lang}: немає тексту {key}")
         for sid in ids:
-            if sid not in t["stages"]:
-                out.append(f"{lang}: немає тексту для етапу {sid}")
+            if not t["stages"].get(sid, {}).get("name"):
+                out.append(f"{lang}: немає назви етапу {sid}")
         for d in data["donors"]:
             if d not in t["donors"]:
                 out.append(f"{lang}: немає назви донора {d}")

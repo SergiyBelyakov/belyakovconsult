@@ -36,7 +36,7 @@
       donors: (el.dataset.donors || '').split(' ').filter(Boolean),
       name: el.querySelector('.exp-name').textContent,
       years: el.querySelector('.exp-years').textContent,
-      note: el.querySelector('.exp-note').textContent,
+      note: (el.querySelector('.exp-note') || { textContent: '' }).textContent,
     };
   });
   const byTime = rows.slice().sort((a, b) => a.start - b.start);
@@ -50,7 +50,7 @@
   });
 
   /* --- State --- */
-  const wide = window.matchMedia('(min-width: 1100px)');
+  const wide = window.matchMedia('(min-width: 1241px)');
   const donorLabel = {};
   chips.forEach(chip => { if (chip.dataset.donor) donorLabel[chip.dataset.donor] = chip.textContent.trim(); });
 
@@ -87,6 +87,7 @@
     yearsEl.textContent = shown.years;
     nameEl.textContent = shown.name;
     noteEl.textContent = shown.note;
+    noteEl.hidden = !shown.note;
     tagsEl.textContent = '';
     shown.donors.forEach(donor => {
       if (!donorLabel[donor]) return;
