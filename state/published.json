@@ -240,13 +240,6 @@
     "status": "published",
     "url": "https://www.instagram.com/reel/DfuskvrAahV/"
   },
-  "board-questions/telegram-uk": {
-    "at": "2026-11-14 19:14",
-    "attempts": 3,
-    "error": "Telegram (відео): HTTP 400 {\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: failed to get HTTP URL content\"}",
-    "publish_at": "2026-11-14 18:59",
-    "status": "failed"
-  },
   "board-questions/threads-en": {
     "at": "2026-11-14 19:01",
     "id": "17883659181628054",
