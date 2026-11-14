@@ -49,6 +49,16 @@
     "music": "ambient",
     "wave": "wave-1.jpg"
   },
+  "board-questions#1": {
+    "cover": "icon",
+    "frozen": true,
+    "globe": "globe-2.jpg",
+    "icon": "service-management-analytics.webp",
+    "k": 49,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-1.jpg"
+  },
   "channel-intro#1": {
     "cover": "icon",
     "globe": "globe-1.jpg",
