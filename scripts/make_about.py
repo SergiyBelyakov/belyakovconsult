@@ -12,11 +12,18 @@
 фільтр донорів пригашує решту. На вузькому екрані й без JavaScript це вертикальний список
 від найновішого етапу з поясненнями в рядках. Вигляд описано в site/profile.css.
 
+Сторінка має власні файли site/profile.css і site/profile.js. Браузер тримає їх у кеші кілька годин,
+а сторінку перечитує щоразу, тож після оновлення відвідувач міг би побачити нову розмітку зі старими
+стилями. Тому скрипт дописує до адрес цих файлів версію ?v=<перші 10 знаків SHA-1 вмісту>, так само
+як shared/build-demo.mjs робить для демо. Після будь-якої зміни profile.css чи profile.js
+запустіть скрипт ще раз: він оновить версії на трьох сторінках.
+
 Запуск: python scripts/make_about.py            (оновити три сторінки)
-        python scripts/make_about.py --check    (лише перевірити, що сторінки відповідають даним)
+        python scripts/make_about.py --check    (лише перевірити, що сторінки відповідають даним і файлам)
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -28,6 +35,7 @@ SITE = ROOT / "site"
 DATA = ROOT / "shared" / "about.json"
 PAGES = {"uk": "sergiy-belyakov/index.html", "en": "en/sergiy-belyakov/index.html", "pt": "pt/sergiy-belyakov/index.html"}
 START, END = "<!-- about-experience:start -->", "<!-- about-experience:end -->"
+ASSETS = ("profile.css", "profile.js")   # власні файли сторінки: їхні адреси позначаємо версією вмісту
 LABEL = 0.18   # ширина підпису як частка лінії: сусіди з одного боку мають стояти не ближче
 e = lambda s: html.escape(str(s), quote=True)  # noqa: E731
 
@@ -171,6 +179,17 @@ def problems(data: dict) -> list[str]:
     return out
 
 
+def stamp(text: str) -> tuple[str, list[str]]:
+    """Адреси власних файлів сторінки з версією вмісту, щоб браузер не брав застарілу копію з кешу."""
+    lost = []
+    for name in ASSETS:
+        version = hashlib.sha1((SITE / name).read_bytes()).hexdigest()[:10]
+        text, found = re.subn(rf'(?<=")/{re.escape(name)}(?:\?v=[0-9a-f]+)?(?=")', f"/{name}?v={version}", text)
+        if not found:
+            lost.append(name)
+    return text, lost
+
+
 def main() -> int:
     check = "--check" in sys.argv
     data = json.loads(DATA.read_text(encoding="utf-8"))
@@ -187,9 +206,13 @@ def main() -> int:
             bad.append(f"site/{page}: немає маркерів блоку {START} … {END}")
             continue
         new = re.sub(rf"{re.escape(START)}.*?{re.escape(END)}", lambda m: render(data, lang), s, flags=re.S)
+        new, lost = stamp(new)
+        if lost:
+            bad.append(f"site/{page}: сторінка не підключає {', '.join(lost)}")
+            continue
         if check:
             if new != s:
-                bad.append(f"site/{page}: блок «Досвід» не відповідає shared/about.json, запустіть python scripts/make_about.py")
+                bad.append(f"site/{page}: блок «Досвід» або версії profile.css, profile.js застаріли, запустіть python scripts/make_about.py")
             continue
         if new != s:
             f.write_text(new, encoding="utf-8")
@@ -198,7 +221,7 @@ def main() -> int:
         print("\n".join(bad))
         return 1
     if check:
-        print("Блок «Досвід»: сторінки відповідають shared/about.json")
+        print("Блок «Досвід»: сторінки відповідають shared/about.json, версії profile.css і profile.js актуальні")
     return 0
 
 
