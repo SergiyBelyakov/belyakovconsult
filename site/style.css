@@ -890,6 +890,13 @@ img { max-width:100%; }
 .about-compact p{max-width:850px;color:#b9c4cf;font-size:1.08rem;line-height:1.9;margin:-22px 0 30px}
 .about-compact .section-title{max-width:900px}
 @media(max-width:768px){.about-compact p{font-size:1rem;line-height:1.78;margin-top:-14px}}
+/* About block on the home page: the portrait stands beside the statement and looks towards it */
+.about-compact-section{overflow:hidden}
+.about-compact.has-portrait{max-width:1160px;display:grid;grid-template-columns:minmax(0,.42fr) minmax(0,1fr);column-gap:72px;align-items:center}
+.about-portrait{position:relative;margin:0}
+.about-portrait::before{content:'';position:absolute;inset:-12% -20% -10% -24%;background:radial-gradient(circle at 46% 46%,rgba(217,4,41,.13),transparent 62%);pointer-events:none}
+.about-portrait img{position:relative;display:block;width:126%;max-width:none;height:auto;margin:-6% 0 -8% -17%;user-select:none}
+@media(max-width:900px){.about-compact.has-portrait{grid-template-columns:1fr;row-gap:10px}.about-portrait{max-width:260px}.about-portrait img{width:112%;margin:-4% 0 -6% -6%}}
 
 /* =========================================================
    ORIGINAL BC. LOGO
