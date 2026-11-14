@@ -7,7 +7,8 @@
   кінетична типографіка: слова виходять у такт, ключове слово з ударом і спалахом;
   сильна перша секунда: число «влітає» з ударом звуку на першому кадрі;
   розмиття руху на різких проїздах камери (кілька підкадрів), відблиск на склі екрана, віддзеркалення;
-  проти смуг: живе зерно на кожному кадрі, кодування -preset slow -crf 18 -tune film, aq-mode 3;
+  проти смуг: живе зерно на кожному кадрі, кодування -preset slow -crf 18 -tune film, aq-mode 3, до 6.5 Мбіт/с
+    (файл до 20 МБ: Telegram не бере відео за посиланням, більші за 20 МБ);
   звук: суперпила на 7 голосів, Haas-розширення, реверб із ранніми відбиттями, компресор і лімітер;
   окрема обкладинка-постер і автоматична перевірка якості (час читання, безпечні зони, контраст, зерно).
 
@@ -664,7 +665,7 @@ def qc(v: Video, mp4: Path):
 def encode(out: Path, wav: Path, frames):
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
            "-i", "-", "-i", str(wav), "-map", "0:v", "-map", "1:a", "-shortest", "-c:v", "libx264", "-preset", "slow",
-           "-crf", "18", "-tune", "film", "-x264-params", "aq-mode=3", "-maxrate", "9M", "-bufsize", "18M", "-pix_fmt", "yuv420p",
+           "-crf", "18", "-tune", "film", "-x264-params", "aq-mode=3", "-maxrate", "6500k", "-bufsize", "13M", "-pix_fmt", "yuv420p",
            "-profile:v", "high", "-af", "loudnorm=I=-14:TP=-1.0:LRA=9", "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
            "-movflags", "+faststart", str(out)]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
