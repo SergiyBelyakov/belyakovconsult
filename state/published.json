@@ -75,7 +75,7 @@
     "status": "skipped-late"
   },
   "bi-is-not-for-fixing-sources/linkedinpage-en-3": {
-    "at": "2026-11-15 13:33",
+    "at": "2026-11-15 13:36",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-13 15:00",
