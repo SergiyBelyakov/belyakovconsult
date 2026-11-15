@@ -3,12 +3,13 @@
 // числа текстовими кольорами; колір несе лише належність до ряду. Неоновий стиль як в основному графіку:
 // сяйво кольорових ліній, градієнт прогнозу, м’які заливки; наведення підсвічує позначку і показує значення.
 import { Fragment, useRef, useState } from 'react';
-import { useWidth, useUid, niceTicks, pathOf, areaOf, Glow, NEON, FC, tipSide } from './charts.jsx';
+import { useWidth, useUid, niceTicks, pathOf, areaOf, Glow, NEON, TRON, ZeroFill, FC, tipSide } from './charts.jsx';
 import { GRID, BASE } from '../../chart-gallery/src/palette.js';
 import { futureDates } from './format.js';
 
 export const NEUTRAL = '#C9D0DA';
-export const UP = '#0894A8', DOWN = '#EC4899';
+// полярність у стилі TRON: вище нуля блакитний, нижче помаранчевий (пара перевірена валідатором палітри)
+export const UP = TRON.cyan, DOWN = TRON.orange;
 const WHITE = '#F4F6F8';
 
 export function Frame({ title, sub, children, aside, className = '' }) {
@@ -84,7 +85,11 @@ export function Lines({ series, height = 120, zero = false, label, fmt, vfmt, ma
   const neon = s => s.color === FC && wd(s) >= 1.8 && op(s) >= 0.6;
   const lines = series.map((s, k) => ({ s, k })).filter(o => !o.s.band);
   const solo = series.length === 1 && !series[0].band && !plain(series[0].color) ? series[0] : null;
-  const zy = zero && y0 <= 0 && y1 >= 0 ? Y(0) : bottom;
+  const zIn = zero && y0 <= 0 && y1 >= 0, zy = zIn ? Y(0) : bottom;
+  // одна лінія з нулем на осі: полярність TRON, вище нуля блакитна, нижче помаранчева, заливка до нуля
+  const polar = solo && zIn && solo.values.filter(Number.isFinite).length >= 2 ? solo : null;
+  const sgn = v => (v >= 0 ? TRON.glow : TRON.ember);
+  const later = i => markX != null && i > markX;
   const xr = s => { const a = s.x0 || 0, len = (s.values || s.lo).length; return [X(a), Math.max(X(a) + 1, X(a + len - 1))]; };
   const ptsOf = s => s.values.map((v, i) => [X((s.x0 || 0) + i), Y(v)]);
   const vf = vfmt || fmt || (v => String(v)), compact = height < 100;
@@ -121,19 +126,19 @@ export function Lines({ series, height = 120, zero = false, label, fmt, vfmt, ma
             const [a, b] = xr(s);
             return <linearGradient key={'b' + k} id={`${u}-b${k}`} gradientUnits="userSpaceOnUse" x1={a} x2={b} y1="0" y2="0"><stop offset="0" stopColor={NEON.sky} stopOpacity=".34" /><stop offset="1" stopColor={NEON.violet} stopOpacity=".18" /></linearGradient>;
           })}
-          {solo && (
+          {solo && !polar && (
             <linearGradient id={`${u}-a`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={M.t} y2={bottom}>
-              {zy < bottom - 1
-                ? <><stop offset="0" stopColor={solo.color} stopOpacity=".22" /><stop offset={Math.max(0, Math.min(1, (zy - M.t) / Math.max(1, bottom - M.t)))} stopColor={solo.color} stopOpacity=".02" /><stop offset="1" stopColor={solo.color} stopOpacity=".22" /></>
-                : <><stop offset="0" stopColor={solo.color} stopOpacity=".24" /><stop offset="1" stopColor={solo.color} stopOpacity="0" /></>}
+              <stop offset="0" stopColor={solo.color} stopOpacity=".3" /><stop offset=".6" stopColor={solo.color} stopOpacity=".08" /><stop offset="1" stopColor={solo.color} stopOpacity="0" />
             </linearGradient>
           )}
         </defs>
-        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 && zero ? BASE : GRID} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt ? fmt(v) : v}</text></g>)}
+        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 && zero ? null : GRID} className={v === 0 && zero ? 'ex-zero' : null} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt ? fmt(v) : v}</text></g>)}
         {markX != null && <line x1={X(markX)} x2={X(markX)} y1={M.t} y2={bottom} className="fc-today" />}
         {marks.map((m, k) => <g key={k}><line x1={X(m.x)} x2={X(m.x)} y1={M.t - 4} y2={bottom} className="ex-mark" />{shown[k] && <text x={Math.min(W - M.r - 2, Math.max(M.l + 2, X(m.x)))} y={M.t - 6} textAnchor={X(m.x) > W - 60 ? 'end' : X(m.x) < M.l + 40 ? 'start' : 'middle'} className="ex-mark-label">{m.label}</text>}</g>)}
-        {solo && (() => { const p = ptsOf(solo); return <path d={areaOf(p.map(q => q[0]), p.map(() => zy), p.map(q => q[1]))} fill={`url(#${u}-a)`} />; })()}
-        {series.map((s, k) => s.band
+        {solo && !polar && (() => { const p = ptsOf(solo); return <path d={areaOf(p.map(q => q[0]), p.map(() => zy), p.map(q => q[1]))} fill={`url(#${u}-a)`} />; })()}
+        {polar && <ZeroFill id={`${u}-z`} pts={ptsOf(polar)} zy={zy} top={M.t} bot={bottom} W={W} k={1.15} />}
+        {polar && [['a', TRON.glow], ['b', TRON.ember]].map(([c, col]) => <path key={c} d={pathOf(ptsOf(polar))} fill="none" stroke={col} strokeWidth={wd(polar)} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${u}-z-${c})`} filter={`url(#${u}-g)`} />)}
+        {series.map((s, k) => s === polar ? null : s.band
           ? <path key={k} d={areaOf(s.lo.map((_, i) => X((s.x0 || 0) + i)), s.lo.map(Y), s.hi.map(Y))} fill={s.color === FC ? `url(#${u}-b${k})` : s.color} opacity={s.color === FC ? 1 : 0.18} />
           : <path key={k} d={pathOf(ptsOf(s))} fill="none" stroke={neon(s) ? `url(#${u}-n)` : s.color || NEUTRAL} strokeWidth={wd(s)} strokeDasharray={s.dash || null}
               strokeLinejoin="round" strokeLinecap={s.dash ? null : 'round'} opacity={op(s)} filter={glows(s) ? `url(#${u}-g)` : null} />)}
@@ -141,8 +146,20 @@ export function Lines({ series, height = 120, zero = false, label, fmt, vfmt, ma
         {ticks && ticks.map(t => <text key={t.i} x={X(t.i)} y={height - 4} textAnchor="middle" className="fc-xtick">{t.label}</text>)}
         {hov != null && rows.length + bandRows.length > 0 && (
           <g pointerEvents="none">
-            <line x1={X(hov)} x2={X(hov)} y1={M.t} y2={bottom} stroke={`url(#${u}-v)`} strokeWidth="1.1" />
-            {rows.map(o => <circle key={o.k} cx={X(hov)} cy={Y(o.v)} r={glows(o.s) ? 3.8 : 3.2} fill={neon(o.s) ? '#93C5FD' : o.s.color || NEUTRAL} stroke="#0E131B" strokeWidth="1.4" filter={glows(o.s) ? `url(#${u}-g)` : null} />)}
+            <line x1={X(hov)} x2={X(hov)} y1={M.t} y2={bottom} stroke={`url(#${u}-v)`} strokeWidth="1" opacity=".5" />
+            {rows.length > 0 && (() => {
+              // проекції TRON головної точки на підлогу (нуль чи низ) і на вісь значень
+              const py = Y(rows[rows.length - 1].v), x = X(hov);
+              return (
+                <g className={'ex-projg' + (later(hov) ? ' fut' : '')} filter={`url(#${u}-g)`}>
+                  <line x1={x} x2={x} y1={py} y2={zy} className="ex-proj" />
+                  <line x1={M.l} x2={x} y1={py} y2={py} className="ex-proj" />
+                  <rect x="-3.2" y="-3.2" width="6.4" height="6.4" transform={`translate(${x.toFixed(1)},${zy.toFixed(1)}) rotate(45)`} className="ex-pdia" />
+                  <rect x="-3.2" y="-3.2" width="6.4" height="6.4" transform={`translate(${M.l},${py.toFixed(1)}) rotate(45)`} className="ex-pdia" />
+                </g>
+              );
+            })()}
+            {rows.map(o => <circle key={o.k} cx={X(hov)} cy={Y(o.v)} r={glows(o.s) || o.s === polar ? 3.8 : 3.2} fill={o.s === polar ? sgn(o.v) : neon(o.s) ? '#93C5FD' : o.s.color || NEUTRAL} stroke="#0E131B" strokeWidth="1.4" filter={glows(o.s) || o.s === polar ? `url(#${u}-g)` : null} />)}
           </g>
         )}
       </svg>
@@ -152,7 +169,7 @@ export function Lines({ series, height = 120, zero = false, label, fmt, vfmt, ma
       })()}
       {hov != null && !compact && rows.length + bandRows.length > 0 && (
         <Tip x={X(hov)} W={W} head={xlab ? xlab(hov) : null} fmt={vf}
-          rows={[...rows.map(o => ({ v: o.v, name: o.s.name, dash: !!o.s.dash && !neon(o.s), color: neon(o.s) ? null : o.s.color || NEUTRAL, cls: neon(o.s) ? (o.s.dash ? 'test' : 'fc') : '' })),
+          rows={[...rows.map(o => ({ v: o.v, name: o.s.name, dash: !!o.s.dash && !neon(o.s), color: o.s === polar ? sgn(o.v) : neon(o.s) ? null : o.s.color || NEUTRAL, cls: o.s !== polar && neon(o.s) ? (o.s.dash ? 'test' : 'fc') : '' })),
             ...bandRows.map(o => ({ name: o.s.name, text: `${vf(o.lo)} … ${vf(o.hi)}`, color: o.s.color === FC ? null : o.s.color, cls: o.s.color === FC ? 'band' : '' }))]} />
       )}
     </div>
@@ -169,7 +186,9 @@ export function Bars({ values, labels, height = 120, fmt, color = FC, colors, hi
   const M = { l: 44, r: 6, t: 6, b: labels ? 18 : 6 }, n = values.length, gap = n > 30 ? 1 : 2;
   const bw = (W - M.l - M.r) / n - gap, X = i => M.l + i * (bw + gap), Y = v => M.t + (1 - (v - y0) / (y1 - y0 || 1)) * (height - M.t - M.b);
   const every = Math.ceil(n / Math.max(1, Math.floor((W - M.l) / 34)));
-  const colOf = i => (highlight === i ? WHITE : colors ? colors[i] : color);
+  // один колір за замовчуванням і значення обох знаків: полярність TRON
+  const polar = !colors && color === FC && values.some(v => v < 0);
+  const colOf = i => (highlight === i ? WHITE : colors ? colors[i] : polar ? (values[i] >= 0 ? UP : DOWN) : color);
   const pal = [...new Set(values.map((_, i) => colOf(i)))];
   const fill = i => `url(#${u}-${values[i] < 0 ? 'q' : 'p'}${pal.indexOf(colOf(i))})`;
   const fm = fmt || (v => String(v));
@@ -185,7 +204,13 @@ export function Bars({ values, labels, height = 120, fmt, color = FC, colors, hi
             </Fragment>
           ))}
         </defs>
-        {ticks.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? BASE : GRID} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt ? fmt(v) : v}</text></g>)}
+        {ticks.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? null : GRID} className={v === 0 ? 'ex-zero' : null} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt ? fmt(v) : v}</text></g>)}
+        {hov != null && Number.isFinite(values[hov]) && (
+          <g className="ex-projg" filter={`url(#${u}-g)`} pointerEvents="none">
+            <line x1={M.l} x2={X(hov) + bw / 2} y1={Y(values[hov])} y2={Y(values[hov])} className="ex-proj" />
+            <rect x="-3.2" y="-3.2" width="6.4" height="6.4" transform={`translate(${M.l},${Y(values[hov]).toFixed(1)}) rotate(45)`} className="ex-pdia" />
+          </g>
+        )}
         {values.map((v, i) => Number.isFinite(v) && (
           <g key={i} className={'ex-bar' + (hov === i ? ' on' : '')} onMouseEnter={() => setHov(i)}>
             <rect x={X(i) - gap / 2} y={M.t} width={Math.max(1, bw + gap)} height={height - M.t - M.b} className="ex-bar-hit" />
@@ -285,15 +310,15 @@ export function Lollipop({ values, height = 130, fmt, label, rate, ticks, xlab =
       <svg width={W} height={height} role="img" aria-label={label}>
         <defs>
           <Defs u={u} W={W} H={height} t={M.t} b={bottom} />
-          <linearGradient id={`${u}-s`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={Y(0)} y2={M.t}><stop offset="0" stopColor="#64748B" stopOpacity=".3" /><stop offset="1" stopColor="#CBD5E1" stopOpacity=".95" /></linearGradient>
+          <linearGradient id={`${u}-s`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={Y(0)} y2={M.t}><stop offset="0" stopColor={TRON.cyan} stopOpacity=".25" /><stop offset="1" stopColor={TRON.ice} stopOpacity=".95" /></linearGradient>
           <linearGradient id={`${u}-r`} gradientUnits="userSpaceOnUse" x1={M.l} x2={W - M.r} y1="0" y2="0">{neonStops}</linearGradient>
         </defs>
-        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? BASE : GRID} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt(v)}</text></g>)}
+        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? null : GRID} className={v === 0 ? 'ex-zero' : null} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt(v)}</text></g>)}
         {hov != null && <rect x={X(hov) - Math.max(3, cw / 2)} y={M.t} width={Math.max(6, cw)} height={bottom - M.t} rx="3" className="ex-col-hi" />}
         {values.map((v, i) => v > 0 && (
           <g key={i}>
             <line x1={X(i)} x2={X(i)} y1={Y(0)} y2={Y(v)} stroke={hov === i ? '#E2E8F0' : `url(#${u}-s)`} strokeWidth={hov === i ? 2 : 1.5} />
-            <circle cx={X(i)} cy={Y(v)} r={hov === i ? 4.4 : 3} fill={hov === i ? '#FFFFFF' : '#D5DBE3'} stroke="#0E131B" strokeWidth="1" filter={hov === i ? `url(#${u}-g)` : null} />
+            <circle cx={X(i)} cy={Y(v)} r={hov === i ? 4.4 : 3} fill={hov === i ? '#FFFFFF' : '#CFFAFE'} stroke="#0E131B" strokeWidth="1" filter={hov === i ? `url(#${u}-g)` : null} />
           </g>
         ))}
         {Number.isFinite(rate) && <line x1={M.l} x2={W - M.r} y1={Y(rate)} y2={Y(rate)} stroke={`url(#${u}-r)`} strokeWidth="2" strokeDasharray="5 4" filter={`url(#${u}-g)`} />}
@@ -301,7 +326,7 @@ export function Lollipop({ values, height = 130, fmt, label, rate, ticks, xlab =
       </svg>
       {hov != null && (
         <Tip x={X(hov)} W={W} head={xlab ? xlab(hov) : null} fmt={fmt}
-          rows={[{ v: values[hov], color: '#D5DBE3', name: names.v }, ...(Number.isFinite(rate) ? [{ v: rate, cls: 'test', name: names.rate }] : [])]} />
+          rows={[{ v: values[hov], color: '#CFFAFE', name: names.v }, ...(Number.isFinite(rate) ? [{ v: rate, cls: 'test', name: names.rate }] : [])]} />
       )}
     </div>
   );
@@ -321,7 +346,7 @@ export function StackBars({ groups, height = 170, fmt, sel, onSel, label, ticks,
     <div ref={ref} className={'ex-bars ex-stack' + (hov != null ? ' hovering' : '')} onMouseLeave={() => setHov(null)}>
       <svg width={W} height={height} role="img" aria-label={label}>
         <defs><Glow id={`${u}-g`} W={W} H={height} s1={1.3} s2={3.8} k={0.85} /></defs>
-        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? BASE : GRID} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt(v)}</text></g>)}
+        {yt.map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? null : GRID} className={v === 0 ? 'ex-zero' : null} /><text x={M.l - 6} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{fmt(v)}</text></g>)}
         {Array.from({ length: n }, (_, i) => {
           let p = 0, q = 0;
           return (

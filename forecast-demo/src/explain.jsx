@@ -2,7 +2,7 @@
 // лінії Тета, коефіцієнти регресії, крива зростання, автокореляції, розклад ряду, траєкторії Монте-Карло,
 // аналоги k-NN і учасники ансамблю. Prophet, TBATS, SARIMAX, бустинг і рідкісний попит у explain2.jsx.
 import { useMemo, useRef, useState } from 'react';
-import { useWidth, useUid, niceTicks, Glow, NEON, FC } from './charts.jsx';
+import { useWidth, useUid, niceTicks, Glow, NEON, TRON, FC } from './charts.jsx';
 import { SERIES, GRID, BASE } from '../../chart-gallery/src/palette.js';
 import { quantile } from './engine/util.js';
 import { Frame, Lines, Bars, Tip, seasonLabels, dateLab, NEUTRAL } from './exparts.jsx';
@@ -187,11 +187,11 @@ function AcfBars({ r, lim, labels, label, lagWord = 'lag', fmt }) {
       <svg width={W} height={H} role="img" aria-label={label}>
         <defs>
           <Glow id={`${u}-g`} W={W} H={H} s1={1.3} s2={3.6} k={0.9} />
-          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={NEON.sky} /><stop offset="1" stopColor={NEON.blue} stopOpacity=".5" /></linearGradient>
-          <linearGradient id={`${u}-q`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={NEON.sky} /><stop offset="1" stopColor={NEON.blue} stopOpacity=".5" /></linearGradient>
+          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={TRON.glow} /><stop offset="1" stopColor={TRON.cyan} stopOpacity=".45" /></linearGradient>
+          <linearGradient id={`${u}-q`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={TRON.ember} /><stop offset="1" stopColor={TRON.orange} stopOpacity=".45" /></linearGradient>
         </defs>
         <rect x={M.l} y={Y(lim)} width={Math.max(0, W - M.l - M.r)} height={Math.max(0, Y(-lim) - Y(lim))} className="fc-sigma-zone" />
-        {[-1, 0, 1].map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? BASE : GRID} /><text x={M.l - 4} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{v}</text></g>)}
+        {[-1, 0, 1].map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? null : GRID} className={v === 0 ? 'ex-zero' : null} /><text x={M.l - 4} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{v}</text></g>)}
         {[lim, -lim].map(v => <line key={v} x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} className="fc-sigma" />)}
         {r.map((v, i) => (
           <g key={i} className={'ex-bar' + (hov === i ? ' on' : '')} onMouseEnter={() => setHov(i)}>
@@ -203,7 +203,7 @@ function AcfBars({ r, lim, labels, label, lagWord = 'lag', fmt }) {
         {labels.map((l, i) => l && <text key={i} x={X(i) + bw / 2} y={H - 3} textAnchor="middle" className="fc-xtick">{l}</text>)}
       </svg>
       {hov != null && <Tip x={X(hov) + bw / 2} W={W} head={`${lagWord} ${hov + 1}`} fmt={v => (fmt ? fmt.dec2(v) : v.toFixed(2))}
-        rows={[{ v: r[hov], name: 'r', color: sig(r[hov]) ? null : '#64748B', cls: sig(r[hov]) ? 'fc' : '' }]} />}
+        rows={[{ v: r[hov], name: 'r', color: sig(r[hov]) ? (r[hov] >= 0 ? TRON.glow : TRON.ember) : '#64748B' }]} />}
     </div>
   );
 }
