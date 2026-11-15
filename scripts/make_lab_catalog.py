@@ -2,10 +2,11 @@
 
 Генератор володіє всім вмістом div.case-detail-stack на /cases/:
 - липка навігація розділу «Демо · Ігри · Кейси» з лічильниками і пошуком;
-- група «Демо» (id="demos"): фільтр «для кого» за полем audiences, картки з мініатюрами, далі описи демо
-  і опис експонатів (розділ exhibits маніфесту, наприклад 3D-сцена «Шлях даних»), експонат завжди останній;
+- група «Демо» (id="demos"): фільтр «для кого» за полем audiences, картки з мініатюрами, далі описи демо;
 - група «Ігри» (id="games"): демо з "group": "games" у маніфесті;
 - група «Кейси» (id="cases-by-domain"): картки реальних задач і їхні описи.
+Експонати (розділ exhibits маніфесту, наприклад 3D-сцена «Шлях даних») стоять у групі з поля group:
+"cases" ставить експонат першим у «Кейсах», без поля експонат іде останнім у «Демо».
 
 Описи (article.case-detail) лишаються в HTML. Без JavaScript їх видно один за одним під картками, як раніше.
 З JavaScript вони сховані, а «Детальніше» відкриває опис у діалоговому вікні з гортанням «попередній/наступний»;
@@ -209,14 +210,16 @@ def build(s: str, lang: str, manifest: dict) -> tuple[str, dict]:
         raise SystemExit(f"{lang}: немає опису на сторінці для {missing}")
     plain = [d for d in demos if d.get("group") != "games"]
     games = [d for d in demos if d.get("group") == "games"]
-    demo_cards = [card(d, lang, blocks[d["anchor"]], "demo") for d in plain] + [card(x, lang, "", "scene") for x in extras]
-    demo_details = [blocks[d["anchor"]] for d in plain] + [exhibit_detail(x, lang, False) for x in extras if x.get("detail")]
-    counts = {a_: sum(1 for d in plain if a_ in d.get("audiences", [])) + sum(1 for x in extras if a_ in x.get("audiences", ["learning"])) for a_ in AUDS}
+    ex_demo = [x for x in extras if x.get("group") != "cases"]
+    ex_case = [x for x in extras if x.get("group") == "cases"]
+    demo_cards = [card(d, lang, blocks[d["anchor"]], "demo") for d in plain] + [card(x, lang, "", "scene") for x in ex_demo]
+    demo_details = [blocks[d["anchor"]] for d in plain] + [exhibit_detail(x, lang, False) for x in ex_demo if x.get("detail")]
+    counts = {a_: sum(1 for d in plain if a_ in d.get("audiences", [])) + sum(1 for x in ex_demo if a_ in x.get("audiences", ["learning"])) for a_ in AUDS}
     chips = (f'<div class="lab-filters" role="group" aria-label="{t["for"]}" hidden>'
              f'<button type="button" data-aud="" aria-pressed="true">{t["all"]}<b>{len(demo_cards)}</b></button>'
              + "".join(f'<button type="button" data-aud="{a_}" aria-pressed="false">{t["aud"][a_]}<b>{counts[a_]}</b></button>' for a_ in AUDS if counts[a_])
              + '</div>')
-    n = {"demos": len(demo_cards), "games": len(games), "cases-by-domain": len(cases)}
+    n = {"demos": len(demo_cards), "games": len(games), "cases-by-domain": len(cases) + len(ex_case)}
     nav = (f'<nav class="lab-nav" aria-label="{t["nav"]}"><div class="lab-nav-links">'
            + "".join(f'<a href="#{gid}">{t[key]}<span>{n[gid]}</span></a>' for gid, key in (("demos", "demos"), ("games", "games"), ("cases-by-domain", "cases")) if n[gid])
            + f'</div><button type="button" class="lab-search-toggle" aria-label="{e(t["search_label"])}" aria-expanded="false" hidden>{SEARCH_ICON}</button>'
@@ -224,8 +227,10 @@ def build(s: str, lang: str, manifest: dict) -> tuple[str, dict]:
     parts = [nav, group("demos", t["demos_kicker"], t["demos_title"], demo_cards, demo_details, lang, chips)]
     if games:
         parts.append(group("games", t["games_kicker"], t["games_title"], [card(d, lang, blocks[d["anchor"]], "game") for d in games], [blocks[d["anchor"]] for d in games], lang))
-    if cases:
-        parts.append(group("cases-by-domain", t["cases_kicker"], t["cases_title"], [case_card(c[0], c[1], c[2], c[3], c[4], lang) for c in cases], [c[5] for c in cases], lang))
+    if cases or ex_case:
+        parts.append(group("cases-by-domain", t["cases_kicker"], t["cases_title"],
+                           [card(x, lang, "", "scene") for x in ex_case] + [case_card(c[0], c[1], c[2], c[3], c[4], lang) for c in cases],
+                           [exhibit_detail(x, lang, False) for x in ex_case if x.get("detail")] + [c[5] for c in cases], lang))
     dialog = (f'<!-- lab-dialog --><dialog class="lab-dialog"><div class="lab-dialog-bar"><span class="lab-dialog-count"></span>'
               f'<button type="button" data-step="-1" aria-label="{t["prev"]}">←</button><button type="button" data-step="1" aria-label="{t["next"]}">→</button>'
               f'<button type="button" class="lab-dialog-close" aria-label="{t["close"]}" autofocus>×</button></div><div class="lab-dialog-body"></div></dialog>')
@@ -241,7 +246,7 @@ def main() -> None:
         f = SITE / p.strip("/") / "cases" / "index.html"
         s, n = build(f.read_text(encoding="utf-8"), lang, manifest)
         f.write_text(s, encoding="utf-8")
-        print(f.relative_to(ROOT), "←", n["demos"], "демо,", n["games"], "ігор,", n["cases-by-domain"], "кейсів")
+        print(f.relative_to(ROOT), "←", n["demos"], "демо,", n["games"], "ігор,", n["cases-by-domain"], "у кейсах")
 
 
 if __name__ == "__main__":
