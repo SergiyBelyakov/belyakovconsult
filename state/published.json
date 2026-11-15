@@ -807,6 +807,13 @@
     "status": "published",
     "url": "https://youtube.com/shorts/E0V8cctF7vA"
   },
+  "document-type-matters/youtube-en-4": {
+    "at": "2026-11-15 20:32",
+    "id": "y9GUjALlQbs",
+    "privacy": "public",
+    "status": "published",
+    "url": "https://youtube.com/shorts/y9GUjALlQbs"
+  },
   "document-type-matters/youtube-uk": {
     "at": "2026-11-12 19:32",
     "attempts": 3,
@@ -2222,6 +2229,12 @@
     "id": "18114086828186935",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/Dfu24bzGLd-"
+  },
+  "note-2026-11-15/threads-uk-2": {
+    "at": "2026-11-15 20:32",
+    "id": "17978712810151903",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DfxbuHdiQwg"
   },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
