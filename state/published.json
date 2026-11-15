@@ -74,6 +74,13 @@
     "publish_at": "2026-11-06 17:00",
     "status": "skipped-late"
   },
+  "bi-is-not-for-fixing-sources/linkedinpage-en-3": {
+    "at": "2026-11-15 13:33",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-13 15:00",
+    "status": "retry"
+  },
   "bi-is-not-for-fixing-sources/linkedinpage-uk": {
     "at": "2026-11-07 13:31",
     "publish_at": "2026-11-05 13:30",
@@ -694,11 +701,9 @@
     "status": "skipped-late"
   },
   "document-type-matters/linkedinpage-uk-2": {
-    "at": "2026-11-15 13:17",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-15 13:33",
     "publish_at": "2026-11-13 13:30",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "document-type-matters/telegram-uk": {
     "at": "2026-11-12 10:03",
