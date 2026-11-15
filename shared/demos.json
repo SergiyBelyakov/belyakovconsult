@@ -914,6 +914,67 @@
       "audiences": [
         "learning"
       ]
+    },
+    {
+      "slug": "forecast-models",
+      "dir": "forecast-demo",
+      "attr": "data-forecast-demo",
+      "anchor": "forecast-models",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "data-analysis",
+        "financial-analytics",
+        "management-analytics",
+        "business-intelligence"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "forecast-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Моделі прогнозування: як працюють і прогноз на ваших даних | Belyakov Consult",
+          "description": "18 моделей прогнозування від наївного прогнозу й експоненційного згладжування до ARIMA, регресії з факторами, Монте-Карло й ансамблю: формули, параметри, перевірка точності на відкладених даних, приклади даних для завантаження і прогноз на вашому CSV чи Excel прямо в браузері.",
+          "name": "Моделі прогнозування",
+          "noscript": "Для роботи розділу потрібен JavaScript. Розділ показує 18 моделей прогнозування з формулами й перевіркою точності, дає приклади даних для завантаження і будує прогноз на вашому файлі прямо в браузері.",
+          "kind": "Навчання · прогнози",
+          "teaser": "18 моделей від наївного прогнозу до ARIMA і Монте-Карло: як кожна працює і де помиляється, приклади даних і прогноз на вашому файлі в браузері."
+        },
+        "en": {
+          "title": "Forecasting models: how they work and a forecast on your data | Belyakov Consult",
+          "description": "18 forecasting models from the naive forecast and exponential smoothing to ARIMA, regression with drivers, Monte Carlo and an ensemble: formulas, parameters, accuracy testing on held out data, sample data to download and a forecast on your own CSV or Excel file right in the browser.",
+          "name": "Forecasting models",
+          "noscript": "This section needs JavaScript. It shows 18 forecasting models with formulas and accuracy testing, offers sample data to download and builds a forecast on your own file right in the browser.",
+          "kind": "Learning · forecasts",
+          "teaser": "18 models from the naive forecast to ARIMA and Monte Carlo: how each one works and where it fails, sample data and a forecast on your own file in the browser."
+        }
+      },
+      "audiences": [
+        "learning",
+        "business"
+      ],
+      "featured": [
+        "data-analysis",
+        "financial-analytics"
+      ],
+      "first_for": [
+        "learning"
+      ]
     }
   ],
   "exhibits": [

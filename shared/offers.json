@@ -67,11 +67,11 @@
       ],
       "lang": {
         "uk": {"tab": "Навчання та лабораторія", "topic": "Навчання", "title": "Відкриті демо, розбори й навчання команд", "text": "Демо Лабораторії відкриті: їх можна покрутити, перевірити методику й вивантажити дані. На цих прикладах навчаю команди: як рахувати показники, перевіряти якість даних і читати звіти.",
-               "tasks": ["Практикуми для команд на прикладах Лабораторії", "Повний цикл даних: 13 етапів від стратегії до результату", "Розбори типових проблем із даними"]},
+               "tasks": ["Практикуми для команд на прикладах Лабораторії", "Прогнозування для команд: моделі, перевірка точності, прогноз в Excel і Power BI", "Повний цикл даних: 13 етапів від стратегії до результату", "Розбори типових проблем із даними"]},
         "en": {"tab": "Learning and the Lab", "topic": "Learning", "title": "Open demos, articles and team training", "text": "The Data Lab demos are open: you can explore them, check the method and download the data. I use them to train teams: how to calculate measures, check data quality and read reports.",
-               "tasks": ["Hands-on sessions for teams based on the Lab examples", "The full data cycle: 13 stages from strategy to results", "Articles on common data problems"]},
+               "tasks": ["Hands-on sessions for teams based on the Lab examples", "Forecasting for teams: models, accuracy testing, forecasts in Excel and Power BI", "The full data cycle: 13 stages from strategy to results", "Articles on common data problems"]},
         "pt": {"tab": "Formação e laboratório", "topic": "Formação", "title": "Demos abertas, análises e formação de equipas", "text": "As demos do laboratório são abertas: pode explorá-las, verificar o método e descarregar os dados. Uso-as para formar equipas: como calcular indicadores, verificar a qualidade dos dados e ler relatórios.",
-               "tasks": ["Sessões práticas para equipas com os exemplos do laboratório", "O ciclo completo dos dados: 13 etapas da estratégia ao resultado", "Análises de problemas comuns com dados"]}
+               "tasks": ["Sessões práticas para equipas com os exemplos do laboratório", "Previsão para equipas: modelos, teste de precisão, previsões em Excel e Power BI", "O ciclo completo dos dados: 13 etapas da estratégia ao resultado", "Análises de problemas comuns com dados"]}
       }
     },
     {

@@ -266,6 +266,7 @@ post_links:
   me: /cases/monitoring-evaluation/
   maturity: /cases/data-maturity/
   vacuum: /cases/vacuum-graph/
+  forecast: /cases/forecast-models/
 
 # Мітки для аналітики: кожне посилання з соцмереж отримує utm_source=<канал>
 utm:
