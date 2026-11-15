@@ -7,11 +7,11 @@
   },
   "ui": {
     "uk": {"kicker": "Пропозиції", "title": "Що можу зробити саме для вас", "intro": "Оберіть, хто ви. Для кожного: що пропоную, типові задачі й приклади з Лабораторії, які можна відкрити вже зараз.", "tabs": "Кому пропозиція", "tasks": "Типові задачі", "proof": "Подивитися вже зараз", "services": "Напрями", "cta": "Обговорити задачу", "lab": "Усі приклади в лабораторії →",
-           "kinds": {"demo": "Демо", "article": "Розбір", "sample": "Зразок", "scene": "3D-сцена", "lab": "Лабораторія", "insights": "Матеріали"}},
+           "kinds": {"demo": "Демо", "article": "Розбір", "sample": "Зразок", "scene": "3D-сцена", "lab": "Лабораторія", "insights": "Матеріали", "game": "Гра", "rating": "Рейтинг"}},
     "en": {"kicker": "What I offer", "title": "What I can do for you", "intro": "Choose who you are. For each: what I offer, typical tasks and Data Lab examples you can open right now.", "tabs": "Who it is for", "tasks": "Typical tasks", "proof": "See it now", "services": "Services", "cta": "Discuss your project", "lab": "All examples in the Data Lab →",
-           "kinds": {"demo": "Demo", "article": "Article", "sample": "Sample", "scene": "3D scene", "lab": "Data Lab", "insights": "Articles"}},
+           "kinds": {"demo": "Demo", "article": "Article", "sample": "Sample", "scene": "3D scene", "lab": "Data Lab", "insights": "Articles", "game": "Game", "rating": "Leaderboard"}},
     "pt": {"kicker": "Propostas", "title": "O que posso fazer por si", "intro": "Escolha quem é. Para cada caso: o que proponho, tarefas típicas e exemplos do laboratório que pode abrir já.", "tabs": "Para quem", "tasks": "Tarefas típicas", "proof": "Ver já", "services": "Áreas", "cta": "Falar sobre o projeto", "lab": "Todos os exemplos no laboratório →",
-           "kinds": {"demo": "Demo", "article": "Análise", "sample": "Exemplo", "scene": "Cena 3D", "lab": "Laboratório", "insights": "Artigos"}}
+           "kinds": {"demo": "Demo", "article": "Análise", "sample": "Exemplo", "scene": "Cena 3D", "lab": "Laboratório", "insights": "Artigos", "game": "Jogo", "rating": "Classificação"}}
   },
   "audiences": [
     {
@@ -72,6 +72,24 @@
                "tasks": ["Hands-on sessions for teams based on the Lab examples", "Forecasting for teams: models, accuracy testing, forecasts in Excel and Power BI", "The full data cycle: 13 stages from strategy to results", "Articles on common data problems"]},
         "pt": {"tab": "Formação e laboratório", "topic": "Formação", "title": "Demos abertas, análises e formação de equipas", "text": "As demos do laboratório são abertas: pode explorá-las, verificar o método e descarregar os dados. Uso-as para formar equipas: como calcular indicadores, verificar a qualidade dos dados e ler relatórios.",
                "tasks": ["Sessões práticas para equipas com os exemplos do laboratório", "Previsão para equipas: modelos, teste de precisão, previsões em Excel e Power BI", "O ciclo completo dos dados: 13 etapas da estratégia ao resultado", "Análises de problemas comuns com dados"]}
+      }
+    },
+    {
+      "id": "games",
+      "image": "lab-games",
+      "media_path": "/cases/#games",
+      "services": ["data-quality", "business-intelligence", "data-analysis"],
+      "extras": [
+        {"kind": "lab", "path": "/cases/#games", "title": {"uk": "Усі ігри в Лабораторії даних", "en": "All games in the Data Lab", "pt": "Todos os jogos no laboratório"}},
+        {"kind": "rating", "path": "/cases/scooter-cat/rating/", "only": ["uk", "en"], "title": {"uk": "Рейтинг гравців «Котика на самокаті»", "en": "Scooter Cat player leaderboard", "pt": "Scooter Cat player leaderboard"}}
+      ],
+      "lang": {
+        "uk": {"tab": "Ігри", "topic": "Ігри про дані", "title": "Ігри, які вчать працювати з даними", "text": "Чотири браузерні ігри на справжніх помилках і пастках даних: дублікати й заглушки, обрізані осі й сезонність, удача проти статистики, сироти й мости в графі. Кожен рівень закінчується розбором: що сталося і як помітити те саме у своїх даних. Підходять для розминки на практикумі й командного змагання.",
+               "tasks": ["Ігрова розминка на практикумі чи стратегічній сесії", "Командний турнір з рейтингом гравців", "Гра на ваших правилах якості даних і ваших прикладах", "Розбір помилок з гри на реальних даних команди"]},
+        "en": {"tab": "Games", "topic": "Data games", "title": "Games that teach working with data", "text": "Four browser games built on real data errors and traps: duplicates and placeholders, truncated axes and seasonality, luck versus statistics, orphans and bridges in a graph. Every level ends with a review: what happened and how to spot the same thing in your own data. They work as a warm-up for a workshop or a team competition.",
+               "tasks": ["A game warm-up for a workshop or strategy session", "A team tournament with a player leaderboard", "A game built on your data quality rules and examples", "A review of the game’s errors on your team’s real data"]},
+        "pt": {"tab": "Jogos", "topic": "Jogos sobre dados", "title": "Jogos que ensinam a trabalhar com dados", "text": "Quatro jogos no navegador sobre erros e armadilhas reais dos dados: duplicados e valores de preenchimento, eixos cortados e sazonalidade, sorte contra estatística, órfãos e pontes num grafo. Cada nível termina com uma análise: o que aconteceu e como detetar o mesmo nos seus dados. Servem de aquecimento numa formação ou de competição entre equipas.",
+               "tasks": ["Aquecimento com jogo numa formação ou sessão estratégica", "Torneio de equipas com classificação de jogadores", "Um jogo com as suas regras de qualidade de dados e os seus exemplos", "Análise dos erros do jogo com os dados reais da equipa"]}
       }
     },
     {

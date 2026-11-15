@@ -1,5 +1,5 @@
 {
-  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти. Поле featured у демо: напрями, на сторінках яких демо стоїть першим у блоці «Подивитися в лабораторії». Поле first_for: вкладки блоку «Пропозиції» на головній, де демо стоїть першим.",
+  "_about": "Маніфест демо Лабораторії даних. Звідси беруться: збірка сторінок демо (shared/build-demo.mjs), каталог на /cases/ (scripts/make_lab_catalog.py), блоки на сторінках послуг (scripts/make_service_lab.py) і посилання з етапів «Шляху даних» (scripts/make_journey_static.py). Новий демо: додати запис сюди й запустити ці скрипти. Поле featured у демо: напрями, на сторінках яких демо стоїть першим у блоці «Подивитися в лабораторії». Поле first_for: вкладки блоку «Пропозиції» на головній, де демо стоїть першим. Поле group: \"games\" ставить демо в окрему групу «Ігри» на /cases/ (решта в групі «Демо»); вкладка «Ігри» на головній бере ігри за audiences: games.",
   "demos": [
     {
       "slug": "data-quality-dashboard",
@@ -505,7 +505,7 @@
           "description": "Аркада в стилі Galaga про чистку даних: видаляйте неможливі дати й заглушки, виправляйте формати, об’єднуйте дублікати. Помилки справжні, розбір після рівня.",
           "name": "Лазерне кошеня проти багів даних",
           "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб зіграти й потренуватися знаходити помилки, заглушки й дублікати.",
-          "kind": "Навчання · гра",
+          "kind": "Гра · якість даних",
           "teaser": "Аркада про якість даних: справжні помилки, формати й дублікати, п’ять рівнів і розбір кожної помилки."
         },
         "en": {
@@ -513,13 +513,14 @@
           "description": "A Galaga-style arcade about cleaning data: delete impossible dates and placeholders, fix formats, merge duplicates. Real errors and a breakdown after every level.",
           "name": "Laser Kitty vs the Data Bugs",
           "noscript": "The game needs JavaScript. Turn it on to play and practise spotting errors, placeholders and duplicates.",
-          "kind": "Learning · game",
+          "kind": "Game · data quality",
           "teaser": "An arcade game about data quality: real errors, formats and duplicates, five levels and an explanation for every mistake."
         }
       },
       "audiences": [
-        "learning"
-      ]
+        "games"
+      ],
+      "group": "games"
     },
     {
       "slug": "community-twin",
@@ -670,7 +671,7 @@
           "description": "Гра в стилі Gravity Defied: котик, капібара чи голова аналітика їдуть графіками й лазерами з очей прибирають баги. 12 трас і ще 4 пекельні в Адіщі.",
           "name": "Котик на самокаті: проїдь графік",
           "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб проїхати дванадцять трас-графіків: тренд, гістограму, Парето, водоспад, контрольну карту, прогноз та інші, а потім чотири траси Адіща.",
-          "kind": "Навчання · гра",
+          "kind": "Гра · графіки й аналіз",
           "teaser": "Гра в стилі Gravity Defied: три герої з лазерними очима їдуть графіками. Дванадцять трас від легких до складних, розбір після кожної, рейтинг гравців і чотири траси Адіща з правилами ігор 90-х."
         },
         "en": {
@@ -678,13 +679,14 @@
           "description": "A Gravity Defied-style game: a cat, a capybara or the Head of Analytics ride charts and zap data bugs with eye lasers. 12 tracks and 4 more in Hell mode.",
           "name": "Scooter Cat: Ride the Chart",
           "noscript": "The game needs JavaScript. Turn it on to ride twelve chart tracks: trend, histogram, Pareto, waterfall, control chart, forecast and more, and then four Hell tracks.",
-          "kind": "Learning · game",
+          "kind": "Game · charts and analysis",
           "teaser": "A Gravity Defied-style game: three riders with laser eyes ride charts. Twelve tracks from easy to hard, a debrief after each, a leaderboard and four Hell tracks with 90s game rules."
         }
       },
       "audiences": [
-        "learning"
-      ]
+        "games"
+      ],
+      "group": "games"
     },
     {
       "slug": "jackpot-cat",
@@ -722,7 +724,7 @@
           "description": "Чесний ігровий автомат 80-х: видно шанс кожної комбінації. Шість дослідів про очікуване значення, малу вибірку, серії та рідкісний ризик. Без грошей.",
           "name": "Котячий джекпот: порахуй удачу",
           "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб покрутити чесний автомат і пройти шість дослідів про ймовірність: очікуване значення, малу вибірку, серії, «майже виграш», розкид і рідкісну подію.",
-          "kind": "Навчання · гра",
+          "kind": "Гра · ймовірність і статистика",
           "teaser": "Автомат 80-х, який показує свою математику: котики й капібари платять, баги псують лінію, три Data Boss обнуляють баланс. Шість дослідів про ймовірність і ризик із прогнозом і розбором."
         },
         "en": {
@@ -730,13 +732,14 @@
           "description": "An honest 80s slot machine that shows the odds of every combination. Six experiments on expected value, small samples, streaks and rare risk. No money.",
           "name": "Jackpot Cat: Do the Math",
           "noscript": "The game needs JavaScript. Turn it on to spin an honest slot machine and run six experiments on probability: expected value, small samples, streaks, the near miss, spread and the rare event.",
-          "kind": "Learning · game",
+          "kind": "Game · probability and statistics",
           "teaser": "An 80s slot machine that shows its math: cats and capybaras pay, bugs spoil the line, three Data Bosses wipe the balance. Six experiments on probability and risk, each with a prediction and a debrief."
         }
       },
       "audiences": [
-        "learning"
-      ]
+        "games"
+      ],
+      "group": "games"
     },
     {
       "slug": "monitoring-evaluation",
@@ -899,7 +902,7 @@
           "description": "Аркада в стилі Pac-Man на графі зв’язків: робот-пилосос прибирає сироти, зливає дублікати, розрізає хибні зв’язки й не чіпає вузли-мости, бо граф розпадеться. Розбір після кожного рівня.",
           "name": "Пилосос і граф",
           "noscript": "Гра працює з увімкненим JavaScript. Увімкніть його, щоб прибрати граф: сироти, дублікати, хибні зв’язки й вузли-мости, які чіпати не можна.",
-          "kind": "Навчання · гра",
+          "kind": "Гра · графи й дублікати",
           "teaser": "Pac-Man на графі зв’язків: прибрати сироти, злити дублікати, розрізати хибні зв’язки й не з’їсти вузол-міст, бо граф розпадеться."
         },
         "en": {
@@ -907,13 +910,14 @@
           "description": "A Pac-Man style arcade on a relationship graph: a robot vacuum removes orphans, merges duplicates, cuts false links and leaves bridge nodes alone, or the graph falls apart. A breakdown after every level.",
           "name": "Robo Vac and the Graph",
           "noscript": "The game needs JavaScript. Turn it on to clean a graph: orphans, duplicates, false links and the bridge nodes you must not touch.",
-          "kind": "Learning · game",
+          "kind": "Game · graphs and duplicates",
           "teaser": "Pac-Man on a relationship graph: remove orphans, merge duplicates, cut false links and do not swallow a bridge node, or the graph falls apart."
         }
       },
       "audiences": [
-        "learning"
-      ]
+        "games"
+      ],
+      "group": "games"
     },
     {
       "slug": "forecast-models",

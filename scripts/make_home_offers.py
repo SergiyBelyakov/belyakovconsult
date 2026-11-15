@@ -1,10 +1,11 @@
 """Блок «Пропозиції» на головній (UA, EN, PT): вкладки для громад, державного сектору, бізнесу,
-навчання й лабораторії, програм і донорів.
+навчання й лабораторії, ігор, програм і донорів.
 
 У кожній вкладці: що пропоную, типові задачі, напрями, кнопка «Обговорити задачу» (передає тему у форму)
 і приклади. Демо беруться з shared/demos.json за полем audiences (у порядку маніфесту), інші приклади
-(розбори, зразки, 3D-сцена, Лабораторія) з extras у shared/offers.json. Демо без версії мовою сторінки
-ведуть на англійську з позначкою (EN). Без JavaScript усі вкладки показано одна під одною.
+(розбори, зразки, 3D-сцена, Лабораторія, рейтинг) з extras у shared/offers.json. Демо з "group": "games" у маніфесті
+підписані як гра. Картинка вкладки веде на перший приклад або на media_path вкладки, якщо його задано. Демо без версії
+мовою сторінки ведуть на англійську з позначкою (EN). Без JavaScript усі вкладки показано одна під одною.
 
 Блок стоїть між маркерами <!-- home-offers:start --> і <!-- home-offers:end -->. Перший запуск замінює
 ним стару матрицю «Напрями застосування» (section.domains-section).
@@ -57,7 +58,8 @@ def proofs(a: dict, demos: list, lang: str, ui: dict) -> list[dict]:
             continue
         use = lang if lang in d["langs"] else "en"
         x = d["lang"][use]
-        out.append({"kind": "demo", "href": f'{PREFIX[use]}/cases/{d["slug"]}/', "title": x["name"] + ("" if use == lang else " (EN)"), "note": x["teaser"]})
+        kind = "game" if d.get("group") == "games" else "demo"
+        out.append({"kind": kind, "href": f'{PREFIX[use]}/cases/{d["slug"]}/', "title": x["name"] + ("" if use == lang else " (EN)"), "note": x["teaser"]})
     for x in a["extras"]:
         href, mark = localized(x["path"], lang, x.get("only"))
         out.append({"kind": x["kind"], "href": href, "title": x["title"][lang] + mark, "note": ""})
@@ -67,11 +69,11 @@ def proofs(a: dict, demos: list, lang: str, ui: dict) -> list[dict]:
 def panel(a: dict, demos: list, lang: str, cfg: dict) -> str:
     ui, t = cfg["ui"][lang], a["lang"][lang]
     items = proofs(a, demos, lang, ui)
-    first = items[0]["href"] if items else PREFIX[lang] + "/cases/"
+    first = localized(a["media_path"], lang)[0] if a.get("media_path") else items[0]["href"] if items else PREFIX[lang] + "/cases/"
     tasks = "".join(f"<li>{e(x)}</li>" for x in t["tasks"])
     services = "".join(f'<a href="{PREFIX[lang]}/{s}/">{e(cfg["services"][lang][s])}</a>' for s in a["services"])
     links = "".join(
-        f'<li><a class="offer-link{" is-demo" if p["kind"] == "demo" else ""}" href="{e(p["href"])}"><span class="offer-kind">{e(ui["kinds"][p["kind"]])}</span>'
+        f'<li><a class="offer-link{" is-demo" if p["kind"] in ("demo", "game") else ""}" href="{e(p["href"])}"><span class="offer-kind">{e(ui["kinds"][p["kind"]])}</span>'
         f'<span class="offer-name">{e(p["title"])}</span><span class="offer-arrow" aria-hidden="true">→</span>'
         + (f'<span class="offer-note">{e(p["note"])}</span>' if p["note"] else "") + "</a></li>"
         for p in items)
