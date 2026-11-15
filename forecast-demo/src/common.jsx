@@ -41,7 +41,7 @@ export function applicability(id, S, H) {
 export function Caps({ caps, T }) {
   return (
     <span className="fc-caps">
-      {['trend', 'season', 'drivers', 'intermittent'].filter(k => k === 'trend' || k === 'season' || caps[k]).map(k => (
+      {['trend', 'season', 'multi', 'drivers', 'events', 'intermittent'].filter(k => k === 'trend' || k === 'season' || caps[k]).map(k => (
         <span key={k} className={'fc-cap' + (caps[k] ? ' on' : '')} title={T.caps[k]}>
           <Icon name={caps[k] ? 'check' : 'x'} size={12} />{T.caps[k]}
         </span>

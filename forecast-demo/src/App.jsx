@@ -12,8 +12,10 @@ import ModelPage from './pages/ModelPage.jsx';
 import Compare from './pages/Compare.jsx';
 import OwnData from './pages/OwnData.jsx';
 import Guide from './pages/Guide.jsx';
+import ScenarioPage from './pages/Scenario.jsx';
+import HierPage from './pages/Hierarchy.jsx';
 
-const VIEWS = [['catalog', 'grid', Catalog], ['model', 'chart', ModelPage], ['compare', 'scale', Compare], ['data', 'upload', OwnData], ['guide', 'compass', Guide]];
+const VIEWS = [['catalog', 'grid', Catalog], ['model', 'chart', ModelPage], ['compare', 'scale', Compare], ['scenario', 'sliders', ScenarioPage], ['hier', 'layers', HierPage], ['data', 'upload', OwnData], ['guide', 'compass', Guide]];
 const PAGES = Object.fromEntries(VIEWS.map(([id, , P]) => [id, P]));
 
 function parseHash() {

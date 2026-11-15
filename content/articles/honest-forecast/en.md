@@ -36,7 +36,7 @@ carousel:
       left: {label: "one line", value: "1,633"}
       right: {label: "80% interval", value: "1,542 … 1,725"}
   - title: Test it on your data
-    text: 18 models with formulas, accuracy testing and a forecast on your own file right in the browser.
+    text: 22 models with formulas, repeated accuracy testing and a forecast on your own file right in the browser.
     visual: {type: doc, label: "Forecasting models", note: "Data Lab"}
 ---
 
@@ -91,6 +91,6 @@ A simple model is easier to explain, check and maintain. If two models have the 
 
 ## Test it on your data
 
-The Data Lab now has a section on [forecasting models](/en/cases/forecast-models/): 18 models from the naive forecast to ARIMA, Monte Carlo and an ensemble. Each one comes with formulas, parameters you can move, a test on held out data and an explanation of what the model sees in the series. On the “Your data” page you can upload your own CSV or Excel file: every model is tested on it, the most accurate one builds a forecast with an interval, and the result downloads to Excel. The file never leaves your browser.
+The Data Lab now has a section on [forecasting models](/en/cases/forecast-models/): 22 models from the naive forecast to ARIMA, Prophet, TBATS, SARIMAX, boosting and an ensemble. Each one comes with formulas, parameters you can move, a test on held out data and an explanation of what the model sees in the series. On the “Your data” page you can upload your own CSV or Excel file: every model is tested on it, the most accurate one builds a forecast with an interval, and the result downloads to Excel. The file never leaves your browser.
 
 What benchmark do you compare your forecast with?

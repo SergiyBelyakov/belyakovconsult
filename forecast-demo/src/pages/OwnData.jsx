@@ -159,7 +159,8 @@ export default function OwnData({ ctx }) {
   const hOpts = [...new Set([...(HORIZONS[S.freq] || []).filter(v => v <= hCap), S.H])].sort((a, b) => a - b);
   const hWant = own.h && hOpts.includes(own.h) ? own.h : S.H;
   const fcOk = done && chosen && canForecast(chosen);
-  const h = chosen === 'drivers' && S.drivers ? Math.min(hWant, S.drivers.Xf.length) : hWant;
+  // моделі з факторами прогнозують лише на періоди, для яких фактори відомі
+  const h = ['drivers', 'sarimax', 'boost', 'prophet'].includes(chosen) && S.drivers && S.drivers.Xf.length ? Math.min(hWant, S.drivers.Xf.length) : hWant;
 
   return (
     <>

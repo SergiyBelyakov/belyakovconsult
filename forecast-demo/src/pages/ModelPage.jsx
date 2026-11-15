@@ -12,6 +12,7 @@ import { Formula, seriesFor, futureOf, applicability, Caps, ParamControl, Metric
 import { downloadSample, downloadForecastCsv, downloadFormulas, FORMULA_MODELS } from '../io.js';
 
 const SHOW = { D: 140, W: 120, M: 96 };
+const WIDE = ['prophet', 'tbats', 'sarimax', 'shap', 'intermittent'];
 
 export default function ModelPage({ ctx }) {
   const { T, modelId, dsId, setDsId, openModel, track, openLead, notify } = ctx;
@@ -35,6 +36,8 @@ export default function ModelPage({ ctx }) {
     } catch (e) { return { err: 'error', msg: String(e) }; }
   }, [modelId, S, params, h, ok, okFull]);
   const r = res.r, fdates = futureOf(S, h);
+  // багаті пояснення (кілька графіків) займають усю ширину під кроками моделі
+  const wide = !!r && WIDE.includes(r.explain?.kind);
   // базовий план факторів, щоб показати, наскільки сценарій змінює підсумок
   const baseTotal = useMemo(() => {
     if (modelId !== 'drivers' || S.id !== 'icecream' || !r) return null;
@@ -43,7 +46,7 @@ export default function ModelPage({ ctx }) {
   const scenTotal = r ? r.fc.reduce((a, f) => a + f.mean, 0) : null;
   const dates = [...S.dates, ...fdates];
   const from = Math.max(0, n - (SHOW[S.freq] || 96));
-  const specs = model.params(S).filter(s => !s.when || (s.when === '!auto' ? params.auto === false : !!params[s.when]));
+  const specs = model.params(S).filter(s => !s.when || (s.when === '!auto' ? params.auto === false : s.when.includes('=') ? String(params[s.when.split('=')[0]] ?? '') === s.when.split('=')[1] : !!params[s.when]));
   const idx = MODELS.findIndex(x => x.id === modelId), prev = MODELS[(idx + MODELS.length - 1) % MODELS.length], next = MODELS[(idx + 1) % MODELS.length];
   const tool = TOOLS[modelId], excel = tool.excel ? (T.locale.startsWith('uk') ? tool.excel : tool.excel.replace(/;/g, ',')) : null;
   const D = T.datasets[S.id];
@@ -114,9 +117,9 @@ export default function ModelPage({ ctx }) {
         </div>
       </div>
 
-      <div className="grid fc-two">
+      <div className={'grid ' + (wide ? 'fc-wide' : 'fc-two')}>
         <Panel title={T.howTitle} className="fc-how">
-          <ol className="fc-steps">
+          <ol className={'fc-steps' + (wide ? ' cols' : '')}>
             {C.how.map(([text, fx], i) => (
               <li key={i} style={{ animationDelay: i * 0.07 + 's' }}>
                 <span className="how-n">{i + 1}</span>
@@ -126,7 +129,7 @@ export default function ModelPage({ ctx }) {
           </ol>
         </Panel>
         <Panel title={T.insideTitle} sub={D.name} className="fc-inside">
-          {r && !res.err ? <Explain id={modelId} r={r} S={S} T={T} fmt={fmt} h={h} params={params} /> : <p className="muted">{T.notApplicable[res.err] || ''}</p>}
+          {r && !res.err ? <Explain id={modelId} r={r} S={S} T={T} fmt={fmt} h={h} params={params} ho={res.ho} /> : <p className="muted">{T.notApplicable[res.err] || ''}</p>}
         </Panel>
       </div>
 

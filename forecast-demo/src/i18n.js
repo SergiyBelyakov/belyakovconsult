@@ -1,6 +1,7 @@
 // Тексти інтерфейсу розділу про моделі прогнозування. Описи моделей і наборів даних у content.js.
 // Без довгих і середніх тире.
 import { CONTENT } from './content.js';
+import { MORE, EXMORE } from './i18n2.js';
 
 export const LANGS = [{ id: 'uk', short: 'UA', prefix: '' }, { id: 'en', short: 'EN', prefix: '/en' }];
 const ukRule = new Intl.PluralRules('uk');
@@ -14,18 +15,22 @@ const uk = {
   navCaption: 'Forecast Lab',
   kicker: 'Навчання • Прогнози • Моделі',
   demo: 'Синтетичні дані · ваш файл лишається у браузері',
-  nav: { catalog: 'Каталог моделей', model: 'Як працює модель', compare: 'Порівняння', data: 'Ваші дані', guide: 'Як обрати' },
+  nav: { catalog: 'Каталог моделей', model: 'Як працює модель', compare: 'Порівняння', scenario: 'Сценарії', hier: 'Узгодження за рівнями', data: 'Ваші дані', guide: 'Як обрати' },
   titles: {
-    catalog: '18 моделей прогнозування: від наївного прогнозу до ARIMA',
+    catalog: '22 моделі прогнозування: від наївного прогнозу до бустингу',
     model: 'Як працює модель',
-    compare: 'Яка модель точніша: перевірка на відкладених даних',
+    compare: 'Яка модель точніша: повторна перевірка на кількох відрізках',
+    scenario: 'Сценарний прогноз: базовий, оптимістичний, стресовий',
+    hier: 'Узгоджений прогноз: область, громади, послуги',
     data: 'Прогноз на ваших даних',
     guide: 'Як обрати модель і не обманути себе',
   },
   leads: {
-    catalog: 'Базові орієнтири, згладжування, регресія, ARIMA, криві зростання, Монте-Карло, пошук аналогів і ансамблі. Кожна модель показана на даних, де її видно найкраще, з формулами, параметрами й перевіркою точності.',
+    catalog: 'Базові орієнтири, згладжування й TBATS, регресія й Prophet, ARIMA й SARIMAX, криві зростання, Монте-Карло, пошук аналогів, бустинг із поясненням SHAP і ансамблі. Кожна модель показана на даних, де її видно найкраще, з формулами, параметрами й перевіркою точності.',
     model: 'Змінюйте дані й параметри, і прогноз перебудується. Під графіком пояснення кроків, що саме модель бачить у ряді, і як зробити те саме в Excel, Power BI, Python чи R.',
-    compare: 'Кожна модель навчається без останніх періодів і прогнозує їх. Так видно, яка модель справді вгадує майбутнє, а яка лише гарно описує минуле.',
+    compare: 'Кожна модель чотири рази навчається на історії до різних точок старту і прогнозує наступні періоди. Середня похибка по всіх перевірках показує, яка модель справді вгадує майбутнє, а яка виграла випадково.',
+    scenario: 'Оберіть сценарій і посуньте повзунки ціни, бюджету й ринку: прогноз замовлень перерахується, а водоспад покаже, що саме дає різницю з базовим планом.',
+    hier: 'Прогнози області, громад і послуг, побудовані окремо, не сходяться між собою. Узгодження робить суми нижчих рівнів рівними вищим і часто ще й підвищує точність.',
     data: 'Завантажте CSV чи Excel з датами й значеннями: усі моделі перевіряться на ваших даних, найкраща побудує прогноз з коридором, а результат можна завантажити. Файл не залишає браузер.',
     guide: 'Кілька питань про ваш ряд підкажуть, з яких моделей почати. Нижче правила чесного прогнозу, словник показників і джерела.',
   },
@@ -41,7 +46,7 @@ const uk = {
   // ——— каталог ———
   filterAll: 'Усі',
   capsTitle: 'Що бачить модель',
-  caps: { trend: 'Тренд', season: 'Сезонність', drivers: 'Фактори', intermittent: 'Рідкісний попит' },
+  caps: { trend: 'Тренд', season: 'Сезонність', drivers: 'Фактори', intermittent: 'Рідкісний попит', events: 'Свята й події', multi: 'Кілька сезонів' },
   onData: 'на прикладі',
   vsNaive: m => (m < 1 ? `точніша за наївний на ${Math.round((1 - m) * 100)}%` : m < 1.05 ? 'на рівні наївного' : `гірша за наївний у ${(m).toFixed(1).replace('.', ',')} раза`),
   open: 'Як працює',
@@ -166,9 +171,9 @@ const uk = {
   // ——— порівняння ———
   cmpTable: 'Точність усіх моделей',
   cmpSub: (n, T, f) => `навчання без останніх ${T.per(n, f, T)}, прогноз саме цих періодів`,
-  cmpCols: { model: 'Модель', mase: 'MASE', mape: 'MAPE', mae: 'MAE', bias: 'Зміщення', cover: 'У коридорі 80%' },
+  cmpCols: { model: 'Модель', mase: 'MASE', mape: 'MAPE', mae: 'MAE', bias: 'Зміщення', cover: 'У коридорі 80%', maseMean: K => `MASE, середнє з ${K}`, wins: 'Перемоги' },
   cmpShow: 'На графіку',
-  cmpChart: 'Прогнози на відкладений період',
+  cmpChart: 'Прогнози останньої перевірки',
   cmpBest: (a, b) => `Найточніша тут: ${a}. Наївний орієнтир: ${b}.`,
   cmpSkipped: 'Не підходять до цього ряду',
   cmpWhyTitle: 'Чому проста модель часто виграє',
@@ -251,7 +256,9 @@ const uk = {
   qTitle: 'Кілька питань про ваш ряд',
   qs: {
     season: ['Чи є повторюваний сезон (місяці, дні тижня)?', 'Наприклад, грудневий пік чи порожні вихідні.'],
+    multi: ['Чи є кілька сезонних циклів одночасно?', 'Наприклад, тижневий і річний ритм у щоденних даних.'],
     trend: ['Чи росте або падає ряд стабільно?', 'Не лише останні кілька точок.'],
+    events: ['Чи впливають на ряд свята й події з відомими датами?', 'Наприклад, 14 лютого, Чорна п’ятниця, 1 вересня.'],
     drivers: ['Чи відомі на майбутнє фактори, що впливають на ряд?', 'Прогноз погоди, план цін і акцій, календар.'],
     zeros: ['Чи багато періодів з нулем?', 'Більше третини періодів без продажів.'],
     saturation: ['Чи наближається ринок до насичення?', 'Зростання сповільнюється, бо майже всі вже користуються.'],
@@ -281,13 +288,17 @@ const uk = {
     ensemble: 'Середнє кількох моделей: рідко найкраще, майже ніколи не найгірше.',
     naive: 'Завтра як сьогодні. Модель, що не перемагає цей прогноз, не потрібна.',
     snaive: 'Як рік тому (або тиждень тому). Головний орієнтир для сезонного ряду.',
+    prophet: 'Тренд зі зломами, сезонність і свята з відомими датами: окремі панелі легко пояснити.',
+    tbats: 'Кілька сезонних циклів одночасно, наприклад тиждень і рік у щоденних даних.',
+    sarimax: 'Фактори плюс пам’ять ряду: бачить акції й погоду, а ARIMA помічає зміни рівня.',
+    boost: 'Нелінійні зв’язки з факторами й минулими значеннями; SHAP пояснює кожен прогноз.',
   },
   recSub: 'Порівняйте ці моделі на своїх даних і завжди з наївним прогнозом',
   tryOwn: 'Перевірити на своїх даних',
   rulesTitle: 'Сім правил чесного прогнозу',
   rules: [
     'Завжди порівнюйте з наївним прогнозом. Модель, яка його не перемагає, не потрібна.',
-    'Перевіряйте точність лише на відкладених даних, яких модель не бачила.',
+    'Перевіряйте точність лише на відкладених даних, яких модель не бачила, і краще кілька разів на різних відрізках часу.',
     'Показуйте коридор, а не лише лінію: рішення приймаються з урахуванням ризику.',
     'Не прогнозуйте далі, ніж дозволяє історія: для сезонного ряду потрібні щонайменше два сезони.',
     'Дивіться на залишки: якщо в них видно хвилі чи сезон, модель щось пропустила.',
@@ -304,6 +315,10 @@ const uk = {
     ['Стаціонарність', 'Ряд без тренду і з постійним розкидом. Потрібна для ARIMA.'],
     ['Перенавчання', 'Модель запам’ятала шум минулого і гірше прогнозує майбутнє.'],
     ['MAE, MAPE, MASE', 'Середня похибка в одиницях, у відсотках і відносно наївного прогнозу.'],
+    ['Ковзне походження', 'Кілька перевірок поспіль: модель навчається до різних точок старту і щоразу прогнозує наступні періоди.'],
+    ['Узгодження прогнозів', 'Поправка прогнозів різних рівнів, після якої суми нижчих рівнів дорівнюють вищим.'],
+    ['Еластичність', 'На скільки відсотків змінюється попит, якщо фактор зростає на 1%.'],
+    ['SHAP', 'Розклад прогнозу на внески ознак: середнє плюс сума внесків дорівнює прогнозу.'],
   ],
   sourcesTitle: 'Джерела',
   sources: [
@@ -311,6 +326,11 @@ const uk = {
     ['Box G., Jenkins G. Time Series Analysis: Forecasting and Control', 'Класична книга про ARIMA.', null],
     ['Makridakis S., Hibon M. The M3-Competition, 2000', 'Змагання 3 003 рядів, де переміг метод Тета.', null],
     ['Syntetos A., Boylan J. The accuracy of intermittent demand estimates, 2005', 'Поправка SBA до методу Кростона.', null],
+    ['Teunter R., Syntetos A., Babai M. Intermittent demand: linking forecasting to inventory obsolescence, 2011', 'Метод TSB: імовірність попиту замість інтервалу.', null],
+    ['Taylor S., Letham B. Forecasting at scale, 2018', 'Стаття про Prophet: тренд зі зломами, сезонність Фур’є, свята.', 'https://peerj.com/preprints/3190/'],
+    ['De Livera A., Hyndman R., Snyder R. Forecasting time series with complex seasonal patterns, 2011', 'Моделі BATS і TBATS для кількох сезонних циклів.', null],
+    ['Wickramasuriya S., Athanasopoulos G., Hyndman R. Optimal forecast reconciliation, 2019', 'Метод MinT для узгодження прогнозів за рівнями.', null],
+    ['Lundberg S., Lee S.-I. A unified approach to interpreting model predictions, 2017', 'Значення SHAP для пояснення прогнозів моделей.', null],
   ],
 
   // ——— заклик ———
@@ -349,18 +369,22 @@ const en = {
   navCaption: 'Forecast Lab',
   kicker: 'Learning • Forecasts • Models',
   demo: 'Synthetic data · your file stays in the browser',
-  nav: { catalog: 'Model catalogue', model: 'How a model works', compare: 'Comparison', data: 'Your data', guide: 'How to choose' },
+  nav: { catalog: 'Model catalogue', model: 'How a model works', compare: 'Comparison', scenario: 'Scenarios', hier: 'Reconciled by level', data: 'Your data', guide: 'How to choose' },
   titles: {
-    catalog: '18 forecasting models, from the naive forecast to ARIMA',
+    catalog: '22 forecasting models, from the naive forecast to boosting',
     model: 'How the model works',
-    compare: 'Which model is more accurate: a test on held out data',
+    compare: 'Which model is more accurate: repeated tests over several windows',
+    scenario: 'Scenario forecast: base, optimistic, stress',
+    hier: 'Reconciled forecast: region, communities, services',
     data: 'A forecast on your data',
     guide: 'How to choose a model without fooling yourself',
   },
   leads: {
-    catalog: 'Baselines, smoothing, regression, ARIMA, growth curves, Monte Carlo, analog search and ensembles. Each model is shown on data where it works best, with formulas, parameters and an accuracy check.',
+    catalog: 'Baselines, smoothing and TBATS, regression and Prophet, ARIMA and SARIMAX, growth curves, Monte Carlo, analog search, boosting explained with SHAP, and ensembles. Each model is shown on data where it works best, with formulas, parameters and an accuracy check.',
     model: 'Change the data and parameters and the forecast rebuilds. Below the chart: the steps, what exactly the model sees in the series, and how to do the same in Excel, Power BI, Python or R.',
-    compare: 'Each model is trained without the last periods and forecasts them. This shows which model really predicts the future and which only describes the past nicely.',
+    compare: 'Each model is trained four times on history up to different start points and forecasts the next periods. The mean error over all tests shows which model really predicts the future and which won by luck.',
+    scenario: 'Choose a scenario and move the price, budget and market sliders: the order forecast is recalculated, and the waterfall shows what exactly makes the difference from the base plan.',
+    hier: 'Forecasts for a region, its communities and services built separately do not add up. Reconciliation makes the lower levels sum to the higher ones and often improves accuracy too.',
     data: 'Upload a CSV or Excel file with dates and values: every model is tested on your data, the best one builds a forecast with an interval, and you can download the result. The file never leaves your browser.',
     guide: 'A few questions about your series suggest which models to start with. Below: rules for an honest forecast, a glossary of measures and sources.',
   },
@@ -374,7 +398,7 @@ const en = {
 
   filterAll: 'All',
   capsTitle: 'What the model sees',
-  caps: { trend: 'Trend', season: 'Seasonality', drivers: 'Drivers', intermittent: 'Intermittent' },
+  caps: { trend: 'Trend', season: 'Seasonality', drivers: 'Drivers', intermittent: 'Intermittent', events: 'Holidays and events', multi: 'Several seasons' },
   onData: 'on',
   vsNaive: m => (m < 1 ? `${Math.round((1 - m) * 100)}% more accurate than naive` : m < 1.05 ? 'on par with naive' : `${m.toFixed(1)} times worse than naive`),
   open: 'How it works',
@@ -496,9 +520,9 @@ const en = {
 
   cmpTable: 'Accuracy of all models',
   cmpSub: (n, T, f) => `trained without the last ${T.per(n, f, T)}, forecasting exactly those periods`,
-  cmpCols: { model: 'Model', mase: 'MASE', mape: 'MAPE', mae: 'MAE', bias: 'Bias', cover: 'In 80% band' },
+  cmpCols: { model: 'Model', mase: 'MASE', mape: 'MAPE', mae: 'MAE', bias: 'Bias', cover: 'In 80% band', maseMean: K => `MASE, mean of ${K}`, wins: 'Wins' },
   cmpShow: 'On chart',
-  cmpChart: 'Forecasts for the held out period',
+  cmpChart: 'Forecasts in the last test',
   cmpBest: (a, b) => `Most accurate here: ${a}. Naive benchmark: ${b}.`,
   cmpSkipped: 'Not suitable for this series',
   cmpWhyTitle: 'Why a simple model often wins',
@@ -579,7 +603,9 @@ const en = {
   qTitle: 'A few questions about your series',
   qs: {
     season: ['Is there a recurring season (months, weekdays)?', 'For example a December peak or empty weekends.'],
+    multi: ['Are there several seasonal cycles at once?', 'For example a weekly and a yearly rhythm in daily data.'],
     trend: ['Does the series grow or fall steadily?', 'Not just the last few points.'],
+    events: ['Do holidays and events with known dates affect the series?', 'For example Valentine’s Day, Black Friday, the first school day.'],
     drivers: ['Are drivers that affect the series known for the future?', 'A weather forecast, a price and promotion plan, a calendar.'],
     zeros: ['Are there many periods with zero?', 'More than a third of periods without sales.'],
     saturation: ['Is the market approaching saturation?', 'Growth is slowing because almost everyone already uses it.'],
@@ -609,13 +635,17 @@ const en = {
     ensemble: 'An average of several models: rarely the best, almost never the worst.',
     naive: 'Tomorrow equals today. A model that does not beat this forecast is not needed.',
     snaive: 'Same as a year (or a week) ago. The main benchmark for a seasonal series.',
+    prophet: 'A trend with changepoints, seasonality and holidays with known dates: separate panels that are easy to explain.',
+    tbats: 'Several seasonal cycles at once, for example a week and a year in daily data.',
+    sarimax: 'Drivers plus the memory of the series: sees promotions and weather, while ARIMA notices level changes.',
+    boost: 'Nonlinear links with drivers and past values; SHAP explains every forecast.',
   },
   recSub: 'Compare these models on your data and always against the naive forecast',
   tryOwn: 'Test on your data',
   rulesTitle: 'Seven rules for an honest forecast',
   rules: [
     'Always compare with the naive forecast. A model that does not beat it is not needed.',
-    'Measure accuracy only on held out data the model has not seen.',
+    'Measure accuracy only on held out data the model has not seen, preferably several times over different time windows.',
     'Show an interval, not just a line: decisions are made with risk in mind.',
     'Do not forecast further than the history allows: a seasonal series needs at least two seasons.',
     'Look at the residuals: if they show waves or a season, the model missed something.',
@@ -632,6 +662,10 @@ const en = {
     ['Stationarity', 'A series without trend and with a constant spread. Needed for ARIMA.'],
     ['Overfitting', 'The model memorised the noise of the past and forecasts the future worse.'],
     ['MAE, MAPE, MASE', 'Mean error in units, in percent and relative to the naive forecast.'],
+    ['Rolling origin', 'Several tests in a row: the model is trained up to different start points and forecasts the next periods each time.'],
+    ['Forecast reconciliation', 'An adjustment of forecasts at different levels after which the lower levels add up to the higher ones.'],
+    ['Elasticity', 'By how many percent demand changes when a driver grows by 1%.'],
+    ['SHAP', 'A breakdown of a forecast into feature contributions: the average plus the sum of contributions equals the forecast.'],
   ],
   sourcesTitle: 'Sources',
   sources: [
@@ -639,6 +673,11 @@ const en = {
     ['Box G., Jenkins G. Time Series Analysis: Forecasting and Control', 'The classic book on ARIMA.', null],
     ['Makridakis S., Hibon M. The M3-Competition, 2000', 'A competition on 3,003 series won by the Theta method.', null],
     ['Syntetos A., Boylan J. The accuracy of intermittent demand estimates, 2005', 'The SBA correction to Croston’s method.', null],
+    ['Teunter R., Syntetos A., Babai M. Intermittent demand: linking forecasting to inventory obsolescence, 2011', 'The TSB method: a probability of demand instead of an interval.', null],
+    ['Taylor S., Letham B. Forecasting at scale, 2018', 'The Prophet paper: a trend with changepoints, Fourier seasonality, holidays.', 'https://peerj.com/preprints/3190/'],
+    ['De Livera A., Hyndman R., Snyder R. Forecasting time series with complex seasonal patterns, 2011', 'BATS and TBATS models for several seasonal cycles.', null],
+    ['Wickramasuriya S., Athanasopoulos G., Hyndman R. Optimal forecast reconciliation, 2019', 'The MinT method for reconciling forecasts across levels.', null],
+    ['Lundberg S., Lee S.-I. A unified approach to interpreting model predictions, 2017', 'SHAP values for explaining model predictions.', null],
   ],
 
   cta: 'Discuss',
@@ -668,5 +707,9 @@ const en = {
     formulaNote: 'Change the parameter in the yellow cell: Excel recalculates the model and the forecast.',
   },
 };
+
+// нові частини розділу: тексти з i18n2.js
+Object.assign(uk, MORE.uk); Object.assign(uk.ex, EXMORE.uk);
+Object.assign(en, MORE.en); Object.assign(en.ex, EXMORE.en);
 
 export const STRINGS = { uk, en };

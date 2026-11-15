@@ -953,19 +953,19 @@
       "lang": {
         "uk": {
           "title": "Моделі прогнозування: як працюють і прогноз на ваших даних | Belyakov Consult",
-          "description": "18 моделей прогнозування від наївного прогнозу й експоненційного згладжування до ARIMA, регресії з факторами, Монте-Карло й ансамблю: формули, параметри, перевірка точності на відкладених даних, приклади даних для завантаження і прогноз на вашому CSV чи Excel прямо в браузері.",
+          "description": "22 моделі прогнозування від наївного прогнозу до Prophet, TBATS, SARIMAX і градієнтного бустингу з поясненням SHAP: формули, параметри, повторна перевірка точності, сценарії «що буде, якщо», узгоджений прогноз за рівнями і прогноз на вашому CSV чи Excel прямо в браузері.",
           "name": "Моделі прогнозування",
-          "noscript": "Для роботи розділу потрібен JavaScript. Розділ показує 18 моделей прогнозування з формулами й перевіркою точності, дає приклади даних для завантаження і будує прогноз на вашому файлі прямо в браузері.",
+          "noscript": "Для роботи розділу потрібен JavaScript. Розділ показує 22 моделі прогнозування з формулами й перевіркою точності, сценарний і узгоджений прогноз, дає приклади даних для завантаження і будує прогноз на вашому файлі прямо в браузері.",
           "kind": "Навчання · прогнози",
-          "teaser": "18 моделей від наївного прогнозу до ARIMA і Монте-Карло: як кожна працює і де помиляється, приклади даних і прогноз на вашому файлі в браузері."
+          "teaser": "22 моделі від наївного прогнозу до Prophet, SARIMAX і бустингу з SHAP: як кожна працює і де помиляється, сценарії, узгодження за рівнями й прогноз на вашому файлі в браузері."
         },
         "en": {
           "title": "Forecasting models: how they work and a forecast on your data | Belyakov Consult",
-          "description": "18 forecasting models from the naive forecast and exponential smoothing to ARIMA, regression with drivers, Monte Carlo and an ensemble: formulas, parameters, accuracy testing on held out data, sample data to download and a forecast on your own CSV or Excel file right in the browser.",
+          "description": "22 forecasting models from the naive forecast to Prophet, TBATS, SARIMAX and gradient boosting explained with SHAP: formulas, parameters, repeated accuracy testing, what if scenarios, a forecast reconciled across levels and a forecast on your own CSV or Excel file right in the browser.",
           "name": "Forecasting models",
-          "noscript": "This section needs JavaScript. It shows 18 forecasting models with formulas and accuracy testing, offers sample data to download and builds a forecast on your own file right in the browser.",
+          "noscript": "This section needs JavaScript. It shows 22 forecasting models with formulas and accuracy testing, scenario and reconciled forecasts, offers sample data to download and builds a forecast on your own file right in the browser.",
           "kind": "Learning · forecasts",
-          "teaser": "18 models from the naive forecast to ARIMA and Monte Carlo: how each one works and where it fails, sample data and a forecast on your own file in the browser."
+          "teaser": "22 models from the naive forecast to Prophet, SARIMAX and boosting with SHAP: how each one works and where it fails, scenarios, reconciliation by level and a forecast on your own file in the browser."
         }
       },
       "audiences": [

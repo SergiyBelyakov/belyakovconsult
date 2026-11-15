@@ -66,7 +66,7 @@ const areaOf = (xs, lo, hi) => {
 };
 
 // Підписи осі X за частотою ряду
-function xTicks(dates, from, to, freq, fmt) {
+export function xTicks(dates, from, to, freq, fmt) {
   const out = [];
   for (let i = from; i <= to; i++) {
     const d = dates[i];
@@ -90,7 +90,7 @@ function xTicks(dates, from, to, freq, fmt) {
   test: { from, fc } прогноз на відкладених даних, починаючи з індексу from
   overlays: [{ id, label, color, from, values }] додаткові лінії (порівняння моделей)
 */
-export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show = {}, freq, fmt, T, height = 320, from = 0, label, marks = [], hideFuture = false }) {
+export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show = {}, freq, fmt, T, height = 320, from = 0, label, marks = [], hideFuture = false, fcLabel }) {
   const ref = useRef(null), W = useWidth(ref), H = W < 560 ? Math.min(height, 260) : height;
   const n = y.length, h = hideFuture ? 0 : fc ? fc.length : 0, to = n - 1 + h;
   const M = { l: W < 560 ? 40 : 54, r: 12, t: 12, b: 26 };
@@ -143,9 +143,10 @@ export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show 
       overlays.forEach(o => { const k = hover - o.from; if (k >= 0 && k < o.values.length && Number.isFinite(o.values[k])) rows.push([o.label, fmt.val(o.values[k]), o.color]); });
     } else {
       const p = fc[hover - n];
-      rows.push([T.legend.forecast, fmt.val(p.mean), 'fc']);
+      rows.push([fcLabel || T.legend.forecast, fmt.val(p.mean), 'fc']);
       if (Number.isFinite(p.lo80)) rows.push([T.legend.b80, `${fmt.val(p.lo80)} … ${fmt.val(p.hi80)}`, 'band']);
       if (Number.isFinite(p.lo95)) rows.push([T.legend.b95, `${fmt.val(p.lo95)} … ${fmt.val(p.hi95)}`, 'band2']);
+      overlays.forEach(o => { const k = hover - o.from; if (k >= 0 && k < o.values.length && Number.isFinite(o.values[k])) rows.push([o.label, fmt.val(o.values[k]), o.color]); });
     }
     return { x: X(hover), date: fmt.dateLong(dates[hover], freq), rows };
   })();

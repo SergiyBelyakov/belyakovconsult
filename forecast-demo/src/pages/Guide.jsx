@@ -6,14 +6,15 @@ import { Icon } from '../../../dashboard/src/icons.jsx';
 import { BY_ID } from '../engine/models.js';
 import { Caps } from '../common.jsx';
 
-const QS = ['season', 'trend', 'drivers', 'zeros', 'saturation', 'range'];
+const QS = ['season', 'multi', 'trend', 'events', 'drivers', 'zeros', 'saturation', 'range'];
 const VAL = { yes: 1, no: 0 };
 // Без відповіді (або «не знаю») питання важить як типовий ряд: сезон і тренд під питанням, решта рідкість
-const PRIOR = { season: 0.5, trend: 0.5, drivers: 0.2, zeros: 0.1, saturation: 0.15, range: 0.3 };
+const PRIOR = { season: 0.5, multi: 0.15, trend: 0.5, events: 0.2, drivers: 0.2, zeros: 0.1, saturation: 0.15, range: 0.3 };
 
 export function scores(a) {
   const v = k => (a[k] in VAL ? VAL[a[k]] : PRIOR[k]);
   const s = v('season'), t = v('trend'), d = v('drivers'), z = v('zeros'), g = v('saturation'), r = v('range'), nz = 1 - z;
+  const mu = v('multi'), ev = v('events');
   return {
     croston: 4 * z,
     ses: (1.6 * (1 - t) * (1 - s) + 0.2) * nz + 0.6 * z,
@@ -31,6 +32,10 @@ export function scores(a) {
     montecarlo: 3.2 * r,
     knn: 0.9 * s * nz,
     ensemble: 1.5 * nz + 0.2,
+    prophet: (3.6 * ev + 0.8 * mu + 0.4 * s * t) * nz,
+    tbats: (3.8 * mu + 0.3 * s) * nz,
+    sarimax: (2.6 + 0.8 * s) * d * nz,
+    boost: (1.6 * d + 0.4 * mu) * nz,
   };
 }
 export function recommend(a, k = 4) {

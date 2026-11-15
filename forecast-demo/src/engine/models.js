@@ -2,12 +2,15 @@
 //   y       значення ряду (історія для навчання)
 //   ctx.m   довжина сезону (0, якщо сезонності немає), ctx.h горизонт прогнозу
 //   ctx.p   параметри з інтерфейсу; null або відсутній означає «підібрати автоматично»
-//   ctx.X / ctx.Xf  фактори на історії й на горизонті (лише для регресії з факторами)
+//   ctx.X / ctx.Xf  фактори на історії й на горизонті (регресія з факторами, SARIMAX, бустинг, Prophet)
+//   ctx.dates, ctx.fdates, ctx.freq, ctx.periods, ctx.events  календар для Prophet і TBATS (див. advanced.js)
 // fitted: значення моделі на історії (NaN там, де модель ще не має прогнозу), fc: прогноз зі смугами 80% і 95%.
 import {
   mean, sum, rms, sd, variance, quantile, nanArr, clamp, sig, logit, residuals, nelderMead, golden, ols, acf, pacf, kpss, diff,
   classicDecomp, seasonalStrength, band, rng,
 } from './util.js';
+import { arimaFitOrder, arimaForecast, arimaAuto, arimaBest } from './arima.js';
+import { prophet, tbats, sarimax, boost } from './advanced.js';
 
 const finite = a => a.filter(Number.isFinite);
 const sigmaOf = (y, fitted) => { const e = residuals(y, fitted); return e.length ? rms(e) : NaN; };
@@ -249,90 +252,11 @@ function inv3(A) {
   return [[e * i - f * h, c * h - b * i, b * f - c * e], [f * g - d * i, a * i - c * g, c * d - a * f], [d * h - e * g, b * g - a * h, a * e - b * d]].map(r => r.map(v => v / det));
 }
 
-// ——— ARIMA(p, d, q)(0, D, 0)m: умовна сума квадратів, стаціонарність і оборотність через параметризацію Монахана ———
-function pacToCoef(r) {
-  let phi = [];
-  r.forEach((rk, i) => { const next = phi.map((v, j) => v - rk * phi[i - 1 - j]); next.push(rk); phi = next; });
-  return phi;
-}
-const polyMul = (a, b) => { const out = new Array(a.length + b.length - 1).fill(0); a.forEach((x, i) => b.forEach((z, j) => { out[i + j] += x * z; })); return out; };
-function arimaFitOrder(y, m, P, d, Q, D) {
-  let w = y.slice();
-  for (let i = 0; i < D; i++) w = diff(w, m);
-  for (let i = 0; i < d; i++) w = diff(w, 1);
-  const N = w.length, useConst = d + D <= 1, lagSkip = Math.max(P, Q);
-  if (N < lagSkip + 8) return null;
-  const k = P + Q + (useConst ? 1 : 0);
-  const unpack = u => ({
-    phi: pacToCoef(u.slice(0, P).map(Math.tanh)).map(v => v * 0.995),
-    th: pacToCoef(u.slice(P, P + Q).map(Math.tanh)).map(v => -v * 0.995),
-    c: useConst ? u[P + Q] : 0,
-  });
-  const scaleW = sd(w) || 1, muW = mean(w);
-  const css = q => {
-    const e = new Array(N).fill(0); let s = 0;
-    for (let t = lagSkip; t < N; t++) {
-      let v = w[t] - q.c * scaleW - (useConst ? muW : 0);
-      for (let i = 0; i < P; i++) v -= q.phi[i] * (w[t - 1 - i] - q.c * scaleW - (useConst ? muW : 0));
-      for (let j = 0; j < Q; j++) v -= q.th[j] * e[t - 1 - j];
-      e[t] = v; s += v * v;
-    }
-    return { s, e };
-  };
-  const u0 = new Array(k).fill(0);
-  const best = k ? nelderMead(u => { const r = css(unpack(u)).s; return Number.isFinite(r) ? r : 1e300; }, u0, { iters: 300 + 120 * k }) : u0;
-  const q = unpack(best), { s, e } = css(q), nEff = N - lagSkip, sigma2 = s / Math.max(1, nEff - k);
-  const aic = nEff * Math.log(s / nEff) + 2 * (k + 1);
-  const mu = useConst ? q.c * scaleW + muW : 0;
-  return { P, d, Q, D, m, phi: q.phi, th: q.th, mu, useConst, sigma2, aic, e, w, lagSkip, N };
-}
-function arimaForecast(y, f, h) {
-  const n = y.length, { phi, th, mu, m, d, D } = f;
-  let A = [1, ...phi.map(v => -v)];
-  for (let i = 0; i < d; i++) A = polyMul(A, [1, -1]);
-  for (let i = 0; i < D; i++) { const s = new Array(m + 1).fill(0); s[0] = 1; s[m] = -1; A = polyMul(A, s); }
-  const a = A.slice(1).map(v => -v);   // y_t = c + Σ a_i y_{t−i} + e_t + Σ θ_j e_{t−j}
-  const c = mu * (1 - sum(phi));
-  const off = n - f.N, eY = new Array(n).fill(0);
-  for (let t = 0; t < f.N; t++) eY[t + off] = f.e[t];
-  const fitted = nanArr(n), start = off + f.lagSkip;
-  for (let t = Math.max(start, a.length); t < n; t++) {
-    let v = c; for (let i = 0; i < a.length; i++) v += a[i] * y[t - 1 - i];
-    for (let j = 0; j < th.length; j++) v += th[j] * eY[t - 1 - j];
-    fitted[t] = v;
-  }
-  const ext = y.slice(), eExt = eY.slice(), fc = [];
-  const psi = [1];
-  for (let j = 1; j < h; j++) { let v = j <= th.length ? th[j - 1] : 0; for (let i = 1; i <= Math.min(j, a.length); i++) v += a[i - 1] * psi[j - i]; psi.push(v); }
-  let acc = 0;
-  for (let k = 1; k <= h; k++) {
-    const t = n + k - 1;
-    let v = c; for (let i = 0; i < a.length; i++) v += a[i] * ext[t - 1 - i];
-    for (let j = 0; j < th.length; j++) v += th[j] * (eExt[t - 1 - j] || 0);
-    ext.push(v); eExt.push(0);
-    acc += psi[k - 1] ** 2;
-    fc.push(band(v, Math.sqrt(f.sigma2 * acc)));
-  }
-  return { fitted, fc };
-}
-export function arimaAuto(y, m) {
-  const n = y.length;
-  let D = 0;
-  if (m > 1 && n >= 3 * m && seasonalStrength(y, m) > 0.64) D = 1;
-  let w = y.slice(); for (let i = 0; i < D; i++) w = diff(w, m);
-  const d = kpss(w) > 0.463 ? 1 : 0;
-  return { d, D };
-}
 function arima(y, { h, m, p }) {
   const isAuto = p.auto !== false, n = y.length;
   let best = null;
-  if (isAuto) {
-    const { d, D } = arimaAuto(y, m);
-    for (let P = 0; P <= 2; P++) for (let Q = 0; Q <= 2; Q++) {
-      const f = arimaFitOrder(y, m, P, d, Q, D);
-      if (f && (!best || f.aic < best.aic)) best = f;
-    }
-  } else best = arimaFitOrder(y, m, clamp(p.p ?? 1, 0, 3), clamp(p.d ?? 1, 0, 2), clamp(p.q ?? 1, 0, 3), m > 1 ? clamp(p.D ?? 0, 0, 1) : 0);
+  if (isAuto) best = arimaBest(y, m);
+  else best = arimaFitOrder(y, m, clamp(p.p ?? 1, 0, 3), clamp(p.d ?? 1, 0, 2), clamp(p.q ?? 1, 0, 3), m > 1 ? clamp(p.D ?? 0, 0, 1) : 0);
   if (!best) best = arimaFitOrder(y, m, 0, 1, 0, 0);
   const { fitted, fc } = arimaForecast(y, best, h);
   const K = Math.min(m > 1 ? Math.max(2 * m, 12) : 16, Math.floor(best.w.length / 3));
@@ -360,29 +284,60 @@ function decomp(y, { h, m, p }) {
   return { fitted, fc, used: { season: mult ? 'mult' : 'add' }, explain: { kind: 'decomp', trend: dc.trend, season: dc.season, remainder: dc.remainder, idx: dc.idx, mult } };
 }
 
-// ——— Переривчастий попит: Кростон і поправка SBA ———
+// ——— Переривчастий попит: Кростон, поправка SBA і TSB ———
+// Кростон і SBA оновлюють розмір і інтервал лише в періоди з попитом; TSB (Teunter, Syntetos, Babai) замість
+// інтервалу щоперіоду оновлює ймовірність попиту, тож прогноз знижується, коли попит зникає.
+function crostonRun(y, a, sba) {
+  const n = y.length, fitted = nanArr(n), Z = nanArr(n), Pp = nanArr(n);
+  const i0 = y.findIndex(v => v > 0);
+  if (i0 < 0) return { fitted, z: 0, pr: 1, sse: 0, Z, Pp, k: 1 };
+  let z = y[i0], pr = i0 + 1, q = 1, sse = 0;
+  const k = sba ? 1 - a / 2 : 1;
+  for (let t = i0 + 1; t < n; t++) {
+    fitted[t] = (z / pr) * k; sse += (y[t] - fitted[t]) ** 2;
+    if (y[t] > 0) { z = a * y[t] + (1 - a) * z; pr = a * q + (1 - a) * pr; q = 1; } else q++;
+    Z[t] = z; Pp[t] = pr;
+  }
+  return { fitted, z, pr, sse, Z, Pp, k };
+}
+function tsbRun(y, a, b) {
+  const n = y.length, fitted = nanArr(n), Z = nanArr(n), Q = nanArr(n);
+  const i0 = y.findIndex(v => v > 0);
+  if (i0 < 0) return { fitted, z: 0, q: 0, sse: 0, Z, Q };
+  let z = y[i0], q = y.filter(v => v > 0).length / n, sse = 0;
+  for (let t = i0 + 1; t < n; t++) {
+    fitted[t] = z * q; sse += (y[t] - fitted[t]) ** 2;
+    if (y[t] > 0) { z += a * (y[t] - z); q += b * (1 - q); } else q -= b * q;
+    Z[t] = z; Q[t] = q;
+  }
+  return { fitted, z, q, sse, Z, Q };
+}
+const crostonA = (y, sba, a) => a ?? golden(x => crostonRun(y, x, sba).sse, 0.02, 0.5);
+function tsbAB(y, a, b) {
+  if (a != null && b != null) return [a, b];
+  const fa = u => (a != null ? a : 0.02 + 0.48 * sig(u)), fb = u => (b != null ? b : 0.02 + 0.48 * sig(u));
+  const best = nelderMead(u => tsbRun(y, fa(u[0]), fb(u[1])).sse, [logit(0.3), logit(0.2)], { iters: 300 });
+  return [fa(best[0]), fb(best[1])];
+}
 function croston(y, { h, p }) {
-  const n = y.length, sba = p.variant !== 'croston';
-  const runC = a => {
-    const fitted = nanArr(n), Z = nanArr(n), Pp = nanArr(n);
-    let i0 = y.findIndex(v => v > 0);
-    if (i0 < 0) return { fitted, z: 0, pr: 1, sse: 0, Z, Pp };
-    let z = y[i0], pr = i0 + 1, q = 1, sse = 0;
-    const k = sba ? 1 - a / 2 : 1;
-    for (let t = i0 + 1; t < n; t++) {
-      fitted[t] = (z / pr) * k; sse += (y[t] - fitted[t]) ** 2;
-      if (y[t] > 0) { z = a * y[t] + (1 - a) * z; pr = a * q + (1 - a) * pr; q = 1; } else q++;
-      Z[t] = z; Pp[t] = pr;
-    }
-    return { fitted, z, pr, sse, Z, Pp, k };
-  };
-  const a = p.alpha ?? golden(x => runC(x).sse, 0.02, 0.5);
-  const r = runC(a), rate = (r.z / r.pr) * (r.k ?? 1);
+  const n = y.length, variant = ['croston', 'sba', 'tsb'].includes(p.variant) ? p.variant : 'sba';
+  const aC = crostonA(y, false, variant === 'croston' ? p.alpha : null), aS = crostonA(y, true, variant === 'sba' ? p.alpha : null);
+  const [aT, bT] = tsbAB(y, variant === 'tsb' ? p.alpha : null, variant === 'tsb' ? p.betaP : null);
+  const rc = crostonRun(y, aC, false), rs = crostonRun(y, aS, true), rt = tsbRun(y, aT, bT);
+  const rates = { croston: rc.z / rc.pr, sba: (rs.z / rs.pr) * rs.k, tsb: rt.z * rt.q };
+  const r = variant === 'tsb' ? rt : variant === 'sba' ? rs : rc, rate = rates[variant];
   const fc = Array.from({ length: h }, () => ({ mean: rate, sd: NaN, lo80: NaN, hi80: NaN, lo95: NaN, hi95: NaN }));
-  const nz = y.filter(v => v > 0);
+  const nz = [];
+  y.forEach((v, t) => { if (v > 0) nz.push(t); });
+  const gaps = nz.slice(1).map((t, i) => ({ t, gap: t - nz[i] }));
   return {
-    fitted: r.fitted, fc, used: { alpha: a, variant: sba ? 'sba' : 'croston', size: r.z, interval: r.pr },
-    explain: { kind: 'intermittent', Z: r.Z, P: r.Pp, zeros: 1 - nz.length / n, size: r.z, interval: r.pr, rate },
+    fitted: r.fitted, fc,
+    used: { alpha: variant === 'tsb' ? aT : variant === 'sba' ? aS : aC, betaP: variant === 'tsb' ? bT : null, variant, size: r.z, interval: variant === 'tsb' ? 1 / Math.max(rt.q, 1e-9) : r.pr },
+    explain: {
+      kind: 'intermittent', variant, zeros: 1 - nz.length / n, rate, rates,
+      size: r.z, interval: rs.pr, prob: rt.q, Z: r.Z, P: rs.Pp, Q: rt.Q, gaps,
+      alphas: { croston: aC, sba: aS, tsb: aT }, betaTsb: bT,
+    },
   };
 }
 
@@ -470,6 +425,10 @@ export const MODELS = [
     { id: 'phi', type: 'range', min: 0.8, max: 0.98, step: 0.01, auto: true, when: 'damped' },
   ] },
   { id: 'theta', family: 'smooth', fit: theta, caps: { trend: true, season: true }, params: () => [{ id: 'alpha', type: 'range', min: 0.01, max: 0.99, step: 0.01, auto: true }] },
+  { id: 'tbats', family: 'smooth', fit: tbats, needs: { season: true }, caps: { trend: true, season: true, multi: true }, params: () => [
+    { id: 'bc', type: 'select', options: ['auto', 'none', 'log'], def: 'auto' },
+    { id: 'tbTrend', type: 'select', options: ['auto', 'none', 'damped'], def: 'auto' },
+  ] },
   { id: 'linear', family: 'reg', fit: linear, caps: { trend: true, season: false }, params: () => [] },
   { id: 'trendseason', family: 'reg', fit: trendseason, needs: { season: true }, caps: { trend: true, season: true }, params: () => [] },
   { id: 'drivers', family: 'reg', fit: driversModel, needs: { drivers: true }, caps: { trend: true, season: true, drivers: true }, params: ds => [
@@ -477,6 +436,10 @@ export const MODELS = [
     ...(ds.m > 1 ? [{ id: 'seasonDummies', type: 'toggle', def: false }] : []),
   ] },
   { id: 'growth', family: 'reg', fit: growth, caps: { trend: true, season: false }, params: ds => [{ id: 'shape', type: 'select', options: ['logistic', 'exp'], def: ds.id === 'app' ? 'logistic' : 'exp' }] },
+  { id: 'prophet', family: 'reg', fit: prophet, caps: { trend: true, season: true, events: true, multi: true }, params: ds => [
+    { id: 'cps', type: 'select', options: ['0.01', '0.05', '0.5'], def: '0.05' },
+    ...(ds.events && ds.events.length ? [{ id: 'events', type: 'toggle', def: true }] : []),
+  ] },
   { id: 'arima', family: 'stat', fit: arima, caps: { trend: true, season: true }, params: ds => [
     { id: 'auto', type: 'toggle', def: true },
     { id: 'p', type: 'range', min: 0, max: 3, step: 1, def: 1, when: '!auto' },
@@ -484,15 +447,29 @@ export const MODELS = [
     { id: 'q', type: 'range', min: 0, max: 3, step: 1, def: 1, when: '!auto' },
     ...(ds.m > 1 ? [{ id: 'D', type: 'range', min: 0, max: 1, step: 1, def: 1, when: '!auto' }] : []),
   ] },
+  { id: 'sarimax', family: 'stat', fit: sarimax, needs: { drivers: true }, caps: { trend: true, season: true, drivers: true }, params: ds => [
+    { id: 'auto', type: 'toggle', def: true },
+    { id: 'p', type: 'range', min: 0, max: 3, step: 1, def: 1, when: '!auto' },
+    { id: 'd', type: 'range', min: 0, max: 2, step: 1, def: 1, when: '!auto' },
+    { id: 'q', type: 'range', min: 0, max: 3, step: 1, def: 1, when: '!auto' },
+    ...(ds.m > 1 ? [{ id: 'D', type: 'range', min: 0, max: 1, step: 1, def: 0, when: '!auto' }] : []),
+  ] },
   { id: 'decomp', family: 'stat', fit: decomp, needs: { season: true }, caps: { trend: true, season: true }, params: ds => [{ id: 'season', type: 'select', options: ['add', 'mult'], def: ds.mult ? 'mult' : 'add' }] },
   { id: 'croston', family: 'special', fit: croston, needs: { nonneg: true }, caps: { trend: false, season: false, intermittent: true }, params: () => [
-    { id: 'variant', type: 'select', options: ['sba', 'croston'], def: 'sba' },
+    { id: 'variant', type: 'select', options: ['sba', 'croston', 'tsb'], def: 'sba' },
     { id: 'alpha', type: 'range', min: 0.02, max: 0.5, step: 0.01, auto: true },
+    { id: 'betaP', type: 'range', min: 0.02, max: 0.5, step: 0.01, auto: true, when: 'variant=tsb' },
   ] },
   { id: 'montecarlo', family: 'special', fit: monteCarlo, caps: { trend: true, season: true }, params: () => [] },
   { id: 'knn', family: 'ml', fit: knn, caps: { trend: false, season: true }, params: ds => [
     { id: 'k', type: 'range', min: 1, max: 15, step: 1, def: 5 },
     { id: 'L', type: 'range', min: 3, max: Math.min(56, Math.max(8, ds.m * 4 || 24)), step: 1, def: ds.m > 1 ? Math.min(2 * ds.m, 28) : 8 },
+  ] },
+  { id: 'boost', family: 'ml', fit: boost, caps: { trend: true, season: true, drivers: true }, params: () => [
+    { id: 'trees', type: 'range', min: 20, max: 400, step: 10, def: 200 },
+    { id: 'depth', type: 'range', min: 1, max: 5, step: 1, def: 3 },
+    { id: 'lr', type: 'range', min: 0.02, max: 0.3, step: 0.01, def: 0.08 },
+    { id: 'detrend', type: 'toggle', def: true },
   ] },
   { id: 'ensemble', family: 'ml', fit: null, caps: { trend: true, season: true }, params: () => [] },
 ];
@@ -516,6 +493,9 @@ export function applies(model, info) {
   if (model.needs?.drivers && !futureDrivers) return 'future';
   if (model.needs?.nonneg && !nonneg) return 'nonneg';
   if (model.id === 'knn' && n < 30) return 'short';
+  if (model.id === 'prophet' && n < 20) return 'short';
+  if (model.id === 'sarimax' && n < 24) return 'short';
+  if (model.id === 'boost' && n < 40) return 'short';
   if (model.id === 'arima' && n < 16) return 'short';
   if (model.id === 'growth' && n < 8) return 'short';
   if (n < 6) return 'short';

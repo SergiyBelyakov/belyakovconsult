@@ -9,7 +9,7 @@ import { Spark } from '../charts.jsx';
 import { seriesFor, Caps } from '../common.jsx';
 
 const FAMILY_ICON = { base: 'target', smooth: 'pulse', reg: 'chart', stat: 'layers', special: 'spark', ml: 'graph' };
-const CAPS = ['trend', 'season', 'drivers', 'intermittent'];
+const CAPS = ['trend', 'season', 'multi', 'drivers', 'events', 'intermittent'];
 
 // Мініатюри й точність рахуються поступово, щоб сторінка з’явилася одразу
 function useCards() {
@@ -56,6 +56,12 @@ export default function Catalog({ ctx }) {
         </div>
       </div>
 
+      <div className="fc-cat-note glass" role="note">
+        <span className="fc-cat-note-icon"><Icon name="info" size={18} /></span>
+        <p><b>{T.maseNote[0]}</b> {T.maseNote[1]}</p>
+        <Button icon="scale" onClick={() => navigate('compare')}>{T.maseNote[2]}</Button>
+      </div>
+
       {fams.map(f => {
         const list = MODELS.filter(m => m.family === f && visible(m));
         if (!list.length) return null;
@@ -77,7 +83,7 @@ export default function Catalog({ ctx }) {
                     <div className="fc-card-foot">
                       <Caps caps={m.caps} T={T} />
                       {c && Number.isFinite(c.mase) && (
-                        <small className="fc-card-acc"><span>{T.onData} «{T.datasets[c.ds].name}»</span><b className={c.mase < 1 ? 'good' : ''}>MASE {fmt.dec2(c.mase)}</b></small>
+                        <small className="fc-card-acc" title={T.maseNote[1]}><span>{T.onData} «{T.datasets[c.ds].name}»</span><b className={c.mase < 1 ? 'good' : ''}>MASE {fmt.dec2(c.mase)}</b></small>
                       )}
                     </div>
                     <span className="fc-card-go">{T.open}<Icon name="arrowRight" size={14} /></span>

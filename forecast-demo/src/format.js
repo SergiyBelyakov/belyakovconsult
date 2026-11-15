@@ -10,6 +10,7 @@ export function makeFmt(T, dec = 1) {
   const monY = new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric', timeZone: 'UTC' });
   const dayF = new Intl.DateTimeFormat(loc, { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
   const dow = new Intl.DateTimeFormat(loc, { weekday: 'short', timeZone: 'UTC' });
+  const dmF = new Intl.DateTimeFormat(loc, { day: '2-digit', month: '2-digit', timeZone: 'UTC' });
   const clean = s => s.replace(/\.$/, '');
   const val = v => (Number.isFinite(v) ? (Math.abs(v) >= 1000 ? n0.format(v) : nd.format(v)) : '·');
   return {
@@ -24,6 +25,7 @@ export function makeFmt(T, dec = 1) {
     monShort: s => clean(mon.format(ISO(s))),
     dowShort: s => clean(dow.format(ISO(s))),
     dateShort: s => (s ? dayF.format(ISO(s)) : ''),
+    dm: s => (s ? dmF.format(ISO(s)) : ''),
     dateLong: (s, freq) => (!s ? '' : freq === 'M' ? monY.format(ISO(s)) : freq === 'Y' ? String(ISO(s).getUTCFullYear()) : freq === 'Q' ? `${ISO(s).getUTCFullYear()} Q${Math.floor(ISO(s).getUTCMonth() / 3) + 1}` : dayF.format(ISO(s))),
   };
 }
