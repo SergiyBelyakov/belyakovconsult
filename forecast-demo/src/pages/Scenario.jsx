@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { Panel, Button } from '../../../dashboard/src/ui.jsx';
 import { Icon } from '../../../dashboard/src/icons.jsx';
-import { ForecastChart, FC } from '../charts.jsx';
+import { ForecastChart, Legend, FC } from '../charts.jsx';
 import { Waterfall } from '../exparts.jsx';
 import { seriesFor, futureOf, Formula } from '../common.jsx';
 import { makeFmt } from '../format.js';
@@ -21,6 +21,7 @@ export default function ScenarioPage({ ctx }) {
   const fit = useMemo(() => fitElastic(S), [S]);
   const [preset, setPreset] = useState('base');
   const [adj, setAdj] = useState(PRESETS.base);
+  const [focus, setFocus] = useState(null);
   const n = S.y.length, h = S.drivers.Xf.length;
   const fcs = useMemo(() => Object.fromEntries(PRESET_IDS.map(id => [id, predictElastic(fit, planFor(S, PRESETS[id]))])), [fit, S]);
   const cur = useMemo(() => predictElastic(fit, planFor(S, adj)), [fit, S, adj]);
@@ -38,13 +39,13 @@ export default function ScenarioPage({ ctx }) {
       <div className="grid fc-main">
         <Panel className="fc-chart-panel" title={T.datasets.shop.name} sub={Q.chartSub}>
           <ForecastChart dates={dates} y={S.y} fitted={null} fc={cur} overlays={overlays} show={{ fitted: false, test: false }} freq={S.freq} fmt={fmt} T={T}
-            from={Math.max(0, n - 36)} fcLabel={curName} label={Q.chartSub} />
-          <div className="fc-legend">
-            <span><i className="fc-sw actual" />{T.legend.actual}</span>
-            <span><i className="fc-sw fc" />{curName}</span>
-            <span><i className="fc-sw band" />{T.legend.b80}</span>
-            {overlays.map(o => <span key={o.id}><i className="fc-sw" style={{ background: o.color }} />{o.label}</span>)}
-          </div>
+            from={Math.max(0, n - 36)} fcLabel={curName} label={Q.chartSub} focus={focus} />
+          <Legend focus={focus} setFocus={setFocus} items={[
+            { key: 'actual', cls: 'actual', label: T.legend.actual },
+            { key: 'fc', cls: 'fc', label: curName },
+            { key: 'band', cls: 'band', label: T.legend.b80 },
+            ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label })),
+          ]} />
         </Panel>
         <Panel title={Q.controls} className="fc-sc-controls">
           <div className="fc-seg fc-sc-presets" role="radiogroup" aria-label={Q.controls}>

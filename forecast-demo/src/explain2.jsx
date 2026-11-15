@@ -2,7 +2,7 @@
 import { useMemo, useState } from 'react';
 import { FC, xTicks } from './charts.jsx';
 import { SERIES } from '../../chart-gallery/src/palette.js';
-import { Frame, Lines, Bars, HBars, Waterfall, Lollipop, StackBars, NEUTRAL, UP, DOWN } from './exparts.jsx';
+import { Frame, Lines, Bars, HBars, Waterfall, Lollipop, StackBars, dateLab, NEUTRAL, UP, DOWN } from './exparts.jsx';
 import { holdout } from './engine/evaluate.js';
 import { defaultParams } from './engine/models.js';
 import { futureOf } from './common.jsx';
@@ -51,14 +51,14 @@ export function ProphetEx({ ex, S, T, fmt, h }) {
   return (
     <div className="ex-stack-grid">
       <Frame title={E.pTrend} sub={E.pTrendSub(sgn2(slope0) + E.perStep(S.freq), marks.length)}>
-        <Lines series={[{ values: ex.trend.slice(0, n), color: FC, w: 2.2 }, { values: ex.trend.slice(n - 1), x0: n - 1, color: FC, w: 2.2, dash: '5 4' }]} height={170} fmt={fmt.axis}
-          markX={n - 1} marks={marks} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={E.pTrend} />
+        <Lines series={[{ values: ex.trend.slice(0, n), color: FC, w: 2.2, name: E.trendC }, { values: ex.trend.slice(n - 1), x0: n - 1, color: FC, w: 2.2, dash: '5 4', name: E.trendC }]} height={170} fmt={fmt.axis}
+          markX={n - 1} marks={marks} xlab={dateLab(S, 0, fmt)} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={E.pTrend} />
       </Frame>
       <div className="ex-grid">
         {weekly && (() => { const c = cycleBars(weekly.v, S, n, 7, fmt); return <Frame title={E.pWeek} sub={E.pAdd}><Bars values={c.values} labels={c.labels} fmt={fmt.axis} label={E.pWeek} /></Frame>; })()}
         {yearly && (yearly.P === 12
           ? (() => { const c = cycleBars(yearly.v, S, n, 12, fmt); return <Frame title={E.pYear} sub={E.pAdd}><Bars values={c.values} labels={c.labels} fmt={fmt.axis} label={E.pYear} /></Frame>; })()
-          : <Frame title={E.pYear} sub={E.pAdd}><Lines series={[{ values: yearly.v.slice(y0, y0 + yLen), color: SERIES[2], w: 2 }]} zero fmt={fmt.axis} ticks={ticksFrom(S.dates, y0, Math.min(n - 1, y0 + yLen - 1), S.freq, fmt)} label={E.pYear} /></Frame>)}
+          : <Frame title={E.pYear} sub={E.pAdd}><Lines series={[{ values: yearly.v.slice(y0, y0 + yLen), color: SERIES[2], w: 2 }]} zero fmt={fmt.axis} xlab={dateLab(S, y0, fmt)} ticks={ticksFrom(S.dates, y0, Math.min(n - 1, y0 + yLen - 1), S.freq, fmt)} label={E.pYear} /></Frame>)}
       </div>
       {evRows.length > 0 && (
         <Frame title={E.pEvents} sub={E.pEventsSub}>
@@ -84,13 +84,13 @@ export function TbatsEx({ ex, S, T, fmt, h }) {
   const colors = [SERIES[4], SERIES[2], FC];
   const layers = [{ name: E.tLevel, v: ex.level }];
   comps.forEach((c, k) => { const prev = layers[layers.length - 1].v; layers.push({ name: E.tPlus(T.periodName(c.P, S.freq)), v: prev.map((x, t) => x + c.v[t]) }); });
-  const series = [{ values: S.y.slice(from), color: NEUTRAL, w: 1, op: 0.45 }, ...layers.map((L, k) => ({ values: L.v.slice(from).map(inv), color: k === layers.length - 1 ? FC : colors[k % colors.length], w: k === layers.length - 1 ? 2.2 : 1.6 }))];
+  const series = [{ values: S.y.slice(from), color: NEUTRAL, w: 1, op: 0.45 }, ...layers.map((L, k) => ({ values: L.v.slice(from).map(inv), color: k === layers.length - 1 ? FC : colors[k % colors.length], w: k === layers.length - 1 ? 2.2 : 1.6, name: k === layers.length - 1 ? `${L.name} = ${E.tModel}` : L.name }))];
   const effFmt = pct(fmt, lam), eff = v => (lam === 0 ? Math.exp(v) - 1 : v);
   const g3 = v => (v < 0 ? '−' : '') + Math.abs(v).toFixed(3).replace('.', T.locale.startsWith('uk') ? ',' : '.');
   return (
     <div className="ex-stack-grid">
       <Frame title={E.tBuild} sub={E.tBuildSub}>
-        <Lines series={series} height={180} fmt={fmt.axis} markX={n - 1 - from} ticks={ticksFrom(all, from, N - 1, S.freq, fmt)} label={E.tBuild} />
+        <Lines series={series} height={180} fmt={fmt.axis} markX={n - 1 - from} xlab={dateLab(S, from, fmt)} ticks={ticksFrom(all, from, N - 1, S.freq, fmt)} label={E.tBuild} />
         <div className="fc-legend small">
           <span><i className="fc-sw actual" />{T.legend.actual}</span>
           {layers.map((L, k) => <span key={k}><i className="fc-sw" style={{ background: k === layers.length - 1 ? FC : colors[k % colors.length], height: k === layers.length - 1 ? 3 : 2 }} />{k === layers.length - 1 ? `${L.name} = ${E.tModel}` : L.name}</span>)}
@@ -100,7 +100,7 @@ export function TbatsEx({ ex, S, T, fmt, h }) {
         {comps.map(c => {
           const nm = T.periodName(c.P, S.freq), sub = `${E.tHarm(c.K)} · ${lam === 0 ? E.tMult : E.tAdd}`;
           if (isYear(c.P) && S.freq !== 'M') {
-            return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Lines series={[{ values: c.v.map(eff), color: SERIES[2], w: 1.8 }]} zero fmt={effFmt} markX={n - 1} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={nm} /></Frame>;
+            return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Lines series={[{ values: c.v.map(eff), color: SERIES[2], w: 1.8 }]} zero fmt={effFmt} markX={n - 1} xlab={dateLab(S, 0, fmt)} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={nm} /></Frame>;
           }
           const cb = cycleBars(c.v, S, n, c.P, fmt);
           return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Bars values={cb.values.map(eff)} labels={cb.labels} fmt={effFmt} label={nm} /></Frame>;
@@ -149,8 +149,8 @@ export function SarimaxEx({ ex, S, T, fmt, h, ho }) {
     <div className="ex-stack-grid">
       {lines.length > 0 && (
         <Frame title={E.sTest} sub={E.sTestSub}>
-          <Lines series={[{ values: S.y.slice(from), color: NEUTRAL, w: 1.4 }, ...lines.map(L => ({ values: [S.y[cut - 1], ...L.fc.map(f => f.mean)], x0: cut - 1 - from, color: L.color, w: L.id === 'sarimax' ? 2.4 : 1.6 }))]}
-            height={180} fmt={fmt.axis} markX={cut - 1 - from} marks={marksTest} ticks={ticksFrom(S.dates, from, n - 1, S.freq, fmt)} label={E.sTest} />
+          <Lines series={[{ values: S.y.slice(from), color: NEUTRAL, w: 1.4, name: T.legend.actual }, ...lines.map(L => ({ values: [S.y[cut - 1], ...L.fc.map(f => f.mean)], x0: cut - 1 - from, color: L.color, w: L.id === 'sarimax' ? 2.4 : 1.6, name: L.name }))]}
+            height={180} fmt={fmt.axis} markX={cut - 1 - from} marks={marksTest} xlab={dateLab(S, from, fmt)} ticks={ticksFrom(S.dates, from, n - 1, S.freq, fmt)} label={E.sTest} />
           <div className="fc-legend small">
             <span><i className="fc-sw actual" />{T.legend.actual}</span>
             {lines.map(L => <span key={L.id}><i className="fc-sw" style={{ background: L.color, height: L.id === 'sarimax' ? 3 : 2 }} />{L.name}<b className="ex-mase">MASE {fmt.dec2(L.mase)}</b></span>)}
@@ -159,8 +159,8 @@ export function SarimaxEx({ ex, S, T, fmt, h, ho }) {
       )}
       <div className="ex-grid">
         <Frame title={E.sFuture} sub={E.sFutureSub}>
-          <Lines series={[{ values: S.y.slice(fFrom), color: NEUTRAL, w: 1.4 }, { values: [S.y[n - 1], ...ex.plain.map(clip)], x0: n - 1 - fFrom, color: SERIES[1], w: 1.6 }, { values: [S.y[n - 1], ...ex.xb.map((v, k) => clip(v + ex.eta[k]))], x0: n - 1 - fFrom, color: FC, w: 2.4 }]}
-            height={160} fmt={fmt.axis} markX={n - 1 - fFrom} marks={promoF} ticks={ticksFrom(all, fFrom, n - 1 + h, S.freq, fmt)} label={E.sFuture} />
+          <Lines series={[{ values: S.y.slice(fFrom), color: NEUTRAL, w: 1.4, name: T.legend.actual }, { values: [S.y[n - 1], ...ex.plain.map(clip)], x0: n - 1 - fFrom, color: SERIES[1], w: 1.6, name: E.sNoX }, { values: [S.y[n - 1], ...ex.xb.map((v, k) => clip(v + ex.eta[k]))], x0: n - 1 - fFrom, color: FC, w: 2.4, name: E.sBoth }]}
+            height={160} fmt={fmt.axis} markX={n - 1 - fFrom} marks={promoF} xlab={dateLab(S, fFrom, fmt)} ticks={ticksFrom(all, fFrom, n - 1 + h, S.freq, fmt)} label={E.sFuture} />
           <div className="fc-legend small"><span><i className="fc-sw" style={{ background: SERIES[1] }} />{E.sNoX}: {ord(ex.plainOrder)}</span><span><i className="fc-sw fc" />{E.sBoth}</span></div>
         </Frame>
         <Frame title={E.coef} sub={`${E.sErrors}: ${ord(ex.order)}`}>
@@ -219,7 +219,7 @@ export function ShapEx({ ex, S, T, fmt, h, r }) {
     <div className="ex-stack-grid">
       <div className="ex-grid ex-shap">
         <Frame title={E.shapSteps} sub={E.shapStepsSub}>
-          <StackBars groups={groups} fmt={fmt.axis} sel={k} onSel={setK} ticks={ticks} label={E.shapSteps} />
+          <StackBars groups={groups} fmt={fmt.axis} sel={k} onSel={setK} ticks={ticks} xlab={i => fmt.dateLong(all[ex.steps[i].t], S.freq)} label={E.shapSteps} />
           <div className="fc-legend small">{groups.map(g => <span key={g.id}><i className="fc-sw" style={{ background: g.color, height: 8 }} />{g.name}</span>)}</div>
           <label className="ex-thr"><span>{E.shapPick}</span>
             <input type="range" min={0} max={ex.steps.length - 1} step={1} value={k} onChange={e => setK(Number(e.target.value))} aria-label={E.shapPick} />
@@ -248,14 +248,14 @@ export function IntermittentEx({ ex, S, T, fmt, h }) {
   return (
     <div className="ex-stack-grid">
       <Frame title={E.iOrders} sub={E.iOrdersSub(fmt.pct0(ex.zeros), fmt.dec2(ex.rate), T.params.variantOpt[ex.variant])}>
-        <Lollipop values={S.y} rate={ex.rate} fmt={fmt.axis} ticks={ticks} label={E.iOrders} />
+        <Lollipop values={S.y} rate={ex.rate} fmt={fmt.axis} ticks={ticks} xlab={dateLab(S, 0, fmt)} names={{ v: T.legend.actual, rate: E.iRate }} label={E.iOrders} />
       </Frame>
       <div className="ex-grid">
         <Frame title={E.iProb} sub={E.iProbSub(fmt.pct0(ex.prob), fmt.pct0(share))}>
-          <Lines series={[{ values: ex.Q.map(v => (Number.isFinite(v) ? v : NaN)), color: SERIES[2], w: 2 }, { values: new Array(n).fill(share), color: NEUTRAL, w: 1.2, dash: '4 4' }]} fmt={fmt.pct0} zero ticks={ticks} label={E.iProb} />
+          <Lines series={[{ values: ex.Q.map(v => (Number.isFinite(v) ? v : NaN)), color: SERIES[2], w: 2, name: 'TSB' }, { values: new Array(n).fill(share), color: NEUTRAL, w: 1.2, dash: '4 4' }]} fmt={fmt.pct0} zero ticks={ticks} xlab={dateLab(S, 0, fmt)} label={E.iProb} />
         </Frame>
         <Frame title={E.iGap} sub={E.iGapSub(fmt.dec1(ex.interval))}>
-          <Lines series={[{ values: ex.P, color: SERIES[3], w: 2 }]} zero fmt={fmt.axis} dots={ex.gaps.map(g => ({ x: g.t, y: g.gap, color: NEUTRAL, r: 2.6 }))} ticks={ticks} label={E.iGap} />
+          <Lines series={[{ values: ex.P, color: SERIES[3], w: 2 }]} zero fmt={fmt.axis} vfmt={fmt.dec1} xlab={dateLab(S, 0, fmt)} dots={ex.gaps.map(g => ({ x: g.t, y: g.gap, color: NEUTRAL, r: 2.6 }))} ticks={ticks} label={E.iGap} />
         </Frame>
       </div>
       <Frame title={E.iCmp} sub={E.iCmpSub(T.per(S.H, S.freq, T))}>

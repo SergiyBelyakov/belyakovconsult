@@ -35,7 +35,15 @@ export default function Catalog({ ctx }) {
   const { T, openModel, family, setFamily, site, navigate } = ctx;
   const cards = useCards();
   const [cap, setCap] = useState(null);
+  // сканер над мініатюрою: положення курсора по ширині графіка наведеної картки
+  const [scan, setScan] = useState(null);
   const fmt = makeFmt(T, 2);
+  const onScan = (id, e) => {
+    const box = e.currentTarget.querySelector('.fc-spark-box');
+    if (!box) return;
+    const r = box.getBoundingClientRect(), hx = (e.clientX - r.left) / r.width;
+    setScan(hx >= 0 && hx <= 1 ? { id, hx } : null);
+  };
   const fams = family === 'all' ? FAMILIES : [family];
   const visible = m => (!cap || m.caps[cap]) && fams.includes(m.family);
 
@@ -75,11 +83,11 @@ export default function Catalog({ ctx }) {
               {list.map((m, k) => {
                 const c = cards[m.id];
                 return (
-                  <article key={m.id} className="fc-card glass" style={{ animationDelay: k * 0.05 + 's' }}>
+                  <article key={m.id} className="fc-card glass" style={{ animationDelay: k * 0.05 + 's' }} onMouseMove={e => onScan(m.id, e)} onMouseLeave={() => setScan(null)}>
                     <button type="button" className="fc-card-hit" onClick={() => openModel(m.id)} aria-label={`${T.models[m.id].name}: ${T.open}`} />
                     <h3>{T.models[m.id].name}</h3>
                     <p>{T.models[m.id].short}</p>
-                    <div className="fc-card-spark">{c ? <Spark y={c.y} fc={c.fc} /> : <span className="fc-spark-ph" />}</div>
+                    <div className="fc-card-spark">{c ? <Spark y={c.y} fc={c.fc} fmt={fmt} hx={scan && scan.id === m.id ? scan.hx : null} /> : <span className="fc-spark-ph" />}</div>
                     <div className="fc-card-foot">
                       <Caps caps={m.caps} T={T} />
                       {c && Number.isFinite(c.mase) && (

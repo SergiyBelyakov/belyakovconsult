@@ -19,7 +19,8 @@ export default function ModelPage({ ctx }) {
   const model = BY_ID[modelId], C = T.models[modelId];
   const [params, setParams] = useState(() => defaultParams(modelId, seriesFor(dsId)));
   const [hMul, setHMul] = useState(1);
-  const [show, setShow] = useState({ fitted: true, test: true });
+  const [show, setShow] = useState({ fitted: true, test: true, band: true });
+  const [focus, setFocus] = useState(null);
   const [scen, setScen] = useState({ temp: 0, price: 0, promo: true });
   useEffect(() => { setParams(defaultParams(modelId, seriesFor(dsId))); setHMul(1); }, [dsId, modelId]);
 
@@ -81,13 +82,10 @@ export default function ModelPage({ ctx }) {
           ) : (
             <>
               <ForecastChart dates={dates} y={S.y} fitted={r.fitted} fc={r.fc} test={res.ho ? { from: n - S.H, fc: res.ho.r.fc } : null}
-                show={show} freq={S.freq} fmt={fmt} T={T} from={from} label={`${C.name}: ${D.name}`} />
+                show={show} freq={S.freq} fmt={fmt} T={T} from={from} label={`${C.name}: ${D.name}`} focus={focus} nav />
               <div className="fc-chart-foot">
-                <ChartLegend T={T} show={show} hasBand={r.fc.some(f => Number.isFinite(f.lo80))} hasTest={!!res.ho} />
-                <div className="fc-toggles">
-                  <label className="fc-check"><input type="checkbox" checked={show.fitted} onChange={e => setShow(s => ({ ...s, fitted: e.target.checked }))} />{T.showFitted}</label>
-                  {res.ho && <label className="fc-check"><input type="checkbox" checked={show.test} onChange={e => setShow(s => ({ ...s, test: e.target.checked }))} />{T.showTest}</label>}
-                </div>
+                <ChartLegend T={T} show={show} setShow={setShow} focus={focus} setFocus={setFocus} hasBand={r.fc.some(f => Number.isFinite(f.lo80))} hasTest={!!res.ho} />
+                <small className="fc-lg-hint">{T.legendHint}</small>
               </div>
             </>
           )}

@@ -10,6 +10,12 @@ const enPeriod = (P, f) => (Math.abs(P - 7) < 0.01 ? 'weekly' : P > 50 || (P ===
 export const MORE = {
   uk: {
     periodName: ukPeriod,
+    navLabel: 'Вікно перегляду графіка',
+    navHint: 'Тягніть вікно чи його краї, щоб подивитися всю історію; подвійний клік по графіку повертає вигляд.',
+    navReset: 'Повернути вигляд',
+    legendHint: 'Наведіть на пункт легенди, щоб підсвітити ряд; клік ховає чи показує його.',
+    residWord: 'Залишок',
+    lagWord: 'лаг',
     maseNote: [
       'MASE на картках не рейтинг.',
       'Кожна модель показана на своєму прикладі даних, тож числа на різних картках не порівнюються. Чесний рейтинг потребує спільного ряду, однакового горизонту й повторної перевірки на кількох відрізках часу: так працює «Порівняння».',
@@ -111,6 +117,12 @@ export const MORE = {
 
   en: {
     periodName: enPeriod,
+    navLabel: 'Chart view window',
+    navHint: 'Drag the window or its edges to explore the whole history; double click the chart to reset the view.',
+    navReset: 'Reset view',
+    legendHint: 'Hover a legend item to highlight its series; click to hide or show it.',
+    residWord: 'Residual',
+    lagWord: 'lag',
     maseNote: [
       'MASE on the cards is not a ranking.',
       'Each model is shown on its own example data, so numbers on different cards cannot be compared. A fair ranking needs a common series, the same horizon and repeated tests over several time windows: that is how “Comparison” works.',

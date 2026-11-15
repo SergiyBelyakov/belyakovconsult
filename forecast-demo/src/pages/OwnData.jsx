@@ -61,7 +61,8 @@ export default function OwnData({ ctx }) {
   const [status, setStatus] = useState({ step: 'idle' });
   const [over, setOver] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  const [show, setShow] = useState({ fitted: false, test: true });
+  const [show, setShow] = useState({ fitted: false, test: true, band: true });
+  const [focus, setFocus] = useState(null);
   const input = useRef(null);
 
   const load = async (getRows, name, hint) => {
@@ -165,12 +166,12 @@ export default function OwnData({ ctx }) {
   return (
     <>
       {head}
-      <OwnResult {...{ T, S, own, setOwn, ranking, done, chosen, row, h, hOpts, hWant, fcOk, fmt, show, setShow, showAll, setShowAll, openModel, openLead, notify, track, built }} />
+      <OwnResult {...{ T, S, own, setOwn, ranking, done, chosen, row, h, hOpts, hWant, fcOk, fmt, show, setShow, focus, setFocus, showAll, setShowAll, openModel, openLead, notify, track, built }} />
     </>
   );
 }
 
-function OwnResult({ T, S, own, setOwn, ranking, done, chosen, row, h, hOpts, hWant, fcOk, fmt, show, setShow, showAll, setShowAll, openModel, openLead, notify, track, built }) {
+function OwnResult({ T, S, own, setOwn, ranking, done, chosen, row, h, hOpts, hWant, fcOk, fmt, show, setShow, focus, setFocus, showAll, setShowAll, openModel, openLead, notify, track, built }) {
   const n = S.y.length;
   const run = useMemo(() => {
     if (!fcOk) return null;
@@ -212,14 +213,10 @@ function OwnResult({ T, S, own, setOwn, ranking, done, chosen, row, h, hOpts, hW
           )}>
           {!done && <div className="fc-progress" role="progressbar" aria-valuemin={0} aria-valuemax={ranking.total} aria-valuenow={ranking.done}><span style={{ width: (ranking.done / ranking.total) * 100 + '%' }} /></div>}
           <ForecastChart dates={[...S.dates, ...fdates]} y={S.y} fitted={run ? run.fitted : null} fc={run ? run.fc : null} hideFuture={!run}
-            test={test} show={{ fitted: show.fitted && !!run, test: show.test }} freq={S.freq} fmt={fmt} T={T} from={from} label={`${name}: ${valueName}`} />
+            test={test} show={{ fitted: show.fitted && !!run, test: show.test, band: show.band }} freq={S.freq} fmt={fmt} T={T} from={from} label={`${name}: ${valueName}`} focus={focus} nav />
           <div className="fc-chart-foot">
-            <ChartLegend T={T} show={{ fitted: show.fitted && !!run, test: show.test }} hasBand={!!run && run.fc.some(f => Number.isFinite(f.lo80))} hasTest={!!row} />
-            <div className="fc-toggles">
-              <label className="fc-check"><input type="checkbox" checked={show.fitted} onChange={e => setShow(s => ({ ...s, fitted: e.target.checked }))} />{T.showFitted}</label>
-              <label className="fc-check"><input type="checkbox" checked={show.test} onChange={e => setShow(s => ({ ...s, test: e.target.checked }))} />{T.showTest}</label>
-              {SHOW[S.freq] && n > SHOW[S.freq] && <label className="fc-check"><input type="checkbox" checked={showAll} onChange={e => setShowAll(e.target.checked)} />{T.showAll}</label>}
-            </div>
+            <ChartLegend T={T} show={{ fitted: show.fitted && !!run, test: show.test, band: show.band }} setShow={setShow} focus={focus} setFocus={setFocus} hasBand={!!run && run.fc.some(f => Number.isFinite(f.lo80))} hasTest={!!row} />
+            <small className="fc-lg-hint">{T.legendHint}</small>
           </div>
           {done && chosen && !fcOk && <p className="note"><Icon name="info" size={15} /><span>{T.noFuture}</span></p>}
         </Panel>

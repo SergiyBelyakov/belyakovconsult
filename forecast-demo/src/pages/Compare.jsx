@@ -144,6 +144,7 @@ export default function Compare({ ctx }) {
   const done = st.done >= st.total;
   const naiveId = S.m > 1 ? 'snaive' : 'naive';
   const [sel, setSel] = useState([]);
+  const [focus, setFocus] = useState(null);
   useEffect(() => { setSel([]); }, [S]);
   useEffect(() => {
     if (!done) return;
@@ -174,8 +175,8 @@ export default function Compare({ ctx }) {
         </Panel>
         <Panel title={T.cmpChart} sub={T.maxShown}>
           <ForecastChart dates={S.dates} y={S.y} fitted={null} fc={null} hideFuture test={{ from: n - S.H, fc: [] }} overlays={overlays}
-            show={{ fitted: false, test: true }} freq={S.freq} fmt={fmt} T={T} from={from} height={260} label={T.cmpChart} />
-          <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest overlays={overlays} />
+            show={{ fitted: false, test: true }} freq={S.freq} fmt={fmt} T={T} from={from} height={260} label={T.cmpChart} focus={focus} />
+          <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest overlays={overlays} focus={focus} setFocus={setFocus} />
         </Panel>
       </div>
 

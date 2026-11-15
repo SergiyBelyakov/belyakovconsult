@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Panel, Button } from '../../../dashboard/src/ui.jsx';
 import { Icon } from '../../../dashboard/src/icons.jsx';
-import { ForecastChart } from '../charts.jsx';
+import { ForecastChart, Legend } from '../charts.jsx';
 import { Bars, UP, DOWN } from '../exparts.jsx';
 import { Formula } from '../common.jsx';
 import { makeFmt, futureDates } from '../format.js';
@@ -16,6 +16,7 @@ export default function HierPage({ ctx }) {
   const fmt = useMemo(() => makeFmt(T, 0), [T]);
   const [method, setMethod] = useState('mint');
   const [node, setNode] = useState('total');
+  const [focus, setFocus] = useState(null);
   const [res, setRes] = useState(null);
   useEffect(() => { const t = setTimeout(() => setRes({ run: hierRun(H, H.h), acc: hierAccuracy(H) }), 40); return () => clearTimeout(t); }, [H]);
   const fdates = useMemo(() => futureDates(H.dates[H.dates.length - 1], H.h, H.freq), [H]);
@@ -87,16 +88,16 @@ export default function HierPage({ ctx }) {
       <div className="grid fc-two">
         <Panel title={`${name(cur)} · ${Q.methods[method][0]}`} sub={Q.nodeSub} className="fc-chart-panel">
           <ForecastChart dates={[...H.dates, ...fdates]} y={cur.y} fitted={null} fc={band} overlays={overlays} show={{ fitted: false, test: false }} freq="M" fmt={fmt} T={T}
-            from={Math.max(0, n - 36)} height={260} fcLabel={Q.methods[method][0]} label={name(cur)} />
-          <div className="fc-legend">
-            <span><i className="fc-sw actual" />{T.legend.actual}</span>
-            <span><i className="fc-sw fc" />{Q.methods[method][0]}</span>
-            <span><i className="fc-sw band" />{T.legend.b80}</span>
-            {overlays.map(o => <span key={o.id}><i className="fc-sw" style={{ background: o.color }} />{o.label}</span>)}
-          </div>
+            from={Math.max(0, n - 36)} height={260} fcLabel={Q.methods[method][0]} label={name(cur)} focus={focus} />
+          <Legend focus={focus} setFocus={setFocus} items={[
+            { key: 'actual', cls: 'actual', label: T.legend.actual },
+            { key: 'fc', cls: 'fc', label: Q.methods[method][0] },
+            { key: 'band', cls: 'band', label: T.legend.b80 },
+            ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label })),
+          ]} />
         </Panel>
         <Panel title={Q.gapTitle} sub={Q.gapSub}>
-          <Bars values={gapM} colors={gapM.map(v => (v >= 0 ? UP : DOWN))} labels={fdates.map(d => fmt.monShort(d))} height={170} fmt={v => (Math.abs(v) < 1e-9 ? '0' : (v > 0 ? '+' : '−') + fmt.int(Math.abs(v)))} label={Q.gapTitle} />
+          <Bars values={gapM} colors={gapM.map(v => (v >= 0 ? UP : DOWN))} labels={fdates.map(d => fmt.monShort(d))} xlab={i => fmt.dateLong(fdates[i], 'M')} height={170} fmt={v => (Math.abs(v) < 1e-9 ? '0' : (v > 0 ? '+' : '−') + fmt.int(Math.abs(v)))} label={Q.gapTitle} />
           <p className={'fc-hr-verdict small ' + (coherent ? 'ok' : 'bad')}>
             <Icon name={coherent ? 'check' : 'info'} size={15} />
             <span>{coherent ? Q.gapOk : Q.gapBad(fmt.val(Math.max(...gapM.map(Math.abs))), fmt.val(gapC))}</span>
