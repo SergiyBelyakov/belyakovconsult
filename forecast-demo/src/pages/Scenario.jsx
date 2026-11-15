@@ -22,6 +22,8 @@ export default function ScenarioPage({ ctx }) {
   const [preset, setPreset] = useState('base');
   const [adj, setAdj] = useState(PRESETS.base);
   const [focus, setFocus] = useState(null);
+  const [band, setBand] = useState(true);
+  const [hidden, setHidden] = useState({});
   const n = S.y.length, h = S.drivers.Xf.length;
   const fcs = useMemo(() => Object.fromEntries(PRESET_IDS.map(id => [id, predictElastic(fit, planFor(S, PRESETS[id]))])), [fit, S]);
   const cur = useMemo(() => predictElastic(fit, planFor(S, adj)), [fit, S, adj]);
@@ -38,14 +40,17 @@ export default function ScenarioPage({ ctx }) {
     <>
       <div className="grid fc-main">
         <Panel className="fc-chart-panel" title={T.datasets.shop.name} sub={Q.chartSub}>
-          <ForecastChart dates={dates} y={S.y} fitted={null} fc={cur} overlays={overlays} show={{ fitted: false, test: false }} freq={S.freq} fmt={fmt} T={T}
-            from={Math.max(0, n - 36)} fcLabel={curName} label={Q.chartSub} focus={focus} />
-          <Legend focus={focus} setFocus={setFocus} items={[
-            { key: 'actual', cls: 'actual', label: T.legend.actual },
-            { key: 'fc', cls: 'fc', label: curName },
-            { key: 'band', cls: 'band', label: T.legend.b80 },
-            ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label })),
-          ]} />
+          <ForecastChart dates={dates} y={S.y} fitted={null} fc={cur} overlays={overlays.filter(o => !hidden[o.id])} show={{ fitted: false, test: false, band }} freq={S.freq} fmt={fmt} T={T}
+            from={Math.max(0, n - 36)} fcLabel={curName} label={Q.chartSub} focus={focus} nav />
+          <div className="fc-chart-foot">
+            <Legend focus={focus} setFocus={setFocus} items={[
+              { key: 'actual', cls: 'actual', label: T.legend.actual },
+              { key: 'fc', cls: 'fc', label: curName },
+              { key: 'band', cls: 'band', label: `${T.legend.b80} · ${T.legend.b95}`, on: band, toggle: () => setBand(v => !v) },
+              ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label, on: !hidden[o.id], toggle: () => setHidden(x => ({ ...x, [o.id]: !x[o.id] })) })),
+            ]} />
+            <small className="fc-lg-hint">{T.legendHint}</small>
+          </div>
         </Panel>
         <Panel title={Q.controls} className="fc-sc-controls">
           <div className="fc-seg fc-sc-presets" role="radiogroup" aria-label={Q.controls}>

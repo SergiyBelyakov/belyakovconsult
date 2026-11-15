@@ -145,17 +145,26 @@ export default function Compare({ ctx }) {
   const naiveId = S.m > 1 ? 'snaive' : 'naive';
   const [sel, setSel] = useState([]);
   const [focus, setFocus] = useState(null);
-  useEffect(() => { setSel([]); }, [S]);
+  const [hidden, setHidden] = useState({});
+  useEffect(() => { setSel([]); setHidden({}); }, [S]);
   useEffect(() => {
     if (!done) return;
     const top = st.ok.slice(0, 3).map(r => r.id);
     if (!top.includes(naiveId) && st.ok.some(r => r.id === naiveId)) top.push(naiveId);
     setSel(top);
   }, [done, S]);
-  const toggle = id => setSel(s => (s.includes(id) ? s.filter(x => x !== id) : s.length >= 5 ? s : [...s, id]));
+  // sel: слоти кольорів (id або null). Знята модель звільняє свій слот, тож решта ліній не перефарбовується
+  const toggle = id => setSel(s => {
+    const i = s.indexOf(id);
+    if (i >= 0) { const t = s.slice(); t[i] = null; while (t.length && t[t.length - 1] == null) t.pop(); return t; }
+    if (s.filter(Boolean).length >= 5) return s;
+    const free = s.indexOf(null);
+    if (free < 0) return [...s, id];
+    const t = s.slice(); t[free] = id; return t;
+  });
   const n = S.y.length, from = Math.max(0, n - S.H - Math.max(S.H * 3, S.m > 1 ? 2 * S.m : 24));
   const last = st.cuts.length - 1;
-  const overlays = sel.map((id, k) => { const r = st.ok.find(x => x.id === id); return r ? { id, label: T.models[id].name, color: SERIES[k % SERIES.length], from: n - S.H, values: r.folds[last].fc.map(f => f.mean) } : null; }).filter(Boolean);
+  const overlays = sel.map((id, k) => { const r = id && st.ok.find(x => x.id === id); return r ? { id, label: T.models[id].name, color: SERIES[k % SERIES.length], from: n - S.H, values: r.folds[last].fc.map(f => f.mean) } : null; }).filter(Boolean);
   const best = st.ok[0], naive = st.ok.find(r => r.id === naiveId);
   const D = T.datasets[S.id];
 
@@ -174,9 +183,12 @@ export default function Compare({ ctx }) {
           <p className="ex-note">{T.foldsNote}</p>
         </Panel>
         <Panel title={T.cmpChart} sub={T.maxShown}>
-          <ForecastChart dates={S.dates} y={S.y} fitted={null} fc={null} hideFuture test={{ from: n - S.H, fc: [] }} overlays={overlays}
-            show={{ fitted: false, test: true }} freq={S.freq} fmt={fmt} T={T} from={from} height={260} label={T.cmpChart} focus={focus} />
-          <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest overlays={overlays} focus={focus} setFocus={setFocus} />
+          <ForecastChart dates={S.dates} y={S.y} fitted={null} fc={null} hideFuture test={{ from: n - S.H, fc: [] }} overlays={overlays.filter(o => !hidden[o.id])}
+            show={{ fitted: false, test: true }} freq={S.freq} fmt={fmt} T={T} from={from} height={260} label={T.cmpChart} focus={focus} nav />
+          <div className="fc-chart-foot">
+            <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest overlays={overlays} focus={focus} setFocus={setFocus} hidden={hidden} setHidden={setHidden} />
+            <small className="fc-lg-hint">{T.legendHint}</small>
+          </div>
         </Panel>
       </div>
 

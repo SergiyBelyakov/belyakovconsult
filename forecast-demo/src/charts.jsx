@@ -108,7 +108,18 @@ export function xTicks(dates, from, to, freq, fmt) {
   }
   const span = to - from;
   if (out.length > 8) return out.filter((_, k) => k % Math.ceil(out.length / 8) === 0);
-  if (out.length < 2) { const step = Math.max(1, Math.round(span / 5)); for (let i = from; i <= to; i += step) if (dates[i]) out.push({ i, label: fmt.dateShort(dates[i]) }); }
+  // вузьке вікно (навігатор): дрібніші підписи замість років, без накладань
+  if (out.length < 3 && span > 0) {
+    const alt = [];
+    if (freq === 'M') {
+      const s = [1, 2, 3, 6].find(k => span / k <= 7) || 6;
+      for (let i = from; i <= to; i++) { const d = dates[i]; if (!d) continue; const m = Number(d.slice(5, 7)); if ((m - 1) % s === 0) alt.push({ i, label: m === 1 ? d.slice(0, 4) : fmt.monShort(d) }); }
+    } else {
+      const s = Math.max(1, Math.ceil(span / 6));
+      for (let i = from; i <= to; i += s) if (dates[i]) alt.push({ i, label: freq === 'Q' || freq === 'Y' ? fmt.dateLong(dates[i], freq) : fmt.dm(dates[i]) });
+    }
+    if (alt.length >= 2) return alt;
+  }
   return out;
 }
 
@@ -412,24 +423,27 @@ export function Legend({ items, focus, setFocus, className = '' }) {
     <div className={'fc-legend fc-lgd ' + className}>
       {items.map(it => {
         const sw = <i className={'fc-sw ' + (it.cls || '')} style={it.color ? { background: it.color, '--sw': it.color } : null} />;
-        const cls = 'fc-lg' + (it.on === false ? ' off' : '') + (focus === it.key ? ' focus' : '') + (it.toggle ? ' btn-lg' : '');
-        const hov = setFocus ? { onMouseEnter: () => setFocus(it.key), onMouseLeave: () => setFocus(null) } : {};
+        const cls = 'fc-lg' + (it.on === false ? ' off' : '') + (focus === it.key ? ' focus' : '');
+        // схований ряд не підсвічується; після кліку підсвічування йде за новим станом
+        const hov = setFocus ? { onMouseEnter: () => setFocus(it.on === false ? null : it.key), onMouseLeave: () => setFocus(null) } : {};
+        const click = () => { it.toggle(); if (setFocus) setFocus(it.on === false ? it.key : null); };
         return it.toggle
-          ? <button key={it.key} type="button" className={cls} aria-pressed={it.on !== false} onClick={it.toggle} onFocus={hov.onMouseEnter} onBlur={hov.onMouseLeave} {...hov}>{sw}{it.label}</button>
+          ? <button key={it.key} type="button" className={cls} aria-pressed={it.on !== false} onClick={click} onFocus={hov.onMouseEnter} onBlur={hov.onMouseLeave} {...hov}>{sw}{it.label}</button>
           : <span key={it.key} className={cls} {...hov}>{sw}{it.label}</span>;
       })}
     </div>
   );
 }
 
-export function ChartLegend({ T, show, setShow, focus, setFocus, hasBand, hasTest, overlays = [], fcLabel }) {
+// hidden і setHidden: які додаткові лінії сховано кліком (графік отримує лише видимі)
+export function ChartLegend({ T, show, setShow, focus, setFocus, hasBand, hasTest, overlays = [], fcLabel, hidden = {}, setHidden }) {
   const tog = k => (setShow ? () => setShow(s => ({ ...s, [k]: s[k] === false ? true : !s[k] })) : null);
   const items = [{ key: 'actual', cls: 'actual', label: T.legend.actual }];
   if (setShow || show.fitted) items.push({ key: 'fitted', cls: 'fitted', label: T.legend.fitted, on: !!show.fitted, toggle: tog('fitted') });
   if (hasTest && (setShow || show.test)) items.push({ key: 'test', cls: 'test', label: T.legend.test, on: !!show.test, toggle: tog('test') });
   if (!overlays.length) items.push({ key: 'fc', cls: 'fc', label: fcLabel || T.legend.forecast });
   if (hasBand && !overlays.length) items.push({ key: 'band', cls: 'band', label: `${T.legend.b80} · ${T.legend.b95}`, on: show.band !== false, toggle: setShow ? () => setShow(s => ({ ...s, band: s.band === false })) : null });
-  overlays.forEach(o => items.push({ key: o.id, color: o.color, label: o.label }));
+  overlays.forEach(o => items.push({ key: o.id, color: o.color, label: o.label, ...(setHidden ? { on: !hidden[o.id], toggle: () => setHidden(h => ({ ...h, [o.id]: !h[o.id] })) } : {}) }));
   return <Legend items={items} focus={focus} setFocus={setFocus} />;
 }
 
