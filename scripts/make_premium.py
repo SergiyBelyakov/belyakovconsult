@@ -7,7 +7,8 @@
   reveal  slide | mask | focus: як з'являються заголовки
   outro   fade | iris | wipe: перехід до фіналу з логотипом
   panel   frost (матове скло) | line (тонкий контур)
-Блоки перевірок: rows, flow, columns, split, timeline, chips, stack. Скрізь: відблиск по великих числах, спалах
+Блоки перевірок: rows, flow, columns, split, timeline, chips, stack. Якорі (premium_anchors.py): біль на першому кадрі
+й на проблемах, полегшення на рішенні, звуковий логотип і незмінна фраза у фіналі. Скрізь: відблиск по великих числах, спалах
 світла на дропі, розфокус тла під висновок, прокрутка значення в картці KPI.
 
 Сюжет: 0 хук-біль керівника, 2.4 питання, 4.8 перевірка 1 (події 6.0, 7.8, 9.6), 11 перевірка 2 (12.6, 13.8, 15.0),
@@ -33,6 +34,7 @@ import brand  # noqa: E402
 import glass  # noqa: E402
 import make_nightdrive as nd  # noqa: E402
 import premium_scenes as ps  # noqa: E402
+import premium_anchors as pa  # noqa: E402
 from make_nightdrive import (BODY, EATS, FPS, GRAPHITE, H, HY, PINK, RUBY, SILVER, T_BAND, T_DROP, T_DUPES, T_END,  # noqa: E402
                              T_Q, T_REAL, TOP_Y, TOTAL, WHITE, W, ZAPS, bwrap, clamp, comp, ease, glass_column,
                              tracked)
@@ -182,6 +184,12 @@ class Story:
         self.st = style_of(key)
         self.scene = ps.make(self.st["scene"])
         self.cow = nd.cow_hits(self.st["track"])
+        self.anchors = anchor_events(key)
+        big = self.S["hook"][1]
+        if self.st["layout"] == "left":            # кільця болю рівно під числом хука
+            self.hook_c = (104 + fit_font("head", 236, big, 860, 90).getlength(big) / 2, TOP_Y + 190)
+        else:
+            self.hook_c = (540, TOP_Y + 190)
         self.lock = brand.lockup(52)
         self.logo = brand.logo(200)
         self.f_lab = brand.font("body-semi", 26)
@@ -590,6 +598,20 @@ class Story:
         k3 = ease((u - 1.1) / 0.6)
         tracked(d, "BELYAKOVCONSULT.COM", self.f_url, W / 2, y + 40, (*SILVER, int(255 * k3)), 6)
         d.line([W / 2 - 60 * k3, y + 22, W / 2 + 60 * k3, y + 22], fill=(*RUBY, int(255 * k3)), width=3)
+        k4 = ease((u - 1.5) / 0.6)                          # якір бренду: незмінна фраза в кожному ролику
+        tracked(d, pa.TAGLINE[self.lang], brand.font("body-semi", 26), W / 2, y + 104, (*pa.CHAMPAGNE, int(235 * k4)), 5)
+
+    def draw_anchors(self, fr, t):
+        for t0, kind, where in self.anchors:
+            if kind == "pain":
+                u = (t - t0) / 0.8
+                if 0 <= u < 1:
+                    cx, cy = self.hook_c if where == "hook" else ANCHOR_POS[where]
+                    pa.pain_rings(fr, cx, cy, u, 1.0 if where == "hook" else 0.7)
+            else:
+                u = (t - t0) / 0.9
+                if 0 <= u < 1:
+                    pa.relief_sweep(fr, CARD if where == "card" else (60, TOP_Y + 40, 1020, TOP_Y + 330), u)
 
     def frame(self, t):
         fr = Image.new("RGBA", (W, H), (*GRAPHITE, 255))
@@ -604,6 +626,7 @@ class Story:
         self.check(fr, t, 1)
         self.check(fr, t, 2)
         self.card(fr, t)
+        self.draw_anchors(fr, t)
         self.header(fr, t)
         if t >= T_END:
             self.end(fr, t)
@@ -644,8 +667,56 @@ def story_sfx(key):
             tk = ev_time(st[0])
             for k in range(3):
                 dry.put(nd.tick_sfx(1700 + 200 * k), tk + 0.05 + k * 0.09, 0.06)
-        dry.put(nd.sfx_ding(1320, 1.2), T_REAL, 0.16)
+        for t0, kind, where in anchor_events(key):            # якорі: той самий звук щоразу
+            if kind == "pain":
+                dry.put(pa.pain(), t0, 0.5 if where == "hook" else 0.32)
+            else:
+                dry.put(pa.relief(), t0, 0.32 if where == "result" else 0.22, pan=0.1)
+        send.put(pa.logo(), T_END + 0.45, 0.38)
     return add
+
+
+ANCHOR_POS = {"hook": (540, TOP_Y + 190), "panel": (540, 1220), "card": (510, 1456), "columns": (540, 1010)}
+
+
+def anchor_events(key):
+    """Моменти якорів: біль на першому кадрі й на кожній проблемі, полегшення на рішенні («перевірено», результат)."""
+    S = STORIES[key]["en"]
+    ev = [(0.0, "pain", "hook")]
+
+    def lit(c, i):
+        return STARTS[c] + 0.3 if i == 0 else EV[c][min(i - 1, 2)]
+    for c in (1, 2):
+        sp = S[f"c{c}"]
+        k = sp["type"]
+        if k == "rows":
+            ev += [(EV[c][r["at"]] - 0.25, "pain", "panel") for r in sp["rows"] if r.get("flag") and r.get("bad", True) and "at" in r]
+        elif k == "stack":
+            ev += [(lit(c, i), "pain", "panel") for i, r in enumerate(sp["cards"]) if r.get("flag") and r.get("bad", True)]
+        elif k == "split" and sp.get("link") and sp.get("link_bad", True):
+            ev.append((EV[c][2] - 0.3, "pain", "panel"))
+        elif k == "timeline" and sp.get("last_bad"):
+            ev.append((lit(c, len(sp["nodes"]) - 1), "pain", "panel"))
+        elif k == "flow" and sp.get("last_bad"):
+            ev.append((lit(c, len(sp["steps"]) - 1), "pain", "panel"))
+        elif k == "columns" and sp.get("tag"):
+            ev.append((EV[c][2] - 0.2, "pain", "columns"))
+    for st in S["kpi"]["states"][1:]:
+        ev.append((ev_time(st[0]), "relief" if st[3] else "pain", "card"))
+    ev.append((T_REAL, "relief", "result"))
+    ev.sort()
+    reliefs = [e[0] for e in ev if e[1] == "relief"]
+    ev = [e for e in ev if e[1] == "relief" or e[2] == "hook" or not any(0 <= r - e[0] < 0.8 for r in reliefs)]
+    out = []
+    for e in ev:                                          # той самий якір не частіше ніж раз на 0.5 с; результат важливіший
+        if out and e[0] - out[-1][0] < 0.5 and e[1] == out[-1][1]:
+            if e[2] == "result":
+                out[-1] = e
+            continue
+        out.append(e)
+    pains = [e for e in out if e[1] == "pain" and e[2] != "hook"]
+    keep = set(pains[:3])                                 # не більше трьох якорів болю після хука, щоб не знецінити
+    return [e for e in out if e[1] != "pain" or e[2] == "hook" or e in keep]
 
 
 def encode(out: Path, wav: Path, frames):

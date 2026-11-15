@@ -32,6 +32,7 @@ import brand  # noqa: E402
 import make_nightdrive as nd  # noqa: E402
 import premium_scenes as ps  # noqa: E402  (першим: він сам підтягує premium_demo_scenes)
 import premium_demo_scenes as pds  # noqa: E402
+import premium_anchors as pa  # noqa: E402
 from make_nightdrive import (BODY, GRAPHITE, PINK, RUBY, SILVER, WHITE, Bus, B, BAR, S16, SR, clamp, comp, ease,  # noqa: E402
                              lerp, tracked)
 
@@ -374,6 +375,8 @@ class Video:
         k3 = ease((u - 1.1) / 0.5)
         d.line([W / 2 - 60 * k3, y + 24, W / 2 + 60 * k3, y + 24], fill=(*RUBY, int(255 * k3)), width=3)
         tracked(d, self.T["demo"], font("body-semi", 32), W / 2, y + 46, (*SILVER, int(255 * k3)), 5)
+        k4 = ease((u - 1.5) / 0.6)                            # якір бренду
+        tracked(d, pa.TAGLINE[self.lang], font("body-semi", 26), W / 2, y + 104, (*pa.CHAMPAGNE, int(235 * k4)), 5)
 
     def render_one(self, t):
         fr = self.base(t)
@@ -386,6 +389,12 @@ class Video:
         for c in CUTS[1:]:
             if 0 <= t - c < 0.3:
                 comp(fr, ps.halo_img(1800, 255, (255, 225, 230)), 540 - 900, 1110 - 900, (1 - (t - c) / 0.3) ** 2 * 0.35)
+        if t < 0.8:                                           # якір болю на хуку
+            pa.pain_rings(fr, 540, 440, t / 0.8, 1.0)
+        if 0 <= t - 5.4 < 0.8:                                # якір болю на проблемі (картка EBITDA)
+            pa.pain_rings(fr, 540, 1150, (t - 5.4) / 0.8, 0.7)
+        if 0 <= t - 13.8 < 0.9:                               # якір полегшення: дія дає результат
+            pa.relief_sweep(fr, (90, 1290, 990, 1440), (t - 13.8) / 0.9)
         self.header(fr, t)
         if t >= T_END:
             self.end(fr, t)
@@ -578,6 +587,10 @@ def soundtrack(path: Path):
             send.put(nd.collapse_sfx(int(tm * 10)), tm - 0.05, 0.12)
     for tk in (1.31, T_TITLE + 0.05, T_TAKE + 0.1 + 5 * 0.18):
         dry.put(nd.boom_sfx(int(tk * 7)), tk, 0.28)
+    dry.put(pa.pain(), 0.0, 0.5)                              # якорі: той самий звук у кожному ролику
+    dry.put(pa.pain(), 5.4, 0.3)
+    dry.put(pa.relief(), 13.8, 0.3, pan=0.1)
+    send.put(pa.logo(), T_END + 0.45, 0.38)
     # зведення: «качання» паду від бочки, реверб з ранніми відбиттями, компресор, лімітер
     kicks = [T_TITLE + i * B for i in range(16)] + [T_Q3 + s * S16 for s in (0, 6, 10)] + [T_Q3 + BAR, T_TAKE]
     duck = np.ones(len(padbus.L))
