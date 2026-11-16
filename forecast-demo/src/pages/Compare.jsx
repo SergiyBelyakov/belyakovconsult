@@ -5,8 +5,7 @@ import { seriesInfo, originsOf, rolling } from '../engine/evaluate.js';
 import { MODELS, BY_ID, applies, defaultParams } from '../engine/models.js';
 import { DATASET_IDS } from '../data.js';
 import { makeFmt } from '../format.js';
-import { ForecastChart, ChartLegend } from '../charts.jsx';
-import { SERIES } from '../../../chart-gallery/src/palette.js';
+import { ForecastChart, ChartLegend, SER } from '../charts.jsx';
 import { seriesFor } from '../common.jsx';
 
 export function Leaderboard({ lb, T, fmt, sel, toggle, onOpen, active, onPick }) {
@@ -35,7 +34,7 @@ export function Leaderboard({ lb, T, fmt, sel, toggle, onOpen, active, onPick })
                 <td className="num">{fmt.val(r.mae)}</td>
                 <td className="num">{fmt.signed(r.bias)}</td>
                 <td className="num">{Number.isFinite(r.cover80) ? fmt.pct0(r.cover80) : '·'}</td>
-                {toggle && <td className="num"><label className="fc-dotcheck" onClick={e => e.stopPropagation()}><input type="checkbox" checked={on >= 0} onChange={() => toggle(r.id)} /><i style={on >= 0 ? { background: SERIES[on % SERIES.length], borderColor: SERIES[on % SERIES.length] } : null} /></label></td>}
+                {toggle && <td className="num"><label className="fc-dotcheck" onClick={e => e.stopPropagation()}><input type="checkbox" checked={on >= 0} onChange={() => toggle(r.id)} /><i style={on >= 0 ? { background: SER[on % SER.length], borderColor: SER[on % SER.length] } : null} /></label></td>}
               </tr>
             );
           })}
@@ -126,7 +125,7 @@ export function RollingBoard({ st, T, fmt, sel, toggle, onOpen }) {
                 <td className="num">{Number.isFinite(r.mape) ? fmt.pct1(r.mape) : '·'}</td>
                 <td className="num">{fmt.signed(r.bias)}</td>
                 <td className="num">{Number.isFinite(r.cover80) ? fmt.pct0(r.cover80) : '·'}</td>
-                {toggle && <td className="num"><label className="fc-dotcheck"><input type="checkbox" checked={on >= 0} onChange={() => toggle(r.id)} /><i style={on >= 0 ? { background: SERIES[on % SERIES.length], borderColor: SERIES[on % SERIES.length] } : null} /></label></td>}
+                {toggle && <td className="num"><label className="fc-dotcheck"><input type="checkbox" checked={on >= 0} onChange={() => toggle(r.id)} /><i style={on >= 0 ? { background: SER[on % SER.length], borderColor: SER[on % SER.length] } : null} /></label></td>}
               </tr>
             );
           })}
@@ -157,14 +156,14 @@ export default function Compare({ ctx }) {
   const toggle = id => setSel(s => {
     const i = s.indexOf(id);
     if (i >= 0) { const t = s.slice(); t[i] = null; while (t.length && t[t.length - 1] == null) t.pop(); return t; }
-    if (s.filter(Boolean).length >= 5) return s;
+    if (s.filter(Boolean).length >= SER.length) return s;
     const free = s.indexOf(null);
     if (free < 0) return [...s, id];
     const t = s.slice(); t[free] = id; return t;
   });
   const n = S.y.length, from = Math.max(0, n - S.H - Math.max(S.H * 3, S.m > 1 ? 2 * S.m : 24));
   const last = st.cuts.length - 1;
-  const overlays = sel.map((id, k) => { const r = id && st.ok.find(x => x.id === id); return r ? { id, label: T.models[id].name, color: SERIES[k % SERIES.length], from: n - S.H, values: r.folds[last].fc.map(f => f.mean) } : null; }).filter(Boolean);
+  const overlays = sel.map((id, k) => { const r = id && st.ok.find(x => x.id === id); return r ? { id, label: T.models[id].name, color: SER[k % SER.length], from: n - S.H, values: r.folds[last].fc.map(f => f.mean) } : null; }).filter(Boolean);
   const best = st.ok[0], naive = st.ok.find(r => r.id === naiveId);
   const D = T.datasets[S.id];
 
@@ -186,7 +185,7 @@ export default function Compare({ ctx }) {
           <ForecastChart dates={S.dates} y={S.y} fitted={null} fc={null} hideFuture test={{ from: n - S.H, fc: [] }} overlays={overlays.filter(o => !hidden[o.id])}
             show={{ fitted: false, test: true }} freq={S.freq} fmt={fmt} T={T} from={from} height={260} label={T.cmpChart} focus={focus} nav />
           <div className="fc-chart-foot">
-            <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest overlays={overlays} focus={focus} setFocus={setFocus} hidden={hidden} setHidden={setHidden} />
+            <ChartLegend T={T} show={{ fitted: false, test: true }} hasBand={false} hasTest testCls="tdot" overlays={overlays} focus={focus} setFocus={setFocus} hidden={hidden} setHidden={setHidden} />
             <small className="fc-lg-hint">{T.legendHint}</small>
           </div>
         </Panel>

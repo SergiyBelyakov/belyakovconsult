@@ -182,7 +182,7 @@ const uk = {
     'Ряди на кшталт цін поводяться як випадкове блукання: найкраща оцінка завтрашнього значення сьогоднішнє, і жодна модель не знає більше.',
     'Тому перевіряйте модель лише на даних, яких вона не бачила, і порівнюйте з наївним прогнозом.',
   ],
-  maxShown: 'На графіку до 5 моделей',
+  maxShown: 'На графіку до 4 моделей',
 
   // ——— ваші дані ———
   upTitle: 'Ваш файл',
@@ -531,7 +531,7 @@ const en = {
     'Series such as prices behave like a random walk: the best estimate of tomorrow is today, and no model knows more.',
     'So test a model only on data it has not seen, and compare it with the naive forecast.',
   ],
-  maxShown: 'Up to 5 models on the chart',
+  maxShown: 'Up to 4 models on the chart',
 
   upTitle: 'Your file',
   upDrop: 'Drop a CSV or Excel file here',

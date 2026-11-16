@@ -3,14 +3,16 @@
 import { useMemo, useState } from 'react';
 import { Panel, Button } from '../../../dashboard/src/ui.jsx';
 import { Icon } from '../../../dashboard/src/icons.jsx';
-import { ForecastChart, Legend, FC } from '../charts.jsx';
+import { ForecastChart, Legend, FC, BRAND } from '../charts.jsx';
 import { Waterfall } from '../exparts.jsx';
 import { seriesFor, futureOf, Formula } from '../common.jsx';
 import { makeFmt } from '../format.js';
 import { fitElastic, planFor, predictElastic, total, decompose, PRESETS, PRESET_IDS } from '../engine/scenario.js';
-import { SERIES } from '../../../chart-gallery/src/palette.js';
 
-const COLORS = { base: '#94A3B8', optimistic: SERIES[2], stress: SERIES[1] };
+// бренд-бук: обраний сценарій іде лінією прогнозу (Magenta → Ruby), решта тонкими лініями: базовий Slate Silver
+// пунктиром (орієнтир), оптимістичний Cyan, стресовий Amber (увага). Перевірено валідатором палітри: усі пари з
+// прогнозом і фактом розрізняються; Silver і Cyan близькі для дейтеранопів, тому базовий ще й пунктирний
+const COLORS = { base: BRAND.silver, optimistic: BRAND.cyan, stress: BRAND.amber };
 const SLIDERS = [['price', -15, 15, 1], ['budget', -50, 50, 5], ['market', -15, 10, 1]];
 const pctTxt = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v) + '%';
 
@@ -31,7 +33,7 @@ export default function ScenarioPage({ ctx }) {
   const custom = SLIDERS.some(([k]) => adj[k] !== PRESETS[preset][k]);
   const last12 = S.y.slice(n - 12).reduce((a, b) => a + b, 0), curTotal = total(cur);
   const dates = useMemo(() => [...S.dates, ...futureOf(S, h)], [S, h]);
-  const overlays = PRESET_IDS.filter(id => id !== preset || custom).map(id => ({ id, label: Q.presets[id], color: COLORS[id], from: n, values: fcs[id].map(f => f.mean) }));
+  const overlays = PRESET_IDS.filter(id => id !== preset || custom).map(id => ({ id, label: Q.presets[id], color: COLORS[id], dash: id === 'base' ? '6 4' : null, from: n, values: fcs[id].map(f => f.mean) }));
   const curName = custom ? Q.custom : Q.presets[preset];
   const choose = id => { setPreset(id); setAdj(PRESETS[id]); track('scenario', { preset: id }); };
   const year = S.dates[n - 1].slice(0, 4), next = String(Number(year) + 1);
@@ -47,7 +49,7 @@ export default function ScenarioPage({ ctx }) {
               { key: 'actual', cls: 'actual', label: T.legend.actual },
               { key: 'fc', cls: 'fc', label: curName },
               { key: 'band', cls: 'band', label: `${T.legend.b80} · ${T.legend.b95}`, on: band, toggle: () => setBand(v => !v) },
-              ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label, on: !hidden[o.id], toggle: () => setHidden(x => ({ ...x, [o.id]: !x[o.id] })) })),
+              ...overlays.map(o => ({ key: o.id, color: o.color, cls: o.dash ? 'dash' : '', label: o.label, on: !hidden[o.id], toggle: () => setHidden(x => ({ ...x, [o.id]: !x[o.id] })) })),
             ]} />
             <small className="fc-lg-hint">{T.legendHint}</small>
           </div>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Panel, Button } from '../../../dashboard/src/ui.jsx';
 import { Icon } from '../../../dashboard/src/icons.jsx';
-import { ForecastChart, Legend } from '../charts.jsx';
+import { ForecastChart, Legend, BRAND } from '../charts.jsx';
 import { Bars, UP, DOWN } from '../exparts.jsx';
 import { Formula } from '../common.jsx';
 import { makeFmt, futureDates } from '../format.js';
@@ -35,7 +35,7 @@ export default function HierPage({ ctx }) {
   const cur = H.nodes[idx[node]];
   const n = H.dates.length, i0 = idx[node];
   const fcB = res.run.band[i0].map((b, k) => { const d = fc[i0][k] - base[i0][k]; return { ...b, mean: fc[i0][k], lo80: b.lo80 + d, hi80: b.hi80 + d, lo95: b.lo95 + d, hi95: b.hi95 + d }; });
-  const overlays = method === 'base' ? [] : [{ id: 'base', label: Q.methods.base[0], color: '#94A3B8', from: n, values: base[i0] }];
+  const overlays = method === 'base' ? [] : [{ id: 'base', label: Q.methods.base[0], color: BRAND.pale, dash: '6 4', from: n, values: base[i0] }];
   // розбіжність по місяцях: сума громад мінус прогноз області
   const gapM = fc[0].map((v, k) => H.nodes.filter(x => x.level === 1).reduce((a, x) => a + fc[idx[x.id]][k], 0) - v);
   const gapC = Math.max(...H.nodes.filter(x => x.level === 1).map(x => Math.max(...fc[idx[x.id]].map((v, k) => Math.abs(kids(x.id).reduce((a, c) => a + fc[idx[c.id]][k], 0) - v)))));
@@ -96,7 +96,7 @@ export default function HierPage({ ctx }) {
               { key: 'actual', cls: 'actual', label: T.legend.actual },
               { key: 'fc', cls: 'fc', label: Q.methods[method][0] },
               { key: 'band', cls: 'band', label: `${T.legend.b80} · ${T.legend.b95}`, on: band, toggle: () => setBand(v => !v) },
-              ...overlays.map(o => ({ key: o.id, color: o.color, label: o.label, on: !hidden[o.id], toggle: () => setHidden(x => ({ ...x, [o.id]: !x[o.id] })) })),
+              ...overlays.map(o => ({ key: o.id, color: o.color, cls: o.dash ? 'dash' : '', label: o.label, on: !hidden[o.id], toggle: () => setHidden(x => ({ ...x, [o.id]: !x[o.id] })) })),
             ]} />
             <small className="fc-lg-hint">{T.legendHint}</small>
           </div>

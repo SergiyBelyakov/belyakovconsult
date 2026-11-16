@@ -2,8 +2,8 @@
 // лінії Тета, коефіцієнти регресії, крива зростання, автокореляції, розклад ряду, траєкторії Монте-Карло,
 // аналоги k-NN і учасники ансамблю. Prophet, TBATS, SARIMAX, бустинг і рідкісний попит у explain2.jsx.
 import { useMemo, useRef, useState } from 'react';
-import { useWidth, useUid, niceTicks, Glow, NEON, TRON, FC } from './charts.jsx';
-import { SERIES, GRID, BASE } from '../../chart-gallery/src/palette.js';
+import { useWidth, useUid, niceTicks, Glow, BRAND, ACT, POL, MEMB, FC } from './charts.jsx';
+import { GRID, BASE } from '../../chart-gallery/src/palette.js';
 import { quantile } from './engine/util.js';
 import { Frame, Lines, Bars, Tip, seasonLabels, dateLab, NEUTRAL } from './exparts.jsx';
 import { ProphetEx, TbatsEx, SarimaxEx, ShapEx, IntermittentEx } from './explain2.jsx';
@@ -28,7 +28,7 @@ export default function Explain({ id, r, S, T, fmt, h, params, ho }) {
       return (
         <div className="ex-grid">
           <Frame title={E.level}><Lines series={[{ values: S.y.slice(from), color: NEUTRAL, w: 1, op: 0.5, name: T.legend.actual }, { values: ex.parts[0].v.slice(from), color: FC, w: 2, name: E.level }]} fmt={fmt.axis} xlab={dateLab(S, from, fmt)} label={E.level} /></Frame>
-          <Frame title={E.trend}><Lines series={[{ values: ex.parts[1].v.slice(from), color: SERIES[1], w: 2 }]} zero fmt={fmt.axis} xlab={dateLab(S, from, fmt)} label={E.trend} /></Frame>
+          <Frame title={E.trend}><Lines series={[{ values: ex.parts[1].v.slice(from), color: BRAND.cyan, w: 2 }]} zero fmt={fmt.axis} xlab={dateLab(S, from, fmt)} label={E.trend} /></Frame>
           {ex.season && <Frame title={E.season} sub={ex.mult ? E.seasonMult : E.seasonAdd}>
             <Bars values={ex.mult ? ex.season.map(v => v - 1) : ex.season} labels={seasonLabels(S.dates, S.m, S.freq, fmt)} fmt={v => (ex.mult ? fmt.pctSigned(v) : fmt.axis(v))} label={E.season} />
           </Frame>}
@@ -42,13 +42,13 @@ export default function Explain({ id, r, S, T, fmt, h, params, ho }) {
         <Frame title={`${E.theta0} · ${E.theta2}`} sub={E.thetaF}>
           <Lines series={[
             { values: ex.sa.slice(from), color: NEUTRAL, w: 1.2, name: T.legend.actual },
-            { values: ex.lrl.slice(from), color: SERIES[1], w: 1.6, name: 'θ = 0' },
-            { values: ex.th2.slice(from), color: SERIES[3], w: 1.2, op: 0.8, name: 'θ = 2' },
-            { values: fcLine, x0: n - from, color: SERIES[1], w: 1.6, dash: '4 3', name: 'θ = 0' },
-            { values: ses, x0: n - from, color: SERIES[3], w: 1.6, dash: '4 3', name: 'θ = 2' },
+            { values: ex.lrl.slice(from), color: BRAND.teal, w: 1.6, name: 'θ = 0' },
+            { values: ex.th2.slice(from), color: BRAND.amber, w: 1.2, op: 0.8, name: 'θ = 2' },
+            { values: fcLine, x0: n - from, color: BRAND.teal, w: 1.6, dash: '4 3', name: 'θ = 0' },
+            { values: ses, x0: n - from, color: BRAND.amber, w: 1.6, dash: '4 3', name: 'θ = 2' },
             { values: fcLine.map((v, k) => 0.5 * v + 0.5 * ses[k]), x0: n - from, color: FC, w: 2.4, name: T.legend.forecast },
           ]} height={170} fmt={fmt.axis} markX={n - 1 - from} xlab={dateLab(S, from, fmt)} label={E.thetaF} />
-          <div className="fc-legend small"><span><i className="fc-sw" style={{ background: SERIES[1] }} />{E.theta0}</span><span><i className="fc-sw" style={{ background: SERIES[3] }} />{E.theta2}</span><span><i className="fc-sw fc" />{E.thetaF}</span></div>
+          <div className="fc-legend small"><span><i className="fc-sw" style={{ background: BRAND.teal, '--sw': BRAND.teal }} />{E.theta0}</span><span><i className="fc-sw" style={{ background: BRAND.amber, '--sw': BRAND.amber }} />{E.theta2}</span><span><i className="fc-sw fc" />{E.thetaF}</span></div>
         </Frame>
       );
     }
@@ -103,7 +103,7 @@ export default function Explain({ id, r, S, T, fmt, h, params, ho }) {
     case 'growth': {
       const N = Math.round(n + Math.max(h, n * 0.6)), curve = Array.from({ length: N }, (_, t) => ex.curve(t));
       const series = [{ values: S.y, color: NEUTRAL, w: 1.4, name: T.legend.actual }, { values: curve, color: FC, w: 2, name: T.legend.forecast }];
-      if (ex.shape === 'logistic') series.push({ values: new Array(N).fill(ex.K), color: SERIES[4], w: 1.2, dash: '5 4', name: E.ceiling });
+      if (ex.shape === 'logistic') series.push({ values: new Array(N).fill(ex.K), color: BRAND.amber, w: 1.2, dash: '5 4', name: E.ceiling });
       const inc = curve.map((v, t) => (t ? v - curve[t - 1] : NaN));
       return (
         <div className="ex-grid two">
@@ -164,11 +164,11 @@ export default function Explain({ id, r, S, T, fmt, h, params, ho }) {
     case 'analogs': return <Analogs ex={ex} S={S} T={T} fmt={fmt} r={r} />;
     case 'members': {
       const from = Math.max(0, n - Math.max(h * 2, 24));
-      const series = [{ values: S.y.slice(from), color: NEUTRAL, w: 1.4, name: T.legend.actual }, ...ex.members.map((m, k) => ({ values: [S.y[n - 1], ...m.fc], x0: n - 1 - from, color: SERIES[(k + 1) % SERIES.length], w: 1.5, name: T.models[m.id].name })), { values: [S.y[n - 1], ...r.fc.map(f => f.mean)], x0: n - 1 - from, color: FC, w: 3, name: E.ensembleWord }];
+      const series = [{ values: S.y.slice(from), color: NEUTRAL, w: 1.4, name: T.legend.actual }, ...ex.members.map((m, k) => ({ values: [S.y[n - 1], ...m.fc], x0: n - 1 - from, color: MEMB[k % MEMB.length], w: 1.5, name: T.models[m.id].name })), { values: [S.y[n - 1], ...r.fc.map(f => f.mean)], x0: n - 1 - from, color: FC, w: 3, name: E.ensembleWord }];
       return (
         <Frame title={E.members}>
           <Lines series={series} height={170} fmt={fmt.axis} markX={n - 1 - from} xlab={dateLab(S, from, fmt)} label={E.members} />
-          <div className="fc-legend small">{ex.members.map((m, k) => <span key={m.id}><i className="fc-sw" style={{ background: SERIES[(k + 1) % SERIES.length] }} />{T.models[m.id].name}</span>)}<span><i className="fc-sw fc" />{E.ensembleWord}</span></div>
+          <div className="fc-legend small">{ex.members.map((m, k) => <span key={m.id}><i className="fc-sw" style={{ background: MEMB[k % MEMB.length], '--sw': MEMB[k % MEMB.length] }} />{T.models[m.id].name}</span>)}<span><i className="fc-sw fc" />{E.ensembleWord}</span></div>
         </Frame>
       );
     }
@@ -187,8 +187,8 @@ function AcfBars({ r, lim, labels, label, lagWord = 'lag', fmt }) {
       <svg width={W} height={H} role="img" aria-label={label}>
         <defs>
           <Glow id={`${u}-g`} W={W} H={H} s1={1.3} s2={3.6} k={0.9} />
-          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={TRON.glow} /><stop offset="1" stopColor={TRON.cyan} stopOpacity=".45" /></linearGradient>
-          <linearGradient id={`${u}-q`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={TRON.ember} /><stop offset="1" stopColor={TRON.orange} stopOpacity=".45" /></linearGradient>
+          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={POL.pos} /><stop offset="1" stopColor={POL.pos} stopOpacity=".4" /></linearGradient>
+          <linearGradient id={`${u}-q`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={POL.neg} /><stop offset="1" stopColor={POL.neg} stopOpacity=".4" /></linearGradient>
         </defs>
         <rect x={M.l} y={Y(lim)} width={Math.max(0, W - M.l - M.r)} height={Math.max(0, Y(-lim) - Y(lim))} className="fc-sigma-zone" />
         {[-1, 0, 1].map(v => <g key={v}><line x1={M.l} x2={W - M.r} y1={Y(v)} y2={Y(v)} stroke={v === 0 ? null : GRID} className={v === 0 ? 'ex-zero' : null} /><text x={M.l - 4} y={Y(v) + 4} textAnchor="end" className="fc-ytick">{v}</text></g>)}
@@ -203,7 +203,7 @@ function AcfBars({ r, lim, labels, label, lagWord = 'lag', fmt }) {
         {labels.map((l, i) => l && <text key={i} x={X(i) + bw / 2} y={H - 3} textAnchor="middle" className="fc-xtick">{l}</text>)}
       </svg>
       {hov != null && <Tip x={X(hov) + bw / 2} W={W} head={`${lagWord} ${hov + 1}`} fmt={v => (fmt ? fmt.dec2(v) : v.toFixed(2))}
-        rows={[{ v: r[hov], name: 'r', color: sig(r[hov]) ? (r[hov] >= 0 ? TRON.glow : TRON.ember) : '#64748B' }]} />}
+        rows={[{ v: r[hov], name: 'r', color: sig(r[hov]) ? (r[hov] >= 0 ? POL.pos : POL.neg) : '#64748B' }]} />}
     </div>
   );
 }
@@ -224,7 +224,7 @@ function Hist({ values, thr, fmt }) {
       <svg width={W} height={H} role="img" aria-label="histogram">
         <defs>
           <Glow id={`${u}-g`} W={W} H={H} s1={1.3} s2={4} k={0.8} />
-          <linearGradient id={`${u}-a`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={NEON.violet} /><stop offset="1" stopColor={NEON.blue} stopOpacity=".5" /></linearGradient>
+          <linearGradient id={`${u}-a`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={BRAND.ruby} /><stop offset="1" stopColor={BRAND.darkRed} stopOpacity=".55" /></linearGradient>
           <linearGradient id={`${u}-b`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#64748B" /><stop offset="1" stopColor="#334155" stopOpacity=".6" /></linearGradient>
         </defs>
         <g>{counts.map((c, i) => !above(i) && c > 0 && bar(i))}</g>
@@ -246,9 +246,9 @@ function Analogs({ ex, S, T, fmt, r }) {
   const cur = y.slice(n - L), cm = cur.reduce((a, b) => a + b, 0) / L;
   const series = nb.map((c, k) => {
     const w = y.slice(c.end - L + 1, c.end + 1 + h), m = y.slice(c.end - L + 1, c.end + 1).reduce((a, b) => a + b, 0) / L;
-    return { values: w.map(v => (v / (m || 1)) * cm), color: SERIES[(k + 1) % SERIES.length], w: 1.1, op: 0.75, name: fmt.dateLong(S.dates[c.end], S.freq) };
+    return { values: w.map(v => (v / (m || 1)) * cm), color: MEMB[k % MEMB.length], w: 1.1, op: 0.75, name: fmt.dateLong(S.dates[c.end], S.freq) };
   });
-  series.push({ values: cur, color: '#F4F6F8', w: 2.4, name: T.legend.actual });
+  series.push({ values: cur, color: ACT, w: 2.4, name: T.legend.actual });
   series.push({ values: [cur[L - 1], ...r.fc.map(f => f.mean)], x0: L - 1, color: FC, w: 2.6, name: T.legend.forecast });
   return (
     <div className="ex-grid two">
@@ -258,7 +258,7 @@ function Analogs({ ex, S, T, fmt, r }) {
       </div>
       <div className="ex-frame">
         <div className="ex-head"><div><h5>{T.ex.analogList}</h5></div></div>
-        <ol className="ex-analogs">{nb.map((c, k) => <li key={k}><i className="fc-sw" style={{ background: SERIES[(k + 1) % SERIES.length] }} />{fmt.dateShort(S.dates[c.end - L + 1])} … {fmt.dateShort(S.dates[c.end])}<small>d = {fmt.dec2(c.dist)}</small></li>)}</ol>
+        <ol className="ex-analogs">{nb.map((c, k) => <li key={k}><i className="fc-sw" style={{ background: MEMB[k % MEMB.length], '--sw': MEMB[k % MEMB.length] }} />{fmt.dateShort(S.dates[c.end - L + 1])} … {fmt.dateShort(S.dates[c.end])}<small>d = {fmt.dec2(c.dist)}</small></li>)}</ol>
       </div>
     </div>
   );

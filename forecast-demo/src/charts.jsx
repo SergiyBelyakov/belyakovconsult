@@ -5,11 +5,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { INK, GRID, BASE, SURFACE } from '../../chart-gallery/src/palette.js';
 
-export const FC = '#3B82F6';
-export const NEON = { sky: '#38BDF8', blue: '#3B82F6', violet: '#8B5CF6', cyan: '#22D3EE', silver: '#C9D0DA' };
-// TRON: полярність «вище нуля / нижче нуля». cyan і orange перевірені валідатором палітри для темної теми
-// (смуга світлоти, розрізнення при дальтонізмі); glow, ice й ember лише для сяйва, країв і проекцій
-export const TRON = { cyan: '#119DBA', orange: '#E8661C', glow: '#22D3EE', ice: '#A5F3FC', ember: '#FB923C' };
+// Палітра бренд-буку Belyakov Consult (дизайн-система: токени кольорів без змін)
+export const BRAND = {
+  ruby: '#D90429', chartRed: '#C00018', darkRed: '#8A0012',
+  cobalt: '#3B82F6', teal: '#14B8A6', violet: '#A855F7', amber: '#FFB020', magenta: '#EC4899',
+  cyan: '#22D3EE', emerald: '#10B981', coral: '#FF6B6B', slate: '#64748B', pale: '#94A3B8',
+  silver: '#A8B0BC', white: '#F4F6F8',
+};
+// Ролі кольорів у графіках прогнозу. Перевірено validate_palette.js для темної теми на всіх парах, що стоять разом:
+// розрізнення при дальтонізмі й звичайному зорі проходить (кобальт і фіолетовий для дейтеранопів зливаються, тому
+// фіолетового поруч із фактом немає). Бренд-токени світліші за смугу 0,48..0,67: значення лишаються з бренд-буку.
+export const ACT = BRAND.cobalt;             // факт, історія
+export const FIT = BRAND.teal;               // модель на історії
+export const TEST = BRAND.amber;             // прогноз на відкладених даних
+export const FC = BRAND.ruby;                // прогноз: обрана серія і ключова цифра бренду
+export const FC_GRAD = [BRAND.magenta, BRAND.ruby];   // неонова лінія прогнозу: маджента біля сьогодні, рубін на горизонті
+export const POL = { pos: BRAND.cyan, neg: BRAND.coral };   // полярність: вище нуля, нижче нуля
+export const SER = [BRAND.ruby, BRAND.cyan, BRAND.amber, BRAND.emerald];   // моделі в «Порівнянні» поруч із фактом
+export const MEMB = [BRAND.cyan, BRAND.amber, BRAND.emerald, BRAND.slate];   // складові ансамблю й сусіди k-NN поруч із фактом і рубіновим підсумком
+const gradStops = (cols, op = 1, op2 = op) => cols.map((c, i) => <stop key={i} offset={cols.length > 1 ? i / (cols.length - 1) : 0} stopColor={c} stopOpacity={cols.length > 1 ? op + (op2 - op) * (i / (cols.length - 1)) : op} />);
+export { gradStops };
 const reduced = () => typeof window !== 'undefined' && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Унікальні id для градієнтів і фільтрів: на сторінці кілька графіків
@@ -85,26 +100,30 @@ const underOf = (pts, base) => {
   return 'M' + ok[0][0].toFixed(1) + ' ' + base.toFixed(1) + ok.map(p => 'L' + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('') + 'L' + ok[ok.length - 1][0].toFixed(1) + ' ' + base.toFixed(1) + 'Z';
 };
 
-// Заливка між лінією і нулем у стилі TRON: вище нуля холодна, нижче тепла, найяскравіша далі від нуля.
+// Заливка між лінією і нулем кольору самої лінії: найяскравіша на рівні вершини ряду, згасає до нуля (нижче нуля дзеркально).
+// color: суцільний колір; grad: кольори вздовж осі X від x1 до x2, як у неонової лінії; neg: свій колір нижче нуля (полярність).
 // zy: висота нуля (або край області, якщо нуль поза віссю), top і bot: межі області
-export function ZeroFill({ id, pts, zy, top, bot, W, pos = TRON.glow, neg = TRON.ember, k = 1, className = '' }) {
+export function ZeroFill({ id, pts, zy, top, bot, W, color = ACT, neg = null, grad = null, x1 = 0, x2 = W, k = 1, className = '' }) {
   const ok = pts.filter(p => Number.isFinite(p[1]));
   if (ok.length < 2) return null;
   const d = areaOf(ok.map(p => p[0]), ok.map(() => zy), ok.map(p => p[1]));
+  const ys = ok.map(p => p[1]), a = Math.min(zy, ...ys), b = Math.max(zy, ...ys);
+  const z = b > a ? Math.max(0, Math.min(1, (zy - a) / (b - a))) : 1, peak = Math.min(1, 0.46 * k);
+  const fill = grad ? `url(#${id}-g)` : color, box = { x: -10, y: top - 40, width: W + 20, height: bot - top + 80 };
   return (
-    <g className={className}>
+    <g className={'fc-fill ' + className}>
       <defs>
-        <linearGradient id={`${id}-p`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={top} y2={Math.max(top + 1, zy)}>
-          <stop offset="0" stopColor={pos} stopOpacity={0.34 * k} /><stop offset=".6" stopColor={pos} stopOpacity={0.12 * k} /><stop offset="1" stopColor={pos} stopOpacity={0.03 * k} />
+        <linearGradient id={`${id}-m`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={a} y2={Math.max(a + 1, b)}>
+          <stop offset="0" stopColor="#fff" stopOpacity={peak} /><stop offset={z} stopColor="#fff" stopOpacity={0.03 * k} /><stop offset="1" stopColor="#fff" stopOpacity={peak} />
         </linearGradient>
-        <linearGradient id={`${id}-n`} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1={zy} y2={Math.max(zy + 1, bot)}>
-          <stop offset="0" stopColor={neg} stopOpacity={0.03 * k} /><stop offset=".4" stopColor={neg} stopOpacity={0.12 * k} /><stop offset="1" stopColor={neg} stopOpacity={0.34 * k} />
-        </linearGradient>
-        <clipPath id={`${id}-a`}><rect x={-10} y={top - 40} width={W + 20} height={Math.max(0, zy - top + 40)} /></clipPath>
-        <clipPath id={`${id}-b`}><rect x={-10} y={zy} width={W + 20} height={Math.max(0, bot - zy + 40)} /></clipPath>
+        <mask id={`${id}-k`} maskUnits="userSpaceOnUse" {...box}><rect {...box} fill={`url(#${id}-m)`} /></mask>
+        {grad && <linearGradient id={`${id}-g`} gradientUnits="userSpaceOnUse" x1={x1} x2={Math.max(x1 + 1, x2)} y1="0" y2="0">{gradStops(grad)}</linearGradient>}
+        {neg && <clipPath id={`${id}-a`}><rect x={-10} y={top - 40} width={W + 20} height={Math.max(0, zy - top + 40)} /></clipPath>}
+        {neg && <clipPath id={`${id}-b`}><rect x={-10} y={zy} width={W + 20} height={Math.max(0, bot - zy + 40)} /></clipPath>}
       </defs>
-      {zy > top && <path d={d} fill={`url(#${id}-p)`} clipPath={`url(#${id}-a)`} />}
-      {zy < bot && <path d={d} fill={`url(#${id}-n)`} clipPath={`url(#${id}-b)`} />}
+      {neg
+        ? <>{zy > top && <path d={d} fill={fill} mask={`url(#${id}-k)`} clipPath={`url(#${id}-a)`} />}{zy < bot && <path d={d} fill={neg} mask={`url(#${id}-k)`} clipPath={`url(#${id}-b)`} />}</>
+        : <path d={d} fill={fill} mask={`url(#${id}-k)`} />}
     </g>
   );
 }
@@ -270,20 +289,21 @@ export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show 
             </pattern>
             <Glow id={`${u}-glow`} W={W} H={H} />
             <Glow id={`${u}-soft`} W={W} H={H} s1={1.6} s2={4} k={0.55} />
+            <Glow id={`${u}-act`} W={W} H={H} s1={1.8} s2={5.5} k={0.8} />
             <linearGradient id={`${u}-fcl`} gradientUnits="userSpaceOnUse" x1={todayX} x2={Math.max(todayX + 1, X(last))} y1="0" y2="0">
-              <stop offset="0" stopColor={NEON.sky} /><stop offset=".5" stopColor={NEON.blue} /><stop offset="1" stopColor={NEON.violet} />
+              {gradStops(FC_GRAD)}
             </linearGradient>
             <linearGradient id={`${u}-b80`} gradientUnits="userSpaceOnUse" x1={todayX} x2={Math.max(todayX + 1, X(last))} y1="0" y2="0">
-              <stop offset="0" stopColor={NEON.sky} stopOpacity=".42" /><stop offset="1" stopColor={NEON.violet} stopOpacity=".24" />
+              {gradStops(FC_GRAD, 0.34, 0.3)}
             </linearGradient>
             <linearGradient id={`${u}-b95`} gradientUnits="userSpaceOnUse" x1={todayX} x2={Math.max(todayX + 1, X(last))} y1="0" y2="0">
-              <stop offset="0" stopColor={NEON.sky} stopOpacity=".18" /><stop offset="1" stopColor={NEON.violet} stopOpacity=".1" />
+              {gradStops(FC_GRAD, 0.16, 0.14)}
             </linearGradient>
             <linearGradient id={`${u}-zone`} gradientUnits="userSpaceOnUse" x1={todayX} x2={W - M.r} y1="0" y2="0">
-              <stop offset="0" stopColor={NEON.blue} stopOpacity=".11" /><stop offset="1" stopColor={NEON.violet} stopOpacity=".03" />
+              <stop offset="0" stopColor={BRAND.ruby} stopOpacity=".05" /><stop offset="1" stopColor={BRAND.magenta} stopOpacity=".015" />
             </linearGradient>
             <linearGradient id={`${u}-vline`} gradientUnits="userSpaceOnUse" x1="0" y1={M.t} x2="0" y2={bottom}>
-              <stop offset="0" stopColor="#93C5FD" stopOpacity="0" /><stop offset=".25" stopColor="#93C5FD" stopOpacity=".75" /><stop offset=".75" stopColor="#93C5FD" stopOpacity=".75" /><stop offset="1" stopColor="#93C5FD" stopOpacity="0" />
+              <stop offset="0" stopColor={BRAND.silver} stopOpacity="0" /><stop offset=".25" stopColor={BRAND.silver} stopOpacity=".7" /><stop offset=".75" stopColor={BRAND.silver} stopOpacity=".7" /><stop offset="1" stopColor={BRAND.silver} stopOpacity="0" />
             </linearGradient>
             <clipPath id={`${u}-plot`}><rect x={M.l} y={0} width={Math.max(0, W - M.l - M.r)} height={H} /></clipPath>
             <clipPath id={`${u}-rev`}><rect key={revealKey} className="fc-reveal" x="0" y="0" width={W} height={H} /></clipPath>
@@ -299,15 +319,15 @@ export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show 
               <text x={X(tFrom) + 4} y={M.t + 12} className="fc-zone">{T.testZone}</text>
             </g>}
             <g clipPath={`url(#${u}-rev)`}>
-              <ZeroFill id={`${u}-za`} pts={actPts} zy={zy} top={M.t} bot={bottom} W={W} className={'fc-s fc-under' + dim('actual')} />
-              {h > 0 && <ZeroFill id={`${u}-zf`} pts={[anchor, ...fut.map(p => [p.x, Y(p.mean)])]} zy={zy} top={M.t} bot={bottom} W={W} pos={NEON.violet} k={1.1} className={'fc-s fc-under' + dim('fc')} />}
+              <ZeroFill id={`${u}-za`} pts={actPts} zy={zy} top={M.t} bot={bottom} W={W} color={ACT} k={0.9} className={'fc-s fc-under' + dim('actual')} />
+              {h > 0 && <ZeroFill id={`${u}-zf`} pts={[anchor, ...fut.map(p => [p.x, Y(p.mean)])]} zy={zy} top={M.t} bot={bottom} W={W} grad={FC_GRAD} x1={todayX} x2={X(last)} k={0.8} className={'fc-s fc-under' + dim('fc')} />}
               {h > 0 && showBand && <path d={band(p => p.lo95, p => p.hi95)} fill={`url(#${u}-b95)`} className={'fc-s fc-b95' + dim('band')} />}
               {h > 0 && showBand && <path d={band(p => p.lo80, p => p.hi80)} fill={`url(#${u}-b80)`} className={'fc-s fc-b80' + dim('band')} />}
               {tBand && <path d={tBand} className={'fc-s fc-tband' + dim('test')} />}
-              <path d={pathOf(actPts)} className={'fc-s fc-actual' + dim('actual')} filter={`url(#${u}-soft)`} />
+              <path d={pathOf(actPts)} className={'fc-s fc-actual' + dim('actual')} filter={`url(#${u}-act)`} />
               {fitPts.length > 0 && <path d={pathOf(fitPts)} className={'fc-s fc-fitted' + dim('fitted')} />}
               {test && show.test && <path d={pathOf([...(tAnchor ? [tAnchor] : []), ...tp.map(p => [p.x, Y(p.mean)])])} className={'fc-s fc-tline' + dim('test')} filter={`url(#${u}-soft)`} />}
-              {overlays.map(o => <path key={o.id} d={pathOf([...(o.from > 0 ? [[X(o.from - 1), Y(y[o.from - 1])]] : []), ...o.values.map((v, k) => [X(o.from + k), Y(v)])])} className={'fc-s fc-overlay' + dim(o.id)} stroke={o.color} filter={`url(#${u}-soft)`} />)}
+              {overlays.map(o => <path key={o.id} d={pathOf([...(o.from > 0 ? [[X(o.from - 1), Y(y[o.from - 1])]] : []), ...o.values.map((v, k) => [X(o.from + k), Y(v)])])} className={'fc-s fc-overlay' + dim(o.id)} stroke={o.color} strokeDasharray={o.dash || null} filter={`url(#${u}-soft)`} />)}
               {test && show.test && y.slice(tFrom).map((v, k) => <circle key={k} cx={X(tFrom + k)} cy={Y(v)} r={tn > 40 ? 1.8 : 3} className={'fc-s fc-testdot' + dim('test')} />)}
               {h > 0 && <path d={futLine} className={'fc-s fc-line' + dim('fc')} stroke={`url(#${u}-fcl)`} filter={`url(#${u}-glow)`} />}
               {h > 0 && <path d={futLine} className={'fc-s fc-core' + dim('fc')} />}
@@ -323,7 +343,7 @@ export function ForecastChart({ dates, y, fitted, fc, test, overlays = [], show 
           {h > 0 && X(last) <= W - M.r + 1 && Number.isFinite(fut[h - 1]?.mean) && <g className={'fc-beacon end' + dim('fc')} transform={`translate(${X(last).toFixed(1)},${Y(fut[h - 1].mean).toFixed(1)})`}>
             <g key={revealKey} className="fc-beacon-in"><circle r="9" className="fc-beacon-ring" /><circle r="3.8" className="fc-beacon-dot" /></g>
           </g>}
-          {tip && <g pointerEvents="none" className={'fc-hover' + (hover >= n ? ' fut' : '')}>
+          {tip && <g pointerEvents="none" className={'fc-hover' + (hover >= n ? ' fut' : '')} style={{ '--pc': hover >= n ? BRAND.magenta : ACT, '--pd': hover >= n ? FC : ACT }}>
             <line x1={tip.x} x2={tip.x} y1={M.t} y2={bottom} stroke={`url(#${u}-vline)`} strokeWidth="1" opacity=".45" />
             {Number.isFinite(tip.primary) && <g filter={`url(#${u}-soft)`}>
               <line x1={tip.x} x2={tip.x} y1={Y(tip.primary)} y2={bottom} className="fc-proj" />
@@ -434,10 +454,10 @@ function Navigator({ dates, y, fc, n, last, a, b, W, M, setWin, reset, isDefault
         onPointerDown={onDown} onPointerMove={onMoveN} onPointerUp={onUp} onPointerCancel={onUp} onKeyDown={onKey}>
         <defs>
           <linearGradient id={`${u}-nav`} gradientUnits="userSpaceOnUse" x1="0" y1={top} x2="0" y2={bot}>
-            <stop offset="0" stopColor={TRON.glow} stopOpacity=".24" /><stop offset="1" stopColor={TRON.glow} stopOpacity="0" />
+            <stop offset="0" stopColor={ACT} stopOpacity=".3" /><stop offset="1" stopColor={ACT} stopOpacity="0" />
           </linearGradient>
           <linearGradient id={`${u}-navfc`} gradientUnits="userSpaceOnUse" x1={X(n - 1)} x2={Math.max(X(n - 1) + 1, X(last))} y1="0" y2="0">
-            <stop offset="0" stopColor={NEON.sky} /><stop offset="1" stopColor={NEON.violet} />
+            {gradStops(FC_GRAD)}
           </linearGradient>
         </defs>
         <rect x={M.l} y={1} width={W - M.l - M.r} height={NH - 2} rx="6" className="fc-nav-bg" />
@@ -457,6 +477,7 @@ function Navigator({ dates, y, fc, n, last, a, b, W, M, setWin, reset, isDefault
   );
 }
 
+const LEG_COL = { actual: ACT, fitted: FIT, test: TEST, tdot: ACT, fc: FC, band: BRAND.magenta };
 // Легенда-перемикачі: наведення підсвічує ряд на графіку, клік ховає чи показує ряд (де це можна)
 export function Legend({ items, focus, setFocus, className = '' }) {
   return (
@@ -464,26 +485,29 @@ export function Legend({ items, focus, setFocus, className = '' }) {
       {items.map(it => {
         const sw = <i className={'fc-sw ' + (it.cls || '')} style={it.color ? { background: it.color, '--sw': it.color } : null} />;
         const cls = 'fc-lg' + (it.on === false ? ' off' : '') + (focus === it.key ? ' focus' : '');
+        // підсвічування пункту кольором його ряду
+        const lc = { '--lc': it.color || LEG_COL[it.cls] || BRAND.silver };
         // схований ряд не підсвічується; після кліку підсвічування йде за новим станом
         const hov = setFocus ? { onMouseEnter: () => setFocus(it.on === false ? null : it.key), onMouseLeave: () => setFocus(null) } : {};
         const click = () => { it.toggle(); if (setFocus) setFocus(it.on === false ? it.key : null); };
         return it.toggle
-          ? <button key={it.key} type="button" className={cls} aria-pressed={it.on !== false} onClick={click} onFocus={hov.onMouseEnter} onBlur={hov.onMouseLeave} {...hov}>{sw}{it.label}</button>
-          : <span key={it.key} className={cls} {...hov}>{sw}{it.label}</span>;
+          ? <button key={it.key} type="button" className={cls} style={lc} aria-pressed={it.on !== false} onClick={click} onFocus={hov.onMouseEnter} onBlur={hov.onMouseLeave} {...hov}>{sw}{it.label}</button>
+          : <span key={it.key} className={cls} style={lc} {...hov}>{sw}{it.label}</span>;
       })}
     </div>
   );
 }
 
 // hidden і setHidden: які додаткові лінії сховано кліком (графік отримує лише видимі)
-export function ChartLegend({ T, show, setShow, focus, setFocus, hasBand, hasTest, overlays = [], fcLabel, hidden = {}, setHidden }) {
+// testCls: вигляд пункту «Відкладені дані» (пунктир прогнозу на перевірці або лише точки факту, як у «Порівнянні»)
+export function ChartLegend({ T, show, setShow, focus, setFocus, hasBand, hasTest, overlays = [], fcLabel, hidden = {}, setHidden, testCls = 'test' }) {
   const tog = k => (setShow ? () => setShow(s => ({ ...s, [k]: s[k] === false ? true : !s[k] })) : null);
   const items = [{ key: 'actual', cls: 'actual', label: T.legend.actual }];
   if (setShow || show.fitted) items.push({ key: 'fitted', cls: 'fitted', label: T.legend.fitted, on: !!show.fitted, toggle: tog('fitted') });
-  if (hasTest && (setShow || show.test)) items.push({ key: 'test', cls: 'test', label: T.legend.test, on: !!show.test, toggle: tog('test') });
+  if (hasTest && (setShow || show.test)) items.push({ key: 'test', cls: testCls, label: T.legend.test, on: !!show.test, toggle: tog('test') });
   if (!overlays.length) items.push({ key: 'fc', cls: 'fc', label: fcLabel || T.legend.forecast });
   if (hasBand && !overlays.length) items.push({ key: 'band', cls: 'band', label: `${T.legend.b80} · ${T.legend.b95}`, on: show.band !== false, toggle: setShow ? () => setShow(s => ({ ...s, band: s.band === false })) : null });
-  overlays.forEach(o => items.push({ key: o.id, color: o.color, label: o.label, ...(setHidden ? { on: !hidden[o.id], toggle: () => setHidden(h => ({ ...h, [o.id]: !h[o.id] })) } : {}) }));
+  overlays.forEach(o => items.push({ key: o.id, color: o.color, cls: o.dash ? 'dash' : '', label: o.label, ...(setHidden ? { on: !hidden[o.id], toggle: () => setHidden(h => ({ ...h, [o.id]: !h[o.id] })) } : {}) }));
   return <Legend items={items} focus={focus} setFocus={setFocus} />;
 }
 
@@ -511,22 +535,16 @@ export function Spark({ y, fc, height = 62, hx = null, fmt }) {
       <svg className="fc-spark" width={W} height={height} viewBox={`0 0 ${W} ${height}`} aria-hidden="true">
         <defs>
           <Glow id={`${u}-g`} W={W} H={height} s1={1.6} s2={4.5} />
-          <linearGradient id={`${u}-a`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={height}>
-            <stop offset="0" stopColor={TRON.glow} stopOpacity=".26" /><stop offset="1" stopColor={TRON.glow} stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id={`${u}-w`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={height}>
-            <stop offset="0" stopColor={NEON.violet} stopOpacity=".34" /><stop offset="1" stopColor={NEON.violet} stopOpacity="0" />
-          </linearGradient>
           <linearGradient id={`${u}-l`} gradientUnits="userSpaceOnUse" x1={X(n - 1)} x2={X(last)} y1="0" y2="0">
-            <stop offset="0" stopColor={NEON.sky} /><stop offset=".5" stopColor={NEON.blue} /><stop offset="1" stopColor={NEON.violet} />
+            {gradStops(FC_GRAD)}
           </linearGradient>
           <linearGradient id={`${u}-b`} gradientUnits="userSpaceOnUse" x1={X(n - 1)} x2={X(last)} y1="0" y2="0">
-            <stop offset="0" stopColor={NEON.sky} stopOpacity=".38" /><stop offset="1" stopColor={NEON.violet} stopOpacity=".2" />
+            {gradStops(FC_GRAD, 0.32, 0.26)}
           </linearGradient>
         </defs>
         <rect x={X(n - 1)} y="0" width={Math.max(0, W - X(n - 1))} height={height} className="fc-sp-zone" />
-        <path d={underOf(act, height)} fill={`url(#${u}-a)`} />
-        <path d={underOf(fl, height)} fill={`url(#${u}-w)`} className="fc-sp-wall" />
+        <ZeroFill id={`${u}-za`} pts={act} zy={height} top={0} bot={height} W={W} color={ACT} k={0.85} />
+        <ZeroFill id={`${u}-zf`} pts={fl} zy={height} top={0} bot={height} W={W} grad={FC_GRAD} x1={X(n - 1)} x2={X(last)} k={0.9} className="fc-sp-wall" />
         {bnd && <path d={bnd} fill={`url(#${u}-b)`} className="fc-sp-band" />}
         <path d={pathOf(act)} className="fc-sp-act" pathLength="1" />
         <path d={pathOf(fl)} className="fc-sp-fc" stroke={`url(#${u}-l)`} filter={`url(#${u}-g)`} pathLength="1" />
@@ -558,8 +576,8 @@ export function Residuals({ y, fitted, dates, freq, fmt, T }) {
       <svg width={W} height={H} role="img" aria-label={T.residTitle}>
         <defs>
           <Glow id={`${u}-g`} W={W} H={H} s1={1.4} s2={4} />
-          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={TRON.cyan} stopOpacity=".85" /><stop offset="1" stopColor={TRON.cyan} stopOpacity=".3" /></linearGradient>
-          <linearGradient id={`${u}-n`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={TRON.orange} stopOpacity=".85" /><stop offset="1" stopColor={TRON.orange} stopOpacity=".3" /></linearGradient>
+          <linearGradient id={`${u}-p`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={POL.pos} stopOpacity=".7" /><stop offset="1" stopColor={POL.pos} stopOpacity=".22" /></linearGradient>
+          <linearGradient id={`${u}-n`} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor={POL.neg} stopOpacity=".7" /><stop offset="1" stopColor={POL.neg} stopOpacity=".22" /></linearGradient>
         </defs>
         <rect x={M.l} y={Y(2 * s)} width={W - M.l - M.r} height={Math.max(0, Y(-2 * s) - Y(2 * s))} className="fc-sigma-zone" />
         <line x1={M.l} x2={W - M.r} y1={Y(0)} y2={Y(0)} className="fc-floor" />
@@ -570,14 +588,14 @@ export function Residuals({ y, fitted, dates, freq, fmt, T }) {
           if (!Number.isFinite(v)) return null;
           const out = Math.abs(v) > 2 * s;
           return <rect key={i} x={X(i)} y={Math.min(Y(0), Y(v))} width={bw} height={Math.max(0.5, Math.abs(Y(v) - Y(0)))} rx={bw > 4 ? 1.5 : 0}
-            className={'fc-rbar' + (out ? ' out' : '') + (hov === i ? ' on' : '')} fill={out ? (v >= 0 ? TRON.glow : TRON.ember) : `url(#${u}-${v >= 0 ? 'p' : 'n'})`} filter={out || hov === i ? `url(#${u}-g)` : null} />;
+            className={'fc-rbar' + (out ? ' out' : '') + (hov === i ? ' on' : '')} fill={out ? (v >= 0 ? POL.pos : POL.neg) : `url(#${u}-${v >= 0 ? 'p' : 'n'})`} filter={out || hov === i ? `url(#${u}-g)` : null} />;
         })}
         {ticks.map(t => <text key={t.i} x={X(t.i)} y={H - 5} textAnchor="middle" className="fc-xtick">{t.label}</text>)}
       </svg>
       {hov != null && (
         <div className="fc-tip fc-tip-sm" style={X(hov) > W * 0.5 ? { right: Math.max(4, W - X(hov) + 10) } : { left: Math.max(4, X(hov) + bw + 10) }}>
           <strong>{fmt.dateLong(dates[hov], freq)}</strong>
-          <span><i className="fc-sw" style={{ background: e[hov] >= 0 ? TRON.glow : TRON.ember, '--sw': e[hov] >= 0 ? TRON.glow : TRON.ember }} /><em className="fc-tip-l">{T.residWord || 'e'}</em><b>{fmt.signed(e[hov])}</b></span>
+          <span><i className="fc-sw" style={{ background: e[hov] >= 0 ? POL.pos : POL.neg, '--sw': e[hov] >= 0 ? POL.pos : POL.neg }} /><em className="fc-tip-l">{T.residWord || 'e'}</em><b>{fmt.signed(e[hov])}</b></span>
         </div>
       )}
     </div>

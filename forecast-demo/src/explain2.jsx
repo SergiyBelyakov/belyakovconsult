@@ -1,7 +1,6 @@
 // Пояснення для Prophet, TBATS, SARIMAX, бустингу з SHAP і порівняння варіантів Кростона.
 import { useMemo, useState } from 'react';
-import { FC, xTicks } from './charts.jsx';
-import { SERIES } from '../../chart-gallery/src/palette.js';
+import { FC, BRAND, xTicks } from './charts.jsx';
 import { Frame, Lines, Bars, HBars, Waterfall, Lollipop, StackBars, dateLab, NEUTRAL, UP, DOWN } from './exparts.jsx';
 import { holdout } from './engine/evaluate.js';
 import { defaultParams } from './engine/models.js';
@@ -58,7 +57,7 @@ export function ProphetEx({ ex, S, T, fmt, h }) {
         {weekly && (() => { const c = cycleBars(weekly.v, S, n, 7, fmt); return <Frame title={E.pWeek} sub={E.pAdd}><Bars values={c.values} labels={c.labels} fmt={fmt.axis} label={E.pWeek} /></Frame>; })()}
         {yearly && (yearly.P === 12
           ? (() => { const c = cycleBars(yearly.v, S, n, 12, fmt); return <Frame title={E.pYear} sub={E.pAdd}><Bars values={c.values} labels={c.labels} fmt={fmt.axis} label={E.pYear} /></Frame>; })()
-          : <Frame title={E.pYear} sub={E.pAdd}><Lines series={[{ values: yearly.v.slice(y0, y0 + yLen), color: SERIES[2], w: 2 }]} zero fmt={fmt.axis} xlab={dateLab(S, y0, fmt)} ticks={ticksFrom(S.dates, y0, Math.min(n - 1, y0 + yLen - 1), S.freq, fmt)} label={E.pYear} /></Frame>)}
+          : <Frame title={E.pYear} sub={E.pAdd}><Lines series={[{ values: yearly.v.slice(y0, y0 + yLen), color: BRAND.cyan, w: 2 }]} zero fmt={fmt.axis} xlab={dateLab(S, y0, fmt)} ticks={ticksFrom(S.dates, y0, Math.min(n - 1, y0 + yLen - 1), S.freq, fmt)} label={E.pYear} /></Frame>)}
       </div>
       {evRows.length > 0 && (
         <Frame title={E.pEvents} sub={E.pEventsSub}>
@@ -81,7 +80,7 @@ export function TbatsEx({ ex, S, T, fmt, h }) {
   const all = useMemo(() => [...S.dates, ...futureOf(S, h)], [S, h]);
   const comps = ex.comps.slice().sort((a, b) => b.P - a.P);
   const from = Math.max(0, n - (S.freq === 'D' ? 120 : S.freq === 'W' ? 104 : 48));
-  const colors = [SERIES[4], SERIES[2], FC];
+  const colors = [BRAND.amber, BRAND.teal, FC];
   const layers = [{ name: E.tLevel, v: ex.level }];
   comps.forEach((c, k) => { const prev = layers[layers.length - 1].v; layers.push({ name: E.tPlus(T.periodName(c.P, S.freq)), v: prev.map((x, t) => x + c.v[t]) }); });
   const series = [{ values: S.y.slice(from), color: NEUTRAL, w: 1, op: 0.45 }, ...layers.map((L, k) => ({ values: L.v.slice(from).map(inv), color: k === layers.length - 1 ? FC : colors[k % colors.length], w: k === layers.length - 1 ? 2.2 : 1.6, name: k === layers.length - 1 ? `${L.name} = ${E.tModel}` : L.name }))];
@@ -100,7 +99,7 @@ export function TbatsEx({ ex, S, T, fmt, h }) {
         {comps.map(c => {
           const nm = T.periodName(c.P, S.freq), sub = `${E.tHarm(c.K)} · ${lam === 0 ? E.tMult : E.tAdd}`;
           if (isYear(c.P) && S.freq !== 'M') {
-            return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Lines series={[{ values: c.v.map(eff), color: SERIES[2], w: 1.8 }]} zero fmt={effFmt} markX={n - 1} xlab={dateLab(S, 0, fmt)} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={nm} /></Frame>;
+            return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Lines series={[{ values: c.v.map(eff), color: BRAND.cyan, w: 1.8 }]} zero fmt={effFmt} markX={n - 1} xlab={dateLab(S, 0, fmt)} ticks={ticksFrom(all, 0, N - 1, S.freq, fmt)} label={nm} /></Frame>;
           }
           const cb = cycleBars(c.v, S, n, c.P, fmt);
           return <Frame key={c.P} title={E.tCycle(nm)} sub={sub}><Bars values={cb.values.map(eff)} labels={cb.labels} fmt={effFmt} label={nm} /></Frame>;
@@ -135,8 +134,8 @@ export function SarimaxEx({ ex, S, T, fmt, h, ho }) {
   const promoIdx = S.drivers.names.indexOf('promo');
   const marksTest = promoIdx >= 0 ? S.drivers.X.slice(cut).map((x, k) => (x[promoIdx] ? { x: cut + k - from, label: E.promoMark } : null)).filter(Boolean) : [];
   const lines = cmp && ho ? [
-    { id: 'arima', name: E.sNoX, color: SERIES[1], fc: cmp.a.r.fc, mase: cmp.a.m.mase },
-    { id: 'drivers', name: E.sReg, color: SERIES[2], fc: cmp.d.r.fc, mase: cmp.d.m.mase },
+    { id: 'arima', name: E.sNoX, color: BRAND.amber, fc: cmp.a.r.fc, mase: cmp.a.m.mase },
+    { id: 'drivers', name: E.sReg, color: BRAND.teal, fc: cmp.d.r.fc, mase: cmp.d.m.mase },
     { id: 'sarimax', name: E.sBoth, color: FC, fc: ho.r.fc, mase: ho.m.mase },
   ] : [];
   const ord = o => `ARIMA(${o.p},${o.d},${o.q})${o.D ? `(0,${o.D},0)${o.m}` : ''}`;
@@ -159,9 +158,9 @@ export function SarimaxEx({ ex, S, T, fmt, h, ho }) {
       )}
       <div className="ex-grid">
         <Frame title={E.sFuture} sub={E.sFutureSub}>
-          <Lines series={[{ values: S.y.slice(fFrom), color: NEUTRAL, w: 1.4, name: T.legend.actual }, { values: [S.y[n - 1], ...ex.plain.map(clip)], x0: n - 1 - fFrom, color: SERIES[1], w: 1.6, name: E.sNoX }, { values: [S.y[n - 1], ...ex.xb.map((v, k) => clip(v + ex.eta[k]))], x0: n - 1 - fFrom, color: FC, w: 2.4, name: E.sBoth }]}
+          <Lines series={[{ values: S.y.slice(fFrom), color: NEUTRAL, w: 1.4, name: T.legend.actual }, { values: [S.y[n - 1], ...ex.plain.map(clip)], x0: n - 1 - fFrom, color: BRAND.amber, w: 1.6, name: E.sNoX }, { values: [S.y[n - 1], ...ex.xb.map((v, k) => clip(v + ex.eta[k]))], x0: n - 1 - fFrom, color: FC, w: 2.4, name: E.sBoth }]}
             height={160} fmt={fmt.axis} markX={n - 1 - fFrom} marks={promoF} xlab={dateLab(S, fFrom, fmt)} ticks={ticksFrom(all, fFrom, n - 1 + h, S.freq, fmt)} label={E.sFuture} />
-          <div className="fc-legend small"><span><i className="fc-sw" style={{ background: SERIES[1] }} />{E.sNoX}: {ord(ex.plainOrder)}</span><span><i className="fc-sw fc" />{E.sBoth}</span></div>
+          <div className="fc-legend small"><span><i className="fc-sw" style={{ background: BRAND.amber, '--sw': BRAND.amber }} />{E.sNoX}: {ord(ex.plainOrder)}</span><span><i className="fc-sw fc" />{E.sBoth}</span></div>
         </Frame>
         <Frame title={E.coef} sub={`${E.sErrors}: ${ord(ex.order)}`}>
           <ul className="ex-coef">
@@ -186,7 +185,8 @@ export function SarimaxEx({ ex, S, T, fmt, h, ho }) {
 
 // ——— Бустинг і SHAP ———
 const GROUP = { lag1: 'lags', lag2: 'lags', lagm: 'lags', pos: 'season' };
-const GROUP_COLOR = { trend: '#94A3B8', lags: SERIES[3], season: SERIES[4], drivers: FC };
+// групи ознак SHAP у кольорах бренд-буку (пара з тренду Slate і трьох серій перевірена валідатором)
+const GROUP_COLOR = { trend: BRAND.slate, lags: BRAND.violet, season: BRAND.amber, drivers: BRAND.cyan };
 
 export function ShapEx({ ex, S, T, fmt, h, r }) {
   const E = T.ex, n = S.y.length;
@@ -252,10 +252,10 @@ export function IntermittentEx({ ex, S, T, fmt, h }) {
       </Frame>
       <div className="ex-grid">
         <Frame title={E.iProb} sub={E.iProbSub(fmt.pct0(ex.prob), fmt.pct0(share))}>
-          <Lines series={[{ values: ex.Q.map(v => (Number.isFinite(v) ? v : NaN)), color: SERIES[2], w: 2, name: 'TSB' }, { values: new Array(n).fill(share), color: NEUTRAL, w: 1.2, dash: '4 4' }]} fmt={fmt.pct0} zero ticks={ticks} xlab={dateLab(S, 0, fmt)} label={E.iProb} />
+          <Lines series={[{ values: ex.Q.map(v => (Number.isFinite(v) ? v : NaN)), color: BRAND.teal, w: 2, name: 'TSB' }, { values: new Array(n).fill(share), color: NEUTRAL, w: 1.2, dash: '4 4' }]} fmt={fmt.pct0} zero ticks={ticks} xlab={dateLab(S, 0, fmt)} label={E.iProb} />
         </Frame>
         <Frame title={E.iGap} sub={E.iGapSub(fmt.dec1(ex.interval))}>
-          <Lines series={[{ values: ex.P, color: SERIES[3], w: 2 }]} zero fmt={fmt.axis} vfmt={fmt.dec1} xlab={dateLab(S, 0, fmt)} dots={ex.gaps.map(g => ({ x: g.t, y: g.gap, color: NEUTRAL, r: 2.6 }))} ticks={ticks} label={E.iGap} />
+          <Lines series={[{ values: ex.P, color: BRAND.cyan, w: 2 }]} zero fmt={fmt.axis} vfmt={fmt.dec1} xlab={dateLab(S, 0, fmt)} dots={ex.gaps.map(g => ({ x: g.t, y: g.gap, color: NEUTRAL, r: 2.6 }))} ticks={ticks} label={E.iGap} />
         </Frame>
       </div>
       <Frame title={E.iCmp} sub={E.iCmpSub(T.per(S.H, S.freq, T))}>
