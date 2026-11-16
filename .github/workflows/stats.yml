@@ -17,7 +17,7 @@ jobs:
   check:
     if: github.repository == 'SergiyBelyakov/belyakovconsult'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15            # 16.11: 5 хв не вистачало на pull --rebase після збору (запуск скасовано)
     steps:
       - uses: actions/checkout@v4
         with:
