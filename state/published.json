@@ -715,7 +715,7 @@
     "status": "skipped-late"
   },
   "document-type-matters/linkedinpage-uk-3": {
-    "at": "2026-11-16 21:54",
+    "at": "2026-11-16 22:03",
     "auth_error": true,
     "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
     "publish_at": "2026-11-16 11:00",
@@ -2291,6 +2291,12 @@
     "id": "18115881476580321",
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/Df0D8o3ifyH"
+  },
+  "note-2026-11-16/threads-uk": {
+    "at": "2026-11-16 22:03",
+    "id": "17918383266470687",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/Df0K6vWmE6T"
   },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
