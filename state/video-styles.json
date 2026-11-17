@@ -722,6 +722,7 @@
   },
   "premium-two-revenues#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 50,
