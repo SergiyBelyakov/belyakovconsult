@@ -1632,7 +1632,9 @@
     "at": "2026-11-18 18:48",
     "id": "18100149179434089",
     "status": "published",
-    "url": "https://www.instagram.com/reel/Df4-LXegfiP/"
+    "url": "https://www.instagram.com/reel/Df4-LXegfiP/",
+    "deleted_by_owner": "2026-11-18 21:11",
+    "note": "власник видалив через 7 переглядів за ~2,5 год; status лишається published, щоб конвеєр не опублікував повторно"
   },
   "neon-smash/telegram-uk": {
     "at": "2026-11-18 18:48",
