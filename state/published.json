@@ -715,11 +715,9 @@
     "status": "skipped-late"
   },
   "document-type-matters/linkedinpage-uk-3": {
-    "at": "2026-11-18 10:47",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-18 11:03",
     "publish_at": "2026-11-16 11:00",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "document-type-matters/telegram-uk": {
     "at": "2026-11-12 10:03",
@@ -2413,6 +2411,13 @@
     "id": "18071063984786982",
     "status": "published",
     "url": "https://www.instagram.com/reel/DfzazSalddP/"
+  },
+  "report-changed-after-month-end/linkedinpage-uk": {
+    "at": "2026-11-18 11:03",
+    "auth_error": true,
+    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "publish_at": "2026-11-16 13:30",
+    "status": "retry"
   },
   "report-changed-after-month-end/telegram-uk": {
     "at": "2026-11-16 10:03",
