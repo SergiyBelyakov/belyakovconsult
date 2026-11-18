@@ -742,6 +742,7 @@
   },
   "report-changed-after-month-end#2": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-3.jpg",
     "icon": "service-bi.webp",
     "k": 23,
