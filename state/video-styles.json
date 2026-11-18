@@ -358,6 +358,16 @@
     "music": "cinematic",
     "wave": "wave-5.jpg"
   },
+  "neon-smash#1": {
+    "cover": "icon",
+    "frozen": true,
+    "globe": "globe-1.jpg",
+    "icon": "service-financial-analytics.webp",
+    "k": 51,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-7.jpg"
+  },
   "night-drive#1": {
     "cover": "icon",
     "frozen": true,
