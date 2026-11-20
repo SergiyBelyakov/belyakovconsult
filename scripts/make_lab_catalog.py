@@ -36,7 +36,7 @@ AUDS = ["communities", "public", "business", "learning", "donors"]
 T = {
     "uk": {
         "open": "Відкрити демо", "play": "Грати", "scene": "Відкрити сцену", "read": "Читати кейс", "more": "Детальніше",
-        "nav": "Розділи лабораторії", "demos": "Демо", "games": "Ігри", "cases": "Кейси",
+        "nav": "Розділи лабораторії", "demos": "Демо", "games": "Ігри", "cases": "Кейси", "journal": "Журнал проєктів",
         "search": "Пошук: прогноз, карта, якість даних…", "search_label": "Пошук у лабораторії",
         "for": "Для кого", "all": "Усі",
         "aud": {"communities": "Громадам", "public": "Держсектору", "business": "Бізнесу", "learning": "Навчання", "donors": "Донорам"},
@@ -49,7 +49,7 @@ T = {
     },
     "en": {
         "open": "Open the demo", "play": "Play", "scene": "Open the scene", "read": "Read the case", "more": "Details",
-        "nav": "Data Lab sections", "demos": "Demos", "games": "Games", "cases": "Cases",
+        "nav": "Data Lab sections", "demos": "Demos", "games": "Games", "cases": "Cases", "journal": "Project journal",
         "search": "Search: forecast, map, data quality…", "search_label": "Search the Data Lab",
         "for": "Who it is for", "all": "All",
         "aud": {"communities": "Communities", "public": "Public sector", "business": "Business", "learning": "Learning", "donors": "Donors"},
@@ -62,7 +62,7 @@ T = {
     },
     "pt": {
         "open": "Abrir a demo", "play": "Jogar", "scene": "Abrir a cena", "read": "Ler o caso", "more": "Detalhes",
-        "nav": "Secções do laboratório", "demos": "Demos", "games": "Jogos", "cases": "Casos",
+        "nav": "Secções do laboratório", "demos": "Demos", "games": "Jogos", "cases": "Casos", "journal": "Revista de projetos",
         "search": "Pesquisar: previsão, mapa, qualidade…", "search_label": "Pesquisar no laboratório",
         "for": "Para quem", "all": "Todas",
         "aud": {"communities": "Municípios", "public": "Setor público", "business": "Empresas", "learning": "Formação", "donors": "Doadores"},
@@ -222,7 +222,8 @@ def build(s: str, lang: str, manifest: dict) -> tuple[str, dict]:
     n = {"demos": len(demo_cards), "games": len(games), "cases-by-domain": len(cases) + len(ex_case)}
     nav = (f'<nav class="lab-nav" aria-label="{t["nav"]}"><div class="lab-nav-links">'
            + "".join(f'<a href="#{gid}">{t[key]}<span>{n[gid]}</span></a>' for gid, key in (("demos", "demos"), ("games", "games"), ("cases-by-domain", "cases")) if n[gid])
-           + f'</div><button type="button" class="lab-search-toggle" aria-label="{e(t["search_label"])}" aria-expanded="false" hidden>{SEARCH_ICON}</button>'
+           + f'<a class="lab-journal-link" href="/cases/journal/?lang={lang}">{e(t["journal"])}<span>06</span></a></div>'
+           + f'<button type="button" class="lab-search-toggle" aria-label="{e(t["search_label"])}" aria-expanded="false" hidden>{SEARCH_ICON}</button>'
            f'<label class="lab-search" hidden>{SEARCH_ICON}<input type="search" placeholder="{e(t["search"])}" aria-label="{e(t["search_label"])}" autocomplete="off"/></label></nav>')
     parts = [nav, group("demos", t["demos_kicker"], t["demos_title"], demo_cards, demo_details, lang, chips)]
     if games:

@@ -1131,6 +1131,9 @@ img { max-width:100%; }
 .lab-nav-links a:hover{color:#F4F6F8;background:rgba(255,255,255,.04)}
 .lab-nav-links a.is-active{color:#F4F6F8;background:rgba(217,4,41,.12);box-shadow:inset 0 0 0 1px rgba(217,4,41,.55)}
 .lab-nav-links a.is-active span{background:#D90429;color:#fff}
+.lab-nav-links a.lab-journal-link{color:#f5d0d5;background:linear-gradient(135deg,rgba(217,4,41,.17),rgba(217,4,41,.06));box-shadow:inset 0 0 0 1px rgba(217,4,41,.35)}
+.lab-nav-links a.lab-journal-link span{background:#D90429;color:#fff}
+.lab-nav-links a.lab-journal-link:hover{color:#fff;background:rgba(217,4,41,.24)}
 .lab-nav-links a:focus-visible,.lab-filters button:focus-visible,.lab-dialog-bar button:focus-visible{outline:2px solid #D90429;outline-offset:2px}
 .lab-search{flex:1 1 260px;display:flex;align-items:center;gap:10px;min-height:44px;margin-left:auto;max-width:420px;padding:0 14px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.03);color:#7f8a98;transition:border-color .2s}
 .lab-search[hidden]{display:none}
