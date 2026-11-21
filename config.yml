@@ -22,7 +22,7 @@ late_policy:
   grace_minutes: 90
   gap_minutes: 90
   skip_late_notes: true
-  quiet_hours: [0, 8]
+  quiet_hours: [23, 8]   # запізнілі дописи не виходять з 23:00 до 08:00 (було [0, 8]; змінено 21.11 після інциденту)
 
 site:
   base_url: https://www.belyakovconsult.com
