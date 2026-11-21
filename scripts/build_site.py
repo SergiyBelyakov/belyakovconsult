@@ -112,7 +112,7 @@ def main() -> int:
     # Окремі дописи з блоком promo: власне промо-відео (LinkedIn 4:5 / Reels 9:16)
     import make_promo
     for post in load_posts(cfg):
-        if post.promo and post.channel in ("linkedinpage", "instagram"):
+        if post.promo and post.channel in ("linkedinpage", "instagram") and cfg["channels"].get(post.channel, {}).get("enabled"):
             make_promo.build_for_post(cfg, post)
     # Картки коротких нотаток Instagram (content/notes): рендеримо наперед, щоб адреси були доступні в час публікації
     for post in load_notes(cfg):

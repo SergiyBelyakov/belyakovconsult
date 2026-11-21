@@ -7,7 +7,7 @@ mode: dry-run
 
 # Канали, які публікуються по-справжньому навіть у режимі dry-run.
 # Додавайте мережу сюди, коли її ключі налаштовані й перевірені.
-live_channels: [telegram, instagram, threads, linkedinpage, youtube]   # linkedinpage без секретів LinkedIn йде вам у Telegram для ручної публікації
+live_channels: [telegram, instagram, threads, youtube]   # LinkedIn прибрано з конвеєра 21.11: власник публікує туди обрані відео вручну
 
 timezone: Europe/Kyiv
 
@@ -127,7 +127,7 @@ channels:
   # Сторінка компанії Belyakov Consult. Потрібні секрети LINKEDIN_ORG_ID і LINKEDIN_PAGE_TOKEN
   # (токен застосунку з продуктом Community Management API, дозвіл w_organization_social).
   linkedinpage:
-    enabled: true
+    enabled: false          # вимкнено 21.11 на прохання власника: обрані відео він публікує в LinkedIn вручну
     languages: [uk, en]
     max_chars: 3000
     media: motion
