@@ -1,5 +1,5 @@
 ---
-publish_at: 2026-11-19 10:00   # промо з відео власника (make_promo.py), найкращий слот next_slot
+publish_at: 2026-11-24 10:00   # промо з відео власника (make_promo.py), найкращий слот next_slot
 link: false
 media: motion
 video: uk/data-promo-9x16.mp4

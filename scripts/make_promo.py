@@ -1,19 +1,36 @@
-"""Преміум-промо з відео власника (18.11.2026): постпродакшн і брендовий фінал, 9:16, EN і UA.
+"""Промо-ролики англійською у преміальному стилі: типографіка, один 3D-об'єкт, фірмова хвиля.
 
-Джерело: квадратне відео 720×720 у кадрі 1280×720 (16,5 с): людина за екранами з даними → голограми графіків →
-мережа зв'язків → всесвіт даних. Кадр не обрізаємо: квадрат стоїть на всю ширину, зверху й знизу м'яке
-продовження того самого кадру, розмите й затемнене.
+Два формати з одного рушія:
+  reels    1080×1920 (9:16)  англійські Reels в Instagram          → promo.mp4, promo-cover.jpg
+  linkedin 1080×1350 (4:5)   тригер-відео для сторінки в LinkedIn → linkedin.mp4, linkedin-cover.jpg
+LinkedIn вмикає відео без звуку, тож увесь зміст читається з екрана; музика лише підсилює.
 
-Постпродакшн: шумозаглушення й апскейл 1080 (lanczos + різкість), грейд (графітові тіні, теплі світла кольору
-шампань, м'який S-контраст), повільний наїзд, кутові рамки, зерно, віньєтка, перехід у ядро галактики зі спалахом.
-Тексти: хук-біль на кадрі 0, три смислові кроки під сцени відео, фінал з логотипом, послугами, сайтом і фразою бренду.
-Якорі з premium_anchors.py: біль на хуку, полегшення на «всю картину», звуковий логотип у фіналі.
+Принципи (premium-v3): стриманість і повітря; рух з довгим загасанням (expo/quint), без тремтіння,
+спалахів і частинок; рубін лише як акцент (одне слово, тонка лінія, позначка); один 3D-об'єкт із
+«фокусуванням» як у кіно; фірмова хвиля з банера дизайн-системи як підкладка; легке плівкове зерно
+й м'який відблиск світла.
 
-Запуск: python scripts/make_promo.py <en|uk> <джерело.mov> <out.mp4> [мелодія]
+Сцени (~18 с, 30 fps):
+  1. Гачок (0–3,2 с): тег дрібними літерами, потім 2–4 величезні слова виїжджають з-під маски,
+     міжлітерна відстань стискається; під блоком малюється тонка рубінова лінія.
+  2. Об'єкт (3,2–7,2 с): гачок плавно стає заголовком угорі; 3D-об'єкт з'являється розмитим,
+     фокусується й повільно наближається над хвилею.
+  3. Тези (7,2–15 с): позначка рівня, теза рядок за рядком з-під маски, лінія-прогрес;
+     на фоні великий контурний номер ледь помітним шаром.
+  4. Заклик (15–18 с): знак бренду, питання до аудиторії, адреса сайту, тонка лінія.
+Зміст береться зі статті чи епізоду автоматично; сильніше задати явно полем `promo:`:
+  promo:
+    hook: "Valid format. Wrong payment."
+    tag: "ISO 8000-8: three levels of data quality"
+    points: [{label: Syntax, text: "Does the value match the format?"}, "…", "…"]
+    cta: "Which level does your register actually measure?"
+Картинки ніколи не обрізаються: об'єкт і хвиля вписуються цілком, краї хвилі м'яко розчиняються.
 """
 from __future__ import annotations
 
-import math
+import hashlib
+import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -23,301 +40,465 @@ from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
-import make_nightdrive as nd  # noqa: E402
-import premium_anchors as pa  # noqa: E402
-from make_nightdrive import CHAMPAGNE, FPS, GRAPHITE, H, MIDNIGHT, RUBY, SILVER, W, WHITE, bwrap, clamp, ease, tracked  # noqa: E402
+import glass  # noqa: E402
+import glass_scenes  # noqa: E402
+import make_cards  # noqa: E402
+import music  # noqa: E402
 
-SRC_CROP = "720:720:280:0"
-T_V = 16.5          # кінець відео-частини
-T_ZOOM = 15.9       # початок переходу в ядро галактики
-T_FLASH = 16.45
-T_TOTAL = 22.0
-VC = (540, 1120)    # центр квадрата відео
-TEXT_Y = 300
+FPS = 30
+SCENES = [("hook", 3.2), ("object", 4.0), ("p1", 2.6), ("p2", 2.6), ("p3", 2.6), ("cta", 3.0)]
+VERSION = "promo-v3-premium"
+ROOT = Path(__file__).resolve().parent.parent
+ASSETS = ROOT / "site" / "assets"
+BG_DIR = ROOT / "brand-assets" / "bg"
+CALM_MUSIC = ("cinematic", "ambient", "analytic")      # преміальний ролик: лише спокійні стилі
+ALL_ICONS = ["service-quality.webp", "service-architecture.webp", "service-bi.webp", "service-governance.webp",
+             "service-data-analysis.webp", "service-consulting.webp", "service-financial-analytics.webp",
+             "service-management-analytics.webp", "service-geospatial.webp"]
 
-TEXT = {
-    "en": dict(label="BEFORE EVERY DECISION", hook="Can you trust this number?",
-               say=[(4.4, 8.4, "We check the data before it reaches *your desk.*", 0.07, False),
-                    (8.4, 11.0, "*Sources.* *Links.* *Logic.*", 0.6, True),
-                    (11.0, 15.9, "So you see *the whole picture.*", 0.07, True)],
-               services="BI · DATA ARCHITECTURE · DATA GOVERNANCE"),
-    "uk": dict(label="ПЕРЕД КОЖНИМ РІШЕННЯМ", hook="Цьому числу можна вірити?",
-               say=[(4.4, 8.4, "Ми перевіряємо дані, перш ніж вони ляжуть *вам на стіл.*", 0.07, False),
-                    (8.4, 11.0, "*Джерела.* *Зв’язки.* *Логіка.*", 0.6, True),
-                    (11.0, 15.9, "Щоб ви бачили *всю картину.*", 0.07, True)],
-               services="BI · АРХІТЕКТУРА ДАНИХ · DATA GOVERNANCE"),
+FORMATS = {
+    "reels": dict(W=1080, H=1920, top=230, bottom=360, M=84, hook_cy=900, max_hook=230,
+                  head_y=330, head_scale=0.40, obj_cy=1150, obj_h=620, pt_cy=900, pt_size=112,
+                  cta_cy=900, tag_bottom=1460,
+                  files=("promo.mp4", "promo-cover.jpg", "promo.json")),
+    "linkedin": dict(W=1080, H=1350, top=64, bottom=64, M=84, hook_cy=650, max_hook=200,
+                     head_y=150, head_scale=0.38, obj_cy=850, obj_h=500, pt_cy=600, pt_size=96,
+                     cta_cy=640, tag_bottom=1230, cover_t=2.9,
+                     files=("linkedin.mp4", "linkedin-cover.jpg", "linkedin.json")),
 }
 
 
-def seg(t, a, b):
-    return ease((t - a) / max(1e-6, b - a))
+# ---------- криві руху ----------
+def clamp(x):
+    return min(1.0, max(0.0, x))
 
 
-# ---------------------------------------------------------------- грейд
-def grade_luts():
-    x = np.arange(256, dtype=np.float32) / 255
-    s = np.clip(0.5 + (x - 0.5) * 1.06 + 0.07 * np.sin(np.pi * (x - 0.5)) * (1 - abs(2 * x - 1)), 0, 1)  # м'який S
-    lift = (1 - x) ** 3                                    # тіні в графіт із синявою
-    hi = np.clip((x - 0.55) / 0.45, 0, 1) ** 1.5            # світла в шампань
-    r = s * 255 + 2 * lift + 10 * hi
-    g = s * 255 + 5 * lift + 4 * hi
-    b = s * 255 + 11 * lift - 6 * hi
-    return [np.clip(c, 0, 255).astype(np.uint8) for c in (r, g, b)]
+def expo(x):                      # швидкий старт, дуже довге загасання
+    x = clamp(x)
+    return 1.0 if x >= 1 else 1 - 2 ** (-10 * x)
 
 
-LUTS = grade_luts()
+def quint_io(x):                  # плавно розганяється й плавно зупиняється
+    x = clamp(x)
+    return 16 * x ** 5 if x < 0.5 else 1 - (-2 * x + 2) ** 5 / 2
 
 
-def grade(a):
-    out = np.empty_like(a)
-    for c in range(3):
-        out[..., c] = LUTS[c][a[..., c]]
-    f = out.astype(np.float32)
-    luma = f @ np.array([0.299, 0.587, 0.114], np.float32)
-    f = luma[..., None] + (f - luma[..., None]) * 1.08     # трохи насиченості
-    return np.clip(f, 0, 255).astype(np.uint8)
+def with_alpha(img, a):
+    if a >= 0.999:
+        return img
+    im = img.copy()
+    im.putalpha(im.getchannel("A").point(lambda v: int(v * max(0.0, a))))
+    return im
 
 
-# ---------------------------------------------------------------- ролик
-class Promo:
-    def __init__(self, lang):
-        self.lang = lang
-        self.S = TEXT[lang]
-        self.lock = brand.lockup(52)
-        self.logo = brand.logo(220)
-        self.f_label = brand.font("body-semi", 28)
-        self.f_hook = brand.font("head", 86)
-        self.f_say = brand.font("body-semi", 56)
-        self.f_big = brand.font("head", 74)
-        self.f_name = brand.font("body-semi", 62)
-        self.f_serv = brand.font("body-semi", 26)
-        self.f_url = brand.font("body-semi", 34)
-        self.f_tag = brand.font("body-semi", 26)
-        self.f_foot = brand.font("body-semi", 22)
-        m = Image.new("L", (1080, 1080), 0)
-        ImageDraw.Draw(m).rectangle([70, 70, 1010, 1010], fill=255)
-        self.mask = m.filter(ImageFilter.GaussianBlur(40))
-        yy, xx = np.mgrid[0:H, 0:W]
-        v = 1 - 0.5 * np.clip((np.hypot((xx - 540) / 760, (yy - 1000) / 1200) - 0.55) / 0.6, 0, 1) ** 1.6
-        self.vig = v[..., None].astype(np.float32)
-        rng = np.random.default_rng(4)
-        self.grain = [rng.normal(0, 4.0, (H // 2, W // 2, 1)).astype(np.float32) for _ in range(6)]
-        self.dust = [(rng.uniform(0, W), rng.uniform(0, H), rng.uniform(5, 18), rng.uniform(1, 2.4)) for _ in range(40)]
-        top, bot = np.array(MIDNIGHT, np.float32), np.array(GRAPHITE, np.float32)
-        y = np.linspace(0, 1, H, dtype=np.float32)[:, None, None]
-        self.base = np.broadcast_to(top + (bot - top) * y, (H, W, 3)).astype(np.float32)
-        self.last = None
-        self.end_bg = None
-
-    # ---- фон і відео
-    def fill(self, src):
-        small = Image.fromarray(src).resize((64, 64), Image.BILINEAR)
-        w = int(64 * W / H)
-        strip = small.crop(((64 - w) // 2, 0, (64 - w) // 2 + w, 64)).filter(ImageFilter.GaussianBlur(2))
-        big = np.asarray(strip.resize((W, H), Image.BICUBIC), np.float32)
-        return self.base * 0.55 + big * 0.33
-
-    def video_layer(self, img, src, t):
-        size = int(1010 + 70 * ease(t / T_V))
-        sq = Image.fromarray(src).resize((size, size), Image.LANCZOS).convert("RGBA")
-        sq.putalpha(self.mask.resize((size, size), Image.BILINEAR))
-        x0, y0 = VC[0] - size // 2, VC[1] - size // 2
-        img.alpha_composite(sq, (x0, y0))
-        lay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(lay)
-        a = int(150 * seg(t, 0.3, 1.2) * (1 - seg(t, T_ZOOM - 0.4, T_ZOOM)))
-        if a > 0:                                          # кутові рамки видошукача
-            m, L = 26, 54
-            x1, y1 = x0 + size, y0 + size
-            for cx, cy, sx, sy in ((x0 - m, y0 - m, 1, 1), (x1 + m, y0 - m, -1, 1), (x0 - m, y1 + m, 1, -1),
-                                   (x1 + m, y1 + m, -1, -1)):
-                d.line([(cx, cy + sy * L), (cx, cy), (cx + sx * L, cy)], fill=(*CHAMPAGNE, a), width=3)
-        img.alpha_composite(lay)
-
-    # ---- тексти
-    def caption(self, d, text, t, t0, t1, stagger, big):
-        if not (t0 <= t < t1 + 0.01):
-            return
-        f = self.f_big if big else self.f_say
-        words = text.split()
-        plain = " ".join(w.strip("*") for w in words)
-        flags, state = [], False
-        for w in words:
-            st = w.startswith("*")
-            flags.append(state or st)
-            state = (state or st) and not w.endswith("*")
-        out = 1 - seg(t, t1 - 0.25, t1)
-        lines = bwrap(plain, f, 940)
-        lh = int(f.size * 1.2)
-        y = TEXT_Y + (220 - lh * len(lines)) / 2
-        idx = 0
-        for ln in lines:
-            x = (W - f.getlength(ln)) / 2
-            for wd in ln.split():
-                k = ease((t - t0 - stagger * idx) / 0.32)
-                col = CHAMPAGNE if flags[idx] else WHITE
-                d.text((x, y + (1 - k) * 16), wd, font=f, fill=(*col, int(255 * k * out)))
-                x += f.getlength(wd + " ")
-                idx += 1
-            y += lh
-
-    def texts(self, fr, t):
-        lay = Image.new("RGBA", fr.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(lay)
-        if t < 4.4:                                        # хук повністю видно з кадру 0
-            a = 1 - seg(t, 4.15, 4.4)
-            tracked(d, self.S["label"], self.f_label, 540, 262, (*RUBY, int(255 * a)), 7)
-            y = 330
-            for ln in bwrap(self.S["hook"], self.f_hook, 960):
-                d.text((540, y), ln, font=self.f_hook, fill=(*WHITE, int(255 * a)), anchor="ma")
-                y += 100
-        for t0, t1, s, stg, big in self.S["say"]:
-            self.caption(d, s, t, t0, t1, stg, big)
-        a = seg(t, 0.6, 1.4) * (1 - seg(t, T_ZOOM - 0.3, T_ZOOM))
-        if a > 0:
-            tracked(d, self.S["services"], self.f_foot, 540, 1790, (*SILVER, int(200 * a)), 5)
-        fr.alpha_composite(lay)
-
-    def finale(self, fr, t):
-        u = t - T_V
-        lay = Image.new("RGBA", fr.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(lay)
-        k = seg(u, 0.15, 0.85)
-        lg = self.logo.resize((int(self.logo.width * (0.9 + 0.1 * k)), int(self.logo.height * (0.9 + 0.1 * k))), Image.LANCZOS)
-        nd.comp(fr, lg, W / 2 - lg.width / 2, 830 - lg.height / 2, k)
-        sh = u - 1.0                                       # відблиск по логотипу
-        if 0 <= sh < 0.8:
-            band = Image.new("L", lg.size, 0)
-            bd = ImageDraw.Draw(band)
-            x = -lg.width * 0.4 + sh / 0.8 * lg.width * 1.8
-            bd.polygon([(x, 0), (x + 60, 0), (x - 60 + 60, lg.height), (x - 120 + 60, lg.height)], fill=170)
-            band = band.filter(ImageFilter.GaussianBlur(14))
-            alpha = np.asarray(lg.getchannel("A"), np.float32) / 255 * np.asarray(band, np.float32)
-            glow = Image.new("RGBA", lg.size, (255, 244, 225, 0))
-            glow.putalpha(Image.fromarray(alpha.astype(np.uint8)))
-            fr.alpha_composite(glow, (int(W / 2 - lg.width / 2), int(830 - lg.height / 2)))
-        k2 = seg(u, 0.6, 1.2)
-        d.text((540, 1035 + (1 - k2) * 16), "Belyakov Consult", font=self.f_name, fill=(*WHITE, int(255 * k2)), anchor="ma")
-        k3 = seg(u, 0.9, 1.5)
-        tracked(d, self.S["services"], self.f_serv, 540, 1140, (*SILVER, int(230 * k3)), 5)
-        k4 = seg(u, 1.3, 1.9)
-        d.line([540 - 70 * k4, 1208, 540 + 70 * k4, 1208], fill=(*RUBY, int(255 * k4)), width=3)
-        tracked(d, "BELYAKOVCONSULT.COM", self.f_url, 540, 1250, (*SILVER, int(255 * k4)), 6)
-        k5 = seg(u, 1.8, 2.4)                              # якір бренду
-        tracked(d, pa.TAGLINE[self.lang], self.f_tag, 540, 1340, (*pa.CHAMPAGNE, int(240 * k5)), 5)
-        fr.alpha_composite(lay)
-
-    # ---- кадр
-    def frame(self, t, src):
-        if src is not None:
-            self.last = src
-        if t < T_V:
-            img = Image.fromarray(np.clip(self.fill(src), 0, 255).astype(np.uint8)).convert("RGBA")
-            self.video_layer(img, src, t)
-        else:
-            if self.end_bg is None:
-                bgi = Image.fromarray(self.last).resize((W, W), Image.BILINEAR).filter(ImageFilter.GaussianBlur(26))
-                pad = Image.new("RGB", (W, H), GRAPHITE)
-                pad.paste(bgi, (0, VC[1] - W // 2))
-                self.end_bg = np.asarray(pad.filter(ImageFilter.GaussianBlur(40)), np.float32)
-            u = t - T_V
-            z = 1.0 + 0.06 * u / (T_TOTAL - T_V)
-            e = Image.fromarray(np.clip(self.end_bg * 0.3 + self.base * 0.7, 0, 255).astype(np.uint8))
-            cw, ch = W / z, H / z
-            e = e.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
-            img = e.convert("RGBA")
-        lay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(lay)
-        for x, y, sp, r in self.dust:
-            yy = (y - sp * t * 3) % H
-            d.ellipse([x - r, yy - r, x + r, yy + r], fill=(*CHAMPAGNE, 34))
-        img.alpha_composite(lay)
-        if t < T_ZOOM:
-            img.alpha_composite(self.lock, (72, 116))
-            if t < 0.8:                                    # якір болю під хуком (під текстом)
-                pa.pain_rings(img, 540, 420, t / 0.8, 1.5)
-            self.texts(img, t)
-            if 0 <= t - 11.0 < 0.9:                        # якір полегшення
-                pa.relief_sweep(img, (90, 270, 990, 540), (t - 11.0) / 0.9)
-        else:
-            if t >= T_V:
-                self.finale(img, t)
-        out = np.asarray(img.convert("RGB"), np.float32)
-        if T_ZOOM <= t < T_V:                              # наїзд у ядро галактики
-            u = (t - T_ZOOM) / (T_V - T_ZOOM)
-            z = 1 + 2.2 * u ** 2
-            cw, ch = W / z, H / z
-            cy = min(max(VC[1], ch / 2), H - ch / 2)       # центр наїзду, але рамка в межах кадру
-            im = Image.fromarray(out.astype(np.uint8)).resize(
-                (W, H), Image.BILINEAR, box=(VC[0] - cw / 2, cy - ch / 2, VC[0] + cw / 2, cy + ch / 2))
-            out = np.asarray(im, np.float32)
-            blur = np.asarray(im.reduce(4).filter(ImageFilter.GaussianBlur(6)).resize((W, H)), np.float32)
-            out = out * (1 - 0.6 * u) + blur * 0.6 * u
-        fl = max(0.0, 1 - abs(t - T_FLASH) / 0.32)         # спалах кольору шампань
-        if fl > 0:
-            out = out + np.array([255, 236, 205], np.float32) * (fl ** 1.5) * 0.85
-        out *= self.vig
-        out += np.repeat(np.repeat(self.grain[int(t * FPS) % 6], 2, 0), 2, 1)
-        if t > T_TOTAL - 0.6:
-            out *= (T_TOTAL - t) / 0.6
-        return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+def scaled(img, s):
+    s = max(0.02, s)
+    return img.resize((max(1, int(img.width * s)), max(1, int(img.height * s))), Image.LANCZOS if s < 1 else Image.BICUBIC)
 
 
-# ---------------------------------------------------------------- звук
-def story_sfx(dry, send):
-    dry.put(pa.pain(), 0.0, 0.45)
-    dry.put(pa.relief(), 11.0, 0.3, pan=0.1)
-    n = int(1.2 * nd.SR)
-    riser = nd.sweep_bp(nd.noise(n, 7), 400, 7000) * np.linspace(0, 1, n) ** 2
-    send.put(riser, T_FLASH - 1.2, 0.28)
-    dry.put(nd.boom_sfx(5), T_FLASH, 0.6)
-    send.put(pa.logo(), T_V + 0.45, 0.42)
+def tracked(text, size, fill, kind="head", tracking=0.0):
+    """Текст із заданою міжлітерною відстанню (px), для анімації «стискання» літер."""
+    f = brand.font(kind, size)
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    adv = [probe.textlength(ch, font=f) for ch in text]
+    w = int(sum(adv) + tracking * max(0, len(text) - 1)) + 12
+    img = Image.new("RGBA", (max(1, w), int(size * 1.22)), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    x = 0.0
+    for ch, a in zip(text, adv):
+        d.text((x, 0), ch, font=f, fill=fill)
+        x += a + tracking
+    return img
 
 
-def render(lang, src: Path, out: Path, track=4):
-    out.parent.mkdir(parents=True, exist_ok=True)
-    wav = out.with_suffix(".wav")
-    nd.soundtrack(wav, story_sfx=story_sfx, track=track)
-    pro = Promo(lang)
-    dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", str(src), "-map", "0:v:0", "-vf",
-                            f"crop={SRC_CROP},fps={FPS},hqdn3d=1.2:1.2:2.5:2.5,scale=1080:1080:flags=lanczos,"
-                            "unsharp=5:5:0.55:5:5:0", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
-                           stdout=subprocess.PIPE)
-    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
-           "-i", "-", "-i", str(wav), "-i", str(src),
-           "-filter_complex", f"[2:a]volume=1.0,atrim=0:{T_V},apad[o];[1:a][o]amix=inputs=2:duration=first:normalize=0,"
-           f"atrim=0:{T_TOTAL},afade=t=out:st={T_TOTAL - 1.2}:d=1.2,loudnorm=I=-14:TP=-1.0:LRA=9[a]",
-           "-map", "0:v", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-tune", "film",
-           "-x264-params", "aq-mode=3", "-maxrate", "6000k", "-bufsize", "12M", "-pix_fmt", "yuv420p",
-           "-profile:v", "high", "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-t", str(T_TOTAL),
-           "-movflags", "+faststart", str(out)]
-    enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    fsize = 1080 * 1080 * 3
-    cover = None
-    try:
-        for k in range(int(T_TOTAL * FPS)):
-            t = k / FPS
-            src_fr = None
-            if t < T_V:
-                buf = dec.stdout.read(fsize)
-                if len(buf) == fsize:
-                    src_fr = grade(np.frombuffer(buf, np.uint8).reshape(1080, 1080, 3))
-                else:
-                    src_fr = pro.last
-            img = pro.frame(t, src_fr)
-            if k == 0:
-                cover = img
-            enc.stdin.write(img.tobytes())
-    finally:
-        enc.stdin.close()
-        enc.wait()
-        dec.kill()
-    wav.unlink(missing_ok=True)
-    cover.save(out.with_name(out.stem + "-cover.jpg"), "JPEG", quality=92)
-    if enc.returncode:
-        raise RuntimeError(f"ffmpeg завершився з кодом {enc.returncode}")
+def tracked_fit(text, max_w, size=28, fill=brand.SILVER):
+    """Тег розрядкою, що гарантовано вміщається: менший кегль, потім два рядки."""
+    for sz, tr in ((size, 3.0), (size - 2, 2.5), (size - 4, 2.0), (size - 6, 1.5)):
+        im = tracked(text, sz, fill, "body-semi", tr)
+        if im.width <= max_w:
+            return im
+    words = text.split()
+    best = None
+    for i in range(1, len(words)):                         # розрив на два рядки якомога рівніше
+        a, b = " ".join(words[:i]), " ".join(words[i:])
+        ia, ib = tracked(a, size - 2, fill, "body-semi", 2.5), tracked(b, size - 2, fill, "body-semi", 2.5)
+        w = max(ia.width, ib.width)
+        if w <= max_w and (best is None or w < best[0]):
+            best = (w, ia, ib)
+    if best is None:
+        return tracked(text, size - 6, fill, "body-semi", 1.0)
+    _, ia, ib = best
+    out = Image.new("RGBA", (max(ia.width, ib.width), ia.height + ib.height + 6), (0, 0, 0, 0))
+    out.alpha_composite(ia, (0, 0))
+    out.alpha_composite(ib, (0, ia.height + 6))
     return out
 
 
-if __name__ == "__main__":
-    print(render(sys.argv[1], Path(sys.argv[2]), Path(sys.argv[3]), int(sys.argv[4]) if len(sys.argv) > 4 else 4))
+def masked(layer, img, x, y, k, rise=1.0):
+    """Поява з-під маски: зображення виїжджає знизу у власні межі (видно лише всередині)."""
+    if k <= 0:
+        return
+    h = img.height
+    off = int((1 - k) * h * rise)
+    if off >= h:
+        return
+    layer.alpha_composite(img.crop((0, 0, img.width, h - off)), (int(x), int(y + off)))
+
+
+def fit_size(words, width, start, kind="head"):
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    size = start
+    while size > 40:
+        f = brand.font(kind, size)
+        if all(probe.textlength(w, font=f) <= width for w in words):
+            return size
+        size -= 4
+    return size
+
+
+def spec_for(cfg, article, style: dict) -> dict:
+    """Зміст промо: явне поле promo або автоматично з обкладинки й слайдів."""
+    p = dict(getattr(article, "promo", None) or {})
+    hook = p.get("hook") or article.title
+    words = [w_ for w_ in hook.upper().replace(",", "").replace(".", "").split() if w_]
+    if len(words) > 4:                      # одне велике слово на рядок
+        words = [w_ for w_ in words if len(w_) > 3][:4] or words[:4]
+    points = p.get("points") or [c.get("title", "") for c in article.carousel][:3]
+    return {"hook": words, "points": [x for x in points if x][:3],
+            "object": style.get("icon") or "service-quality.webp",
+            "wave": style.get("wave") or "wave-2.jpg",
+            "tag": p.get("tag") or (article.description if len(article.description) <= 60 else ""),
+            "cta": p.get("cta") or {"uk": "Більше розборів про дані щотижня", "pt": "Mais notas sobre dados todas as semanas"}
+                   .get(getattr(article, "lang", "en"), "More data notes every week")}
+
+
+class Promo:
+    def __init__(self, spec: dict, style: dict, seed: int, fmt: str = "reels"):
+        L = self.L = FORMATS[fmt]
+        W, H = self.W, self.H = L["W"], L["H"]
+        self.M = L["M"]
+        self.s = spec
+        self.total = sum(d for _, d in SCENES)
+        rng = np.random.default_rng(seed)
+        # фон: графіт із ледь світлішим «сталевим» центром і віньєткою (без рубінового світіння)
+        yy, xx = np.mgrid[0:H, 0:W]
+        r = np.sqrt(((xx - W * 0.5) / (W * 0.9)) ** 2 + ((yy - H * 0.42) / (H * 0.7)) ** 2)
+        mix = np.clip(1 - r, 0, 1) ** 1.6
+        base = np.zeros((H, W, 3), np.float32)
+        for c in range(3):
+            base[..., c] = brand.GRAPHITE[c] + (brand.STEEL[c] + 6 - brand.GRAPHITE[c]) * mix
+        self.bg = Image.fromarray(base.clip(0, 255).astype(np.uint8), "RGB").convert("RGBA")
+        # тонке зерно-фактура: нерухоме (шум, що змінюється щокадру, роздуває файл у рази)
+        n = rng.normal(128, 40, (H // 2, W // 2)).clip(0, 255).astype(np.uint8)
+        g = Image.fromarray(n, "L").resize((W, H), Image.BILINEAR)
+        gl = Image.new("RGBA", (W, H), (255, 255, 255, 0))
+        gl.putalpha(g.point(lambda v: max(0, v - 128) // 14))
+        self.grain = [gl]
+        # м'який відблиск: широка діагональна смуга світла
+        sw = Image.new("L", (700, 10), 0)
+        for x in range(700):
+            sw.putpixel((x, 0), int(15 * np.exp(-((x - 350) / 160) ** 2)))
+        sw = sw.resize((700, H * 2), Image.BILINEAR).rotate(-18, expand=True, resample=Image.BICUBIC)
+        self.sweep = Image.new("RGBA", sw.size, (255, 255, 255, 0))
+        self.sweep.putalpha(sw)
+        # хвиля з банера дизайн-системи: вписана по ширині, краї розчиняються (картинка не обрізається)
+        self.wave = None
+        wp = BG_DIR / spec["wave"]
+        if wp.exists():
+            im = Image.open(wp).convert("RGB")
+            im = im.resize((W, int(im.height * W / im.width)), Image.LANCZOS).convert("RGBA")
+            arr = np.asarray(im).astype(np.float32)
+            lum = arr[..., :3].max(axis=2)
+            m = np.clip((lum - 16) / 70, 0, 1)                               # світяться лише нитки хвилі, темний фон зникає
+            ty = np.linspace(0, 1, im.height)
+            m *= np.clip(ty / 0.30, 0, 1)[:, None] ** 1.5                     # верх розчиняється
+            tx = np.linspace(0, 1, im.width)
+            m *= np.clip(np.minimum(tx, 1 - tx) / 0.08, 0, 1)[None, :]        # бічні краї
+            im.putalpha(Image.fromarray((m * 255).astype(np.uint8), "L"))
+            self.wave = im
+        # Ruby Glass Graph (з 04.11.2026): мережа скляних куль замість хвилі й 3D-об'єкта, матове скло під тезами
+        self.graph = None
+        if style.get("look") == "glass":
+            self.wave = None
+            self.bg = glass.matte(W, H, seed % 1000)
+            cuts = list(np.cumsum([d for _, d in SCENES])[:-1])
+            band = 0.84 if H > 1500 else 0.86
+            sq = 0.5 if H > 1500 else 0.4
+            hero = L["obj_cy"] / H
+            anchors = [(0.5, band, 1.0, sq), (0.5, hero, 1.15, 0.85), (0.44, band, 1.0, sq), (0.56, band, 1.0, sq),
+                       (0.46, band, 1.0, sq), (0.5, band, 1.0, sq)]
+            vis = style.get("visual", "graph")                 # тематичний візуал (glass_scenes.pick)
+            self.graph = glass_scenes.make(vis, seed, W, H, self.total + 1, [float(c) for c in cuts], FPS,
+                                           scale=1.2 if H > 1500 else 1.0, anchors=anchors,
+                                           **({"hubs": 5, "leaves": (3, 6)} if vis == "graph" else {}))
+        # 3D-об'єкт: без темного фону, кеш розмиття для «фокусування»
+        self.obj = self._object(spec["object"], L["obj_h"])
+        self._blur = {}
+        # гачок
+        hl = spec["hook"]
+        self.hook_size = size = min(L["max_hook"], fit_size(hl, W - 2 * self.M - 30, L["max_hook"]))
+        self.line_h = int(size * 0.9)
+        self.hook_y0 = L["hook_cy"] - (self.line_h * len(hl)) // 2
+        self.hook_colors = [brand.RUBY if i >= (len(hl) + 1) // 2 else brand.WHITE for i in range(len(hl))]
+        self._tcache = {}
+        self.tag = tracked_fit(spec["tag"].upper(), W - 2 * self.M, 30 if H > 1500 else 28) if spec.get("tag") else None
+        # тези
+        self.points = []
+        for i, pt in enumerate(spec["points"]):
+            label = pt.get("label", "") if isinstance(pt, dict) else ""
+            text = pt.get("text", "") if isinstance(pt, dict) else str(pt)
+            s2 = fit_size(text.split(), W - 2 * self.M, L["pt_size"])
+            fl, lines = brand.fit(text, "head", W - 2 * self.M, s2, 56, 3)
+            imgs = [make_cards._text_block([ln], fl, brand.WHITE, 1.0) for ln in lines]
+            lab = tracked((f"{i + 1:02d}" + (f"  /  {label}" if label else "")).upper(), 30, brand.RUBY, "body-semi", 4.0)
+            num = Image.new("RGBA", (900, 760), (0, 0, 0, 0))
+            ImageDraw.Draw(num).text((0, 0), f"{i + 1:02d}", font=brand.font("head", 640), fill=(0, 0, 0, 0),
+                                     stroke_width=3, stroke_fill=(*brand.WHITE, 26))
+            self.points.append((lab, imgs, int(fl.size * 1.08), num.crop(num.getbbox() or (0, 0, 1, 1))))
+        # заклик
+        self.lock = brand.lockup(96 if H > 1500 else 84)
+        self.small_lock = brand.lockup(48)
+        fc, cl = brand.fit(spec["cta"], "head", W - 2 * self.M, 76 if H > 1500 else 68, 44, 3)
+        self.cta = [make_cards._text_block([ln], fc, brand.WHITE, 1.0) for ln in cl]
+        self.cta_lh = int(fc.size * 1.12)
+        self.site = tracked("BELYAKOVCONSULT.COM", 30, brand.SILVER, "body-semi", 3.0)
+
+    @staticmethod
+    def _object(name, h):
+        im = Image.open(ASSETS / name).convert("RGBA")
+        a = np.asarray(im).astype(np.float32)
+        lum = a[..., :3].max(axis=2)
+        a[..., 3] = np.minimum(a[..., 3], np.clip((lum - 10) * 9, 0, 255))
+        hh, ww = a.shape[:2]                                     # м'які краї: жодної прямої межі відблиску
+        fy = np.clip(np.minimum(np.arange(hh), hh - 1 - np.arange(hh)) / (hh * 0.14), 0, 1) ** 1.6
+        fx = np.clip(np.minimum(np.arange(ww), ww - 1 - np.arange(ww)) / (ww * 0.10), 0, 1) ** 1.6
+        a[..., 3] *= fy[:, None] * fx[None, :]
+        im = Image.fromarray(a.clip(0, 255).astype(np.uint8), "RGBA")
+        r = h / im.height
+        return im.resize((int(im.width * r), h), Image.LANCZOS)
+
+    def _word(self, i, tracking):
+        key = (i, int(round(tracking)))
+        if key not in self._tcache:
+            self._tcache[key] = tracked(self.s["hook"][i], self.hook_size, self.hook_colors[i], "head", key[1])
+        return self._tcache[key]
+
+    def _obj_blur(self, r):
+        r = round(r * 2) / 2
+        if r <= 0:
+            return self.obj
+        if r not in self._blur:
+            self._blur[r] = self.obj.filter(ImageFilter.GaussianBlur(r))
+        return self._blur[r]
+
+    # ---------- кадр ----------
+    def frame(self, t):
+        L, W, H, M = self.L, self.W, self.H, self.M
+        bounds = np.cumsum([0] + [d for _, d in SCENES])
+        si = min(int(np.searchsorted(bounds, t, side="right") - 1), len(SCENES) - 1)
+        name, dur = SCENES[si]
+        u = t - bounds[si]
+        f = self.bg.copy()
+        # хвиля: з'являється разом з об'єктом і лишається підкладкою; повільно дихає по горизонталі
+        if self.wave is not None:
+            wk = clamp((t - bounds[1] + 0.4) / 1.6)
+            wa = 0.0 if t < bounds[1] - 0.4 else (0.85 * quint_io(wk))
+            if name == "cta":
+                wa = 0.85 + 0.15 * quint_io(u / 1.5)
+            if wa > 0:
+                dx = int(18 * np.sin(t * 0.35))
+                f.alpha_composite(with_alpha(self.wave, wa), (dx, H - self.wave.height))
+        if self.graph is not None:
+            self.graph.draw(f, t, 0.0)
+        # відблиск світла проходить кадром раз на ~6 с
+        sx = int(((t / 6.0) % 1.0) * (W + self.sweep.width * 2)) - self.sweep.width
+        f.alpha_composite(self.sweep, (sx, (H - self.sweep.height) // 2))
+
+        if name in ("hook", "object"):
+            self._hook(f, t, name, u)
+        if self.graph is None and (name == "object" or (name == "p1" and u < 0.6)):
+            self._object_layer(f, name, u)
+        if name == "p1" and u < 0.5:                                  # заголовок плавно відходить угору й тане
+            if not hasattr(self, "_head_layer"):
+                self._head_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+                self._hook(self._head_layer, 0, "object", SCENES[1][1] - 0.05)
+            k = quint_io(u / 0.5)
+            f.alpha_composite(with_alpha(self._head_layer, 1 - k), (0, -int(40 * k)))
+        if name in ("p1", "p2", "p3"):
+            self._point(f, int(name[1]) - 1, u, dur)
+        if name == "cta":
+            self._cta(f, u)
+        if name != "cta":
+            a = clamp(t / 0.8) if name == "hook" else 1.0
+            f.alpha_composite(with_alpha(self.small_lock, 0.9 * a), (M, L["top"] + 12))
+        f.alpha_composite(self.grain[int(t * FPS) % len(self.grain)])
+        ImageDraw.Draw(f).rectangle([0, 0, int(W * t / self.total), 3], fill=(*brand.RUBY, 255))   # тонкий прогрес
+        return f
+
+    def _hook(self, f, t, name, u):
+        L, M = self.L, self.M
+        n = len(self.s["hook"])
+        if name == "hook":
+            if self.tag is not None:                                   # тег першим, дрібно й розріджено
+                masked(f, with_alpha(self.tag, 0.95), M, self.hook_y0 - 34 - self.tag.height, expo(u / 0.9), 0.8)
+            for i in range(n):
+                k = expo((u - 0.25 - i * 0.14) / 0.9)
+                tr = self.hook_size * 0.06 * (1 - expo((u - 0.25 - i * 0.14) / 1.6))
+                masked(f, self._word(i, tr), M, self.hook_y0 + i * self.line_h, k)
+            lw = int(240 * expo((u - 0.25 - n * 0.14 - 0.2) / 1.0))      # тонка рубінова лінія під блоком
+            if lw > 0:
+                ly = self.hook_y0 + (n - 1) * self.line_h + int(self.hook_size * 1.08) + 18
+                ImageDraw.Draw(f).rectangle([M, ly, M + lw, ly + 5], fill=(*brand.RUBY, 255))
+            return
+        # object: гачок плавно стає заголовком угорі, тег над ним тане
+        if self.tag is not None and u < 0.45:
+            f.alpha_composite(with_alpha(self.tag, 1 - quint_io(u / 0.45)), (M, self.hook_y0 - 34 - self.tag.height - int(30 * u)))
+        k = quint_io(u / 1.1)
+        s = 1 - (1 - L["head_scale"]) * k
+        y0 = self.hook_y0 * (1 - k) + L["head_y"] * k
+        for i in range(n):
+            im = scaled(self._word(i, 0), s)
+            f.alpha_composite(im, (M, int(y0 + i * self.line_h * s)))
+        ly = int(y0 + ((n - 1) * self.line_h + self.hook_size * 1.08 + 18) * s)
+        ImageDraw.Draw(f).rectangle([M, ly, M + int(240 * s), ly + max(2, int(5 * s))], fill=(*brand.RUBY, 255))
+        if self.tag is not None:                                       # тег стає підзаголовком під лінією
+            ta = expo((u - 0.9) / 0.9)
+            if ta > 0:
+                masked(f, self.tag, M, ly + 26, ta, 0.8)
+
+    def _object_layer(self, f, name, u):
+        L, W = self.L, self.W
+        if name == "object":
+            k = expo((u - 0.35) / 1.4)                                  # фокусування й поява
+            blur = 16 * (1 - k)
+            sc = (0.9 + 0.1 * k) * (1 + 0.035 * quint_io(u / 4.0))     # далі повільне наближення
+            a = clamp((u - 0.35) / 0.6)
+        else:                                                          # виходить із фокусу, тане
+            k2 = quint_io(u / 0.6)
+            blur = 14 * k2
+            sc = 1.035 + 0.04 * k2
+            a = 1 - k2
+        if a <= 0:
+            return
+        im = scaled(self._obj_blur(blur), sc)
+        bob = 6 * np.sin((u + 1.3) * 1.1)
+        f.alpha_composite(with_alpha(im, a), ((W - im.width) // 2, int(L["obj_cy"] - im.height / 2 + bob)))
+
+    def _point(self, f, i, u, dur):
+        L, W, M = self.L, self.W, self.M
+        if i >= len(self.points):
+            return
+        lab, imgs, lh, num = self.points[i]
+        out = quint_io((u - (dur - 0.45)) / 0.45)                    # кожна теза йде вгору й тане перед наступною сценою
+        if i == 0:
+            u -= 0.25                                                  # перша теза чекає, поки розтане заголовок
+        block_h = lab.height + 34 + lh * len(imgs) + 40
+        y0 = L["pt_cy"] - block_h // 2 - int(60 * out)
+        # великий контурний номер на фоні, ледь помітний, повільно пливе вгору
+        na = expo(u / 1.2) * (1 - out)
+        if na > 0:
+            f.alpha_composite(with_alpha(num, na * 0.8), (W - int(num.width * 0.62), int(L["pt_cy"] - num.height * 0.35 - 30 * u)))
+        if self.graph is not None:                                    # матове скло під тезою
+            gk = expo(u / 0.6) * (1 - out)
+            glass.frosted(f, (M - 44, y0 - 44, W - M + 44, y0 + block_h + 20), k=gk)
+        masked(f, with_alpha(lab, 1 - out), M, y0, expo(u / 0.8), 0.9)
+        for j, im in enumerate(imgs):
+            masked(f, with_alpha(im, 1 - out), M, y0 + lab.height + 34 + j * lh, expo((u - 0.12 - j * 0.1) / 0.9))
+        bw = int((W - 2 * M) * quint_io((u - 0.3) / (dur - 0.6)))     # лінія-прогрес тези
+        if bw > 0:
+            by = y0 + lab.height + 34 + lh * len(imgs) + 28
+            d = ImageDraw.Draw(f)
+            d.rectangle([M, by, W - M, by + 1], fill=(*brand.LINE, int(255 * (1 - out))))
+            d.rectangle([M, by - 1, M + bw, by + 2], fill=(*brand.RUBY, int(255 * (1 - out))))
+
+    def _cta(self, f, u):
+        L, W, M = self.L, self.W, self.M
+        n = len(self.cta)
+        block = self.lock.height + 70 + self.cta_lh * n + 50 + self.site.height
+        y = L["cta_cy"] - block // 2
+        masked(f, self.lock, (W - self.lock.width) // 2, y, expo(u / 0.9), 0.7)
+        y += self.lock.height + 70
+        for j, im in enumerate(self.cta):
+            masked(f, im, (W - im.width) // 2, y + j * self.cta_lh, expo((u - 0.35 - j * 0.12) / 0.9))
+        y += self.cta_lh * n + 24
+        lw = int(200 * expo((u - 0.9) / 0.9))
+        if lw > 0:
+            ImageDraw.Draw(f).rectangle([(W - lw) // 2, y, (W + lw) // 2, y + 3], fill=(*brand.RUBY, 255))
+        masked(f, self.site, (W - self.site.width) // 2, y + 26, expo((u - 1.1) / 0.8), 0.8)
+
+
+def fingerprint(spec, style, fmt) -> str:
+    h = hashlib.sha256(VERSION.encode())
+    h.update(json.dumps([spec, fmt, {k: v for k, v in (style or {}).items() if k != "k"}], sort_keys=True, ensure_ascii=False).encode())
+    for mod in (Path(__file__), Path(music.__file__), Path(brand.__file__), Path(glass.__file__), Path(glass_scenes.__file__)):
+        h.update(mod.read_bytes())
+    return h.hexdigest()[:16]
+
+
+def build(cfg, article, style: dict, out_dir: Path, seed: str, force: bool = False, fmt: str = "reels") -> Path | None:
+    if not article.carousel or not shutil.which("ffmpeg"):
+        return None
+    L = FORMATS[fmt]
+    W, H = L["W"], L["H"]
+    style = style or {}
+    spec = spec_for(cfg, article, style)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    name_mp4, name_cover, name_meta = L["files"]
+    mp4, meta = out_dir / name_mp4, out_dir / name_meta
+    if style.get("look") == "glass" and not style.get("visual"):
+        style = {**style, "visual": glass_scenes.pick(article)}
+    fp = fingerprint(spec, style, fmt)
+    legacy = (style.get("look") != "glass" or style.get("frozen")) and mp4.exists() and meta.exists()   # опубліковані не перебудовуються
+    if not force and (legacy or (mp4.exists() and meta.exists() and json.loads(meta.read_text()).get("fingerprint") == fp)):
+        return mp4
+    pr = Promo(spec, style, int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16), fmt)
+    total = sum(d for _, d in SCENES)
+    cuts = list(np.cumsum([d for _, d in SCENES])[:-1])
+    wav = out_dir / f"{fmt}.music.tmp.wav"
+    mstyle = style.get("music") if style.get("music") in CALM_MUSIC else "cinematic"
+    music.generate(total, cuts, seed + "#promo", wav, mstyle)
+    tmp = out_dir / f"{fmt}.tmp.mp4"
+    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
+           "-i", "-", "-i", str(wav), "-map", "0:v", "-map", "1:a", "-shortest", "-c:v", "libx264", "-preset", "veryfast",
+           "-crf", "20", "-maxrate", "6M", "-bufsize", "12M", "-pix_fmt", "yuv420p", "-profile:v", "high",
+           "-c:a", "aac", "-b:a", "160k", "-ar", "44100",
+           "-movflags", "+faststart", str(tmp)]
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    cover_t = L.get("cover_t", SCENES[0][1] + 2.6)   # кадр-обкладинка: Reels об'єкт і заголовок, LinkedIn гачок
+    try:
+        for i in range(int(total * FPS)):
+            t = i / FPS
+            img = pr.frame(t).convert("RGB")
+            if abs(t - cover_t) < 0.5 / FPS:
+                img.save(out_dir / name_cover, "JPEG", quality=92)
+            proc.stdin.write(img.tobytes())
+    finally:
+        proc.stdin.close()
+        code = proc.wait()
+    if code != 0:
+        raise RuntimeError(f"ffmpeg завершився з кодом {code}")
+    tmp.replace(mp4)
+    wav.unlink(missing_ok=True)
+    meta.write_text(json.dumps({"fingerprint": fp, "format": fmt, "seconds": total, "spec": spec}, ensure_ascii=False, indent=2) + "\n")
+    return mp4
+
+
+def build_for_post(cfg, post, force: bool = False) -> Path | None:
+    """Промо-відео окремого допису з блоком promo: LinkedIn 4:5 або Reels 9:16 у папці допису."""
+    from types import SimpleNamespace
+    from common import social_asset_dir
+    pr = dict(post.promo or {})
+    fmt = "linkedin" if post.channel == "linkedinpage" else "reels"
+    k = int(hashlib.sha256(post.key.encode()).hexdigest()[:6], 16)
+    waves = sorted(x.name for x in BG_DIR.glob("wave-*.jpg"))
+    style = {"icon": pr.get("icon") or ALL_ICONS[k % len(ALL_ICONS)],
+             "wave": pr.get("wave") or (waves[k % len(waves)] if waves else None),
+             "music": pr.get("music") or CALM_MUSIC[k % len(CALM_MUSIC)]}
+    from common import now
+    if pr.get("look", "glass" if post.publish_at > now(cfg) else None) == "glass":   # ще не опубліковані: новий стиль
+        style["look"] = "glass"
+    art = SimpleNamespace(slug=post.slug, lang=post.lang, title=str(pr.get("hook", "")), description="",
+                          carousel=[{"title": str(x.get("text", x)) if isinstance(x, dict) else str(x)} for x in pr.get("points") or []] or [{"title": "-"}],
+                          promo=pr)
+    out = social_asset_dir(cfg, post.slug, post.lang) / post.path.stem
+    return build(cfg, art, style, out, post.key, force, fmt=fmt)

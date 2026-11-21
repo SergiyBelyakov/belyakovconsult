@@ -1,5 +1,5 @@
 ---
-publish_at: 2026-11-21 10:00   # реклама «Директор і GTA VI» (кліп генератора + монтаж make_gta_ad.py), найкращий слот
+publish_at: 2026-11-22 10:00   # реклама «Директор і GTA VI» (кліп генератора + монтаж make_gta_ad.py), найкращий слот
 link: false
 media: motion
 video: uk/gta-director-ad-9x16.mp4

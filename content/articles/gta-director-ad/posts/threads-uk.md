@@ -1,5 +1,5 @@
 ---
-publish_at: 2026-11-21 14:30   # реклама «Директор і GTA VI», найкращий слот next_slot
+publish_at: 2026-11-22 12:00   # реклама «Директор і GTA VI», найкращий слот next_slot
 link: false
 media: motion
 video: uk/gta-director-ad-9x16.mp4
