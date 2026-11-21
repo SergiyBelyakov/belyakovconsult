@@ -709,6 +709,16 @@
     "publish_at": "2026-11-13 17:00",
     "status": "skipped-late"
   },
+  "document-type-matters/linkedinpage-en-3": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-17 17:00",
+    "status": "skipped-late"
+  },
+  "document-type-matters/linkedinpage-en-4": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-17 15:00",
+    "status": "skipped-late"
+  },
   "document-type-matters/linkedinpage-uk": {
     "at": "2026-11-15 00:02",
     "publish_at": "2026-11-12 13:30",
@@ -725,11 +735,9 @@
     "status": "skipped-late"
   },
   "document-type-matters/linkedinpage-uk-4": {
-    "at": "2026-11-18 23:32",
-    "auth_error": true,
-    "error": "LinkedIn (відео: ініціалізація): HTTP 401 {\"status\":401,\"serviceErrorCode\":65606,\"code\":\"DISABLED_APPLICATION\",\"message\":\"Application is disabled\"}",
+    "at": "2026-11-21 23:10",
     "publish_at": "2026-11-17 13:30",
-    "status": "retry"
+    "status": "skipped-late"
   },
   "document-type-matters/telegram-uk": {
     "at": "2026-11-12 10:03",
@@ -1238,6 +1246,31 @@
     "privacy": "public",
     "status": "published",
     "url": "https://youtube.com/shorts/3mrCe4ruwjA"
+  },
+  "gta-vi-day-one/instagram-en": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 17:00",
+    "status": "skipped-late"
+  },
+  "gta-vi-day-one/telegram-uk": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 14:00",
+    "status": "skipped-late"
+  },
+  "gta-vi-day-one/threads-en": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 14:00",
+    "status": "skipped-late"
+  },
+  "gta-vi-day-one/threads-uk": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 20:30",
+    "status": "skipped-late"
+  },
+  "gta-vi-day-one/youtube-en": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 17:30",
+    "status": "skipped-late"
   },
   "halloween/instagram-en": {
     "at": "2026-10-31 18:16",
@@ -2383,6 +2416,53 @@
     "status": "published",
     "url": "https://www.threads.com/@belyakovconsult/post/Df5UZ-QCZXf"
   },
+  "note-2026-11-19/threads-en": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-19 22:30",
+    "status": "skipped-late"
+  },
+  "note-2026-11-19/threads-en-2": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-19 21:00",
+    "status": "skipped-late"
+  },
+  "note-2026-11-19/threads-uk": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-19 22:00",
+    "status": "skipped-late"
+  },
+  "note-2026-11-20/threads-en": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 22:30",
+    "status": "skipped-late"
+  },
+  "note-2026-11-20/threads-en-2": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 21:00",
+    "status": "skipped-late"
+  },
+  "note-2026-11-20/threads-uk": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-20 22:00",
+    "status": "skipped-late"
+  },
+  "note-2026-11-21/threads-en": {
+    "at": "2026-11-21 23:10",
+    "id": "17901891924396695",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DgBKkr4lFeX"
+  },
+  "note-2026-11-21/threads-en-2": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-21 21:00",
+    "status": "skipped-late"
+  },
+  "note-2026-11-21/threads-uk": {
+    "at": "2026-11-21 23:10",
+    "id": "17913863658605135",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DgBKjejlNko"
+  },
   "pipeline-test/instagram-uk": {
     "at": "2026-10-25 03:03",
     "status": "dry-run"
@@ -2486,9 +2566,19 @@
     "publish_at": "2026-11-16 17:00",
     "status": "skipped-late"
   },
+  "report-changed-after-month-end/linkedinpage-en-2": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-18 17:00",
+    "status": "skipped-late"
+  },
   "report-changed-after-month-end/linkedinpage-uk": {
     "at": "2026-11-18 13:39",
     "publish_at": "2026-11-16 13:30",
+    "status": "skipped-late"
+  },
+  "report-changed-after-month-end/linkedinpage-uk-2": {
+    "at": "2026-11-21 23:10",
+    "publish_at": "2026-11-18 13:30",
     "status": "skipped-late"
   },
   "report-changed-after-month-end/telegram-uk": {
