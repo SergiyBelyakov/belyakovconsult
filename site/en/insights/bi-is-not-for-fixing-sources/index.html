@@ -46,15 +46,15 @@
 <div class="bc-meta"><time datetime="2026-11-05">5 November 2026</time><span>4 min read</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>If Power BI cleans names, stitches reference lists and rebuilds logic that does not exist in the source on every refresh, the report becomes fragile. It works until something changes in the source. Part of that work belongs in the data model and preparation rules, and part of it belongs back where the errors appear.</p>
+<p>If <a class="bc-term" href="/en/glossary/power-bi/" title="Microsoft&#x27;s BI platform for data modelling, reports and dashboards, now part of Microsoft Fabric.">Power BI</a> cleans names, stitches reference lists and rebuilds logic that does not exist in the source on every refresh, the report becomes fragile. It works until something changes in the source. Part of that work belongs in the data model and preparation rules, and part of it belongs back where the errors appear.</p>
 <h2>What BI that "treats" the sources looks like</h2>
-<p>An illustrative but very familiar example. A report on service recipients is built from a register. Power Query (the data preparation editor in Power BI) has several dozen steps: trim leading spaces from names, turn "Kyiv city", "Kyiv" and "KYIV" into one value, pull region codes from a separate file, filter out test records by the word "test" in the surname.</p>
+<p>An illustrative but very familiar example. A report on service recipients is built from a register. <a class="bc-term" href="/en/glossary/power-query/" title="The data preparation tool in Power BI and Excel, using the M language: connecting to sources, cleaning, combining tables.">Power Query</a> (the data preparation editor in Power BI) has several dozen steps: trim leading spaces from names, turn "Kyiv city", "Kyiv" and "KYIV" into one value, pull region codes from a separate file, filter out test records by the word "test" in the surname.</p>
 <p>The report shows nice numbers. But look at the signs:</p>
 <ul>
 <li><strong>Dozens of value replacement steps.</strong> Every refresh fixes the same errors again, because nobody fixed them in the source.</li>
 <li><strong>A mapping table in Excel.</strong> The "what it was, what it should be" table sits next to the report, often named something like <code>mapping_final_v3.xlsx</code>. It has no owner apart from the report's author.</li>
 <li><strong>The same cleaning in several reports.</strong> Each analyst writes their own version, slightly differently. One source, two numbers in the meeting.</li>
-<li><strong>Indicator definitions live in DAX</strong> (the Power BI formula language). Who counts as a recipient, which status is active, which date we count on: a measure in the report decides that, not an agreed rule.</li>
+<li><strong>Indicator definitions live in <a class="bc-term" href="/en/glossary/dax/" title="Data Analysis Expressions, the formula language of Power BI and Analysis Services for measures and calculations in the model.">DAX</a></strong> (the Power BI formula language). Who counts as a recipient, which status is active, which date we count on: a measure in the report decides that, not an agreed rule.</li>
 <li><strong>The refresh breaks on Monday morning</strong> because someone renamed a column in the source or added a new spelling.</li>
 </ul>
 <p>If you recognise two or three of these, the report rests on one file and one person.</p>
@@ -70,7 +70,7 @@
 </ol>
 <h2>What to keep in Power Query and what to move out</h2>
 <p>You do not need to move everything. One question helps: does anyone other than this report use this rule?</p>
-<p><strong>Keep in BI:</strong></p>
+<p><strong>Keep in <a class="bc-term" href="/en/glossary/business-intelligence/" title="The processes and tools that turn a company&#x27;s data into reports, dashboards and measures for decision making.">BI</a>:</strong></p>
 <ul>
 <li>formatting, labels, category order for visuals;</li>
 <li>filters that concern only this report;</li>
@@ -81,8 +81,8 @@
 <ul>
 <li>normalisation of values: names, case, date and number formats;</li>
 <li>mapping tables, in a table with an owner rather than in someone's file;</li>
-<li>finding and handling duplicates;</li>
-<li>indicator definitions: who is a recipient, which status is active, which cut-off date;</li>
+<li>finding and handling <a class="bc-term" href="/en/glossary/duplicate-record/" title="Several records in one system describing the same thing, such as one person or one contract.">duplicates</a>;</li>
+<li>indicator definitions: who is a recipient, which status is active, which <a class="bc-term" href="/en/glossary/data-snapshot/" title="A saved state of data as of a specific date (the cut-off date) that no longer changes, even if the source is corrected later.">cut-off date</a>;</li>
 <li>joining data from different systems.</li>
 </ul>
 <p><strong>Send back to the source:</strong></p>
@@ -116,6 +116,7 @@
 <a class="btn btn-primary" href="#contact">Discuss your project</a>
 <p class="bc-channel">Short weekly notes on data in the Telegram channel (in Ukrainian): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/en/insights/">All articles</a></p>
+<p class="bc-back"><a class="text-link" href="/en/glossary/">Glossary</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

@@ -46,7 +46,7 @@
 <div class="bc-meta"><time datetime="2026-11-16">16 November 2026</time><span>4 min read</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>An illustrative situation. On 5 November you show leadership a report: 1,240 new applications in October. On 20 November someone opens the same report for the same October and sees 1,287. Nobody touched the formulas, the dashboard works, there are no errors.</p>
+<p>An illustrative situation. On 5 November you show leadership a report: 1,240 new applications in October. On 20 November someone opens the same report for the same October and sees 1,287. Nobody touched the formulas, the <a class="bc-term" href="/en/glossary/dashboard/" title="An interactive panel that brings key measures and charts together for a quick view of how things stand.">dashboard</a> works, there are no errors.</p>
 <p>The report simply recalculates October every time it is opened. And in the data, October keeps changing long after it ended on the calendar.</p>
 <h2>Why the past changes in data</h2>
 <p>The typical reasons, and all of them are perfectly legitimate:</p>
@@ -54,7 +54,7 @@
 <li><strong>Late records.</strong> An application was submitted on 28 October but entered into the system on 12 November. It belongs to October, so October "grew".</li>
 <li><strong>Backdated corrections.</strong> An operator found a wrong date and fixed it. The record moved from September to October or the other way round.</li>
 <li><strong>Status changes.</strong> An application that was "approved" on 5 November became "rejected" on 20 November. It is no longer in the report on approved applications.</li>
-<li><strong>Merged duplicates.</strong> After cleaning, three records of one person became one, and past numbers went down.</li>
+<li><strong>Merged <a class="bc-term" href="/en/glossary/duplicate-record/" title="Several records in one system describing the same thing, such as one person or one contract.">duplicates</a>.</strong> After cleaning, three records of one person became one, and past numbers went down.</li>
 <li><strong>Reference data changes.</strong> A unit was reassigned to another region, and its whole history moved with it.</li>
 </ul>
 <p>None of these changes is a mistake. The mistake is elsewhere: the report does not know the past has changed, and nobody can say which of the two numbers is "right".</p>
@@ -65,11 +65,11 @@
 <h2>What to add to the data architecture</h2>
 <p>Three things usually solve the problem:</p>
 <ol>
-<li><strong>A snapshot on the cut-off date.</strong> A copy of the data the report needs, as it was when the report was produced. The October report is built on the snapshot, not on the live table.</li>
+<li><strong>A snapshot on the <a class="bc-term" href="/en/glossary/data-snapshot/" title="A saved state of data as of a specific date (the cut-off date) that no longer changes, even if the source is corrected later.">cut-off date</a>.</strong> A copy of the data the report needs, as it was when the report was produced. The October report is built on the snapshot, not on the live table.</li>
 <li><strong>Two dates in every record.</strong> The event date (when the application was submitted) and the entry or change date (when we learned about it). Without the second date, a late record looks like any other.</li>
 <li><strong>Published figures kept separately.</strong> A number shown to leadership or partners is stored separately with its publication date and version. You can reproduce it a year later.</li>
 </ol>
-<p>This does not have to be a big data warehouse. For one or two key indicators, a snapshot table filled once a month is enough.</p>
+<p>This does not have to be a big <a class="bc-term" href="/en/glossary/data-warehouse/" title="A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting.">data warehouse</a>. For one or two key indicators, a snapshot table filled once a month is enough.</p>
 <h2>Agreeing the cut-off date</h2>
 <p>The technical part does not work without an agreement. Someone has to decide:</p>
 <ul>
@@ -96,6 +96,7 @@
 <a class="btn btn-primary" href="#contact">Discuss your project</a>
 <p class="bc-channel">Short weekly notes on data in the Telegram channel (in Ukrainian): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/en/insights/">All articles</a></p>
+<p class="bc-back"><a class="text-link" href="/en/glossary/">Glossary</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

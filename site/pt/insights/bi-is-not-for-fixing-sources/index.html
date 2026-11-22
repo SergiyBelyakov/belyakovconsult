@@ -46,15 +46,15 @@
 <div class="bc-meta"><time datetime="2026-11-05">5 novembro 2026</time><span>5 min de leitura</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>Se o Power BI limpa nomes, reconstrói tabelas de referência e recria lógica que não existe na origem em cada atualização, o relatório fica frágil. Funciona até que algo mude na origem. Parte desse trabalho pertence ao modelo de dados e às regras de preparação, e outra parte deve voltar ao sítio onde os erros aparecem.</p>
+<p>Se o <a class="bc-term" href="/pt/glossary/power-bi/" title="A plataforma de BI da Microsoft para modelação de dados, relatórios e dashboards, hoje parte do Microsoft Fabric.">Power BI</a> limpa nomes, reconstrói tabelas de referência e recria lógica que não existe na origem em cada atualização, o relatório fica frágil. Funciona até que algo mude na origem. Parte desse trabalho pertence ao modelo de dados e às regras de preparação, e outra parte deve voltar ao sítio onde os erros aparecem.</p>
 <h2>Como é um BI que "trata" as origens</h2>
-<p>Um exemplo ilustrativo, mas muito reconhecível. Um relatório sobre beneficiários de serviços é construído a partir de um registo. No Power Query (o editor de preparação de dados do Power BI) há várias dezenas de passos: retirar espaços no início dos nomes, juntar "Cidade de Lisboa", "Lisboa" e "LISBOA" num só valor, ir buscar códigos de distrito a um ficheiro à parte, excluir registos de teste pela palavra "teste" no apelido.</p>
+<p>Um exemplo ilustrativo, mas muito reconhecível. Um relatório sobre beneficiários de serviços é construído a partir de um registo. No <a class="bc-term" href="/pt/glossary/power-query/" title="A ferramenta de preparação de dados do Power BI e do Excel, com a linguagem M: ligação às fontes, limpeza, junção de tabelas.">Power Query</a> (o editor de preparação de dados do Power BI) há várias dezenas de passos: retirar espaços no início dos nomes, juntar "Cidade de Lisboa", "Lisboa" e "LISBOA" num só valor, ir buscar códigos de distrito a um ficheiro à parte, excluir registos de teste pela palavra "teste" no apelido.</p>
 <p>O relatório mostra números bonitos. Mas repare nos sinais:</p>
 <ul>
 <li><strong>Dezenas de passos de substituição de valores.</strong> Cada atualização corrige outra vez os mesmos erros, porque ninguém os corrigiu na origem.</li>
 <li><strong>Uma tabela de correspondências em Excel.</strong> A tabela "como estava, como deve ficar" vive ao lado do relatório, muitas vezes com um nome como <code>mapping_final_v3.xlsx</code>. Não tem dono além do autor do relatório.</li>
 <li><strong>A mesma limpeza em vários relatórios.</strong> Cada analista escreve a sua versão, ligeiramente diferente. Uma origem, dois números na reunião.</li>
-<li><strong>As definições dos indicadores vivem em DAX</strong> (a linguagem de fórmulas do Power BI). Quem conta como beneficiário, que estado é ativo, em que data contamos: quem decide é uma medida no relatório, não uma regra acordada.</li>
+<li><strong>As definições dos indicadores vivem em <a class="bc-term" href="/pt/glossary/dax/" title="Data Analysis Expressions, a linguagem de fórmulas do Power BI e do Analysis Services para medidas e cálculos no modelo.">DAX</a></strong> (a linguagem de fórmulas do Power BI). Quem conta como beneficiário, que estado é ativo, em que data contamos: quem decide é uma medida no relatório, não uma regra acordada.</li>
 <li><strong>A atualização falha na segunda de manhã</strong> porque alguém mudou o nome de uma coluna na origem ou acrescentou uma nova grafia.</li>
 </ul>
 <p>Se reconhece dois ou três destes sinais, o relatório assenta num ficheiro e numa pessoa.</p>
@@ -70,7 +70,7 @@
 </ol>
 <h2>O que deixar no Power Query e o que tirar de lá</h2>
 <p>Não é preciso tirar tudo. Uma pergunta ajuda: mais alguém, além deste relatório, usa esta regra?</p>
-<p><strong>Deixar no BI:</strong></p>
+<p><strong>Deixar no <a class="bc-term" href="/pt/glossary/business-intelligence/" title="Processos e ferramentas que transformam os dados de uma empresa em relatórios, dashboards e indicadores para a tomada de decisão.">BI</a>:</strong></p>
 <ul>
 <li>formatação, rótulos, ordem das categorias nos visuais;</li>
 <li>filtros que dizem respeito apenas a este relatório;</li>
@@ -81,7 +81,7 @@
 <ul>
 <li>normalização de valores: nomes, maiúsculas, formatos de datas e números;</li>
 <li>tabelas de correspondências, numa tabela com dono e não no ficheiro de alguém;</li>
-<li>deteção e tratamento de duplicados;</li>
+<li>deteção e tratamento de <a class="bc-term" href="/pt/glossary/duplicate-record/" title="Vários registos num sistema que descrevem a mesma coisa, como uma pessoa ou um contrato.">duplicados</a>;</li>
 <li>definições dos indicadores: quem é beneficiário, que estado é ativo, qual a data de referência;</li>
 <li>ligação de dados de sistemas diferentes.</li>
 </ul>
@@ -116,6 +116,7 @@
 <a class="btn btn-primary" href="#contact">Falar sobre o projeto</a>
 <p class="bc-channel">Notas semanais sobre dados no canal do Telegram (em ucraniano): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/pt/insights/">Todos os artigos</a></p>
+<p class="bc-back"><a class="text-link" href="/pt/glossary/">Glossário</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

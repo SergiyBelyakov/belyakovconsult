@@ -46,8 +46,8 @@
 <div class="bc-meta"><time datetime="2026-11-13">13 November 2026</time><span>6 min read</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>A BI platform is often chosen on the strength of a demo: polished charts, a familiar interface, the promise of "everything in one place". The daily work is about something else: how the platform prepares data, where the model lives, who sees what, and what happens at large data volumes.</p>
-<p>I put five platforms into one map across ten criteria: Power BI, Tableau, Qlik, Looker and SAP Analytics Cloud. The map plays on its own, criterion by criterion. Pause it where your own question starts.</p>
+<p>A <a class="bc-term" href="/en/glossary/business-intelligence/" title="The processes and tools that turn a company&#x27;s data into reports, dashboards and measures for decision making.">BI</a> platform is often chosen on the strength of a demo: polished charts, a familiar interface, the promise of "everything in one place". The daily work is about something else: how the platform prepares data, where the model lives, who sees what, and what happens at large data volumes.</p>
+<p>I put five platforms into one map across ten criteria: <a class="bc-term" href="/en/glossary/power-bi/" title="Microsoft&#x27;s BI platform for data modelling, reports and dashboards, now part of Microsoft Fabric.">Power BI</a>, Tableau, Qlik, Looker and SAP Analytics Cloud. The map plays on its own, criterion by criterion. Pause it where your own question starts.</p>
 <style>
 .bc-scheme{width:min(1160px,calc(100vw - 48px));margin:10px 0 12px 50%;transform:translateX(-50%)}
 .bc-scheme iframe{display:block;width:100%;height:calc(min(1160px,100vw - 48px)*.5625 + 116px);border:0;background:#05070A}
@@ -76,8 +76,8 @@
 <h2>Where to start</h2>
 <p>Comparing features makes sense after three questions about your own situation.</p>
 <ol>
-<li><strong>Where the data lives and who prepares it.</strong> With a SQL warehouse and data engineers, the "Data preparation" and "Modelling and calculations" rows read differently than when everything starts in Excel.</li>
-<li><strong>Who will build and maintain the model.</strong> The "Entry barrier" row shows where each platform gets hard: DAX, scripts, LookML or planning models.</li>
+<li><strong>Where the data lives and who prepares it.</strong> With a SQL warehouse and <a class="bc-term" href="/en/glossary/data-engineer/" title="A specialist who builds and runs integrations, load pipelines and data stores: ETL and ELT, orchestration, monitoring.">data engineers</a>, the "Data preparation" and "Modelling and calculations" rows read differently than when everything starts in Excel.</li>
+<li><strong>Who will build and maintain the model.</strong> The "Entry barrier" row shows where each platform gets hard: <a class="bc-term" href="/en/glossary/dax/" title="Data Analysis Expressions, the formula language of Power BI and Analysis Services for measures and calculations in the model.">DAX</a>, scripts, LookML or planning models.</li>
 <li><strong>What is non-negotiable for you.</strong> On-premises deployment, row-level access restrictions, budgeting and planning. A requirement like that rules options out faster than comparing charts.</li>
 </ol>
 <h2>The comparison as a table</h2>
@@ -122,15 +122,15 @@
 </tr>
 <tr>
 <td><strong>Data preparation</strong></td>
-<td><strong>Power Query</strong> for cleaning, combining and transforming data</td>
+<td><strong><a class="bc-term" href="/en/glossary/power-query/" title="The data preparation tool in Power BI and Excel, using the M language: connecting to sources, cleaning, combining tables.">Power Query</a></strong> for cleaning, combining and transforming data</td>
 <td><strong>Tableau Prep</strong> for visual cleaning and building preparation flows</td>
 <td><strong>Data Manager and Load Script</strong> for loading and transformations</td>
 <td>Most transformations usually run <strong>in the warehouse through SQL</strong>. <strong>LookML</strong> describes the analytical model</td>
-<td><strong>Import, data preparation and live connections.</strong> Tight integration with SAP</td>
+<td><strong><a class="bc-term" href="/en/glossary/import-mode/" title="The Power BI mode in which data is copied into a compressed in-memory model and refreshed on a schedule.">Import</a>, data preparation and live connections.</strong> Tight integration with SAP</td>
 </tr>
 <tr>
 <td><strong>Modelling and calculations</strong></td>
-<td>Semantic models, table relationships, <strong>DAX measures</strong></td>
+<td><a class="bc-term" href="/en/glossary/semantic-model/" title="The layer between data and reports that defines tables, relationships, measures and access rules. In Power BI it used to be called a dataset.">Semantic models</a>, table relationships, <strong><a class="bc-term" href="/en/glossary/measure/" title="A DAX formula that calculates a value at query time, respecting the report&#x27;s filters, such as revenue or margin.">DAX measures</a></strong></td>
 <td>Relationships, calculated fields, <strong>LOD</strong> and table calculations</td>
 <td><strong>Associative model</strong>, expressions, <strong>Set Analysis</strong></td>
 <td><strong>LookML models</strong>, SQL, version control through Git</td>
@@ -141,12 +141,12 @@
 <td><strong>A solid all-round set</strong>, plus additional visuals. Custom design takes extra work</td>
 <td>Especially convenient for <strong>custom charts, maps</strong> and visual exploration</td>
 <td>Strong at interaction through <strong>value selections</strong> and analysis of associated data</td>
-<td>Convenient for <strong>standardised dashboards</strong>. Less freedom for bespoke design</td>
+<td>Convenient for <strong>standardised <a class="bc-term" href="/en/glossary/dashboard/" title="An interactive panel that brings key measures and charts together for a quick view of how things stand.">dashboards</a></strong>. Less freedom for bespoke design</td>
 <td>Geared towards <strong>corporate dashboards, planning tables</strong> and management scenarios</td>
 </tr>
 <tr>
 <td><strong>Large data volumes</strong></td>
-<td><strong>Import, DirectQuery, Direct Lake.</strong> The result depends on the model and capacity</td>
+<td><strong>Import, <a class="bc-term" href="/en/glossary/directquery/" title="The Power BI mode in which data is not copied and every report interaction sends a query straight to the source.">DirectQuery</a>, <a class="bc-term" href="/en/glossary/direct-lake/" title="A semantic model mode in Microsoft Fabric where the Power BI engine reads data straight from Delta tables in OneLake without a separate import.">Direct Lake</a>.</strong> The result depends on the model and capacity</td>
 <td><strong>Extract or live connection.</strong> The result depends on the source and query structure</td>
 <td>What matters is <strong>app size, the model</strong> and available capacity</td>
 <td>Computation is mostly done by the <strong>SQL warehouse</strong>. Its speed and cost become critical</td>
@@ -198,6 +198,7 @@
 <a class="btn btn-primary" href="#contact">Discuss your project</a>
 <p class="bc-channel">Short weekly notes on data in the Telegram channel (in Ukrainian): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/en/insights/">All articles</a></p>
+<p class="bc-back"><a class="text-link" href="/en/glossary/">Glossary</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

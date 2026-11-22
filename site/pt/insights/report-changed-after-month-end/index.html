@@ -46,7 +46,7 @@
 <div class="bc-meta"><time datetime="2026-11-16">16 novembro 2026</time><span>4 min de leitura</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>Uma situação ilustrativa. A 5 de novembro mostra à direção um relatório: 1 240 novos pedidos em outubro. A 20 de novembro alguém abre o mesmo relatório para o mesmo outubro e vê 1 287. Ninguém mexeu nas fórmulas, o dashboard funciona, não há erros.</p>
+<p>Uma situação ilustrativa. A 5 de novembro mostra à direção um relatório: 1 240 novos pedidos em outubro. A 20 de novembro alguém abre o mesmo relatório para o mesmo outubro e vê 1 287. Ninguém mexeu nas fórmulas, o <a class="bc-term" href="/pt/glossary/dashboard/" title="Um painel interativo que reúne indicadores-chave e gráficos para uma visão rápida da situação.">dashboard</a> funciona, não há erros.</p>
 <p>O relatório simplesmente recalcula outubro sempre que é aberto. E, nos dados, outubro continua a mudar muito depois de ter terminado no calendário.</p>
 <h2>Porque é que o passado muda nos dados</h2>
 <p>As causas típicas, todas perfeitamente legítimas:</p>
@@ -54,7 +54,7 @@
 <li><strong>Registos tardios.</strong> Um pedido foi apresentado a 28 de outubro, mas introduzido no sistema a 12 de novembro. Pertence a outubro, e outubro "cresceu".</li>
 <li><strong>Correções retroativas.</strong> Um operador encontrou uma data errada e corrigiu-a. O registo passou de setembro para outubro ou ao contrário.</li>
 <li><strong>Mudanças de estado.</strong> Um pedido "aprovado" a 5 de novembro passou a "recusado" a 20 de novembro. Já não aparece no relatório de pedidos aprovados.</li>
-<li><strong>Fusão de duplicados.</strong> Depois da limpeza, três registos da mesma pessoa passaram a um, e os números passados diminuíram.</li>
+<li><strong>Fusão de <a class="bc-term" href="/pt/glossary/duplicate-record/" title="Vários registos num sistema que descrevem a mesma coisa, como uma pessoa ou um contrato.">duplicados</a>.</strong> Depois da limpeza, três registos da mesma pessoa passaram a um, e os números passados diminuíram.</li>
 <li><strong>Alterações nas tabelas de referência.</strong> Uma unidade passou para outra região, e todo o seu histórico foi com ela.</li>
 </ul>
 <p>Nenhuma destas mudanças é um erro. O erro está noutro lado: o relatório não sabe que o passado mudou, e ninguém consegue dizer qual dos dois números é o "certo".</p>
@@ -65,11 +65,11 @@
 <h2>O que acrescentar à arquitetura de dados</h2>
 <p>Três coisas costumam resolver o problema:</p>
 <ol>
-<li><strong>Um instantâneo (snapshot) na data de corte.</strong> Uma cópia dos dados de que o relatório precisa, tal como estavam quando foi produzido. O relatório de outubro é construído sobre o instantâneo, não sobre a tabela viva.</li>
+<li><strong>Um instantâneo (snapshot) na <a class="bc-term" href="/pt/glossary/data-snapshot/" title="Um estado dos dados guardado numa data concreta (a data de corte) que já não muda, mesmo que a fonte seja corrigida depois.">data de corte</a>.</strong> Uma cópia dos dados de que o relatório precisa, tal como estavam quando foi produzido. O relatório de outubro é construído sobre o instantâneo, não sobre a tabela viva.</li>
 <li><strong>Duas datas em cada registo.</strong> A data do evento (quando o pedido foi apresentado) e a data de introdução ou alteração (quando soubemos dele). Sem a segunda data, um registo tardio parece igual a qualquer outro.</li>
 <li><strong>Números publicados guardados à parte.</strong> O número mostrado à direção ou aos parceiros fica guardado com a data de publicação e a versão. Pode ser reproduzido um ano depois.</li>
 </ol>
-<p>Não tem de ser um grande data warehouse. Para um ou dois indicadores-chave, basta uma tabela de instantâneos preenchida uma vez por mês.</p>
+<p>Não tem de ser um grande <a class="bc-term" href="/pt/glossary/data-warehouse/" title="Uma base de dados separada onde os dados de diferentes sistemas são reunidos de forma agendada e conciliados para análise e reporte.">data warehouse</a>. Para um ou dois indicadores-chave, basta uma tabela de instantâneos preenchida uma vez por mês.</p>
 <h2>Acordar a data de corte</h2>
 <p>A parte técnica não funciona sem um acordo. Alguém tem de decidir:</p>
 <ul>
@@ -96,6 +96,7 @@
 <a class="btn btn-primary" href="#contact">Falar sobre o projeto</a>
 <p class="bc-channel">Notas semanais sobre dados no canal do Telegram (em ucraniano): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/pt/insights/">Todos os artigos</a></p>
+<p class="bc-back"><a class="text-link" href="/pt/glossary/">Glossário</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

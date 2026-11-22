@@ -46,8 +46,8 @@
 <div class="bc-meta"><time datetime="2026-11-22">22 November 2026</time><span>8 min read</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>Slow dashboards, two different revenue figures in two reports, fear of touching the model. Usually this is not a flaw of the tool. It is a consequence of the architecture behind the reports.</p>
-<p>Below are the four options I see most often: what each does well, what it does badly, when to choose it and when to outgrow it. They are not mutually exclusive. Companies usually move from the first to the second or third, and large organisations often live in a hybrid. At the end: Power BI practices that pay off with any architecture.</p>
+<p>Slow <a class="bc-term" href="/en/glossary/dashboard/" title="An interactive panel that brings key measures and charts together for a quick view of how things stand.">dashboards</a>, two different revenue figures in two reports, fear of touching the model. Usually this is not a flaw of the tool. It is a consequence of the architecture behind the reports.</p>
+<p>Below are the four options I see most often: what each does well, what it does badly, when to choose it and when to outgrow it. They are not mutually exclusive. Companies usually move from the first to the second or third, and large organisations often live in a hybrid. At the end: <a class="bc-term" href="/en/glossary/power-bi/" title="Microsoft&#x27;s BI platform for data modelling, reports and dashboards, now part of Microsoft Fabric.">Power BI</a> practices that pay off with any architecture.</p>
 <h2>In short</h2>
 <table>
 <thead>
@@ -86,7 +86,7 @@
 <td>several versions of one number</td>
 <td>slow to change</td>
 <td>bill grows with volume</td>
-<td>new skills, Fabric capacity required</td>
+<td>new skills, <a class="bc-term" href="/en/glossary/fabric-capacity/" title="A sized pool of Microsoft Fabric compute that workspaces run on. Microsoft no longer sells new Power BI Premium capacities (P SKUs); F SKUs replace them.">Fabric capacity</a> required</td>
 </tr>
 <tr>
 <td>Fits</td>
@@ -99,7 +99,7 @@
 </table>
 <p>The table is a rough guide. Real timelines and costs depend on the number of sources, their quality, volumes and the team.</p>
 <h2>1. Self-service directly on sources</h2>
-<p><strong>What it looks like.</strong> An analyst connects Power BI to the ERP, CRM, Excel files and SharePoint. All data preparation lives in Power Query inside the report file, and every report has its own model.</p>
+<p><strong>What it looks like.</strong> An analyst connects Power BI to the ERP, CRM, Excel files and SharePoint. All data preparation lives in <a class="bc-term" href="/en/glossary/power-query/" title="The data preparation tool in Power BI and Excel, using the M language: connecting to sources, cleaning, combining tables.">Power Query</a> inside the report file, and every report has its own model.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>Live in days, no separate infrastructure.</li>
@@ -114,9 +114,9 @@
 <li>The model often depends on one person.</li>
 </ul>
 <p><strong>When to choose it.</strong> A pilot, one team, a few sources, testing a hypothesis before investing in a warehouse.</p>
-<p><strong>Signs it is time to move on.</strong> Two versions of one number in a meeting. The same Power Query steps copied into several files. The nightly refresh does not finish by morning. Why fixing sources inside BI is a bad idea is covered separately: <a href="/en/insights/bi-is-not-for-fixing-sources/">BI should not be the place where source systems are repaired</a>.</p>
+<p><strong>Signs it is time to move on.</strong> Two versions of one number in a meeting. The same Power Query steps copied into several files. The nightly refresh does not finish by morning. Why fixing sources inside <a class="bc-term" href="/en/glossary/business-intelligence/" title="The processes and tools that turn a company&#x27;s data into reports, dashboards and measures for decision making.">BI</a> is a bad idea is covered separately: <a href="/en/insights/bi-is-not-for-fixing-sources/">BI should not be the place where source systems are repaired</a>.</p>
 <h2>2. Classic data warehouse</h2>
-<p><strong>What it looks like.</strong> Data from sources goes through scheduled ETL (extract, transform, load) into a relational warehouse such as SQL Server or Azure SQL. There it is organised in a star schema: fact tables and dimensions. Power BI reads ready-made tables.</p>
+<p><strong>What it looks like.</strong> Data from sources goes through scheduled <a class="bc-term" href="/en/glossary/etl/" title="Extract, Transform, Load. Data is extracted from sources, transformed and only then loaded into the warehouse.">ETL</a> (extract, transform, load) into a relational warehouse such as SQL Server or Azure SQL. There it is organised in a <a class="bc-term" href="/en/glossary/star-schema/" title="A way to organise data for analytics: a fact table in the centre, surrounded by dimension tables linked one-to-many.">star schema</a>: <a class="bc-term" href="/en/glossary/fact-table/" title="A table of events or transactions and their numeric values: sales, payments, shipments. Each row is one event.">fact tables</a> and dimensions. Power BI reads ready-made tables.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>One version of the truth: measures are defined once, in the warehouse.</li>
@@ -132,7 +132,7 @@
 </ul>
 <p><strong>When to choose it.</strong> Finance, regulated reporting, stable processes where accuracy and reproducibility matter more than speed of change.</p>
 <h2>3. Cloud warehouse with ELT</h2>
-<p><strong>What it looks like.</strong> Data is first loaded as is into a cloud warehouse (Snowflake, BigQuery, Databricks SQL, Fabric Warehouse) and transformed inside it (ELT). Transformations are often written as code, for example in dbt, with tests and versions in Git.</p>
+<p><strong>What it looks like.</strong> Data is first loaded as is into a <a class="bc-term" href="/en/glossary/data-warehouse/" title="A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting.">cloud warehouse</a> (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/en/glossary/microsoft-fabric/" title="Microsoft&#x27;s analytics platform that brings data engineering, warehousing, lakehouse, Power BI and other tools together around the shared OneLake storage.">Fabric</a> Warehouse) and transformed inside it (<a class="bc-term" href="/en/glossary/elt/" title="Extract, Load, Transform. Data is loaded into the warehouse as is and transformed inside it, often as code (for example in dbt).">ELT</a>). Transformations are often written as code, for example in dbt, with tests and versions in Git.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>Compute scales on demand: a heavy query does not wait for a new server.</li>
@@ -147,7 +147,7 @@
 </ul>
 <p><strong>When to choose it.</strong> Many sources, fast-growing volumes, several teams consuming the same data.</p>
 <h2>4. Lakehouse in Microsoft Fabric</h2>
-<p><strong>What it looks like.</strong> Data is stored in OneLake in the open Delta format and moves through layers: Bronze (raw), Silver (cleaned), Gold (ready for analytics). Power BI reads Gold tables in Direct Lake mode: the VertiPaq engine loads data from Delta tables into memory without a separate copy, as with Import.</p>
+<p><strong>What it looks like.</strong> Data is stored in OneLake in the open Delta format and moves through layers: Bronze (raw), Silver (cleaned), Gold (ready for analytics). Power BI reads Gold tables in <a class="bc-term" href="/en/glossary/direct-lake/" title="A semantic model mode in Microsoft Fabric where the Power BI engine reads data straight from Delta tables in OneLake without a separate import.">Direct Lake</a> mode: the VertiPaq engine loads data from Delta tables into memory without a separate copy, as with Import.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>One copy of data for engineers, analysts and reports.</li>
@@ -263,6 +263,7 @@
 <a class="btn btn-primary" href="#contact">Discuss your project</a>
 <p class="bc-channel">Short weekly notes on data in the Telegram channel (in Ukrainian): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/en/insights/">All articles</a></p>
+<p class="bc-back"><a class="text-link" href="/en/glossary/">Glossary</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">

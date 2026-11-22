@@ -46,8 +46,8 @@
 <div class="bc-meta"><time datetime="2026-11-22">22 novembro 2026</time><span>8 min de leitura</span><span>Sergiy Belyakov</span></div>
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
-<p>Dashboards lentos, dois valores de receita diferentes em dois relatórios, receio de mexer no modelo. Normalmente não é um defeito da ferramenta. É uma consequência da arquitetura que está por trás dos relatórios.</p>
-<p>Seguem-se as quatro opções que encontro com mais frequência: o que cada uma faz bem, o que faz mal, quando a escolher e quando a deixar para trás. Não se excluem mutuamente. As empresas costumam passar da primeira para a segunda ou terceira, e as grandes organizações vivem muitas vezes num modelo híbrido. No fim: práticas de Power BI que compensam com qualquer arquitetura.</p>
+<p><a class="bc-term" href="/pt/glossary/dashboard/" title="Um painel interativo que reúne indicadores-chave e gráficos para uma visão rápida da situação.">Dashboards</a> lentos, dois valores de receita diferentes em dois relatórios, receio de mexer no modelo. Normalmente não é um defeito da ferramenta. É uma consequência da arquitetura que está por trás dos relatórios.</p>
+<p>Seguem-se as quatro opções que encontro com mais frequência: o que cada uma faz bem, o que faz mal, quando a escolher e quando a deixar para trás. Não se excluem mutuamente. As empresas costumam passar da primeira para a segunda ou terceira, e as grandes organizações vivem muitas vezes num modelo híbrido. No fim: práticas de <a class="bc-term" href="/pt/glossary/power-bi/" title="A plataforma de BI da Microsoft para modelação de dados, relatórios e dashboards, hoje parte do Microsoft Fabric.">Power BI</a> que compensam com qualquer arquitetura.</p>
 <h2>Em resumo</h2>
 <table>
 <thead>
@@ -86,7 +86,7 @@
 <td>várias versões do mesmo número</td>
 <td>mudanças lentas</td>
 <td>a fatura cresce com o volume</td>
-<td>novas competências, exige capacidade Fabric</td>
+<td>novas competências, exige <a class="bc-term" href="/pt/glossary/fabric-capacity/" title="Um conjunto dimensionado de computação do Microsoft Fabric onde correm as áreas de trabalho. A Microsoft já não vende novas capacidades Power BI Premium (P SKU); as F SKU substituem-nas.">capacidade Fabric</a></td>
 </tr>
 <tr>
 <td>Indicado para</td>
@@ -99,7 +99,7 @@
 </table>
 <p>A tabela é uma orientação. Prazos e custos reais dependem do número de fontes, da sua qualidade, dos volumes e da equipa.</p>
 <h2>1. Self-service diretamente sobre as fontes</h2>
-<p><strong>Como funciona.</strong> Um analista liga o Power BI ao ERP, ao CRM, a ficheiros Excel e ao SharePoint. Toda a preparação de dados vive no Power Query dentro do ficheiro do relatório, e cada relatório tem o seu próprio modelo.</p>
+<p><strong>Como funciona.</strong> Um analista liga o Power BI ao ERP, ao CRM, a ficheiros Excel e ao SharePoint. Toda a preparação de dados vive no <a class="bc-term" href="/pt/glossary/power-query/" title="A ferramenta de preparação de dados do Power BI e do Excel, com a linguagem M: ligação às fontes, limpeza, junção de tabelas.">Power Query</a> dentro do ficheiro do relatório, e cada relatório tem o seu próprio modelo.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>Em funcionamento em poucos dias, sem infraestrutura própria.</li>
@@ -113,10 +113,10 @@
 <li>É difícil controlar quem vê o quê e de onde veio um número.</li>
 <li>O modelo depende muitas vezes de uma só pessoa.</li>
 </ul>
-<p><strong>Quando escolher.</strong> Um piloto, uma equipa, poucas fontes, testar uma hipótese antes de investir num data warehouse.</p>
-<p><strong>Sinais de que está na altura de avançar.</strong> Duas versões do mesmo número numa reunião. Os mesmos passos do Power Query copiados para vários ficheiros. A atualização noturna não termina até de manhã. Porque corrigir as fontes dentro do BI é má ideia está explicado à parte: <a href="/pt/insights/bi-is-not-for-fixing-sources/">BI não deve ser o lugar onde se reparam os sistemas de origem</a>.</p>
+<p><strong>Quando escolher.</strong> Um piloto, uma equipa, poucas fontes, testar uma hipótese antes de investir num <a class="bc-term" href="/pt/glossary/data-warehouse/" title="Uma base de dados separada onde os dados de diferentes sistemas são reunidos de forma agendada e conciliados para análise e reporte.">data warehouse</a>.</p>
+<p><strong>Sinais de que está na altura de avançar.</strong> Duas versões do mesmo número numa reunião. Os mesmos passos do Power Query copiados para vários ficheiros. A atualização noturna não termina até de manhã. Porque corrigir as fontes dentro do <a class="bc-term" href="/pt/glossary/business-intelligence/" title="Processos e ferramentas que transformam os dados de uma empresa em relatórios, dashboards e indicadores para a tomada de decisão.">BI</a> é má ideia está explicado à parte: <a href="/pt/insights/bi-is-not-for-fixing-sources/">BI não deve ser o lugar onde se reparam os sistemas de origem</a>.</p>
 <h2>2. Data warehouse clássico</h2>
-<p><strong>Como funciona.</strong> Os dados das fontes passam por um ETL agendado (extração, transformação, carga) para um data warehouse relacional, como SQL Server ou Azure SQL. Aí ficam organizados num esquema em estrela: tabelas de factos e dimensões. O Power BI lê tabelas já preparadas.</p>
+<p><strong>Como funciona.</strong> Os dados das fontes passam por um <a class="bc-term" href="/pt/glossary/etl/" title="Extract, Transform, Load. Os dados são extraídos das fontes, transformados e só depois carregados no data warehouse.">ETL</a> agendado (extração, transformação, carga) para um data warehouse relacional, como SQL Server ou Azure SQL. Aí ficam organizados num <a class="bc-term" href="/pt/glossary/star-schema/" title="Uma forma de organizar dados para análise: uma tabela de factos ao centro, rodeada de tabelas de dimensões ligadas de um para muitos.">esquema em estrela</a>: <a class="bc-term" href="/pt/glossary/fact-table/" title="Uma tabela de eventos ou transações e dos seus valores numéricos: vendas, pagamentos, expedições. Cada linha é um evento.">tabelas de factos</a> e dimensões. O Power BI lê tabelas já preparadas.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>Uma única versão da verdade: as medidas são definidas uma vez, no data warehouse.</li>
@@ -132,7 +132,7 @@
 </ul>
 <p><strong>Quando escolher.</strong> Finanças, reporte regulatório, processos estáveis em que precisão e reprodutibilidade importam mais do que a rapidez de mudança.</p>
 <h2>3. Warehouse na nuvem com ELT</h2>
-<p><strong>Como funciona.</strong> Os dados são primeiro carregados tal como estão para um warehouse na nuvem (Snowflake, BigQuery, Databricks SQL, Fabric Warehouse) e transformados lá dentro (ELT). As transformações são muitas vezes escritas como código, por exemplo em dbt, com testes e versões em Git.</p>
+<p><strong>Como funciona.</strong> Os dados são primeiro carregados tal como estão para um warehouse na nuvem (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/pt/glossary/microsoft-fabric/" title="A plataforma de análise da Microsoft que reúne engenharia de dados, data warehouse, lakehouse, Power BI e outras ferramentas em torno do armazenamento partilhado OneLake.">Fabric</a> Warehouse) e transformados lá dentro (<a class="bc-term" href="/pt/glossary/elt/" title="Extract, Load, Transform. Os dados são carregados tal como estão no warehouse e transformados lá dentro, muitas vezes como código (por exemplo em dbt).">ELT</a>). As transformações são muitas vezes escritas como código, por exemplo em dbt, com testes e versões em Git.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>A capacidade de cálculo escala a pedido: uma consulta pesada não espera por um servidor novo.</li>
@@ -147,7 +147,7 @@
 </ul>
 <p><strong>Quando escolher.</strong> Muitas fontes, volumes a crescer depressa, várias equipas a consumir os mesmos dados.</p>
 <h2>4. Lakehouse no Microsoft Fabric</h2>
-<p><strong>Como funciona.</strong> Os dados ficam no OneLake, no formato aberto Delta, e passam por camadas: Bronze (brutos), Silver (limpos), Gold (prontos para análise). O Power BI lê as tabelas Gold em modo Direct Lake: o motor VertiPaq carrega os dados das tabelas Delta para memória sem uma cópia separada, como no modo Import.</p>
+<p><strong>Como funciona.</strong> Os dados ficam no OneLake, no formato aberto Delta, e passam por camadas: Bronze (brutos), Silver (limpos), Gold (prontos para análise). O Power BI lê as tabelas Gold em modo Direct Lake: o motor VertiPaq carrega os dados das tabelas Delta para memória sem uma cópia separada, como no <a class="bc-term" href="/pt/glossary/import-mode/" title="O modo do Power BI em que os dados são copiados para um modelo comprimido em memória e atualizados de forma agendada.">modo Import</a>.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>Uma só cópia dos dados para engenheiros, analistas e relatórios.</li>
@@ -263,6 +263,7 @@
 <a class="btn btn-primary" href="#contact">Falar sobre o projeto</a>
 <p class="bc-channel">Notas semanais sobre dados no canal do Telegram (em ucraniano): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
 <p class="bc-back"><a class="text-link" href="/pt/insights/">Todos os artigos</a></p>
+<p class="bc-back"><a class="text-link" href="/pt/glossary/">Glossário</a></p>
 </div></section><footer class="footer section" id="contact">
 <div class="container footer-grid">
 <div class="footer-info">
