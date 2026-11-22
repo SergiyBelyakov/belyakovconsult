@@ -1,0 +1,13 @@
+<section class="detail-hero compact-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="{{ home }}">{{ site.name }}</a><span>/</span><span>{{ U.label }}</span></nav>
+<span class="section-kicker">{{ U.kicker }} · {{ total }} {{ U.count }}</span>
+<h1>{{ U.heading }}</h1>
+<p>{{ U.lead }}</p>
+<nav class="bc-az" aria-label="{{ U.label }}">{% for ch, items in groups %}<a href="#t-{{ loop.index }}">{{ ch }}</a>{% endfor %}</nav>
+</div></div></section>
+<section class="section bg-darker bc-glossary"><div class="container">
+<div class="insight-nav-grid bc-list">
+{% for ch, items in groups %}{% set g = loop.index %}{% for t in items %}<a href="{{ t.href }}"{% if loop.first %} id="t-{{ g }}"{% endif %}><span>{{ ch }}</span><strong>{{ t.term }}</strong><em>{{ t.short }}</em></a>
+{% endfor %}{% endfor %}</div>
+<p class="bc-back"><a class="text-link" href="{{ insights_home }}">{{ L.all_articles }}</a></p>
+</div></section>

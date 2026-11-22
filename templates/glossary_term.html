@@ -1,0 +1,21 @@
+<section class="detail-hero compact-hero bc-article-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="{{ home }}">{{ site.name }}</a><span>/</span><a href="{{ glossary_home }}">{{ U.label }}</a><span>/</span><span>{{ v.term }}</span></nav>
+<span class="section-kicker">{{ U.kicker }}</span>
+<h1>{{ v.term }}</h1>
+<p class="bc-term-lead">{{ v.short }}</p>
+</div></div></section>
+<article class="section insight-article bc-article bc-term-page"><div class="container prose">
+<h2>{{ U.why }}</h2>
+<p>{{ v.why }}</p>
+{% if reads %}<h2>{{ U.read }}</h2>
+<ul>{% for title, href in reads %}<li><a class="text-link" href="{{ href }}">{{ title }}</a></li>{% endfor %}</ul>{% endif %}
+{% if related %}<h2>{{ U.related }}</h2>
+<div class="bc-chips bc-term-related">{% for name, href in related %}<a class="text-link" href="{{ href }}">{{ name }}</a>{% endfor %}</div>{% endif %}
+{% if service %}<div class="bc-chips"><span>{{ U.service }}:</span><a class="text-link" href="{{ service[1] }}">{{ service[0] }}</a></div>{% endif %}
+<p class="bc-back"><a class="text-link" href="{{ glossary_home }}">{{ U.all_terms }}</a></p>
+</div></article>
+<section class="section bg-darker bc-cta"><div class="container prose">
+<h2>{{ L.cta_title }}</h2>
+<p>{{ L.cta_text }}</p>
+<a class="btn btn-primary" href="#contact">{{ L.cta_button }}</a>
+</div></section>

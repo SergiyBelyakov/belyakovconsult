@@ -28,3 +28,14 @@
 .bc-list em{font-style:normal;color:#9ca7b5;font-size:.92rem;line-height:1.6}
 .bc-list a:hover{border-color:rgba(217,4,41,.55)}
 @media (max-width:760px){.bc-article .prose h2{margin-top:44px}.bc-meta{font-size:.75rem}}
+
+/* Словник термінів */
+.bc-az{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.bc-az a{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 10px;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#e8edf3;text-decoration:none;font-weight:600}
+.bc-az a:hover{border-color:rgba(217,4,41,.7);color:#fff}
+.bc-glossary .bc-list a{scroll-margin-top:110px}
+.bc-glossary .bc-list strong{font-size:1.08rem}
+a.bc-term{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:rgba(217,4,41,.8);text-underline-offset:3px}
+a.bc-term:hover{color:#fff;text-decoration-style:solid}
+.bc-term-lead{font-size:1.2rem;line-height:1.65;color:#dfe5ec}
+.bc-term-page .bc-chips span{color:#9ca7b5}

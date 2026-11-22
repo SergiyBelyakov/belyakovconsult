@@ -32,6 +32,8 @@ site:
   output_dir: site
   # Шлях розділу статей (однаковий для всіх мов, мовний префікс додається автоматично).
   insights_path: /insights/
+  # IndexNow (Bing, Yandex та ін.): ключ публічний за задумом, файл site/<ключ>.txt створює scripts/indexnow.py
+  indexnow_key: 03aae8d1c9ec923642a5b037b1e48e8b
   theme_color: "#05070A"
   accent_color: "#D90429"
   email: hello@belyakovconsult.com

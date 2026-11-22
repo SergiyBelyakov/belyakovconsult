@@ -78,6 +78,10 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: python scripts/publish.py ${{ github.repository != 'SergiyBelyakov/belyakovconsult' && '--dry-run' || '' }}
 
+      - name: Сповістити пошуковики про нові й змінені сторінки (IndexNow)
+        if: github.repository == 'SergiyBelyakov/belyakovconsult'
+        continue-on-error: true
+        run: python scripts/indexnow.py
       - name: Зберегти сайт і журнал публікацій
         run: |
           OUT=$(python -c "import yaml;print(yaml.safe_load(open('config.yml'))['site']['output_dir'])")

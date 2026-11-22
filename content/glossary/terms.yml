@@ -1,0 +1,830 @@
+# Словник термінів сайту (uk, en, pt). Збирається в /glossary/ і /glossary/<slug>/ скриптом scripts/glossary.py.
+#
+# Як додати термін (правило: кожен новий термін, ужитий у статті, потрапляє сюди):
+#   slug     латиницею, стабільний (це адреса сторінки)
+#   service  ключ із config.yml → services (посилання на послугу на сторінці терміна)
+#   related  slug-и пов'язаних термінів
+#   <мова>:
+#     term     назва, як у тексті сайту
+#     short    визначення 1–2 речення (без тире, простими словами)
+#     why      чому це важливо для бізнесу, 1–2 речення
+#     aliases  форми слова для автопосилань у статтях: «*» = будь-яке закінчення;
+#              «re:...» = регулярний вираз (чутливий до регістру); слова ВЕЛИКИМИ літерами теж чутливі до регістру
+# Перевірка: python scripts/validate.py (бракує мови, поля чи пов'язаного терміна → помилка).
+
+- slug: business-intelligence
+  service: business-intelligence
+  related: [dashboard, semantic-model, power-bi, data-warehouse, self-service-bi]
+  uk:
+    term: "BI (бізнес-аналітика)"
+    short: "Процеси й інструменти, які перетворюють дані компанії на звіти, дашборди й показники для ухвалення рішень."
+    why: "BI цінний не кількістю звітів, а тим, чи довіряють цифрам. Без якісних даних і спільних визначень показників BI лише швидше показує суперечності."
+    aliases: ["бізнес-аналітик*", "re:(?<![\\w-])(?<!Power )BI(?![\\w-])"]
+  en:
+    term: "BI (business intelligence)"
+    short: "The processes and tools that turn a company's data into reports, dashboards and measures for decision making."
+    why: "BI is valuable not for the number of reports but for whether people trust the numbers. Without good data and shared definitions, BI just shows contradictions faster."
+    aliases: ["business intelligence", "re:(?<![\\w-])(?<!Power )BI(?![\\w-])"]
+  pt:
+    term: "BI (business intelligence)"
+    short: "Processos e ferramentas que transformam os dados de uma empresa em relatórios, dashboards e indicadores para a tomada de decisão."
+    why: "O valor do BI não está no número de relatórios, mas em saber se as pessoas confiam nos números. Sem dados de qualidade e definições comuns, o BI só mostra contradições mais depressa."
+    aliases: ["business intelligence", "re:(?<![\\w-])(?<!Power )BI(?![\\w-])"]
+
+- slug: dashboard
+  service: business-intelligence
+  related: [business-intelligence, kpi, data-quality]
+  uk:
+    term: "Дашборд"
+    short: "Інтерактивна панель, на якій зібрані ключові показники й графіки для швидкого огляду стану справ."
+    why: "Добрий дашборд відповідає на конкретне управлінське питання. Зелений дашборд не гарантує, що дані правильні, тому поруч варто показувати якість даних."
+    aliases: ["дашборд*"]
+  en:
+    term: "Dashboard"
+    short: "An interactive panel that brings key measures and charts together for a quick view of how things stand."
+    why: "A good dashboard answers a specific management question. A green dashboard does not guarantee correct data, so data quality belongs next to it."
+    aliases: ["dashboard*"]
+  pt:
+    term: "Dashboard"
+    short: "Um painel interativo que reúne indicadores-chave e gráficos para uma visão rápida da situação."
+    why: "Um bom dashboard responde a uma pergunta de gestão concreta. Um dashboard verde não garante dados corretos, por isso a qualidade dos dados deve estar ao lado."
+    aliases: ["dashboard*"]
+
+- slug: kpi
+  service: management-analytics
+  related: [dashboard, measure, data-owner]
+  uk:
+    term: "KPI (ключовий показник ефективності)"
+    short: "Показник, за яким компанія або підрозділ оцінює, чи досягає своїх цілей."
+    why: "KPI корисний, лише коли в нього одне визначення, один власник і відоме джерело. Два способи порахувати той самий KPI дають дві правди на нараді."
+    aliases: ["KPI"]
+  en:
+    term: "KPI (key performance indicator)"
+    short: "A measure a company or team uses to judge whether it is reaching its goals."
+    why: "A KPI is useful only with one definition, one owner and a known source. Two ways of calculating the same KPI produce two truths in the meeting."
+    aliases: ["KPI"]
+  pt:
+    term: "KPI (indicador-chave de desempenho)"
+    short: "Um indicador que uma empresa ou equipa usa para avaliar se está a atingir os seus objetivos."
+    why: "Um KPI só é útil com uma definição, um responsável e uma fonte conhecida. Duas formas de calcular o mesmo KPI dão duas verdades na reunião."
+    aliases: ["KPI"]
+
+- slug: measure
+  service: business-intelligence
+  related: [dax, semantic-model, kpi]
+  uk:
+    term: "Міра (measure) у Power BI"
+    short: "Формула DAX, яка обчислює показник у момент запиту з урахуванням фільтрів звіту, наприклад виручку чи маржу."
+    why: "Міри визначають показник один раз для всіх звітів і не збільшують модель, на відміну від обчислюваних стовпців."
+    aliases: ["мір* DAX", "мір* у Power BI"]
+  en:
+    term: "Measure (Power BI)"
+    short: "A DAX formula that calculates a value at query time, respecting the report's filters, such as revenue or margin."
+    why: "Measures define a figure once for every report and do not make the model bigger, unlike calculated columns."
+    aliases: ["measures in DAX", "DAX measure*"]
+  pt:
+    term: "Medida (Power BI)"
+    short: "Uma fórmula DAX que calcula um valor no momento da consulta, respeitando os filtros do relatório, como a receita ou a margem."
+    why: "As medidas definem um valor uma vez para todos os relatórios e não aumentam o modelo, ao contrário das colunas calculadas."
+    aliases: ["medidas em DAX", "medida* DAX"]
+
+- slug: semantic-model
+  service: business-intelligence
+  related: [star-schema, measure, power-bi, row-level-security]
+  uk:
+    term: "Семантична модель"
+    short: "Шар між даними і звітами, де описані таблиці, зв'язки, міри й правила доступу. У Power BI раніше називалася набором даних (dataset)."
+    why: "Одна спільна семантична модель на предметну область означає, що показник визначено один раз і всі звіти показують ту саму цифру."
+    aliases: ["семантичн* модел*", "модел* даних"]
+  en:
+    term: "Semantic model"
+    short: "The layer between data and reports that defines tables, relationships, measures and access rules. In Power BI it used to be called a dataset."
+    why: "One shared semantic model per subject area means a measure is defined once and every report shows the same number."
+    aliases: ["semantic model*"]
+  pt:
+    term: "Modelo semântico"
+    short: "A camada entre os dados e os relatórios onde se definem tabelas, relações, medidas e regras de acesso. No Power BI chamava-se antes conjunto de dados (dataset)."
+    why: "Um modelo semântico partilhado por área de negócio significa que cada medida é definida uma vez e todos os relatórios mostram o mesmo número."
+    aliases: ["modelo* semântico*"]
+
+- slug: star-schema
+  service: data-architecture
+  related: [fact-table, dimension-table, semantic-model, data-warehouse]
+  uk:
+    term: "Схема «зірка»"
+    short: "Спосіб організувати дані для аналітики: у центрі таблиця фактів, навколо неї таблиці вимірів (довідники), пов'язані «один до багатьох»."
+    why: "Це найпростіша для розуміння й найшвидша для Power BI структура. Більшість проблем із продуктивністю й неправильними підсумками починається з відходу від неї."
+    aliases: ["схем* «зірка»", "схем* зірк*"]
+  en:
+    term: "Star schema"
+    short: "A way to organise data for analytics: a fact table in the centre, surrounded by dimension tables linked one-to-many."
+    why: "It is the easiest structure to understand and the fastest for Power BI. Most performance problems and wrong totals start with moving away from it."
+    aliases: ["star schema*"]
+  pt:
+    term: "Esquema em estrela"
+    short: "Uma forma de organizar dados para análise: uma tabela de factos ao centro, rodeada de tabelas de dimensões ligadas de um para muitos."
+    why: "É a estrutura mais fácil de compreender e a mais rápida para o Power BI. A maioria dos problemas de desempenho e de totais errados começa quando se foge dela."
+    aliases: ["esquema* em estrela"]
+
+- slug: fact-table
+  service: data-architecture
+  related: [star-schema, dimension-table, cardinality]
+  uk:
+    term: "Таблиця фактів"
+    short: "Таблиця з подіями чи транзакціями та їхніми числовими значеннями: продажі, платежі, відвантаження. Кожен рядок це одна подія."
+    why: "Саме таблиці фактів ростуть найшвидше, тому для них важливі інкрементальне оновлення й мінімум зайвих стовпців."
+    aliases: ["таблиц* фактів"]
+  en:
+    term: "Fact table"
+    short: "A table of events or transactions and their numeric values: sales, payments, shipments. Each row is one event."
+    why: "Fact tables grow fastest, so incremental refresh and keeping out unnecessary columns matter most here."
+    aliases: ["fact table*"]
+  pt:
+    term: "Tabela de factos"
+    short: "Uma tabela de eventos ou transações e dos seus valores numéricos: vendas, pagamentos, expedições. Cada linha é um evento."
+    why: "As tabelas de factos são as que crescem mais depressa, por isso a atualização incremental e a ausência de colunas desnecessárias importam sobretudo aqui."
+    aliases: ["tabela* de factos"]
+
+- slug: dimension-table
+  service: data-architecture
+  related: [star-schema, fact-table]
+  uk:
+    term: "Таблиця вимірів (довідник)"
+    short: "Таблиця з описом того, у розрізі чого аналізують факти: клієнти, товари, підрозділи, дати."
+    why: "Від якості довідників залежить, чи зійдуться підсумки. Дублікати в довіднику клієнтів роздувають кількість клієнтів у кожному звіті."
+    aliases: ["таблиц* вимірів"]
+  en:
+    term: "Dimension table"
+    short: "A table describing what facts are analysed by: customers, products, departments, dates."
+    why: "Whether totals add up depends on dimension quality. Duplicates in the customer dimension inflate customer counts in every report."
+    aliases: ["dimension table*"]
+  pt:
+    term: "Tabela de dimensões"
+    short: "Uma tabela que descreve por que eixos os factos são analisados: clientes, produtos, departamentos, datas."
+    why: "Saber se os totais batem certo depende da qualidade das dimensões. Duplicados na dimensão de clientes inflacionam a contagem de clientes em todos os relatórios."
+    aliases: ["tabela* de dimens*"]
+
+- slug: data-warehouse
+  service: data-architecture
+  related: [etl, elt, star-schema, lakehouse, data-lake]
+  uk:
+    term: "Сховище даних (data warehouse)"
+    short: "Окрема база, куди за розкладом збираються й узгоджуються дані з різних систем для аналітики та звітності."
+    why: "Сховище дає одну версію правди й історію: звіт за минулий місяць можна відтворити, а робочі системи не страждають від аналітичних запитів."
+    aliases: ["сховищ* даних", "класичн* сховищ*", "хмарн* сховищ*", "data warehouse"]
+  en:
+    term: "Data warehouse"
+    short: "A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting."
+    why: "A warehouse provides one version of the truth and history: last month's report can be reproduced, and operational systems are spared analytical queries."
+    aliases: ["data warehouse*", "classic warehouse", "cloud warehouse"]
+  pt:
+    term: "Data warehouse"
+    short: "Uma base de dados separada onde os dados de diferentes sistemas são reunidos de forma agendada e conciliados para análise e reporte."
+    why: "Um data warehouse dá uma única versão da verdade e histórico: o relatório do mês passado pode ser reproduzido e os sistemas operacionais não sofrem com consultas analíticas."
+    aliases: ["data warehouse*", "warehouse na nuvem"]
+
+- slug: data-lake
+  service: data-architecture
+  related: [lakehouse, data-warehouse, onelake]
+  uk:
+    term: "Озеро даних (data lake)"
+    short: "Сховище для великих обсягів даних у сирому вигляді, будь-якого формату, зазвичай у дешевому файловому сховищі в хмарі."
+    why: "Озеро дешево зберігає все, але без структури й правил швидко стає «болотом», де ніхто не знає, якому файлу вірити."
+    aliases: ["озер* даних", "data lake"]
+  en:
+    term: "Data lake"
+    short: "Storage for large volumes of raw data in any format, usually in low-cost cloud file storage."
+    why: "A lake stores everything cheaply, but without structure and rules it quickly becomes a swamp where nobody knows which file to trust."
+    aliases: ["data lake*"]
+  pt:
+    term: "Data lake"
+    short: "Armazenamento para grandes volumes de dados em bruto, em qualquer formato, normalmente em armazenamento de ficheiros económico na nuvem."
+    why: "Um data lake guarda tudo a baixo custo, mas sem estrutura e regras depressa se torna um pântano onde ninguém sabe em que ficheiro confiar."
+    aliases: ["data lake*"]
+
+- slug: lakehouse
+  service: data-architecture
+  related: [data-lake, data-warehouse, medallion-architecture, microsoft-fabric, direct-lake]
+  uk:
+    term: "Lakehouse"
+    short: "Архітектура, що поєднує озеро даних і сховище: дані лежать у відкритому форматі таблиць (наприклад, Delta) і доступні і для інженерії, і для звітів."
+    why: "Одна копія даних замість кількох скорочує розбіжності й витрати, але вимагає нових навичок і дисципліни в шарах даних."
+    aliases: ["lakehouse"]
+  en:
+    term: "Lakehouse"
+    short: "An architecture that combines a data lake and a warehouse: data sits in an open table format (such as Delta) and serves both engineering and reporting."
+    why: "One copy of data instead of several reduces discrepancies and cost, but needs new skills and discipline in data layers."
+    aliases: ["lakehouse*"]
+  pt:
+    term: "Lakehouse"
+    short: "Uma arquitetura que junta data lake e data warehouse: os dados ficam num formato aberto de tabelas (como Delta) e servem tanto a engenharia como os relatórios."
+    why: "Uma só cópia dos dados em vez de várias reduz discrepâncias e custos, mas exige novas competências e disciplina nas camadas de dados."
+    aliases: ["lakehouse*"]
+
+- slug: medallion-architecture
+  service: data-architecture
+  related: [lakehouse, data-quality]
+  uk:
+    term: "Медальйонна архітектура (Bronze, Silver, Gold)"
+    short: "Поділ даних на шари за ступенем готовності. Bronze це сирі дані, Silver очищені й узгоджені, Gold готові для звітів і аналізу."
+    why: "Шари показують, де саме виправляються помилки, і не дають звітам брати сирі дані напряму."
+    aliases: ["медальйонн* архітектур*", "re:Bronze \\(сирі дані\\)"]
+  en:
+    term: "Medallion architecture (Bronze, Silver, Gold)"
+    short: "Splitting data into layers by readiness. Bronze is raw, Silver is cleaned and reconciled, Gold is ready for reports and analysis."
+    why: "The layers make it clear where errors are fixed and stop reports from reading raw data directly."
+    aliases: ["medallion*", "re:Bronze \\(raw\\)"]
+  pt:
+    term: "Arquitetura medalhão (Bronze, Silver, Gold)"
+    short: "Divisão dos dados em camadas por grau de preparação. Bronze são dados em bruto, Silver limpos e conciliados, Gold prontos para relatórios e análise."
+    why: "As camadas deixam claro onde os erros são corrigidos e impedem que os relatórios leiam dados em bruto diretamente."
+    aliases: ["arquitetura medalhão", "re:Bronze \\(brutos\\)"]
+
+- slug: etl
+  service: data-architecture
+  related: [elt, data-warehouse, data-engineer]
+  uk:
+    term: "ETL"
+    short: "Extract, Transform, Load. Дані вивантажують із джерел, перетворюють і лише потім завантажують у сховище."
+    why: "Класичний підхід для сховищ: у сховище потрапляють уже чисті дані, але кожна зміна логіки вимагає змін у процесі завантаження."
+    aliases: ["re:(?<![\\w-])ETL(?![\\w-])"]
+  en:
+    term: "ETL"
+    short: "Extract, Transform, Load. Data is extracted from sources, transformed and only then loaded into the warehouse."
+    why: "The classic approach for warehouses: only clean data reaches the warehouse, but every logic change means changing the load process."
+    aliases: ["re:(?<![\\w-])ETL(?![\\w-])"]
+  pt:
+    term: "ETL"
+    short: "Extract, Transform, Load. Os dados são extraídos das fontes, transformados e só depois carregados no data warehouse."
+    why: "A abordagem clássica dos data warehouses: só dados limpos chegam ao warehouse, mas cada mudança de lógica obriga a alterar o processo de carga."
+    aliases: ["re:(?<![\\w-])ETL(?![\\w-])"]
+
+- slug: elt
+  service: data-architecture
+  related: [etl, data-warehouse, analytics-engineer]
+  uk:
+    term: "ELT"
+    short: "Extract, Load, Transform. Дані спершу завантажують у сховище як є, а перетворюють уже всередині нього, часто кодом (наприклад, у dbt)."
+    why: "ELT використовує масштаб хмарного сховища і дає зберігати перетворення в Git з тестами, але потребує контролю витрат на обчислення."
+    aliases: ["re:(?<![\\w-])ELT(?![\\w-])"]
+  en:
+    term: "ELT"
+    short: "Extract, Load, Transform. Data is loaded into the warehouse as is and transformed inside it, often as code (for example in dbt)."
+    why: "ELT uses the scale of a cloud warehouse and keeps transformations in Git with tests, but compute costs need watching."
+    aliases: ["re:(?<![\\w-])ELT(?![\\w-])"]
+  pt:
+    term: "ELT"
+    short: "Extract, Load, Transform. Os dados são carregados tal como estão no warehouse e transformados lá dentro, muitas vezes como código (por exemplo em dbt)."
+    why: "O ELT aproveita a escala de um warehouse na nuvem e guarda as transformações em Git com testes, mas os custos de computação têm de ser vigiados."
+    aliases: ["re:(?<![\\w-])ELT(?![\\w-])"]
+
+- slug: self-service-bi
+  service: business-intelligence
+  related: [business-intelligence, power-query, semantic-model]
+  uk:
+    term: "Self-service BI"
+    short: "Підхід, за якого користувачі бізнесу самі будують звіти й аналізи, без окремої команди розробки під кожен запит."
+    why: "Дає швидкість, але без спільної моделі й правил веде до кількох версій тієї самої цифри."
+    aliases: ["self-service"]
+  en:
+    term: "Self-service BI"
+    short: "An approach where business users build their own reports and analyses without a development team for every request."
+    why: "It brings speed, but without a shared model and rules it leads to several versions of the same number."
+    aliases: ["self-service"]
+  pt:
+    term: "Self-service BI"
+    short: "Uma abordagem em que os utilizadores do negócio criam os seus próprios relatórios e análises, sem uma equipa de desenvolvimento para cada pedido."
+    why: "Traz rapidez, mas sem um modelo partilhado e regras leva a várias versões do mesmo número."
+    aliases: ["self-service"]
+
+- slug: power-bi
+  service: business-intelligence
+  related: [semantic-model, dax, power-query, microsoft-fabric]
+  uk:
+    term: "Power BI"
+    short: "BI-платформа Microsoft для моделювання даних, звітів і дашбордів. Зараз входить до Microsoft Fabric."
+    why: "Найпоширеніша BI-платформа в екосистемі Microsoft. Її сила в моделі даних, тому якість моделі важить більше за красу візуалізацій."
+    aliases: ["Power BI"]
+  en:
+    term: "Power BI"
+    short: "Microsoft's BI platform for data modelling, reports and dashboards, now part of Microsoft Fabric."
+    why: "The most widespread BI platform in the Microsoft ecosystem. Its strength is the data model, so model quality matters more than pretty visuals."
+    aliases: ["Power BI"]
+  pt:
+    term: "Power BI"
+    short: "A plataforma de BI da Microsoft para modelação de dados, relatórios e dashboards, hoje parte do Microsoft Fabric."
+    why: "A plataforma de BI mais difundida no ecossistema Microsoft. A sua força está no modelo de dados, por isso a qualidade do modelo pesa mais do que a beleza dos visuais."
+    aliases: ["Power BI"]
+
+- slug: power-query
+  service: business-intelligence
+  related: [query-folding, power-bi, self-service-bi]
+  uk:
+    term: "Power Query"
+    short: "Інструмент підготовки даних у Power BI та Excel на мові M: підключення до джерел, очищення, об'єднання таблиць."
+    why: "Зручний для швидкого старту, але логіку, яку потребують кілька звітів, краще перенести ближче до джерела чи в сховище."
+    aliases: ["Power Query"]
+  en:
+    term: "Power Query"
+    short: "The data preparation tool in Power BI and Excel, using the M language: connecting to sources, cleaning, combining tables."
+    why: "Handy for a quick start, but logic needed by several reports belongs closer to the source or in the warehouse."
+    aliases: ["Power Query"]
+  pt:
+    term: "Power Query"
+    short: "A ferramenta de preparação de dados do Power BI e do Excel, com a linguagem M: ligação às fontes, limpeza, junção de tabelas."
+    why: "Prática para começar depressa, mas a lógica de que vários relatórios precisam deve ficar mais perto da fonte ou no data warehouse."
+    aliases: ["Power Query"]
+
+- slug: dax
+  service: business-intelligence
+  related: [measure, semantic-model, power-bi]
+  uk:
+    term: "DAX"
+    short: "Data Analysis Expressions, мова формул Power BI та Analysis Services для мір і обчислень у моделі."
+    why: "Від того, як написані міри DAX, залежать і правильність підсумків, і швидкість звітів."
+    aliases: ["re:(?<![\\w-])DAX(?! Studio)(?![\\w-])"]
+  en:
+    term: "DAX"
+    short: "Data Analysis Expressions, the formula language of Power BI and Analysis Services for measures and calculations in the model."
+    why: "How DAX measures are written determines both whether totals are correct and how fast reports are."
+    aliases: ["re:(?<![\\w-])DAX(?! Studio)(?![\\w-])"]
+  pt:
+    term: "DAX"
+    short: "Data Analysis Expressions, a linguagem de fórmulas do Power BI e do Analysis Services para medidas e cálculos no modelo."
+    why: "A forma como as medidas DAX são escritas determina se os totais estão certos e a rapidez dos relatórios."
+    aliases: ["re:(?<![\\w-])DAX(?! Studio)(?![\\w-])"]
+
+- slug: import-mode
+  service: business-intelligence
+  related: [directquery, direct-lake, composite-model, incremental-refresh]
+  uk:
+    term: "Режим Import"
+    short: "Режим Power BI, у якому дані копіюються в стиснену модель у пам'яті й оновлюються за розкладом."
+    why: "Найшвидший режим з усіма можливостями DAX, тому рекомендований за замовчуванням. Обмеження в тому, що дані свіжі лише після оновлення."
+    aliases: ["режим* Import", "re:(?<![\\w-])Import(?![\\w-])"]
+  en:
+    term: "Import mode"
+    short: "The Power BI mode in which data is copied into a compressed in-memory model and refreshed on a schedule."
+    why: "The fastest mode with full DAX, so it is the recommended default. The trade-off is that data is only as fresh as the last refresh."
+    aliases: ["Import mode", "re:(?<![\\w-])Import(?![\\w-])"]
+  pt:
+    term: "Modo Import"
+    short: "O modo do Power BI em que os dados são copiados para um modelo comprimido em memória e atualizados de forma agendada."
+    why: "É o modo mais rápido e com DAX completo, por isso é o recomendado por defeito. A contrapartida é que os dados só estão frescos depois da atualização."
+    aliases: ["modo Import", "re:(?<![\\w-])Import(?![\\w-])"]
+
+- slug: directquery
+  service: business-intelligence
+  related: [import-mode, direct-lake, composite-model]
+  uk:
+    term: "DirectQuery"
+    short: "Режим Power BI, у якому дані не копіюються, а кожна дія у звіті надсилає запит прямо в джерело."
+    why: "Дані завжди актуальні, але звіти повільніші, а навантаження лягає на джерело. Обирають, коли Import неможливий через обсяг чи вимоги до свіжості."
+    aliases: ["DirectQuery"]
+  en:
+    term: "DirectQuery"
+    short: "The Power BI mode in which data is not copied and every report interaction sends a query straight to the source."
+    why: "Data is always current, but reports are slower and the load lands on the source. Use it when Import is impossible because of size or freshness needs."
+    aliases: ["DirectQuery"]
+  pt:
+    term: "DirectQuery"
+    short: "O modo do Power BI em que os dados não são copiados e cada interação no relatório envia uma consulta diretamente à fonte."
+    why: "Os dados estão sempre atuais, mas os relatórios são mais lentos e a carga recai sobre a fonte. Usa-se quando o Import é impossível por volume ou frescura."
+    aliases: ["DirectQuery"]
+
+- slug: direct-lake
+  service: business-intelligence
+  related: [microsoft-fabric, onelake, import-mode, directquery, fabric-capacity, lakehouse]
+  uk:
+    term: "Direct Lake"
+    short: "Режим семантичних моделей у Microsoft Fabric, у якому двигун Power BI читає дані прямо з Delta-таблиць у OneLake без окремого імпорту."
+    why: "Дає швидкість, близьку до Import, і оновлення за секунди, але працює лише на ємності Fabric і має обмеження за розміром ємності."
+    aliases: ["Direct Lake"]
+  en:
+    term: "Direct Lake"
+    short: "A semantic model mode in Microsoft Fabric where the Power BI engine reads data straight from Delta tables in OneLake without a separate import."
+    why: "It gives speed close to Import and refreshes in seconds, but works only on Fabric capacity and has guardrails by capacity size."
+    aliases: ["Direct Lake"]
+  pt:
+    term: "Direct Lake"
+    short: "Um modo de modelos semânticos no Microsoft Fabric em que o motor do Power BI lê os dados diretamente de tabelas Delta no OneLake, sem importação separada."
+    why: "Dá velocidade próxima do Import e atualizações em segundos, mas só funciona em capacidade Fabric e tem limites por tamanho de capacidade."
+    aliases: ["Direct Lake"]
+
+- slug: composite-model
+  service: business-intelligence
+  related: [import-mode, directquery]
+  uk:
+    term: "Композитна модель"
+    short: "Семантична модель Power BI, у якій частина таблиць в режимі Import, а частина в DirectQuery."
+    why: "Дозволяє тримати великі факти в джерелі, а довідники й агрегати швидкими в пам'яті, але складніша в налаштуванні й підтримці."
+    aliases: ["композитн* модел*"]
+  en:
+    term: "Composite model"
+    short: "A Power BI semantic model where some tables use Import and others use DirectQuery."
+    why: "It keeps big facts at the source while dimensions and aggregations stay fast in memory, at the cost of more complex setup and maintenance."
+    aliases: ["composite model*"]
+  pt:
+    term: "Modelo composto"
+    short: "Um modelo semântico do Power BI em que algumas tabelas usam Import e outras DirectQuery."
+    why: "Permite manter factos grandes na fonte e dimensões e agregações rápidas em memória, à custa de uma configuração e manutenção mais complexas."
+    aliases: ["modelo* composto*"]
+
+- slug: microsoft-fabric
+  service: data-architecture
+  related: [onelake, direct-lake, fabric-capacity, power-bi, lakehouse]
+  uk:
+    term: "Microsoft Fabric"
+    short: "Аналітична платформа Microsoft, яка об'єднує інженерію даних, сховище, lakehouse, Power BI та інші інструменти навколо спільного сховища OneLake."
+    why: "Для компаній на стеку Microsoft це природний наступний крок після Power BI, але він вимагає ємності Fabric і нових навичок команди."
+    aliases: ["Microsoft Fabric", "re:(?<![\\w-])Fabric(?![\\w-])"]
+  en:
+    term: "Microsoft Fabric"
+    short: "Microsoft's analytics platform that brings data engineering, warehousing, lakehouse, Power BI and other tools together around the shared OneLake storage."
+    why: "For companies on the Microsoft stack it is a natural next step after Power BI, but it needs Fabric capacity and new team skills."
+    aliases: ["Microsoft Fabric", "re:(?<![\\w-])Fabric(?![\\w-])"]
+  pt:
+    term: "Microsoft Fabric"
+    short: "A plataforma de análise da Microsoft que reúne engenharia de dados, data warehouse, lakehouse, Power BI e outras ferramentas em torno do armazenamento partilhado OneLake."
+    why: "Para empresas no ecossistema Microsoft é um passo natural depois do Power BI, mas exige capacidade Fabric e novas competências da equipa."
+    aliases: ["Microsoft Fabric", "re:(?<![\\w-])Fabric(?![\\w-])"]
+
+- slug: onelake
+  service: data-architecture
+  related: [microsoft-fabric, lakehouse, direct-lake]
+  uk:
+    term: "OneLake"
+    short: "Єдине логічне сховище даних Microsoft Fabric для всієї організації, де таблиці зберігаються у відкритому форматі Delta."
+    why: "Різні інструменти Fabric працюють з тими самими даними без копіювання, що зменшує розбіжності між звітами."
+    aliases: ["OneLake"]
+  en:
+    term: "OneLake"
+    short: "Microsoft Fabric's single logical data store for the whole organisation, where tables are kept in the open Delta format."
+    why: "Different Fabric tools work on the same data without copies, which reduces discrepancies between reports."
+    aliases: ["OneLake"]
+  pt:
+    term: "OneLake"
+    short: "O armazenamento de dados lógico único do Microsoft Fabric para toda a organização, onde as tabelas ficam no formato aberto Delta."
+    why: "Diferentes ferramentas do Fabric trabalham sobre os mesmos dados sem cópias, o que reduz discrepâncias entre relatórios."
+    aliases: ["OneLake"]
+
+- slug: fabric-capacity
+  service: data-architecture
+  related: [microsoft-fabric, direct-lake]
+  uk:
+    term: "Ємність Fabric (F SKU)"
+    short: "Обчислювальний ресурс Microsoft Fabric певного розміру, на якому працюють робочі простори. Нові ємності Power BI Premium (P SKU) Microsoft більше не продає, їх замінюють F SKU."
+    why: "Від розміру ємності залежать швидкість, обмеження Direct Lake і рахунок, тому її використання треба моніторити."
+    aliases: ["ємн* Fabric", "re:(?<![\\w-])F SKU"]
+  en:
+    term: "Fabric capacity (F SKU)"
+    short: "A sized pool of Microsoft Fabric compute that workspaces run on. Microsoft no longer sells new Power BI Premium capacities (P SKUs); F SKUs replace them."
+    why: "Capacity size drives speed, Direct Lake guardrails and the bill, so its usage needs monitoring."
+    aliases: ["Fabric capacit*", "re:(?<![\\w-])F SKUs?"]
+  pt:
+    term: "Capacidade Fabric (F SKU)"
+    short: "Um conjunto dimensionado de computação do Microsoft Fabric onde correm as áreas de trabalho. A Microsoft já não vende novas capacidades Power BI Premium (P SKU); as F SKU substituem-nas."
+    why: "O tamanho da capacidade determina a velocidade, os limites do Direct Lake e a fatura, por isso a sua utilização deve ser monitorizada."
+    aliases: ["capacidade* Fabric", "re:(?<![\\w-])F SKU"]
+
+- slug: row-level-security
+  service: business-intelligence
+  related: [semantic-model, data-governance]
+  uk:
+    term: "Безпека на рівні рядків (RLS)"
+    short: "Правила в семантичній моделі, які обмежують, які рядки даних бачить користувач, наприклад лише свій регіон."
+    why: "Один звіт для всіх замість копій для кожного відділу: менше розбіжностей і менше ризику показати зайве."
+    aliases: ["безпек* на рівні рядків", "re:(?<![\\w-])RLS(?![\\w-])"]
+  en:
+    term: "Row-level security (RLS)"
+    short: "Rules in the semantic model that limit which rows of data a user can see, for example only their own region."
+    why: "One report for everyone instead of copies per department: fewer discrepancies and less risk of showing too much."
+    aliases: ["row-level security", "re:(?<![\\w-])RLS(?![\\w-])"]
+  pt:
+    term: "Segurança ao nível da linha (RLS)"
+    short: "Regras no modelo semântico que limitam as linhas de dados que um utilizador pode ver, por exemplo apenas a sua região."
+    why: "Um relatório para todos em vez de cópias por departamento: menos discrepâncias e menos risco de mostrar demasiado."
+    aliases: ["segurança ao nível da linha", "re:(?<![\\w-])RLS(?![\\w-])"]
+
+- slug: incremental-refresh
+  service: business-intelligence
+  related: [import-mode, fact-table]
+  uk:
+    term: "Інкрементальне оновлення"
+    short: "Налаштування Power BI, за якого під час оновлення перечитуються лише нові або змінені періоди, а історія лишається як є."
+    why: "Скорочує час оновлення великих таблиць фактів і навантаження на джерела."
+    aliases: ["інкрементальн* оновленн*"]
+  en:
+    term: "Incremental refresh"
+    short: "A Power BI setting where only new or changed periods are reloaded during refresh, while history stays as it is."
+    why: "It cuts refresh time for large fact tables and the load on sources."
+    aliases: ["incremental refresh*"]
+  pt:
+    term: "Atualização incremental"
+    short: "Uma configuração do Power BI em que só os períodos novos ou alterados são recarregados na atualização, mantendo o histórico."
+    why: "Reduz o tempo de atualização de tabelas de factos grandes e a carga sobre as fontes."
+    aliases: ["atualização incremental", "atualizações incrementais"]
+
+- slug: query-folding
+  service: business-intelligence
+  related: [power-query, import-mode]
+  uk:
+    term: "Згортання запитів (query folding)"
+    short: "Здатність Power Query перекласти кроки перетворення на запит до джерела, щоб фільтри й об'єднання виконувалися там, а не в Power BI."
+    why: "Зі згортанням оновлення швидше і менше даних передається мережею. Без нього великий звіт може оновлюватися годинами."
+    aliases: ["згортанн* запитів", "query folding"]
+  en:
+    term: "Query folding"
+    short: "Power Query's ability to translate transformation steps into a query to the source, so filters and joins run there rather than in Power BI."
+    why: "With folding, refreshes are faster and less data travels over the network. Without it, a large report can take hours to refresh."
+    aliases: ["query folding"]
+  pt:
+    term: "Query folding"
+    short: "A capacidade do Power Query de traduzir os passos de transformação numa consulta à fonte, para que filtros e junções corram lá e não no Power BI."
+    why: "Com query folding as atualizações são mais rápidas e menos dados passam pela rede. Sem ele, um relatório grande pode demorar horas a atualizar."
+    aliases: ["query folding"]
+
+- slug: pbip-tmdl
+  service: business-intelligence
+  related: [deployment-pipeline, semantic-model]
+  uk:
+    term: "PBIP і TMDL"
+    short: "Формат Power BI Project (PBIP) зберігає звіт і модель як текстові файли, а TMDL це текстова мова опису семантичної моделі."
+    why: "Модель можна тримати в Git: видно, хто що змінив, зміни проходять рев'ю й відкочуються."
+    aliases: ["re:(?<![\\w-])PBIP(?![\\w-])", "re:(?<![\\w-])TMDL(?![\\w-])"]
+  en:
+    term: "PBIP and TMDL"
+    short: "The Power BI Project format (PBIP) stores a report and model as text files; TMDL is the text language that describes a semantic model."
+    why: "The model can live in Git: you see who changed what, and changes are reviewed and can be rolled back."
+    aliases: ["re:(?<![\\w-])PBIP(?![\\w-])", "re:(?<![\\w-])TMDL(?![\\w-])"]
+  pt:
+    term: "PBIP e TMDL"
+    short: "O formato Power BI Project (PBIP) guarda o relatório e o modelo como ficheiros de texto; o TMDL é a linguagem de texto que descreve um modelo semântico."
+    why: "O modelo pode ficar em Git: vê-se quem mudou o quê, e as alterações são revistas e podem ser revertidas."
+    aliases: ["re:(?<![\\w-])PBIP(?![\\w-])", "re:(?<![\\w-])TMDL(?![\\w-])"]
+
+- slug: deployment-pipeline
+  service: business-intelligence
+  related: [pbip-tmdl, semantic-model]
+  uk:
+    term: "Конвеєр розгортання (deployment pipeline)"
+    short: "Механізм Power BI і Fabric для перенесення вмісту між робочими просторами розробки, тестування й продакшну."
+    why: "Зміни спершу перевіряють на тесті, а не одразу на звітах, якими користується керівництво."
+    aliases: ["конвеєр* розгортання"]
+  en:
+    term: "Deployment pipeline"
+    short: "The Power BI and Fabric feature for moving content between development, test and production workspaces."
+    why: "Changes are checked in test first, not straight on the reports leadership uses."
+    aliases: ["deployment pipeline*"]
+  pt:
+    term: "Pipeline de implementação"
+    short: "A funcionalidade do Power BI e do Fabric para mover conteúdo entre áreas de trabalho de desenvolvimento, teste e produção."
+    why: "As alterações são verificadas primeiro em teste, e não diretamente nos relatórios que a administração usa."
+    aliases: ["pipelines de implementação", "pipeline de implementação"]
+
+- slug: data-quality
+  service: data-quality
+  related: [completeness, duplicate-record, iso-8000, data-governance]
+  uk:
+    term: "Якість даних"
+    short: "Наскільки дані придатні для свого призначення: повні, точні, узгоджені, своєчасні й без дублікатів."
+    why: "Погана якість даних не видно в гарному звіті, але видно в неправильних рішеннях. Її треба вимірювати так само, як фінансові показники."
+    aliases: ["якіст* даних", "Data Quality"]
+  en:
+    term: "Data quality"
+    short: "How fit data is for its purpose: complete, accurate, consistent, timely and free of duplicates."
+    why: "Poor data quality does not show in a nice report, it shows in wrong decisions. It should be measured like financial figures."
+    aliases: ["data quality"]
+  pt:
+    term: "Qualidade dos dados"
+    short: "Até que ponto os dados servem o seu propósito: completos, exatos, coerentes, atempados e sem duplicados."
+    why: "A má qualidade dos dados não se vê num relatório bonito, vê-se em decisões erradas. Deve ser medida como os indicadores financeiros."
+    aliases: ["qualidade dos dados", "qualidade de dados"]
+
+- slug: completeness
+  service: data-quality
+  related: [data-quality, iso-8000]
+  uk:
+    term: "Повнота даних (заповненість)"
+    short: "Частка обов'язкових полів чи записів, які заповнені. Один з вимірів якості даних."
+    why: "Висока заповненість ще не означає якість: поле може бути заповнене заглушкою чи неправильним значенням."
+    aliases: ["повнот* даних", "заповненіст*"]
+  en:
+    term: "Completeness"
+    short: "The share of required fields or records that are filled in. One of the dimensions of data quality."
+    why: "High completeness does not mean quality: a field can be filled with a placeholder or a wrong value."
+    aliases: ["completeness"]
+  pt:
+    term: "Completude"
+    short: "A proporção de campos ou registos obrigatórios que estão preenchidos. Uma das dimensões da qualidade dos dados."
+    why: "Uma completude elevada não significa qualidade: um campo pode estar preenchido com um valor provisório ou errado."
+    aliases: ["completude"]
+
+- slug: duplicate-record
+  service: data-quality
+  related: [data-quality, dimension-table, data-steward]
+  uk:
+    term: "Дублікат запису"
+    short: "Кілька записів в одній системі, що описують той самий об'єкт, наприклад одну людину чи один договір."
+    why: "Дублікати роздувають кількість клієнтів, отримувачів чи боржників у звітах. Небезпечне й протилежне: хибне об'єднання двох різних об'єктів в один."
+    aliases: ["дублікат*"]
+  en:
+    term: "Duplicate record"
+    short: "Several records in one system describing the same thing, such as one person or one contract."
+    why: "Duplicates inflate the number of customers, recipients or debtors in reports. The opposite is dangerous too: falsely merging two different things into one."
+    aliases: ["duplicate*"]
+  pt:
+    term: "Registo duplicado"
+    short: "Vários registos num sistema que descrevem a mesma coisa, como uma pessoa ou um contrato."
+    why: "Os duplicados inflacionam o número de clientes, beneficiários ou devedores nos relatórios. O contrário também é perigoso: fundir indevidamente duas coisas diferentes numa só."
+    aliases: ["duplicad*"]
+
+- slug: data-governance
+  service: data-governance
+  related: [data-owner, data-steward, data-quality]
+  uk:
+    term: "Управління даними (data governance)"
+    short: "Правила, ролі й процеси, які визначають, хто відповідає за дані, як їх визначають, хто має доступ і як вирішують спірні питання."
+    why: "Найпомітніше управління даними під час конфлікту двох цифр: без нього суперечку вирішує посада, а не правило."
+    aliases: ["управлінн* даними", "Data Governance"]
+  en:
+    term: "Data governance"
+    short: "The rules, roles and processes that decide who is responsible for data, how it is defined, who has access and how disputes are settled."
+    why: "Data governance is most visible when two numbers conflict: without it the dispute is settled by rank, not by a rule."
+    aliases: ["data governance"]
+  pt:
+    term: "Governação de dados"
+    short: "As regras, funções e processos que definem quem é responsável pelos dados, como são definidos, quem tem acesso e como se resolvem divergências."
+    why: "A governação de dados nota-se sobretudo quando dois números entram em conflito: sem ela, a disputa é resolvida pela hierarquia e não por uma regra."
+    aliases: ["governação de dados"]
+
+- slug: data-owner
+  service: data-governance
+  related: [data-steward, data-governance, kpi]
+  uk:
+    term: "Власник даних"
+    short: "Людина з боку бізнесу, яка відповідає за визначення, якість і правила доступу до даних своєї області."
+    why: "Без власника даних технічна команда отримує суперечливі вимоги, а кожна спірна цифра стає предметом торгу."
+    aliases: ["власник* даних"]
+  en:
+    term: "Data owner"
+    short: "A business person responsible for the definitions, quality and access rules of the data in their area."
+    why: "Without a data owner the technical team receives contradictory requirements, and every disputed number becomes a negotiation."
+    aliases: ["data owner*"]
+  pt:
+    term: "Responsável pelos dados (data owner)"
+    short: "Uma pessoa do negócio responsável pelas definições, pela qualidade e pelas regras de acesso aos dados da sua área."
+    why: "Sem um responsável pelos dados a equipa técnica recebe requisitos contraditórios e cada número em disputa torna-se uma negociação."
+    aliases: ["responsável pelos dados"]
+
+- slug: data-steward
+  service: data-governance
+  related: [data-owner, data-quality, duplicate-record]
+  uk:
+    term: "Стюард даних"
+    short: "Людина, яка щодня стежить за якістю даних у своїй області: розбирає помилки, дублікати й спірні записи за правилами власника даних."
+    why: "Власник ухвалює правила, стюард забезпечує, щоб вони виконувалися в щоденній роботі."
+    aliases: ["стюард*"]
+  en:
+    term: "Data steward"
+    short: "A person who looks after data quality in their area day to day, resolving errors, duplicates and disputed records under the data owner's rules."
+    why: "The owner sets the rules; the steward makes sure they are followed in daily work."
+    aliases: ["data steward*", "steward*"]
+  pt:
+    term: "Data steward"
+    short: "Uma pessoa que cuida diariamente da qualidade dos dados da sua área, resolvendo erros, duplicados e registos em disputa segundo as regras do responsável pelos dados."
+    why: "O responsável define as regras; o data steward garante que são cumpridas no trabalho diário."
+    aliases: ["data steward*"]
+
+- slug: data-snapshot
+  service: data-architecture
+  related: [data-warehouse, data-quality]
+  uk:
+    term: "Знімок даних і дата зрізу"
+    short: "Збережений стан даних на конкретну дату (дату зрізу), який більше не змінюється, навіть якщо джерело згодом виправили."
+    why: "Без знімків звіт за минулий місяць змінюється через запізнілі записи й виправлення заднім числом, і цифра з наради вже не відтворюється."
+    aliases: ["знімок даних", "знімк* даних", "знімки даних", "дат* зрізу"]
+  en:
+    term: "Data snapshot and cut-off date"
+    short: "A saved state of data as of a specific date (the cut-off date) that no longer changes, even if the source is corrected later."
+    why: "Without snapshots, last month's report shifts because of late records and backdated fixes, and the figure from the meeting can no longer be reproduced."
+    aliases: ["snapshot*", "cut-off date*"]
+  pt:
+    term: "Instantâneo de dados e data de corte"
+    short: "Um estado dos dados guardado numa data concreta (a data de corte) que já não muda, mesmo que a fonte seja corrigida depois."
+    why: "Sem instantâneos, o relatório do mês passado muda por causa de registos tardios e correções retroativas, e o número da reunião deixa de poder ser reproduzido."
+    aliases: ["instantâneo*", "data de corte"]
+
+- slug: data-architecture
+  service: data-architecture
+  related: [data-warehouse, lakehouse, data-governance]
+  uk:
+    term: "Архітектура даних"
+    short: "Опис того, звідки беруться дані, де й у якому вигляді зберігаються, як перетворюються і як потрапляють до звітів та систем."
+    why: "Більшість суперечок про цифри й повільних дашбордів починається в архітектурі, а не в BI-інструменті."
+    aliases: ["архітектур* даних"]
+  en:
+    term: "Data architecture"
+    short: "A description of where data comes from, where and in what shape it is stored, how it is transformed and how it reaches reports and systems."
+    why: "Most disputes over numbers and slow dashboards start in the architecture, not in the BI tool."
+    aliases: ["data architecture"]
+  pt:
+    term: "Arquitetura de dados"
+    short: "A descrição de onde vêm os dados, onde e em que forma são guardados, como são transformados e como chegam aos relatórios e sistemas."
+    why: "A maioria das disputas sobre números e dos dashboards lentos começa na arquitetura, não na ferramenta de BI."
+    aliases: ["arquitetura de dados"]
+
+- slug: analytics-engineer
+  service: data-architecture
+  related: [elt, data-engineer, semantic-model]
+  uk:
+    term: "Analytics engineer"
+    short: "Фахівець між інженером даних і аналітиком: перетворює дані на готові для аналізу моделі кодом (SQL, dbt), з тестами й версіями в Git."
+    why: "Ця роль робить показники відтворюваними й перевіреними, а не захованими в окремих звітах."
+    aliases: ["analytics engineer*"]
+  en:
+    term: "Analytics engineer"
+    short: "A role between data engineer and analyst that turns data into analysis-ready models as code (SQL, dbt), with tests and versions in Git."
+    why: "The role makes measures reproducible and tested rather than hidden inside individual reports."
+    aliases: ["analytics engineer*"]
+  pt:
+    term: "Analytics engineer"
+    short: "Uma função entre engenheiro de dados e analista que transforma dados em modelos prontos para análise como código (SQL, dbt), com testes e versões em Git."
+    why: "Esta função torna as medidas reprodutíveis e testadas, em vez de escondidas em relatórios isolados."
+    aliases: ["analytics engineer*"]
+
+- slug: data-engineer
+  service: data-architecture
+  related: [etl, elt, analytics-engineer, lakehouse]
+  uk:
+    term: "Інженер даних"
+    short: "Фахівець, який будує й підтримує інтеграції, конвеєри завантаження і сховища даних: ETL та ELT, оркестрацію, моніторинг."
+    why: "Від інженерії даних залежить, чи дані приходять вчасно й повністю. Без неї аналітики витрачають час на ручне збирання."
+    aliases: ["інженер* даних"]
+  en:
+    term: "Data engineer"
+    short: "A specialist who builds and runs integrations, load pipelines and data stores: ETL and ELT, orchestration, monitoring."
+    why: "Data engineering decides whether data arrives on time and complete. Without it, analysts spend their time collecting data by hand."
+    aliases: ["data engineer*"]
+  pt:
+    term: "Engenheiro de dados"
+    short: "Um especialista que constrói e mantém integrações, pipelines de carga e armazenamentos de dados: ETL e ELT, orquestração, monitorização."
+    why: "A engenharia de dados determina se os dados chegam a tempo e completos. Sem ela, os analistas passam o tempo a recolher dados à mão."
+    aliases: ["engenheir* de dados"]
+
+- slug: fte
+  service: data-strategy
+  related: [analytics-engineer, data-engineer]
+  uk:
+    term: "FTE (повна ставка)"
+    short: "Full-time equivalent, одиниця обсягу роботи, що дорівнює одній людині на повний робочий час."
+    why: "Рахувати команду в FTE від годин роботи надійніше, ніж від назв посад: видно і пікові потреби, і роль, яка тримається на одній людині."
+    aliases: ["re:(?<![\\w-])FTE(?![\\w-])"]
+  en:
+    term: "FTE (full-time equivalent)"
+    short: "A unit of workload equal to one person working full time."
+    why: "Sizing a team in FTE from hours of work is more reliable than from job titles: it shows both peak needs and roles that depend on a single person."
+    aliases: ["re:(?<![\\w-])FTE(?![\\w-])"]
+  pt:
+    term: "FTE (equivalente a tempo inteiro)"
+    short: "Uma unidade de carga de trabalho igual a uma pessoa a tempo inteiro."
+    why: "Dimensionar uma equipa em FTE a partir das horas de trabalho é mais fiável do que a partir dos cargos: mostra os picos e as funções que dependem de uma só pessoa."
+    aliases: ["re:(?<![\\w-])FTE(?![\\w-])"]
+
+- slug: cardinality
+  service: business-intelligence
+  related: [semantic-model, fact-table]
+  uk:
+    term: "Кардинальність"
+    short: "Кількість унікальних значень у стовпці. Висока кардинальність у ідентифікаторів, часових позначок до секунди, вільного тексту."
+    why: "Стовпці з високою кардинальністю погано стискаються і роздувають модель Power BI, сповільнюючи звіти."
+    aliases: ["кардинальніст*"]
+  en:
+    term: "Cardinality"
+    short: "The number of distinct values in a column. IDs, second-level timestamps and free text have high cardinality."
+    why: "High-cardinality columns compress poorly and bloat a Power BI model, slowing reports down."
+    aliases: ["cardinality"]
+  pt:
+    term: "Cardinalidade"
+    short: "O número de valores distintos numa coluna. Identificadores, carimbos temporais ao segundo e texto livre têm cardinalidade elevada."
+    why: "Colunas com cardinalidade elevada comprimem mal e aumentam o modelo do Power BI, tornando os relatórios mais lentos."
+    aliases: ["cardinalidade"]
+
+- slug: iso-8000
+  service: data-quality
+  related: [data-quality, completeness]
+  uk:
+    term: "ISO 8000"
+    short: "Серія міжнародних стандартів про якість даних, зокрема про якість основних даних і обмін ними між організаціями."
+    why: "Стандарт дає спільну мову для вимог до якості даних і допомагає розділити якість на рівні, які можна перевіряти окремо."
+    aliases: ["ISO 8000"]
+  en:
+    term: "ISO 8000"
+    short: "A series of international standards on data quality, including master data quality and exchanging data between organisations."
+    why: "The standard gives a shared language for data quality requirements and helps split quality into levels that can be checked separately."
+    aliases: ["ISO 8000"]
+  pt:
+    term: "ISO 8000"
+    short: "Uma série de normas internacionais sobre qualidade de dados, incluindo a qualidade dos dados mestre e a troca de dados entre organizações."
+    why: "A norma dá uma linguagem comum para requisitos de qualidade de dados e ajuda a dividir a qualidade em níveis que podem ser verificados em separado."
+    aliases: ["ISO 8000"]

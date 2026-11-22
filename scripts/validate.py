@@ -12,10 +12,11 @@ import os
 import re
 import sys
 from collections import Counter
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import WEEKDAYS, cadence_phase, CHANNELS, load_articles, load_config, load_posts, media_kind, post_link_keys, post_parts  # noqa: E402
+from common import WEEKDAYS, cadence_phase, CHANNELS, load_articles, load_config, load_posts, media_kind, post_link_keys, post_parts, tz  # noqa: E402
 import brand  # noqa: E402
 
 
@@ -63,6 +64,18 @@ def main() -> int:
         missing = [l for l in site_langs if (slug, l) not in idx]
         if missing:
             errors.append(f"{slug}: на сайті бракує мов {', '.join(missing)} (потрібні {', '.join(site_langs)})")
+
+    # Словник термінів (content/glossary/terms.yml): повнота записів і покриття тегів опублікованих статей
+    import glossary  # noqa: E402
+    terms = glossary.load_terms()
+    errors += glossary.problems(terms, cfg.get("services"))
+    linker = glossary.Linker(cfg, terms, "uk")
+    today = datetime.now(tz(cfg)).date()
+    uncovered = sorted({t for a in articles if a.lang == "uk" and not a.draft and a.date <= today for t in a.tags
+                        if not any(rx.search(t) for _, _, rx, _, _ in linker.rows)})
+    if uncovered:
+        warns.append(f"словник: теги статей без терміна ({len(uncovered)}): {', '.join(uncovered)}. "
+                     "Якщо це термін, додайте його в content/glossary/terms.yml (uk, en, pt)")
 
     for k, n in Counter(p.key for p in posts).items():
         if n > 1:

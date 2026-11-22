@@ -21,6 +21,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import brand  # noqa: E402
+import glossary  # noqa: E402
 import make_cards  # noqa: E402
 import make_motion  # noqa: E402
 from common import (ROOT, article_path, is_live, load_articles, load_config, load_notes, load_posts,  # noqa: E402
@@ -120,6 +121,9 @@ def main() -> int:
             make_cards.note_cards(cfg, post, styles.get(f"{post.slug}#{post.path.stem}"))
 
     sitemap, pages = [], 0
+    terms = glossary.load_terms()
+    linkers = {lang: glossary.Linker(cfg, terms, lang) for lang in shells}
+    mentions = defaultdict(list)            # (мова, термін) → статті, де він згадується
     for slug, versions in by_slug.items():
         main_version = versions.get("uk") or next(iter(versions.values()))
         for v in versions.values():
@@ -140,6 +144,9 @@ def main() -> int:
             L = langs_cfg[lang]
             url = base + article_path(cfg, lang, slug)
             body = markdown.markdown(a.body, extensions=["tables", "fenced_code", "sane_lists", "attr_list"])
+            body, linked = linkers[lang].autolink(body)          # перша згадка терміна веде на сторінку словника
+            for t in linked:
+                mentions[(lang, t)].append((a.title, article_path(cfg, lang, slug)))
             jsonld = {"@context": "https://schema.org", "@graph": [
                 {"@type": "Article", "@id": url + "#article", "headline": a.title, "description": a.description,
                  "datePublished": a.date.isoformat(), "dateModified": (a.updated or a.date).isoformat(),
@@ -157,7 +164,8 @@ def main() -> int:
             main_html = env.get_template("article_main.html").render(
                 L=L, site=site, a=a, html=body, date_human=human_date(a.date, lang),
                 services=[s for s in (service_link(cfg, k, lang) for k in a.services) if s],
-                home=L["prefix"] + "/", insights_home=article_path(cfg, lang))
+                home=L["prefix"] + "/", insights_home=article_path(cfg, lang),
+                glossary_home=glossary.term_path(cfg, lang), glossary_label=glossary.UI[lang]["label"])
             meta = meta_block(cfg, lang, title=f"{a.title} | {site['name']}", description=a.description, url=url,
                               alternates=alternates, og_type="article", og_image=og,
                               feed=base + article_path(cfg, lang) + "feed.xml", jsonld=jsonld)
@@ -186,6 +194,7 @@ def main() -> int:
                 {"@type": "ListItem", "position": 2, "name": L["insights_page_title"], "item": url}]}]}
         main_html = env.get_template("index_main.html").render(
             L=L, site=site, home=L["prefix"] + "/",
+            glossary_home=glossary.term_path(cfg, lang), glossary_label=glossary.UI[lang]["label"],
             items=[{"a": a, "href": article_path(cfg, lang, a.slug), "date_human": human_date(a.date, lang)} for a in items])
         meta = meta_block(cfg, lang, title=f"{L['insights_page_title']} | {site['name']}", description=L["insights_description"],
                           url=url, alternates=index_alts, og_type="website", og_image=base + (f"/assets/og/insights-{lang}.jpg" if (out / "assets" / "og" / f"insights-{lang}.jpg").exists() else "/assets/og-belyakov-consult.jpg"),
@@ -197,9 +206,11 @@ def main() -> int:
         (d / "feed.xml").write_text(rss(cfg, lang, items), encoding="utf-8")
         sitemap.append((url, max(a.updated or a.date for a in items).isoformat(), [x for x in index_alts if x[0] != "x-default"]))
 
+    gl = glossary.build(cfg, env, shells, out, base, terms, mentions, meta_block, service_link)
+    sitemap += gl
     (out / "sitemap-insights.xml").write_text(sitemap_xml(sitemap), encoding="utf-8")
     ensure_robots(out, base)
-    print(f"Зібрано: {pages} сторінок статей, {len(by_lang)} списків → {out.relative_to(ROOT)}/")
+    print(f"Зібрано: {pages} сторінок статей, {len(by_lang)} списків, {len(gl)} сторінок словника → {out.relative_to(ROOT)}/")
     return 0
 
 
@@ -230,7 +241,8 @@ def sitemap_xml(entries) -> str:
     rows = []
     for url, lastmod, alts in entries:
         links = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in alts) if len(alts) > 1 else ""
-        rows.append(f"<url><loc>{url}</loc><lastmod>{lastmod}</lastmod>{links}</url>")
+        lm = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
+        rows.append(f"<url><loc>{url}</loc>{lm}{links}</url>")
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
             + "\n".join(rows) + "\n</urlset>\n")
