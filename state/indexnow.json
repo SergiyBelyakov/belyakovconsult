@@ -1,665 +1,300 @@
 {
  "pending": {
-  "https://www.belyakovconsult.com/en/glossary/": [
-   "c34952fcccbcf8e198f2",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/analytics-engineer/": [
-   "18afa4092c21a0c833c4",
-   "2026-11-22T21:46:36+00:00"
-  ],
   "https://www.belyakovconsult.com/en/glossary/business-intelligence/": [
-   "3bb2a0c0c8a852281d32",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/cardinality/": [
-   "3939557e56fa4e4f763d",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/completeness/": [
-   "f1ec1d20e1f1a515e4e0",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/composite-model/": [
-   "4948f4044e4b794f50ea",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/dashboard/": [
-   "df7ba30436bb9618ad62",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/data-architecture/": [
-   "9d467574a188777db333",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/data-engineer/": [
-   "f72c78a96535511d0963",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/data-governance/": [
-   "4776c4757008d9afc2dc",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/data-lake/": [
-   "4305c7949d5245f1428b",
-   "2026-11-22T21:46:36+00:00"
+   "c03cd76dab88188966c4",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/data-owner/": [
-   "d275fc336c3ddc3c90a5",
-   "2026-11-22T21:46:36+00:00"
+   "d388eacf3a9c6fa642c0",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/data-quality/": [
-   "72b86308fcf5483cb9f3",
-   "2026-11-22T21:46:36+00:00"
+   "5b1fbb506139da6d34de",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/data-snapshot/": [
-   "7fe6e19a54f737a4f45f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/data-steward/": [
-   "fa7a681b28a8eade9f2a",
-   "2026-11-22T21:46:36+00:00"
+   "e5b5ccc1272a04db16bc",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/data-warehouse/": [
-   "160282445f90dca77efc",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/dax/": [
-   "ca143f1c7640abc5bc9d",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/deployment-pipeline/": [
-   "62d31f84643c0f7162b9",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/dimension-table/": [
-   "f4608e2c564714847d5a",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/direct-lake/": [
-   "d2084674a75871b4c6ce",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/directquery/": [
-   "ef55984137dc80ab5b8c",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/duplicate-record/": [
-   "c4d010aba191e6955025",
-   "2026-11-22T21:46:36+00:00"
+   "a171ee5f856bc57822cf",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/elt/": [
-   "a23960af5706bd419779",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/etl/": [
-   "24aaca18a01af5689cd2",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/fabric-capacity/": [
-   "71abdcc67c34a998f8dc",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/fact-table/": [
-   "38a53c8e465fcc1ed745",
-   "2026-11-22T21:46:36+00:00"
+   "73dfc56f2ce4d2791b35",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/fte/": [
-   "c9e4017947d308386f6c",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/import-mode/": [
-   "9bd604a754bb62347977",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/incremental-refresh/": [
-   "b2caa338c17ddc22dae6",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/iso-8000/": [
-   "1b7feed12830d6215c8c",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/kpi/": [
-   "ee58dc9440e4d72d5b19",
-   "2026-11-22T21:46:36+00:00"
+   "59ab8cc91e8213551a4c",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/lakehouse/": [
-   "71055d5fdf05373ef3a5",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/measure/": [
-   "122343efa5adac38cfed",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/medallion-architecture/": [
-   "33c8edea4047e72f9b4c",
-   "2026-11-22T21:46:36+00:00"
+   "2a246824815352a38ebc",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/microsoft-fabric/": [
-   "4c0de2bd23153bf54182",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/onelake/": [
-   "ecc816f9561ed7d1d6be",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/pbip-tmdl/": [
-   "9a5276410f0b5544f8e8",
-   "2026-11-22T21:46:36+00:00"
+   "a3759074258ce9111c6d",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/power-bi/": [
-   "e91eb985346fb778adb6",
-   "2026-11-22T21:46:36+00:00"
+   "4bdad8cf50aa4603bf81",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/power-query/": [
-   "344298814a40c32a7575",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/query-folding/": [
-   "589f682654652e481fb1",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/row-level-security/": [
-   "9db8b54b26f3d745cda6",
-   "2026-11-22T21:46:36+00:00"
+   "05499f1d05db15111dc0",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/glossary/self-service-bi/": [
-   "8d4d0db92f5d04bca42d",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/semantic-model/": [
-   "056f2cfd85a07e0c2414",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/glossary/star-schema/": [
-   "b96ee0b8aa19c482c9b7",
-   "2026-11-22T21:46:36+00:00"
+   "6a0c451b4a152b70bc16",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/en/insights/": [
-   "682f21d471ecc59488df",
-   "2026-11-22T21:46:36+00:00"
+   "da6912f86451a6c1dd46",
+   "2026-11-22T22:03:15+00:00"
   ],
-  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": [
-   "2d9e973109e9a3557073",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/bi-is-not-for-fixing-sources/": [
-   "81f2e01abfaaac8cc8e9",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/completeness-is-not-quality/": [
-   "93fab3da7f0907f82977",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/data-quality-dashboard-demo/": [
-   "d7879891faad84d3d9cf",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/document-type-matters/": [
-   "6eb3b8ba8a8a0f3edbbc",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/duplicates-in-registers/": [
-   "be5732c09efb44b497dd",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/governance-shows-in-conflict/": [
-   "3d24b3dbeefc75c36428",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/iso-8000-8-quality-in-registers/": [
-   "371b299a5c0363e7002a",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/report-changed-after-month-end/": [
-   "c3d9af6267a76253af43",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/en/insights/which-bi-platform-to-choose/": [
-   "62fdf27cc7ad7250b0bd",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/": [
-   "dfab296fbb8955f29994",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/analytics-engineer/": [
-   "82091ac7cc37303c86b4",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/business-intelligence/": [
-   "a5827e229fe354e27ccb",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/cardinality/": [
-   "4372e7de4e38e2470593",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/completeness/": [
-   "90ba885bd66e3f4d7f3c",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/composite-model/": [
-   "10f8264f10d68b7a1fa3",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/dashboard/": [
-   "f0ea7f73a10e6edcfcc2",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-architecture/": [
-   "06339f122ed4b9cca65e",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-engineer/": [
-   "04432cd9e3b4d4265467",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-governance/": [
-   "ca6c9c5502a74b4938a5",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-lake/": [
-   "c345c0853d472f518198",
-   "2026-11-22T21:46:36+00:00"
+  "https://www.belyakovconsult.com/en/insights/analytics-team-sizing/": [
+   "630391c93c798a79b99a",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/data-owner/": [
-   "691d36a6fef824ba2607",
-   "2026-11-22T21:46:36+00:00"
+   "50b4fde9771978648e6a",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/data-quality/": [
-   "5adb4d191e38a10d4970",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-snapshot/": [
-   "6d304666b8d7297d5c12",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/data-steward/": [
-   "c6958cf4048947c318d6",
-   "2026-11-22T21:46:36+00:00"
+   "9ae789041188d68ef5e2",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/data-warehouse/": [
-   "4cf19457c7fdc326c7e5",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/dax/": [
-   "c184a0b088ad622ac62a",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/deployment-pipeline/": [
-   "6c84ddc2a94936a1b9ba",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/dimension-table/": [
-   "fda6602ba06f6da16576",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/direct-lake/": [
-   "46ef4cb1361bfeec7336",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/directquery/": [
-   "a1c241d1efb07522211d",
-   "2026-11-22T21:46:36+00:00"
+   "a7121661e527606b42f6",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/duplicate-record/": [
-   "014f6fdd87d35d350558",
-   "2026-11-22T21:46:36+00:00"
+   "40150ca59ddba1ef65d5",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/elt/": [
-   "e3da70b79d586b7e8a0c",
-   "2026-11-22T21:46:36+00:00"
+   "e5403dd21d13466113c6",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/etl/": [
-   "64822b6a8a65f7920d47",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/fabric-capacity/": [
-   "308718994ecd8d2bcda9",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/fact-table/": [
-   "1062ba999726826ad691",
-   "2026-11-22T21:46:36+00:00"
+   "d9cabe50a8764ea20d33",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/fte/": [
-   "8347ff1b5f9e47583d33",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/import-mode/": [
-   "f440353c6623d0d6f039",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/incremental-refresh/": [
-   "cc8347e931a159995852",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/iso-8000/": [
-   "5286d7def60a776c0f40",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/kpi/": [
-   "f6797a577d295c5fd8b2",
-   "2026-11-22T21:46:36+00:00"
+   "28aec7c47b6fa1ddbcac",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/lakehouse/": [
-   "87af18a5c55a2777de01",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/measure/": [
-   "a8a1ffacbc932dd121d2",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/medallion-architecture/": [
-   "80a62f6c54e211eccddd",
-   "2026-11-22T21:46:36+00:00"
+   "e18c642ffacd9073cd1e",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/microsoft-fabric/": [
-   "e5d0f754bac0cd3fa7de",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/onelake/": [
-   "9802796eb1fa0c87ed80",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/pbip-tmdl/": [
-   "1183e46286b4b31199e4",
-   "2026-11-22T21:46:36+00:00"
+   "2cdf3442b4c4665560f4",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/power-bi/": [
-   "0df63ee47546a68b6ae1",
-   "2026-11-22T21:46:36+00:00"
+   "70f6626be612a07d3815",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/power-query/": [
-   "5bbbe029afa2841fb5bc",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/query-folding/": [
-   "86e502f442e1153d26f0",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/row-level-security/": [
-   "8abfe42f81190ae390be",
-   "2026-11-22T21:46:36+00:00"
+   "7c481117f5c3b969f869",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/glossary/self-service-bi/": [
-   "1d3e7d04199803d17575",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/semantic-model/": [
-   "97bc52cefaddc17f1af6",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/glossary/star-schema/": [
-   "5885a65ed403ffe0d2ce",
-   "2026-11-22T21:46:36+00:00"
+   "0da9a85e23da08b87f14",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/insights/": [
-   "f2754fe5abbf9105a0bb",
-   "2026-11-22T21:46:36+00:00"
+   "f97953191ce2527ab0d5",
+   "2026-11-22T22:03:15+00:00"
   ],
-  "https://www.belyakovconsult.com/insights/bi-architecture-options/": [
-   "95a49b4131600cc69ecb",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/bi-is-not-for-fixing-sources/": [
-   "efda4a1fd37289602dca",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/completeness-is-not-quality/": [
-   "4f9088c869aeec2e7517",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/data-quality-dashboard-demo/": [
-   "21326cc99a0b42f562da",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/document-type-matters/": [
-   "101f08d3829ba9a9f071",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/duplicates-in-registers/": [
-   "5ed479b7eb28d21e050b",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/governance-shows-in-conflict/": [
-   "b7ad836f398d2acb8d7f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/iso-8000-8-quality-in-registers/": [
-   "c2289246455b30ccd5d0",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/report-changed-after-month-end/": [
-   "a0b26e76262116a1c680",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/which-bi-platform-to-choose/": [
-   "44d10bc8ff3ec0d55427",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/": [
-   "b9498dca28f14340eea1",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/analytics-engineer/": [
-   "f982906275321246d70a",
-   "2026-11-22T21:46:36+00:00"
+  "https://www.belyakovconsult.com/insights/analytics-team-sizing/": [
+   "1111301df7bfe54808e2",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/business-intelligence/": [
-   "5a64028f404bd5c44db0",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/cardinality/": [
-   "ab67c6ad24db791c07fd",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/completeness/": [
-   "e1e3a0b1980569b4ffba",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/composite-model/": [
-   "84203c7e1d1449ecb0fe",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/dashboard/": [
-   "04bf80a4d3f454365880",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/data-architecture/": [
-   "dcf957db54f54bf36285",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/data-engineer/": [
-   "ecc93d37c646cfb2d130",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/data-governance/": [
-   "71a692acdff746f5c464",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/data-lake/": [
-   "2b98b0f16e233d64f532",
-   "2026-11-22T21:46:36+00:00"
+   "3015a888e7a2f50ac1ff",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/data-owner/": [
-   "6a3a49703f3d74a47559",
-   "2026-11-22T21:46:36+00:00"
+   "e2e3e34860d4a076dd5f",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/data-quality/": [
-   "6978a34885864996dba4",
-   "2026-11-22T21:46:36+00:00"
+   "901ee1ec96c32680d653",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/data-snapshot/": [
-   "1d527e3e53369e950c77",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/data-steward/": [
-   "a7da01d38631c7ea547c",
-   "2026-11-22T21:46:36+00:00"
+   "f0eee85be7b545dd448e",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/data-warehouse/": [
-   "aeeb1c0f63c0b62289d9",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/dax/": [
-   "42a58ae9836a58283a5f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/deployment-pipeline/": [
-   "d4d2f1611dc568999554",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/dimension-table/": [
-   "6ad95c3f680f21bfa12f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/direct-lake/": [
-   "97cc9572cd9a4a58cd6e",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/directquery/": [
-   "48769dc72d922f5b11a4",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/duplicate-record/": [
-   "a02d1993cf95e1210f27",
-   "2026-11-22T21:46:36+00:00"
+   "585d00675b42b4d7ea4e",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/elt/": [
-   "6a858f697105414c8cbb",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/etl/": [
-   "a05bd662aed2c80da441",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/fabric-capacity/": [
-   "84f672cbfa2dc8865a42",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/fact-table/": [
-   "8c23cb2c7da74854beb8",
-   "2026-11-22T21:46:36+00:00"
+   "424334701902b800a43b",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/fte/": [
-   "2dabb757997a0865589b",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/import-mode/": [
-   "71da9d97c6af2e2fe195",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/incremental-refresh/": [
-   "2c2672d82a7dfca4b076",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/iso-8000/": [
-   "cedca763b02041dc8eec",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/kpi/": [
-   "7da25b69ea523e493408",
-   "2026-11-22T21:46:36+00:00"
+   "5e3262f5f9d97952e9af",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/lakehouse/": [
-   "9b0a1a9bfecf210cf830",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/measure/": [
-   "1c3d336ac328340098db",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/medallion-architecture/": [
-   "5bf945397d2ce7ff64c8",
-   "2026-11-22T21:46:36+00:00"
+   "d2930fb3e2a7d22941a7",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/microsoft-fabric/": [
-   "8b2bc2c73a94ef4be23f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/onelake/": [
-   "1a104ac936d011555405",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/pbip-tmdl/": [
-   "8693045fccb65d4f5245",
-   "2026-11-22T21:46:36+00:00"
+   "c1f0e587e56c20a833ff",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/power-bi/": [
-   "c7185d1468d799217d31",
-   "2026-11-22T21:46:36+00:00"
+   "e585962c2a4542fd546c",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/power-query/": [
-   "a1f70d7ebd9773862041",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/query-folding/": [
-   "6f3a899ca9fd6ddd6e2f",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/row-level-security/": [
-   "32cebaa5925ad0160012",
-   "2026-11-22T21:46:36+00:00"
+   "3887e728dfb0ca63dc11",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/glossary/self-service-bi/": [
-   "4fc4243f0f84f49dc4c7",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/semantic-model/": [
-   "e32bf4a5284302528259",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/glossary/star-schema/": [
-   "e5a46365c1c1e710cd98",
-   "2026-11-22T21:46:36+00:00"
+   "02a484c321709e82cf05",
+   "2026-11-22T22:03:15+00:00"
   ],
   "https://www.belyakovconsult.com/pt/insights/": [
-   "c1ff6cbae58c49656b2c",
-   "2026-11-22T21:46:36+00:00"
+   "2748ba613440c8875c46",
+   "2026-11-22T22:03:15+00:00"
   ],
-  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": [
-   "564158e94bef33d18245",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/bi-is-not-for-fixing-sources/": [
-   "ff2f9642f1d5152c524d",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/completeness-is-not-quality/": [
-   "cb698c0af86e61ab7c21",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/data-quality-dashboard-demo/": [
-   "db281743e1b4cba0793a",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/document-type-matters/": [
-   "5e0aa7f5e7f6e7c8f214",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/duplicates-in-registers/": [
-   "49c292488ea0024ad09c",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/governance-shows-in-conflict/": [
-   "bca16aa619bdd63ff733",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/iso-8000-8-quality-in-registers/": [
-   "57147bb10f450be13744",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/report-changed-after-month-end/": [
-   "5d82b9aa99aabb4eb578",
-   "2026-11-22T21:46:36+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/which-bi-platform-to-choose/": [
-   "079619099aa50936037e",
-   "2026-11-22T21:46:36+00:00"
+  "https://www.belyakovconsult.com/pt/insights/analytics-team-sizing/": [
+   "063efe3a9bc7fc573ada",
+   "2026-11-22T22:03:15+00:00"
   ]
  },
- "sent": {}
+ "sent": {
+  "https://www.belyakovconsult.com/en/glossary/": "c34952fcccbcf8e198f2",
+  "https://www.belyakovconsult.com/en/glossary/analytics-engineer/": "18afa4092c21a0c833c4",
+  "https://www.belyakovconsult.com/en/glossary/cardinality/": "3939557e56fa4e4f763d",
+  "https://www.belyakovconsult.com/en/glossary/completeness/": "f1ec1d20e1f1a515e4e0",
+  "https://www.belyakovconsult.com/en/glossary/composite-model/": "4948f4044e4b794f50ea",
+  "https://www.belyakovconsult.com/en/glossary/dashboard/": "df7ba30436bb9618ad62",
+  "https://www.belyakovconsult.com/en/glossary/data-architecture/": "9d467574a188777db333",
+  "https://www.belyakovconsult.com/en/glossary/data-engineer/": "f72c78a96535511d0963",
+  "https://www.belyakovconsult.com/en/glossary/data-governance/": "4776c4757008d9afc2dc",
+  "https://www.belyakovconsult.com/en/glossary/data-lake/": "4305c7949d5245f1428b",
+  "https://www.belyakovconsult.com/en/glossary/data-steward/": "fa7a681b28a8eade9f2a",
+  "https://www.belyakovconsult.com/en/glossary/dax/": "ca143f1c7640abc5bc9d",
+  "https://www.belyakovconsult.com/en/glossary/deployment-pipeline/": "62d31f84643c0f7162b9",
+  "https://www.belyakovconsult.com/en/glossary/dimension-table/": "f4608e2c564714847d5a",
+  "https://www.belyakovconsult.com/en/glossary/direct-lake/": "d2084674a75871b4c6ce",
+  "https://www.belyakovconsult.com/en/glossary/directquery/": "ef55984137dc80ab5b8c",
+  "https://www.belyakovconsult.com/en/glossary/duplicate-record/": "c4d010aba191e6955025",
+  "https://www.belyakovconsult.com/en/glossary/etl/": "24aaca18a01af5689cd2",
+  "https://www.belyakovconsult.com/en/glossary/fabric-capacity/": "71abdcc67c34a998f8dc",
+  "https://www.belyakovconsult.com/en/glossary/fact-table/": "38a53c8e465fcc1ed745",
+  "https://www.belyakovconsult.com/en/glossary/import-mode/": "9bd604a754bb62347977",
+  "https://www.belyakovconsult.com/en/glossary/incremental-refresh/": "b2caa338c17ddc22dae6",
+  "https://www.belyakovconsult.com/en/glossary/iso-8000/": "1b7feed12830d6215c8c",
+  "https://www.belyakovconsult.com/en/glossary/kpi/": "ee58dc9440e4d72d5b19",
+  "https://www.belyakovconsult.com/en/glossary/measure/": "122343efa5adac38cfed",
+  "https://www.belyakovconsult.com/en/glossary/medallion-architecture/": "33c8edea4047e72f9b4c",
+  "https://www.belyakovconsult.com/en/glossary/onelake/": "ecc816f9561ed7d1d6be",
+  "https://www.belyakovconsult.com/en/glossary/pbip-tmdl/": "9a5276410f0b5544f8e8",
+  "https://www.belyakovconsult.com/en/glossary/query-folding/": "589f682654652e481fb1",
+  "https://www.belyakovconsult.com/en/glossary/row-level-security/": "9db8b54b26f3d745cda6",
+  "https://www.belyakovconsult.com/en/glossary/semantic-model/": "056f2cfd85a07e0c2414",
+  "https://www.belyakovconsult.com/en/glossary/star-schema/": "b96ee0b8aa19c482c9b7",
+  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": "2d9e973109e9a3557073",
+  "https://www.belyakovconsult.com/en/insights/bi-is-not-for-fixing-sources/": "81f2e01abfaaac8cc8e9",
+  "https://www.belyakovconsult.com/en/insights/completeness-is-not-quality/": "93fab3da7f0907f82977",
+  "https://www.belyakovconsult.com/en/insights/data-quality-dashboard-demo/": "d7879891faad84d3d9cf",
+  "https://www.belyakovconsult.com/en/insights/document-type-matters/": "6eb3b8ba8a8a0f3edbbc",
+  "https://www.belyakovconsult.com/en/insights/duplicates-in-registers/": "be5732c09efb44b497dd",
+  "https://www.belyakovconsult.com/en/insights/governance-shows-in-conflict/": "3d24b3dbeefc75c36428",
+  "https://www.belyakovconsult.com/en/insights/iso-8000-8-quality-in-registers/": "371b299a5c0363e7002a",
+  "https://www.belyakovconsult.com/en/insights/report-changed-after-month-end/": "c3d9af6267a76253af43",
+  "https://www.belyakovconsult.com/en/insights/which-bi-platform-to-choose/": "62fdf27cc7ad7250b0bd",
+  "https://www.belyakovconsult.com/glossary/": "dfab296fbb8955f29994",
+  "https://www.belyakovconsult.com/glossary/analytics-engineer/": "82091ac7cc37303c86b4",
+  "https://www.belyakovconsult.com/glossary/business-intelligence/": "a5827e229fe354e27ccb",
+  "https://www.belyakovconsult.com/glossary/cardinality/": "4372e7de4e38e2470593",
+  "https://www.belyakovconsult.com/glossary/completeness/": "90ba885bd66e3f4d7f3c",
+  "https://www.belyakovconsult.com/glossary/composite-model/": "10f8264f10d68b7a1fa3",
+  "https://www.belyakovconsult.com/glossary/dashboard/": "f0ea7f73a10e6edcfcc2",
+  "https://www.belyakovconsult.com/glossary/data-architecture/": "06339f122ed4b9cca65e",
+  "https://www.belyakovconsult.com/glossary/data-engineer/": "04432cd9e3b4d4265467",
+  "https://www.belyakovconsult.com/glossary/data-governance/": "ca6c9c5502a74b4938a5",
+  "https://www.belyakovconsult.com/glossary/data-lake/": "c345c0853d472f518198",
+  "https://www.belyakovconsult.com/glossary/data-snapshot/": "6d304666b8d7297d5c12",
+  "https://www.belyakovconsult.com/glossary/data-steward/": "c6958cf4048947c318d6",
+  "https://www.belyakovconsult.com/glossary/dax/": "c184a0b088ad622ac62a",
+  "https://www.belyakovconsult.com/glossary/deployment-pipeline/": "6c84ddc2a94936a1b9ba",
+  "https://www.belyakovconsult.com/glossary/dimension-table/": "fda6602ba06f6da16576",
+  "https://www.belyakovconsult.com/glossary/direct-lake/": "46ef4cb1361bfeec7336",
+  "https://www.belyakovconsult.com/glossary/directquery/": "a1c241d1efb07522211d",
+  "https://www.belyakovconsult.com/glossary/fabric-capacity/": "308718994ecd8d2bcda9",
+  "https://www.belyakovconsult.com/glossary/fact-table/": "1062ba999726826ad691",
+  "https://www.belyakovconsult.com/glossary/import-mode/": "f440353c6623d0d6f039",
+  "https://www.belyakovconsult.com/glossary/incremental-refresh/": "cc8347e931a159995852",
+  "https://www.belyakovconsult.com/glossary/iso-8000/": "5286d7def60a776c0f40",
+  "https://www.belyakovconsult.com/glossary/kpi/": "f6797a577d295c5fd8b2",
+  "https://www.belyakovconsult.com/glossary/measure/": "a8a1ffacbc932dd121d2",
+  "https://www.belyakovconsult.com/glossary/medallion-architecture/": "80a62f6c54e211eccddd",
+  "https://www.belyakovconsult.com/glossary/onelake/": "9802796eb1fa0c87ed80",
+  "https://www.belyakovconsult.com/glossary/pbip-tmdl/": "1183e46286b4b31199e4",
+  "https://www.belyakovconsult.com/glossary/query-folding/": "86e502f442e1153d26f0",
+  "https://www.belyakovconsult.com/glossary/row-level-security/": "8abfe42f81190ae390be",
+  "https://www.belyakovconsult.com/glossary/semantic-model/": "97bc52cefaddc17f1af6",
+  "https://www.belyakovconsult.com/glossary/star-schema/": "5885a65ed403ffe0d2ce",
+  "https://www.belyakovconsult.com/insights/bi-architecture-options/": "95a49b4131600cc69ecb",
+  "https://www.belyakovconsult.com/insights/bi-is-not-for-fixing-sources/": "efda4a1fd37289602dca",
+  "https://www.belyakovconsult.com/insights/completeness-is-not-quality/": "4f9088c869aeec2e7517",
+  "https://www.belyakovconsult.com/insights/data-quality-dashboard-demo/": "21326cc99a0b42f562da",
+  "https://www.belyakovconsult.com/insights/document-type-matters/": "101f08d3829ba9a9f071",
+  "https://www.belyakovconsult.com/insights/duplicates-in-registers/": "5ed479b7eb28d21e050b",
+  "https://www.belyakovconsult.com/insights/governance-shows-in-conflict/": "b7ad836f398d2acb8d7f",
+  "https://www.belyakovconsult.com/insights/iso-8000-8-quality-in-registers/": "c2289246455b30ccd5d0",
+  "https://www.belyakovconsult.com/insights/report-changed-after-month-end/": "a0b26e76262116a1c680",
+  "https://www.belyakovconsult.com/insights/which-bi-platform-to-choose/": "44d10bc8ff3ec0d55427",
+  "https://www.belyakovconsult.com/pt/glossary/": "b9498dca28f14340eea1",
+  "https://www.belyakovconsult.com/pt/glossary/analytics-engineer/": "f982906275321246d70a",
+  "https://www.belyakovconsult.com/pt/glossary/cardinality/": "ab67c6ad24db791c07fd",
+  "https://www.belyakovconsult.com/pt/glossary/completeness/": "e1e3a0b1980569b4ffba",
+  "https://www.belyakovconsult.com/pt/glossary/composite-model/": "84203c7e1d1449ecb0fe",
+  "https://www.belyakovconsult.com/pt/glossary/dashboard/": "04bf80a4d3f454365880",
+  "https://www.belyakovconsult.com/pt/glossary/data-architecture/": "dcf957db54f54bf36285",
+  "https://www.belyakovconsult.com/pt/glossary/data-engineer/": "ecc93d37c646cfb2d130",
+  "https://www.belyakovconsult.com/pt/glossary/data-governance/": "71a692acdff746f5c464",
+  "https://www.belyakovconsult.com/pt/glossary/data-lake/": "2b98b0f16e233d64f532",
+  "https://www.belyakovconsult.com/pt/glossary/data-steward/": "a7da01d38631c7ea547c",
+  "https://www.belyakovconsult.com/pt/glossary/dax/": "42a58ae9836a58283a5f",
+  "https://www.belyakovconsult.com/pt/glossary/deployment-pipeline/": "d4d2f1611dc568999554",
+  "https://www.belyakovconsult.com/pt/glossary/dimension-table/": "6ad95c3f680f21bfa12f",
+  "https://www.belyakovconsult.com/pt/glossary/direct-lake/": "97cc9572cd9a4a58cd6e",
+  "https://www.belyakovconsult.com/pt/glossary/directquery/": "48769dc72d922f5b11a4",
+  "https://www.belyakovconsult.com/pt/glossary/duplicate-record/": "a02d1993cf95e1210f27",
+  "https://www.belyakovconsult.com/pt/glossary/etl/": "a05bd662aed2c80da441",
+  "https://www.belyakovconsult.com/pt/glossary/fabric-capacity/": "84f672cbfa2dc8865a42",
+  "https://www.belyakovconsult.com/pt/glossary/fact-table/": "8c23cb2c7da74854beb8",
+  "https://www.belyakovconsult.com/pt/glossary/import-mode/": "71da9d97c6af2e2fe195",
+  "https://www.belyakovconsult.com/pt/glossary/incremental-refresh/": "2c2672d82a7dfca4b076",
+  "https://www.belyakovconsult.com/pt/glossary/iso-8000/": "cedca763b02041dc8eec",
+  "https://www.belyakovconsult.com/pt/glossary/kpi/": "7da25b69ea523e493408",
+  "https://www.belyakovconsult.com/pt/glossary/measure/": "1c3d336ac328340098db",
+  "https://www.belyakovconsult.com/pt/glossary/medallion-architecture/": "5bf945397d2ce7ff64c8",
+  "https://www.belyakovconsult.com/pt/glossary/onelake/": "1a104ac936d011555405",
+  "https://www.belyakovconsult.com/pt/glossary/pbip-tmdl/": "8693045fccb65d4f5245",
+  "https://www.belyakovconsult.com/pt/glossary/query-folding/": "6f3a899ca9fd6ddd6e2f",
+  "https://www.belyakovconsult.com/pt/glossary/row-level-security/": "32cebaa5925ad0160012",
+  "https://www.belyakovconsult.com/pt/glossary/semantic-model/": "e32bf4a5284302528259",
+  "https://www.belyakovconsult.com/pt/glossary/star-schema/": "e5a46365c1c1e710cd98",
+  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": "564158e94bef33d18245",
+  "https://www.belyakovconsult.com/pt/insights/bi-is-not-for-fixing-sources/": "ff2f9642f1d5152c524d",
+  "https://www.belyakovconsult.com/pt/insights/completeness-is-not-quality/": "cb698c0af86e61ab7c21",
+  "https://www.belyakovconsult.com/pt/insights/data-quality-dashboard-demo/": "db281743e1b4cba0793a",
+  "https://www.belyakovconsult.com/pt/insights/document-type-matters/": "5e0aa7f5e7f6e7c8f214",
+  "https://www.belyakovconsult.com/pt/insights/duplicates-in-registers/": "49c292488ea0024ad09c",
+  "https://www.belyakovconsult.com/pt/insights/governance-shows-in-conflict/": "bca16aa619bdd63ff733",
+  "https://www.belyakovconsult.com/pt/insights/iso-8000-8-quality-in-registers/": "57147bb10f450be13744",
+  "https://www.belyakovconsult.com/pt/insights/report-changed-after-month-end/": "5d82b9aa99aabb4eb578",
+  "https://www.belyakovconsult.com/pt/insights/which-bi-platform-to-choose/": "079619099aa50936037e"
+ }
 }
