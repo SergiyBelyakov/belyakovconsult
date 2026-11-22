@@ -1,4 +1,13 @@
 {
+  "bi-architecture-options#1": {
+    "cover": "icon",
+    "globe": "globe-3.jpg",
+    "icon": "service-bi.webp",
+    "k": 56,
+    "look": "glass",
+    "music": "ambient",
+    "wave": "wave-1.jpg"
+  },
   "bi-audit-20min#1": {
     "cover": "icon",
     "frozen": true,

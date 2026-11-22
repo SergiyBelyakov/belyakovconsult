@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="uk"><head><meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#05070A" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="/style.css" rel="stylesheet"/><script defer="" src="/script.js"></script>
+<link rel="icon" href="/favicon.ico" sizes="48x48"/><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"/><link rel="icon" href="/assets/favicon-192.png" sizes="192x192" type="image/png"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180"/>
+<title>Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI | Belyakov Consult</title>
+<meta content="Self-service з джерел, класичне сховище, хмарне сховище з ELT і lakehouse у Fabric: коли який варіант доречний і що в Power BI окупається завжди." name="description"/>
+<meta content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" name="robots"/>
+<meta content="Сергій Бєляков" name="author"/>
+<link href="https://www.belyakovconsult.com/insights/bi-architecture-options/" rel="canonical"/>
+<link href="https://www.belyakovconsult.com/insights/bi-architecture-options/" hreflang="uk" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/en/insights/bi-architecture-options/" hreflang="en" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/pt/insights/bi-architecture-options/" hreflang="pt" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/insights/bi-architecture-options/" hreflang="x-default" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/insights/feed.xml" rel="alternate" title="Belyakov Consult · Матеріали" type="application/rss+xml"/>
+<meta content="uk_UA" property="og:locale"/>
+<meta content="article" property="og:type"/>
+<meta content="Belyakov Consult" property="og:site_name"/>
+<meta content="Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI | Belyakov Consult" property="og:title"/>
+<meta content="Self-service з джерел, класичне сховище, хмарне сховище з ELT і lakehouse у Fabric: коли який варіант доречний і що в Power BI окупається завжди." property="og:description"/>
+<meta content="https://www.belyakovconsult.com/insights/bi-architecture-options/" property="og:url"/>
+<meta content="https://www.belyakovconsult.com/assets/insights/bi-architecture-options/og.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI | Belyakov Consult" name="twitter:title"/>
+<meta content="Self-service з джерел, класичне сховище, хмарне сховище з ELT і lakehouse у Fabric: коли який варіант доречний і що в Power BI окупається завжди." name="twitter:description"/>
+<meta content="https://www.belyakovconsult.com/assets/insights/bi-architecture-options/og.png" name="twitter:image"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://www.belyakovconsult.com/insights/bi-architecture-options/#article", "headline": "Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI", "description": "Self-service з джерел, класичне сховище, хмарне сховище з ELT і lakehouse у Fabric: коли який варіант доречний і що в Power BI окупається завжди.", "datePublished": "2026-11-22", "dateModified": "2026-11-22", "inLanguage": "uk", "image": "https://www.belyakovconsult.com/assets/insights/bi-architecture-options/og.png", "mainEntityOfPage": "https://www.belyakovconsult.com/insights/bi-architecture-options/", "wordCount": 1382, "keywords": "BI, архітектура даних, Power BI, Microsoft Fabric, сховище даних, lakehouse, Direct Lake", "author": {"@type": "Person", "name": "Сергій Бєляков", "url": "https://www.belyakovconsult.com/sergiy-belyakov/", "sameAs": ["https://www.linkedin.com/in/sergiy-belyakov"]}, "publisher": {"@type": "Organization", "name": "Belyakov Consult", "url": "https://www.belyakovconsult.com/", "logo": "https://www.belyakovconsult.com/assets/logo-original.png"}, "isPartOf": {"@id": "https://www.belyakovconsult.com/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Belyakov Consult", "item": "https://www.belyakovconsult.com/"}, {"@type": "ListItem", "position": 2, "name": "Матеріали", "item": "https://www.belyakovconsult.com/insights/"}, {"@type": "ListItem", "position": 3, "name": "Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI", "item": "https://www.belyakovconsult.com/insights/bi-architecture-options/"}]}]}</script>
+<link href="/assets/insights/insights.css" rel="stylesheet"/>
+</head><body><header class="header glass"><div class="container nav">
+<a aria-label="Belyakov Consult" class="brand-lockup" href="/"><img alt="BC." class="logo-original-image" decoding="async" height="170" src="/assets/logo-original.png" width="360"/><span aria-hidden="true" class="brand-lockup-divider"></span><span class="brand-lockup-copy"><span class="brand-lockup-name">Belyakov Consult</span><span class="brand-lockup-signature">BI • Data Architecture • Data Governance</span></span></a>
+<nav aria-label="Main navigation" class="nav-links" id="main-nav"><a href="/#services">Послуги</a><a href="/cases/">Лабораторія</a><a href="/insights/">Матеріали</a><a href="/sergiy-belyakov/">Про мене</a><a href="/#contact">Контакти</a></nav>
+<div class="nav-actions"><button aria-controls="main-nav" aria-expanded="false" class="menu-toggle" type="button">Меню</button>
+<div aria-label="Language" class="lang-switch"><a aria-current="page" class="active" href="/insights/bi-architecture-options/" lang="uk">UA</a><a href="/en/insights/bi-architecture-options/" lang="en">EN</a><a href="/pt/insights/bi-architecture-options/" lang="pt">PT</a></div>
+<div class="social-top"><a aria-label="LinkedIn" class="icon-circle linkedin-link" href="https://www.linkedin.com/in/sergiy-belyakov" rel="me noopener noreferrer"><svg aria-hidden="true" class="linkedin-mark" focusable="false" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.941v5.665H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.558V9h3.561v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z" fill="currentColor"></path></svg></a><a aria-label="Instagram @belyakovconsult" class="icon-circle bc-social-link" href="https://www.instagram.com/belyakovconsult/" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg></a><a aria-label="Threads @belyakovconsult" class="icon-circle bc-social-link" href="https://www.threads.com/@belyakovconsult" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a><a aria-label="YouTube @BelyakovConsult" class="icon-circle bc-social-link" href="https://www.youtube.com/@BelyakovConsult" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a></div></div>
+</div></header><main><section class="detail-hero compact-hero bc-article-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="/">Belyakov Consult</a><span>/</span><a href="/insights/">Матеріали</a><span>/</span><span>Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI</span></nav>
+<span class="section-kicker">Матеріали</span>
+<h1>Архітектура BI: чотири варіанти, плюси й мінуси і практики Power BI</h1>
+<p>Self-service з джерел, класичне сховище, хмарне сховище з ELT і lakehouse у Fabric: коли який варіант доречний і що в Power BI окупається завжди.</p>
+<div class="bc-meta"><time datetime="2026-11-22">22 листопада 2026</time><span>7 хв читання</span><span>Сергій Бєляков</span></div>
+</div></div></section>
+<article class="section insight-article bc-article"><div class="container prose">
+<p>Повільні дашборди, дві різні цифри виручки в двох звітах, страх щось змінити в моделі. Зазвичай це не вада інструменту. Це наслідок архітектури, яка стоїть за звітами.</p>
+<p>Нижче чотири варіанти, які трапляються найчастіше: що в кожного добре, що погано, коли його обирати і коли з нього виростати. Варіанти не взаємовиключні. Компанії зазвичай проходять шлях від першого до другого чи третього, а великі організації часто живуть у гібриді. В кінці практики Power BI, які окупаються за будь-якої архітектури.</p>
+<h2>Коротко</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Self-service з джерел</th>
+<th>Класичне сховище</th>
+<th>Хмарне сховище + ELT</th>
+<th>Lakehouse у Fabric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Запуск</td>
+<td>дні</td>
+<td>місяці</td>
+<td>тижні або місяці</td>
+<td>тижні або місяці</td>
+</tr>
+<tr>
+<td>Масштаб</td>
+<td>малий</td>
+<td>середній і великий</td>
+<td>великий</td>
+<td>великий</td>
+</tr>
+<tr>
+<td>Головний плюс</td>
+<td>швидкість</td>
+<td>одна версія правди</td>
+<td>масштаб на вимогу</td>
+<td>одна копія даних, свіжість</td>
+</tr>
+<tr>
+<td>Головний ризик</td>
+<td>різні версії однієї цифри</td>
+<td>повільні зміни</td>
+<td>рахунок росте з обсягом</td>
+<td>нові навички, потрібна ємність Fabric</td>
+</tr>
+<tr>
+<td>Кому підходить</td>
+<td>пілот, одна команда</td>
+<td>фінанси, регуляторна звітність</td>
+<td>багато джерел, швидкий ріст</td>
+<td>великі обсяги в екосистемі Microsoft</td>
+</tr>
+</tbody>
+</table>
+<p>Оцінки в таблиці орієнтовні. Реальні терміни й витрати залежать від кількості джерел, їхньої якості, обсягів і команди.</p>
+<h2>1. Self-service напряму з джерел</h2>
+<p><strong>Як це виглядає.</strong> Аналітик підключає Power BI до облікової системи, CRM, Excel-файлів і SharePoint. Уся підготовка даних живе в Power Query всередині файлу звіту, і кожен звіт має власну модель.</p>
+<p><strong>Плюси</strong></p>
+<ul>
+<li>Старт за кілька днів, без окремої інфраструктури.</li>
+<li>Бізнес бачить свої дані одразу і сам формулює, чого не вистачає.</li>
+<li>Найдешевший спосіб перевірити, чи потрібна аналітика взагалі.</li>
+</ul>
+<p><strong>Мінуси</strong></p>
+<ul>
+<li>Логіка розкидана по файлах. Той самий показник у різних звітах рахується по-різному.</li>
+<li>Оновлення навантажують робочі системи, а з ростом даних перестають встигати.</li>
+<li>Важко контролювати, хто що бачить і звідки взялася цифра.</li>
+<li>Модель часто тримається на одній людині.</li>
+</ul>
+<p><strong>Коли обирати.</strong> Пілот, одна команда, кілька джерел, перевірка гіпотези перед інвестицією в сховище.</p>
+<p><strong>Сигнали, що час рухатися далі.</strong> Дві версії однієї цифри на нараді. Однакові кроки Power Query скопійовані в кілька файлів. Нічне оновлення не встигає до ранку. Про те, чому виправляти джерела всередині BI погана ідея, є окремий розбір: <a href="/insights/bi-is-not-for-fixing-sources/">BI не повинен бути місцем, де виправляють джерела</a>.</p>
+<h2>2. Класичне сховище даних</h2>
+<p><strong>Як це виглядає.</strong> Дані з джерел за розкладом проходять ETL (вивантаження, перетворення, завантаження) у реляційне сховище, наприклад SQL Server чи Azure SQL. Там вони складені в схему «зірка»: таблиці фактів і довідники. Power BI бере вже готові таблиці.</p>
+<p><strong>Плюси</strong></p>
+<ul>
+<li>Одна версія правди: показники визначені один раз, у сховищі.</li>
+<li>Перевірена десятиліттями методологія і багато фахівців на ринку.</li>
+<li>Історія зберігається, тому звіт за минулий місяць можна відтворити.</li>
+<li>Робочі системи не страждають від запитів аналітиків.</li>
+</ul>
+<p><strong>Мінуси</strong></p>
+<ul>
+<li>Кожна зміна проходить через команду даних, тому новий показник з'являється тижнями.</li>
+<li>Дані зазвичай оновлюються раз на добу.</li>
+<li>Власне залізо чи сервери треба підтримувати й масштабувати вручну.</li>
+</ul>
+<p><strong>Коли обирати.</strong> Фінанси, регуляторна звітність, стабільні процеси, де важливіше точність і відтворюваність, ніж швидкість змін.</p>
+<h2>3. Хмарне сховище з ELT</h2>
+<p><strong>Як це виглядає.</strong> Дані спершу завантажуються в хмарне сховище (Snowflake, BigQuery, Databricks SQL, Fabric Warehouse) як є, а перетворюються вже всередині нього (ELT). Перетворення часто описують кодом, наприклад у dbt, з тестами й версіями в Git.</p>
+<p><strong>Плюси</strong></p>
+<ul>
+<li>Обчислення масштабуються на вимогу: великий запит не чекає нового сервера.</li>
+<li>Перетворення як код: зміни видно в історії, їх можна переглянути й відкотити.</li>
+<li>Легко додавати нові джерела, у тому числі напівструктуровані.</li>
+</ul>
+<p><strong>Мінуси</strong></p>
+<ul>
+<li>Рахунок залежить від навантаження. Без контролю він росте разом з обсягом і кількістю запитів.</li>
+<li>Потрібна дисципліна інженерії: тести, рев'ю, моніторинг.</li>
+<li>Дані виходять за межі власної інфраструктури, тож потрібно продумати безпеку й вимоги до зберігання.</li>
+</ul>
+<p><strong>Коли обирати.</strong> Багато джерел, швидкий ріст обсягів, кілька команд, які споживають ті самі дані.</p>
+<h2>4. Lakehouse у Microsoft Fabric</h2>
+<p><strong>Як це виглядає.</strong> Дані зберігаються в OneLake у відкритому форматі Delta і проходять шари: Bronze (сирі дані), Silver (очищені), Gold (готові для аналітики). Power BI читає Gold-таблиці в режимі Direct Lake: двигун VertiPaq завантажує дані з Delta-таблиць у пам'ять без окремої копії, як при імпорті.</p>
+<p><strong>Плюси</strong></p>
+<ul>
+<li>Одна копія даних для інженерів, аналітиків і звітів.</li>
+<li>Оновлення моделі в Direct Lake копіює лише метадані, тому займає секунди, а не години.</li>
+<li>Швидкість запитів близька до режиму Import на великих обсягах.</li>
+</ul>
+<p><strong>Мінуси</strong></p>
+<ul>
+<li>Direct Lake працює лише на ємності Fabric (F SKU). Нові ємності Power BI Premium (P SKU) Microsoft більше не продає, тож нові впровадження йдуть на F SKU.</li>
+<li>Є обмеження за розміром ємності: кількість рядків у таблиці, розмір моделі. Варіант Direct Lake через SQL-ендпоінт при їх перевищенні переходить у повільніший DirectQuery, варіант Direct Lake на OneLake не переходить, і запит не виконується, доки таблиці не оптимізують.</li>
+<li>Частина можливостей моделі (наприклад, обчислювані стовпці й таблиці) обмежена або ще в попередньому перегляді.</li>
+<li>Команді потрібні нові навички: Spark або SQL у Fabric, Delta, керування ємністю.</li>
+</ul>
+<p><strong>Коли обирати.</strong> Великі обсяги, екосистема Microsoft, потреба у свіжих даних без довгого імпорту. Microsoft сама радить почати з пілотного прототипу, щоб перевірити, чи Direct Lake підходить саме вашій моделі.</p>
+<h2>Як обрати: п'ять запитань</h2>
+<ol>
+<li><strong>Скільки джерел і як швидко вони ростуть?</strong> Два-три стабільні джерела рідко потребують хмарного масштабу.</li>
+<li><strong>Наскільки свіжими мають бути дані?</strong> Якщо рішення ухвалюють раз на тиждень, щохвилинні дані лише додають витрат.</li>
+<li><strong>Хто підтримуватиме рішення?</strong> Архітектура, яку нікому супроводжувати, гірша за простішу.</li>
+<li><strong>Які вимоги до відтворюваності?</strong> Фінансова й регуляторна звітність потребує історії та знімків, а не лише поточного стану.</li>
+<li><strong>Що вже є в компанії?</strong> Ліцензії Microsoft 365 і Power BI роблять Fabric природним кроком, а наявна команда dbt робить природним хмарне сховище.</li>
+</ol>
+<p>Якщо ви ще обираєте саму платформу, а не архітектуру, почніть зі <a href="/insights/which-bi-platform-to-choose/">схеми порівняння BI-платформ</a>.</p>
+<h2>Режими підключення Power BI: коли який</h2>
+<table>
+<thead>
+<tr>
+<th>Режим</th>
+<th>Плюси</th>
+<th>Мінуси</th>
+<th>Коли обирати</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Import</td>
+<td>найшвидші запити, усі можливості DAX</td>
+<td>дані свіжі лише після оновлення, обмеження розміру</td>
+<td>за замовчуванням для більшості звітів</td>
+</tr>
+<tr>
+<td>DirectQuery</td>
+<td>дані завжди актуальні, без копії</td>
+<td>кожна дія в звіті йде запитом у джерело, повільніше</td>
+<td>дуже великі або дуже свіжі дані, коли Import неможливий</td>
+</tr>
+<tr>
+<td>Direct Lake</td>
+<td>швидкість близька до Import, оновлення за секунди</td>
+<td>лише Fabric, обмеження ємності</td>
+<td>lakehouse або сховище у Fabric</td>
+</tr>
+<tr>
+<td>Композитна модель</td>
+<td>поєднує Import і DirectQuery</td>
+<td>складніше налаштувати й підтримувати</td>
+<td>великий факт плюс швидкі довідники чи агрегати</td>
+</tr>
+<tr>
+<td>Live-підключення</td>
+<td>один спільний набір даних для багатьох звітів</td>
+<td>звіт не змінює модель</td>
+<td>«тонкі» звіти поверх спільної моделі</td>
+</tr>
+</tbody>
+</table>
+<h2>Практики Power BI, що окупаються за будь-якої архітектури</h2>
+<p><strong>Модель</strong></p>
+<ul>
+<li><strong>Схема «зірка».</strong> Таблиці фактів і довідники, зв'язки «один до багатьох» в один бік. Двонаправлені зв'язки лише там, де без них неможливо.</li>
+<li><strong>Окрема таблиця дат</strong>, позначена як таблиця дат.</li>
+<li><strong>Показники в мірах DAX, а не в обчислюваних стовпцях.</strong> Обчислювані стовпці збільшують модель і рахуються лише під час оновлення.</li>
+<li><strong>Менше стовпців і менша кардинальність.</strong> Приберіть те, чого немає у звітах; розділіть дату й час; не тягніть унікальні ідентифікатори без потреби.</li>
+</ul>
+<p><strong>Підготовка даних</strong></p>
+<ul>
+<li><strong>Перетворення якомога ближче до джерела.</strong> Те, що можна зробити у сховищі, робіть там, а не в Power Query.</li>
+<li><strong>Згортання запитів (query folding).</strong> Перевіряйте, що кроки Power Query виконуються на боці джерела, особливо фільтри й об'єднання.</li>
+<li><strong>Інкрементальне оновлення</strong> для великих таблиць фактів: оновлюються лише нові періоди.</li>
+</ul>
+<p><strong>Спільна модель і звіти</strong></p>
+<ul>
+<li><strong>Одна спільна семантична модель на предметну область</strong> і «тонкі» звіти поверх неї. Так показник визначено один раз.</li>
+<li><strong>Позначайте перевірені моделі</strong> як сертифіковані чи рекомендовані, щоб користувачі знали, на що спиратися.</li>
+<li><strong>Безпека на рівні рядків (RLS)</strong> у моделі, а не копії звітів для різних відділів.</li>
+</ul>
+<p><strong>Розробка і випуск</strong></p>
+<ul>
+<li><strong>Формат Power BI Project (PBIP) і TMDL у Git.</strong> Модель і звіт зберігаються як текстові файли, зміни видно в історії. Microsoft оголосила загальну доступність TMDL.</li>
+<li><strong>Робочі простори для розробки, тесту й продакшну</strong> і конвеєри розгортання між ними.</li>
+<li><strong>Перевірка якості моделі</strong> інструментами на кшталт Best Practice Analyzer у Tabular Editor, а продуктивності через Performance Analyzer і DAX Studio.</li>
+</ul>
+<p><strong>Експлуатація</strong></p>
+<ul>
+<li><strong>Моніторинг ємності</strong> (застосунок Fabric Capacity Metrics) і оновлень: збої мають бачити ви, а не керівник уранці.</li>
+<li><strong>Власник у кожної моделі і короткий опис мір.</strong> Без цього навіть правильна модель через рік стає чорною скринькою.</li>
+</ul>
+<h2>Типові помилки</h2>
+<ul>
+<li>Купити новий BI в надії, що він виправить цифри. Не виправить: це питання основи даних, а не інструменту.</li>
+<li>Перейти на DirectQuery «щоб було свіже», не перевіривши, чи джерело витримає навантаження.</li>
+<li>Будувати lakehouse для трьох Excel-файлів.</li>
+<li>Залишити сховище без власника показників: технічно одна версія правди, а визначень кілька.</li>
+</ul>
+<h2>З чого почати</h2>
+<p>Подивіться на свої звіти й відповідайте чесно: скільки моделей рахують ту саму виручку і чи можна відтворити цифру, яку показали минулого місяця. Якщо моделей кілька, а відтворити не вдається, наступний крок не новий дашборд, а <a href="/data-architecture/">архітектура даних</a> і спільна модель для <a href="/business-intelligence/">бізнес-аналітики</a>.</p>
+<p>А яка архітектура стоїть за вашими звітами зараз?</p>
+<div class="bc-chips"><a class="text-link" href="/business-intelligence/">Бізнес-аналітика (BI)</a><a class="text-link" href="/data-architecture/">Архітектура даних (Data Architecture)</a></div>
+</div></article>
+<section class="section bg-darker bc-cta"><div class="container prose">
+<h2>Схожа задача у вашій команді?</h2>
+<p>Опишіть ситуацію кількома реченнями. Відповім, з чого я б почав і чи можу допомогти.</p>
+<a class="btn btn-primary" href="#contact">Обговорити задачу</a>
+<p class="bc-channel">Короткі розбори про дані щотижня в Telegram-каналі: <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
+<p class="bc-back"><a class="text-link" href="/insights/">Усі матеріали</a></p>
+</div></section><footer class="footer section" id="contact">
+<div class="container footer-grid">
+<div class="footer-info">
+<div aria-label="Belyakov Consult" class="logo logo-original"><img alt="BC." class="logo-original-image" decoding="async" height="155" src="/assets/logo-original.png" width="334"/></div>
+<p class="footer-desc">Belyakov Consult · Бєляков Сергій Олександрович. Консультація, окремий аналітичний проєкт або супровід команди. Пишіть, якщо потрібно розібрати дані, архітектуру, звітність або логіку показників.</p>
+<div aria-label="Розділи сайту" class="footer-site-links"><a href="/data-strategy/">Стратегія даних (Data Strategy)</a><a href="/data-analysis/">Аналіз даних (Data Analysis)</a><a href="/business-intelligence/">Бізнес-аналітика (Business Intelligence, BI)</a><a href="/data-architecture/">Архітектура даних (Data Architecture)</a><a href="/data-quality/">Якість даних (Data Quality)</a><a href="/data-governance/">Управління даними (Data Governance)</a><a href="/geospatial-analysis/">Геопросторовий аналіз (Geospatial Analysis)</a><a href="/financial-analytics/">Фінансова аналітика</a><a href="/management-analytics/">Управлінська аналітика</a><a href="/cases/">Лабораторія</a><a href="/insights/">Матеріали</a></div>
+<div class="premium-contacts">
+<a class="contact-link" href="mailto:hello@belyakovconsult.com">
+<span class="icon-box"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                            hello@belyakovconsult.com
+                        </a>
+<a class="contact-link" href="tel:+380936859779">
+<span class="icon-box"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+                            +380 93 685 97 79
+                        </a>
+</div>
+<div class="social-modern">
+<a aria-label="Telegram" class="social-circle" href="https://t.me/+380936859779" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+<a aria-label="WhatsApp" class="social-circle" href="https://wa.me/380936859779" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+<a aria-label="LinkedIn" class="social-circle" href="https://www.linkedin.com/in/sergiy-belyakov" rel="noopener noreferrer"><svg aria-hidden="true" class="linkedin-mark" focusable="false" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.941v5.665H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.558V9h3.561v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z" fill="currentColor"></path></svg></a>
+<a aria-label="Instagram @belyakovconsult" class="social-circle" href="https://www.instagram.com/belyakovconsult/" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5" fill="none"/><circle cx="12" cy="12" r="4.2" fill="none"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg></a>
+<a aria-label="Threads @belyakovconsult" class="social-circle" href="https://www.threads.com/@belyakovconsult" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a>
+<a aria-label="YouTube @BelyakovConsult" class="social-circle" href="https://www.youtube.com/@BelyakovConsult" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+</div>
+</div>
+<div class="footer-form">
+<form action="https://formspree.io/f/xykwoaql" class="glass-form glow-border-form" method="POST">
+<h3>Обговорімо вашу задачу</h3>
+<div class="form-row">
+<label for="name">Ваше ім’я</label><input autocomplete="name" id="name" name="name" placeholder="Ваше ім’я" required="" type="text"/>
+</div>
+<div class="form-row">
+<label for="email">Робоча електронна пошта</label><input autocomplete="email" id="email" name="email" placeholder="Робоча електронна пошта" required="" type="email"/>
+</div>
+<div class="form-row">
+<label for="message">Ваша задача</label><textarea id="message" name="message" placeholder="Організація, напрям співпраці, ваша задача, очікуваний результат і строк." required="" rows="4"></textarea>
+</div>
+<button class="btn btn-primary" type="submit">Надіслати запит</button>
+<p class="form-note">Натискаючи «Надіслати запит», ви передаєте дані форми через Formspree для відповіді на ваше звернення. Не додавайте конфіденційних даних. <a class="text-link" href="/privacy/">Політика конфіденційності</a>.</p></form>
+</div>
+</div>
+</footer></main></body></html>
