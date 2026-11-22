@@ -1,5 +1,5 @@
 ---
-publish_at: 2026-11-23 17:00
+publish_at: 2026-11-23 20:00
 link: false
 images:
   - https://www.belyakovconsult.com/assets/insights/gta-director-poster/en/poster.jpg
