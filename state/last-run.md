@@ -1,18 +1,11 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, telegram, threads, youtube. Оброблено дописів: 2. Час: 2026-11-23 15:33
+Режим: live лише для: instagram, telegram, threads, youtube. Оброблено дописів: 1. Час: 2026-11-23 16:03
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в YouTube Shorts: bi-architecture-options
-https://youtube.com/shorts/jIOqIghqrGQ
-```
-
-## 2
-
-```
-✅ Опубліковано в YouTube Shorts: bi-architecture-options
-https://youtube.com/shorts/ga67d5Z8xj0
+✅ Опубліковано в Threads: gta-director-poster
+https://www.threads.com/@belyakovconsult/post/DgFjQpxP8Tc
 ```
