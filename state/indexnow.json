@@ -1,5 +1,10 @@
 {
- "pending": {},
+ "pending": {
+  "https://www.belyakovconsult.com/insights/bi-architecture-options/": [
+   "8caeb668766f9352d44a",
+   "2026-11-23T06:15:33+00:00"
+  ]
+ },
  "sent": {
   "https://www.belyakovconsult.com/en/glossary/": "c34952fcccbcf8e198f2",
   "https://www.belyakovconsult.com/en/glossary/analytics-engineer/": "18afa4092c21a0c833c4",
