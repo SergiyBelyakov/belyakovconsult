@@ -1,5 +1,206 @@
 {
- "pending": {},
+ "pending": {
+  "https://www.belyakovconsult.com/en/glossary/": [
+   "85bb33f01b155e8368b7",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/apache-spark/": [
+   "c051392b3086c5fe865d",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/dashboard/": [
+   "05eb9597150708a74148",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/data-freshness/": [
+   "2a30614195c8a99df1c4",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/dbt/": [
+   "8bca9e8fa4a35b767e89",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/delta-lake/": [
+   "9575167a26a94aaa0a34",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/direct-lake/": [
+   "cf0c5e6fde354b3ff9aa",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/directquery/": [
+   "7e201e3c6fa04870ea0c",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/live-connection/": [
+   "c4fece15b0b275bc0d9e",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/looker/": [
+   "0f0f5839d1aecaf29ed2",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/measure/": [
+   "5f013aaaea7ae6840574",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/qlik/": [
+   "8cdfbdc197935e592859",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/sap-analytics-cloud/": [
+   "f7a9de7d8c3adcb6bbb4",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/tableau/": [
+   "2ba57613fd2bd2da92f5",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/glossary/vertipaq/": [
+   "bcc563a912e4b28c5d25",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": [
+   "75aa0e8729238328eaf6",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/en/insights/which-bi-platform-to-choose/": [
+   "99751ddfb8028a7ab114",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/": [
+   "759a195fdeff9498a534",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/apache-spark/": [
+   "38c8fcfd737ad42bd8a6",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/data-freshness/": [
+   "6193c0a674550b8b80b3",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/dbt/": [
+   "6b937334230103cefa1f",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/delta-lake/": [
+   "618b486a7651fffc8482",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/direct-lake/": [
+   "5249d0f8b2fbb5a92525",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/directquery/": [
+   "689058254a48f6f99138",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/import-mode/": [
+   "36c6f13a1d4547ae2679",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/live-connection/": [
+   "f8016e591619bfa47f15",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/looker/": [
+   "0b34810ee379a78f0669",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/qlik/": [
+   "e35e5bb6baae0ee50822",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/sap-analytics-cloud/": [
+   "4650c1e75ac08683e9b6",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/tableau/": [
+   "0e0bbfdbf1ea449fd2f1",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/glossary/vertipaq/": [
+   "4f2259cdaa442ebcfdee",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/insights/bi-architecture-options/": [
+   "1fb318e7f33219c949e8",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/insights/which-bi-platform-to-choose/": [
+   "304745d96162cc2eb182",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/": [
+   "2271935e11e0859694d1",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/apache-spark/": [
+   "9210e261a2a3f5ac885e",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/dashboard/": [
+   "f70bf7b84e589a2b1f77",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/data-freshness/": [
+   "daed5f660ebfd96bf1e3",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/dbt/": [
+   "ad935587fcb1460d21ae",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/delta-lake/": [
+   "39aac477067f2cc693bc",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/direct-lake/": [
+   "05ca75744043f7eb95ad",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/directquery/": [
+   "680a9af37781ef4f9398",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/import-mode/": [
+   "c7f04ba431971a1e7f0d",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/live-connection/": [
+   "5b675219bf8b842970fd",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/looker/": [
+   "4a2838441075b3608dae",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/qlik/": [
+   "458f78f93f271f05c1ec",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/sap-analytics-cloud/": [
+   "624dfa4e4c34317fb1a4",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/tableau/": [
+   "4b15efab6e9796bcbd42",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/glossary/vertipaq/": [
+   "59ab8070d219e31307fa",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": [
+   "4bc2f7f7010d4ef2e9f4",
+   "2026-11-23T08:00:48+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/insights/which-bi-platform-to-choose/": [
+   "79d930792665e37fb30d",
+   "2026-11-23T08:00:48+00:00"
+  ]
+ },
  "sent": {
   "https://www.belyakovconsult.com/en/glossary/": "c34952fcccbcf8e198f2",
   "https://www.belyakovconsult.com/en/glossary/analytics-engineer/": "18afa4092c21a0c833c4",

@@ -132,7 +132,7 @@
 </ul>
 <p><strong>When to choose it.</strong> Finance, regulated reporting, stable processes where accuracy and reproducibility matter more than speed of change.</p>
 <h2>3. Cloud warehouse with ELT</h2>
-<p><strong>What it looks like.</strong> Data is first loaded as is into a <a class="bc-term" href="/en/glossary/data-warehouse/" title="A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting.">cloud warehouse</a> (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/en/glossary/microsoft-fabric/" title="Microsoft&#x27;s analytics platform that brings data engineering, warehousing, lakehouse, Power BI and other tools together around the shared OneLake storage.">Fabric</a> Warehouse) and transformed inside it (<a class="bc-term" href="/en/glossary/elt/" title="Extract, Load, Transform. Data is loaded into the warehouse as is and transformed inside it, often as code (for example in dbt).">ELT</a>). Transformations are often written as code, for example in dbt, with tests and versions in Git.</p>
+<p><strong>What it looks like.</strong> Data is first loaded as is into a <a class="bc-term" href="/en/glossary/data-warehouse/" title="A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting.">cloud warehouse</a> (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/en/glossary/microsoft-fabric/" title="Microsoft&#x27;s analytics platform that brings data engineering, warehousing, lakehouse, Power BI and other tools together around the shared OneLake storage.">Fabric</a> Warehouse) and transformed inside it (<a class="bc-term" href="/en/glossary/elt/" title="Extract, Load, Transform. Data is loaded into the warehouse as is and transformed inside it, often as code (for example in dbt).">ELT</a>). Transformations are often written as code, for example in <a class="bc-term" href="/en/glossary/dbt/" title="An open tool for transforming data inside the warehouse: models are written as SQL code with tests, documentation and versions in Git.">dbt</a>, with tests and versions in Git.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>Compute scales on demand: a heavy query does not wait for a new server.</li>
@@ -147,7 +147,7 @@
 </ul>
 <p><strong>When to choose it.</strong> Many sources, fast-growing volumes, several teams consuming the same data.</p>
 <h2>4. Lakehouse in Microsoft Fabric</h2>
-<p><strong>What it looks like.</strong> Data is stored in OneLake in the open Delta format and moves through layers: Bronze (raw), Silver (cleaned), Gold (ready for analytics). Power BI reads Gold tables in <a class="bc-term" href="/en/glossary/direct-lake/" title="A semantic model mode in Microsoft Fabric where the Power BI engine reads data straight from Delta tables in OneLake without a separate import.">Direct Lake</a> mode: the VertiPaq engine loads data from Delta tables into memory without a separate copy, as with Import.</p>
+<p><strong>What it looks like.</strong> Data is stored in OneLake in the open Delta format and moves through layers: Bronze (raw), Silver (cleaned), Gold (ready for analytics). Power BI reads Gold tables in Direct Lake mode: the VertiPaq engine loads data from Delta tables into memory without a separate copy, as with Import.</p>
 <p><strong>Pros</strong></p>
 <ul>
 <li>One copy of data for engineers, analysts and reports.</li>

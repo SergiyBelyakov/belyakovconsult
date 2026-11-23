@@ -47,7 +47,7 @@
 </div></div></section>
 <article class="section insight-article bc-article"><div class="container prose">
 <p>BI-платформу часто обирають за демо: гарні графіки, знайомий інтерфейс, обіцянка «все в одному». А працювати доведеться з іншим: як платформа готує дані, де живе модель, хто що бачить і що буде на великих обсягах.</p>
-<p>Я звів п’ять платформ в одну схему за десятьма критеріями: <a class="bc-term" href="/glossary/power-bi/" title="BI-платформа Microsoft для моделювання даних, звітів і дашбордів. Зараз входить до Microsoft Fabric.">Power BI</a>, Tableau, Qlik, Looker і SAP Analytics Cloud. Схема йде сама, критерій за критерієм. Зупиніть її там, де починається ваше питання.</p>
+<p>Я звів п’ять платформ в одну схему за десятьма критеріями: <a class="bc-term" href="/glossary/power-bi/" title="BI-платформа Microsoft для моделювання даних, звітів і дашбордів. Зараз входить до Microsoft Fabric.">Power BI</a>, <a class="bc-term" href="/glossary/tableau/" title="BI-платформа компанії Salesforce для візуального аналізу даних і дашбордів, відома гнучкою роботою з графіками.">Tableau</a>, <a class="bc-term" href="/glossary/qlik/" title="BI-платформа (Qlik Sense, Qlik Cloud Analytics) з асоціативним рушієм: користувач клацає будь-яке значення і бачить, що з ним пов&#x27;язано, а що ні.">Qlik</a>, <a class="bc-term" href="/glossary/looker/" title="BI-платформа Google Cloud, у якій показники описуються кодом у семантичному шарі LookML, а запити йдуть прямо в сховище даних.">Looker</a> і <a class="bc-term" href="/glossary/sap-analytics-cloud/" title="Хмарний сервіс SAP, що поєднує BI, планування і прогнозну аналітику в одному інструменті.">SAP Analytics Cloud</a>. Схема йде сама, критерій за критерієм. Зупиніть її там, де починається ваше питання.</p>
 <style>
 .bc-scheme{width:min(1160px,calc(100vw - 48px));margin:10px 0 12px 50%;transform:translateX(-50%)}
 .bc-scheme iframe{display:block;width:100%;height:calc(min(1160px,100vw - 48px)*.5625 + 116px);border:0;background:#05070A}
@@ -126,7 +126,7 @@
 <td><strong>Tableau Prep</strong> для візуального очищення й побудови потоків підготовки</td>
 <td><strong>Data Manager і Load Script</strong> для завантаження та перетворень</td>
 <td>Основні перетворення зазвичай виконуються <strong>у сховищі через SQL</strong>. <strong>LookML</strong> описує аналітичну модель</td>
-<td><strong>Імпорт, підготовка даних і live-підключення.</strong> Тісна інтеграція із SAP</td>
+<td><strong>Імпорт, підготовка даних і <a class="bc-term" href="/glossary/live-connection/" title="Спосіб, яким звіт Power BI підключається до вже опублікованої семантичної моделі або Analysis Services, не копіюючи дані й не змінюючи модель.">live-підключення</a>.</strong> Тісна інтеграція із SAP</td>
 </tr>
 <tr>
 <td><strong>Моделювання та розрахунки</strong></td>
@@ -146,7 +146,7 @@
 </tr>
 <tr>
 <td><strong>Великі обсяги даних</strong></td>
-<td><strong><a class="bc-term" href="/glossary/import-mode/" title="Режим Power BI, у якому дані копіюються в стиснену модель у пам&#x27;яті й оновлюються за розкладом.">Import</a>, <a class="bc-term" href="/glossary/directquery/" title="Режим Power BI, у якому дані не копіюються, а кожна дія у звіті надсилає запит прямо в джерело.">DirectQuery</a>, <a class="bc-term" href="/glossary/direct-lake/" title="Режим семантичних моделей у Microsoft Fabric, у якому двигун Power BI читає дані прямо з Delta-таблиць у OneLake без окремого імпорту.">Direct Lake</a>.</strong> Результат залежить від моделі та потужності</td>
+<td><strong>Import, DirectQuery, Direct Lake.</strong> Результат залежить від моделі та потужності</td>
 <td><strong>Extract або live-підключення.</strong> Результат залежить від джерела й структури запитів</td>
 <td>Важливі <strong>розмір застосунку, модель</strong> і доступна потужність</td>
 <td>Обчислення переважно виконує <strong>SQL-сховище</strong>. Його швидкість і вартість стають критичними</td>

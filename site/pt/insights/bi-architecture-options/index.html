@@ -132,7 +132,7 @@
 </ul>
 <p><strong>Quando escolher.</strong> Finanças, reporte regulatório, processos estáveis em que precisão e reprodutibilidade importam mais do que a rapidez de mudança.</p>
 <h2>3. Warehouse na nuvem com ELT</h2>
-<p><strong>Como funciona.</strong> Os dados são primeiro carregados tal como estão para um warehouse na nuvem (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/pt/glossary/microsoft-fabric/" title="A plataforma de análise da Microsoft que reúne engenharia de dados, data warehouse, lakehouse, Power BI e outras ferramentas em torno do armazenamento partilhado OneLake.">Fabric</a> Warehouse) e transformados lá dentro (<a class="bc-term" href="/pt/glossary/elt/" title="Extract, Load, Transform. Os dados são carregados tal como estão no warehouse e transformados lá dentro, muitas vezes como código (por exemplo em dbt).">ELT</a>). As transformações são muitas vezes escritas como código, por exemplo em dbt, com testes e versões em Git.</p>
+<p><strong>Como funciona.</strong> Os dados são primeiro carregados tal como estão para um warehouse na nuvem (Snowflake, BigQuery, Databricks SQL, <a class="bc-term" href="/pt/glossary/microsoft-fabric/" title="A plataforma de análise da Microsoft que reúne engenharia de dados, data warehouse, lakehouse, Power BI e outras ferramentas em torno do armazenamento partilhado OneLake.">Fabric</a> Warehouse) e transformados lá dentro (<a class="bc-term" href="/pt/glossary/elt/" title="Extract, Load, Transform. Os dados são carregados tal como estão no warehouse e transformados lá dentro, muitas vezes como código (por exemplo em dbt).">ELT</a>). As transformações são muitas vezes escritas como código, por exemplo em <a class="bc-term" href="/pt/glossary/dbt/" title="Uma ferramenta aberta para transformar dados dentro do warehouse: os modelos são escritos como código SQL, com testes, documentação e versões no Git.">dbt</a>, com testes e versões em Git.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>A capacidade de cálculo escala a pedido: uma consulta pesada não espera por um servidor novo.</li>
@@ -147,7 +147,7 @@
 </ul>
 <p><strong>Quando escolher.</strong> Muitas fontes, volumes a crescer depressa, várias equipas a consumir os mesmos dados.</p>
 <h2>4. Lakehouse no Microsoft Fabric</h2>
-<p><strong>Como funciona.</strong> Os dados ficam no OneLake, no formato aberto Delta, e passam por camadas: Bronze (brutos), Silver (limpos), Gold (prontos para análise). O Power BI lê as tabelas Gold em modo Direct Lake: o motor VertiPaq carrega os dados das tabelas Delta para memória sem uma cópia separada, como no <a class="bc-term" href="/pt/glossary/import-mode/" title="O modo do Power BI em que os dados são copiados para um modelo comprimido em memória e atualizados de forma agendada.">modo Import</a>.</p>
+<p><strong>Como funciona.</strong> Os dados ficam no OneLake, no formato aberto Delta, e passam por camadas: Bronze (brutos), Silver (limpos), Gold (prontos para análise). O Power BI lê as tabelas Gold em modo Direct Lake: o motor VertiPaq carrega os dados das tabelas Delta para memória sem uma cópia separada, como no modo Import.</p>
 <p><strong>Prós</strong></p>
 <ul>
 <li>Uma só cópia dos dados para engenheiros, analistas e relatórios.</li>

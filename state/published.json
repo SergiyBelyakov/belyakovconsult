@@ -4,6 +4,12 @@
     "linkedinpage": "2026-11-18 20:17",
     "threads": "2026-11-10 18:33"
   },
+  "bi-architecture-options/telegram-uk": {
+    "at": "2026-11-23 10:00",
+    "id": 72,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/72"
+  },
   "bi-audit-20min/instagram-en": {
     "at": "2026-11-08 20:32",
     "id": "18147538975720084",
@@ -840,11 +846,9 @@
     "url": "https://youtube.com/shorts/y9GUjALlQbs"
   },
   "document-type-matters/youtube-uk": {
-    "at": "2026-11-12 19:32",
-    "attempts": 3,
-    "error": "YouTube (початок вивантаження): HTTP 400 {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"The user has exceeded the number of videos they may upload.\",\n    \"errors\": [\n      {\n        \"message\": \"The user has exceeded the number of videos they may upload.\",\n        \"domain\": \"youtube.video\",\n        ",
-    "publish_at": "2026-11-12 19:00",
-    "status": "failed"
+    "at": "2026-11-23 10:00",
+    "publish_at": "2026-11-12 10:00",
+    "status": "skipped-late"
   },
   "document-type-matters/youtube-uk-2": {
     "at": "2026-11-13 19:02",
