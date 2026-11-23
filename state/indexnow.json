@@ -1,8 +1,20 @@
 {
  "pending": {
+  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": [
+   "34deacef899e59a7992f",
+   "2026-11-23T06:18:38+00:00"
+  ],
   "https://www.belyakovconsult.com/insights/bi-architecture-options/": [
    "8caeb668766f9352d44a",
    "2026-11-23T06:15:33+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/insights/": [
+   "9cee5d5d90d8f3b4f095",
+   "2026-11-23T06:18:38+00:00"
+  ],
+  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": [
+   "c5682179c2242ade5568",
+   "2026-11-23T06:18:38+00:00"
   ]
  },
  "sent": {
