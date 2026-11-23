@@ -1,22 +1,5 @@
 {
- "pending": {
-  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": [
-   "34deacef899e59a7992f",
-   "2026-11-23T06:18:38+00:00"
-  ],
-  "https://www.belyakovconsult.com/insights/bi-architecture-options/": [
-   "8caeb668766f9352d44a",
-   "2026-11-23T06:15:33+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/": [
-   "9cee5d5d90d8f3b4f095",
-   "2026-11-23T06:18:38+00:00"
-  ],
-  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": [
-   "c5682179c2242ade5568",
-   "2026-11-23T06:18:38+00:00"
-  ]
- },
+ "pending": {},
  "sent": {
   "https://www.belyakovconsult.com/en/glossary/": "c34952fcccbcf8e198f2",
   "https://www.belyakovconsult.com/en/glossary/analytics-engineer/": "18afa4092c21a0c833c4",
@@ -64,7 +47,7 @@
   "https://www.belyakovconsult.com/en/glossary/star-schema/": "b96ee0b8aa19c482c9b7",
   "https://www.belyakovconsult.com/en/insights/": "da6912f86451a6c1dd46",
   "https://www.belyakovconsult.com/en/insights/analytics-team-sizing/": "630391c93c798a79b99a",
-  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": "2d9e973109e9a3557073",
+  "https://www.belyakovconsult.com/en/insights/bi-architecture-options/": "34deacef899e59a7992f",
   "https://www.belyakovconsult.com/en/insights/bi-is-not-for-fixing-sources/": "81f2e01abfaaac8cc8e9",
   "https://www.belyakovconsult.com/en/insights/completeness-is-not-quality/": "93fab3da7f0907f82977",
   "https://www.belyakovconsult.com/en/insights/data-quality-dashboard-demo/": "d7879891faad84d3d9cf",
@@ -120,7 +103,7 @@
   "https://www.belyakovconsult.com/glossary/star-schema/": "5885a65ed403ffe0d2ce",
   "https://www.belyakovconsult.com/insights/": "f97953191ce2527ab0d5",
   "https://www.belyakovconsult.com/insights/analytics-team-sizing/": "1111301df7bfe54808e2",
-  "https://www.belyakovconsult.com/insights/bi-architecture-options/": "95a49b4131600cc69ecb",
+  "https://www.belyakovconsult.com/insights/bi-architecture-options/": "8caeb668766f9352d44a",
   "https://www.belyakovconsult.com/insights/bi-is-not-for-fixing-sources/": "efda4a1fd37289602dca",
   "https://www.belyakovconsult.com/insights/completeness-is-not-quality/": "4f9088c869aeec2e7517",
   "https://www.belyakovconsult.com/insights/data-quality-dashboard-demo/": "21326cc99a0b42f562da",
@@ -174,9 +157,9 @@
   "https://www.belyakovconsult.com/pt/glossary/self-service-bi/": "02a484c321709e82cf05",
   "https://www.belyakovconsult.com/pt/glossary/semantic-model/": "e32bf4a5284302528259",
   "https://www.belyakovconsult.com/pt/glossary/star-schema/": "e5a46365c1c1e710cd98",
-  "https://www.belyakovconsult.com/pt/insights/": "2748ba613440c8875c46",
+  "https://www.belyakovconsult.com/pt/insights/": "9cee5d5d90d8f3b4f095",
   "https://www.belyakovconsult.com/pt/insights/analytics-team-sizing/": "063efe3a9bc7fc573ada",
-  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": "564158e94bef33d18245",
+  "https://www.belyakovconsult.com/pt/insights/bi-architecture-options/": "c5682179c2242ade5568",
   "https://www.belyakovconsult.com/pt/insights/bi-is-not-for-fixing-sources/": "ff2f9642f1d5152c524d",
   "https://www.belyakovconsult.com/pt/insights/completeness-is-not-quality/": "cb698c0af86e61ab7c21",
   "https://www.belyakovconsult.com/pt/insights/data-quality-dashboard-demo/": "db281743e1b4cba0793a",
