@@ -828,3 +828,193 @@
     short: "Uma série de normas internacionais sobre qualidade de dados, incluindo a qualidade dos dados mestre e a troca de dados entre organizações."
     why: "A norma dá uma linguagem comum para requisitos de qualidade de dados e ajuda a dividir a qualidade em níveis que podem ser verificados em separado."
     aliases: ["ISO 8000"]
+
+- slug: tableau
+  service: business-intelligence
+  related: [business-intelligence, power-bi, self-service-bi, dashboard]
+  uk:
+    term: "Tableau"
+    short: "BI-платформа компанії Salesforce для візуального аналізу даних і дашбордів, відома гнучкою роботою з графіками."
+    why: "Tableau сильний там, де важлива виразна візуалізація й дослідження даних. Вибір між ним і Power BI часто залежить від наявної екосистеми й ліцензій, а не лише від можливостей."
+    aliases: ["Tableau"]
+  en:
+    term: "Tableau"
+    short: "A Salesforce BI platform for visual data analysis and dashboards, known for flexible charting."
+    why: "Tableau is strong where expressive visualisation and data exploration matter. The choice between it and Power BI often depends on the existing ecosystem and licences, not only on features."
+    aliases: ["Tableau"]
+  pt:
+    term: "Tableau"
+    short: "Uma plataforma de BI da Salesforce para análise visual de dados e dashboards, conhecida pela flexibilidade nos gráficos."
+    why: "O Tableau é forte quando a visualização expressiva e a exploração de dados são importantes. A escolha entre ele e o Power BI depende muitas vezes do ecossistema e das licenças existentes, não só das funcionalidades."
+    aliases: ["Tableau"]
+
+- slug: qlik
+  service: business-intelligence
+  related: [business-intelligence, power-bi, tableau]
+  uk:
+    term: "Qlik"
+    short: "BI-платформа (Qlik Sense, Qlik Cloud Analytics) з асоціативним рушієм: користувач клацає будь-яке значення і бачить, що з ним пов'язано, а що ні."
+    why: "Асоціативний аналіз допомагає знаходити неочевидні зв'язки й прогалини в даних. Водночас для Qlik потрібна окрема експертиза, тож вибір варто зважувати з командою."
+    aliases: ["Qlik*"]
+  en:
+    term: "Qlik"
+    short: "A BI platform (Qlik Sense, Qlik Cloud Analytics) with an associative engine: click any value and see what is related to it and what is not."
+    why: "Associative analysis helps find non-obvious links and gaps in data. Qlik also needs its own expertise, so the choice should be weighed against the team you have."
+    aliases: ["Qlik*"]
+  pt:
+    term: "Qlik"
+    short: "Uma plataforma de BI (Qlik Sense, Qlik Cloud Analytics) com um motor associativo: clica num valor e vê o que está relacionado com ele e o que não está."
+    why: "A análise associativa ajuda a encontrar ligações e lacunas pouco óbvias nos dados. O Qlik também exige competências próprias, por isso a escolha deve ter em conta a equipa existente."
+    aliases: ["Qlik*"]
+
+- slug: looker
+  service: business-intelligence
+  related: [business-intelligence, semantic-model, power-bi]
+  uk:
+    term: "Looker"
+    short: "BI-платформа Google Cloud, у якій показники описуються кодом у семантичному шарі LookML, а запити йдуть прямо в сховище даних."
+    why: "Опис показників кодом дає одне визначення для всіх звітів і контроль версій. Looker найприродніший для компаній, чиї дані вже живуть у хмарному сховищі."
+    aliases: ["re:(?<![\\w-])Looker(?! Studio)(?![\\w-])"]
+  en:
+    term: "Looker"
+    short: "A Google Cloud BI platform where measures are defined as code in the LookML semantic layer and queries run directly against the data warehouse."
+    why: "Defining measures as code gives one definition for every report and version control. Looker fits most naturally where data already lives in a cloud warehouse."
+    aliases: ["re:(?<![\\w-])Looker(?! Studio)(?![\\w-])"]
+  pt:
+    term: "Looker"
+    short: "Uma plataforma de BI da Google Cloud em que os indicadores são definidos como código na camada semântica LookML e as consultas correm diretamente no data warehouse."
+    why: "Definir indicadores como código dá uma definição única para todos os relatórios e controlo de versões. O Looker encaixa melhor quando os dados já estão num warehouse na nuvem."
+    aliases: ["re:(?<![\\w-])Looker(?! Studio)(?![\\w-])"]
+
+- slug: sap-analytics-cloud
+  service: business-intelligence
+  related: [business-intelligence, power-bi]
+  uk:
+    term: "SAP Analytics Cloud"
+    short: "Хмарний сервіс SAP, що поєднує BI, планування і прогнозну аналітику в одному інструменті."
+    why: "Для компаній на SAP він дає звітність і планування поруч із даними ERP. Поза екосистемою SAP його переваги зазвичай слабші."
+    aliases: ["SAP Analytics Cloud"]
+  en:
+    term: "SAP Analytics Cloud"
+    short: "An SAP cloud service that combines BI, planning and predictive analytics in one tool."
+    why: "For companies running SAP it puts reporting and planning next to ERP data. Outside the SAP ecosystem its advantages are usually weaker."
+    aliases: ["SAP Analytics Cloud"]
+  pt:
+    term: "SAP Analytics Cloud"
+    short: "Um serviço na nuvem da SAP que junta BI, planeamento e análise preditiva numa só ferramenta."
+    why: "Para empresas que usam SAP, coloca relatórios e planeamento ao lado dos dados do ERP. Fora do ecossistema SAP as vantagens costumam ser menores."
+    aliases: ["SAP Analytics Cloud"]
+
+- slug: delta-lake
+  service: data-architecture
+  related: [lakehouse, onelake, direct-lake, microsoft-fabric]
+  uk:
+    term: "Delta (Delta Lake)"
+    short: "Відкритий формат таблиць поверх файлів Parquet з журналом транзакцій, що дає надійні зміни й історію версій. У Microsoft Fabric це стандартний формат таблиць OneLake."
+    why: "Відкритий формат означає одну копію даних для різних рушіїв (SQL, Spark, Power BI) без вивантажень між ними. Це основа lakehouse і режиму Direct Lake."
+    aliases: ["Delta Lake", "re:(?<![\\w-])Delta(?![\\w-])"]
+  en:
+    term: "Delta (Delta Lake)"
+    short: "An open table format on top of Parquet files with a transaction log, giving reliable changes and version history. In Microsoft Fabric it is the standard table format in OneLake."
+    why: "An open format means one copy of data for different engines (SQL, Spark, Power BI) with no exports between them. It is the basis of the lakehouse and of Direct Lake mode."
+    aliases: ["Delta Lake", "re:(?<![\\w-])Delta(?![\\w-])"]
+  pt:
+    term: "Delta (Delta Lake)"
+    short: "Um formato aberto de tabelas sobre ficheiros Parquet com registo de transações, que garante alterações fiáveis e histórico de versões. No Microsoft Fabric é o formato padrão das tabelas no OneLake."
+    why: "Um formato aberto significa uma só cópia dos dados para vários motores (SQL, Spark, Power BI) sem exportações entre eles. É a base do lakehouse e do modo Direct Lake."
+    aliases: ["Delta Lake", "re:(?<![\\w-])Delta(?![\\w-])"]
+
+- slug: vertipaq
+  service: business-intelligence
+  related: [import-mode, direct-lake, semantic-model, power-bi]
+  uk:
+    term: "VertiPaq"
+    short: "Стовпцевий рушій у пам'яті, на якому працюють моделі Power BI та Analysis Services. Він стискає дані й швидко рахує DAX у режимах Import і Direct Lake."
+    why: "Швидкість звітів залежить від того, наскільки добре дані стискаються: зайві стовпці й висока кардинальність роблять модель важкою і повільною."
+    aliases: ["VertiPaq"]
+  en:
+    term: "VertiPaq"
+    short: "The in-memory columnar engine behind Power BI and Analysis Services models. It compresses data and evaluates DAX quickly in Import and Direct Lake modes."
+    why: "Report speed depends on how well data compresses: unused columns and high cardinality make a model heavy and slow."
+    aliases: ["VertiPaq"]
+  pt:
+    term: "VertiPaq"
+    short: "O motor colunar em memória dos modelos do Power BI e do Analysis Services. Comprime os dados e calcula DAX rapidamente nos modos Import e Direct Lake."
+    why: "A velocidade dos relatórios depende de quão bem os dados comprimem: colunas desnecessárias e cardinalidade alta tornam o modelo pesado e lento."
+    aliases: ["VertiPaq"]
+
+- slug: live-connection
+  service: business-intelligence
+  related: [semantic-model, directquery, import-mode, power-bi]
+  uk:
+    term: "Live-підключення"
+    short: "Спосіб, яким звіт Power BI підключається до вже опублікованої семантичної моделі або Analysis Services, не копіюючи дані й не змінюючи модель."
+    why: "Багато «тонких» звітів на одній спільній моделі дають одне визначення показників для всіх. Ціна: звіт не може додати власні таблиці чи зв'язки."
+    aliases: ["Live-підключенн*", "live connection*"]
+  en:
+    term: "Live connection"
+    short: "A way for a Power BI report to connect to an already published semantic model or Analysis Services without copying data or changing the model."
+    why: "Many thin reports on one shared model give everyone the same metric definitions. The trade-off: the report cannot add its own tables or relationships."
+    aliases: ["live connection*", "Live connection*"]
+  pt:
+    term: "Ligação dinâmica (live connection)"
+    short: "Uma forma de um relatório do Power BI se ligar a um modelo semântico já publicado ou ao Analysis Services sem copiar dados nem alterar o modelo."
+    why: "Muitos relatórios finos sobre um modelo partilhado dão a todos as mesmas definições de indicadores. O custo: o relatório não pode acrescentar tabelas ou relações próprias."
+    aliases: ["live connection*", "Live connection*", "ligação dinâmica", "ligações dinâmicas"]
+
+- slug: dbt
+  service: data-architecture
+  related: [elt, data-warehouse, analytics-engineer]
+  uk:
+    term: "dbt"
+    short: "Відкритий інструмент для перетворень даних у сховищі: моделі пишуться як SQL-код, мають тести, документацію й версії в Git."
+    why: "Перетворення як код можна перевірити, переглянути й відтворити. Це зменшує ризик, що хтось мовчки змінить логіку показника."
+    aliases: ["re:(?<![\\w-])dbt(?![\\w-])"]
+  en:
+    term: "dbt"
+    short: "An open tool for transforming data inside the warehouse: models are written as SQL code with tests, documentation and versions in Git."
+    why: "Transformations as code can be tested, reviewed and reproduced. That lowers the risk of someone silently changing the logic of a metric."
+    aliases: ["re:(?<![\\w-])dbt(?![\\w-])"]
+  pt:
+    term: "dbt"
+    short: "Uma ferramenta aberta para transformar dados dentro do warehouse: os modelos são escritos como código SQL, com testes, documentação e versões no Git."
+    why: "Transformações como código podem ser testadas, revistas e reproduzidas. Isso reduz o risco de alguém mudar em silêncio a lógica de um indicador."
+    aliases: ["re:(?<![\\w-])dbt(?![\\w-])"]
+
+- slug: apache-spark
+  service: data-architecture
+  related: [lakehouse, delta-lake, microsoft-fabric, data-engineer]
+  uk:
+    term: "Spark (Apache Spark)"
+    short: "Відкритий рушій розподіленої обробки великих обсягів даних. У Microsoft Fabric на ньому працюють блокноти й завдання для lakehouse."
+    why: "Spark потрібен, коли даних забагато для одного сервера або перетворення складні. Для невеликих обсягів простіший SQL зазвичай дешевший у підтримці."
+    aliases: ["Apache Spark", "re:(?<![\\w-])Spark(?![\\w-])"]
+  en:
+    term: "Spark (Apache Spark)"
+    short: "An open engine for distributed processing of large data volumes. In Microsoft Fabric it runs notebooks and jobs for the lakehouse."
+    why: "Spark is needed when data is too large for one server or transformations are complex. For small volumes plain SQL is usually cheaper to maintain."
+    aliases: ["Apache Spark", "re:(?<![\\w-])Spark(?![\\w-])"]
+  pt:
+    term: "Spark (Apache Spark)"
+    short: "Um motor aberto de processamento distribuído de grandes volumes de dados. No Microsoft Fabric executa notebooks e tarefas do lakehouse."
+    why: "O Spark é necessário quando os dados são demasiados para um servidor ou as transformações são complexas. Para volumes pequenos, SQL simples costuma ser mais barato de manter."
+    aliases: ["Apache Spark", "re:(?<![\\w-])Spark(?![\\w-])"]
+
+- slug: data-freshness
+  service: data-quality
+  related: [data-quality, dashboard, incremental-refresh]
+  uk:
+    term: "Свіжість даних"
+    short: "Наскільки давно дані в звіті отримано з джерела. Час оновлення сторінки показує, коли вона запустилась, а не коли прийшли дані."
+    why: "Застаріле джерело в «оновленому сьогодні» дашборді веде до рішень на вчорашніх цифрах. Дата даних на екрані і сигнал про запізнення джерела знімають цей ризик."
+    aliases: ["свіжість даних", "свіжості даних", "свіжістю даних"]
+  en:
+    term: "Data freshness"
+    short: "How long ago the data in a report was received from its source. A page refresh time shows when the page ran, not when the data arrived."
+    why: "A stale source inside a dashboard marked updated today leads to decisions on old numbers. Showing the data date and flagging late sources removes that risk."
+    aliases: ["data freshness", "freshness of data"]
+  pt:
+    term: "Atualidade dos dados (data freshness)"
+    short: "Há quanto tempo os dados de um relatório foram recebidos da fonte. A hora de atualização da página mostra quando ela correu, não quando os dados chegaram."
+    why: "Uma fonte desatualizada num dashboard marcado como atualizado hoje leva a decisões com números antigos. Mostrar a data dos dados e sinalizar fontes atrasadas elimina esse risco."
+    aliases: ["atualidade dos dados", "data freshness"]

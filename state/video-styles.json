@@ -777,6 +777,15 @@
     "music": "analytic",
     "wave": "wave-1.jpg"
   },
+  "premium-stale-dashboard#1": {
+    "cover": "icon",
+    "globe": "globe-1.jpg",
+    "icon": "service-governance.webp",
+    "k": 57,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-4.jpg"
+  },
   "premium-two-revenues#1": {
     "cover": "icon",
     "frozen": true,
