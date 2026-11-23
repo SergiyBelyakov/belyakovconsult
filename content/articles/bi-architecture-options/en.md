@@ -166,4 +166,6 @@ If you are still choosing the platform rather than the architecture, start with 
 
 Look at your reports and answer honestly: how many models calculate the same revenue, and can you reproduce the figure you showed last month? If there are several models and you cannot, the next step is not a new dashboard but [data architecture](/en/data-architecture/) and a shared model for [business intelligence](/en/business-intelligence/).
 
+How many people and which skills each of these architectures needs is covered separately: [BI team sizing: how many people and which skills](/en/insights/analytics-team-sizing/).
+
 Which architecture sits behind your reports today?

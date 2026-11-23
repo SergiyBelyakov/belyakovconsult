@@ -166,4 +166,6 @@ Se ainda está a escolher a plataforma e não a arquitetura, comece pelo [mapa d
 
 Olhe para os seus relatórios e responda com honestidade: quantos modelos calculam a mesma receita e consegue reproduzir o número que mostrou no mês passado? Se há vários modelos e não consegue, o passo seguinte não é um novo dashboard, mas [arquitetura de dados](/pt/data-architecture/) e um modelo partilhado para [business intelligence](/pt/business-intelligence/).
 
+Quantas pessoas e que competências cada uma destas arquiteturas exige está explicado à parte: [Equipa de BI: quantas pessoas e que competências](/pt/insights/analytics-team-sizing/).
+
 Que arquitetura está por trás dos seus relatórios hoje?
