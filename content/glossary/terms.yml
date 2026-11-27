@@ -1018,3 +1018,155 @@
     short: "Há quanto tempo os dados de um relatório foram recebidos da fonte. A hora de atualização da página mostra quando ela correu, não quando os dados chegaram."
     why: "Uma fonte desatualizada num dashboard marcado como atualizado hoje leva a decisões com números antigos. Mostrar a data dos dados e sinalizar fontes atrasadas elimina esse risco."
     aliases: ["atualidade dos dados", "data freshness"]
+
+- slug: ods
+  service: data-architecture
+  related: [data-warehouse, cdc, data-architecture]
+  uk:
+    term: "ODS (операційне сховище даних)"
+    short: "Окрема база з копією даних облікових систем, оновлюваною регулярно або майже в реальному часі. Звіти читають копію, а не робочу систему."
+    why: "ODS знімає навантаження звітів з ERP і збирає дані кількох систем в одному місці, але не вирішує розбіжностей у логіці розрахунку показників."
+    aliases: ["re:(?<![\\w-])ODS(?![\\w-])", "операційн* сховищ* даних"]
+  en:
+    term: "ODS (operational data store)"
+    short: "A separate database holding a copy of operational system data, refreshed on a schedule or in near real time. Reports read the copy, not the live system."
+    why: "An ODS takes reporting load off the ERP and brings several systems together, but it does not resolve differences in how measures are calculated."
+    aliases: ["re:(?<![\\w-])ODS(?![\\w-])", "operational data store*"]
+  pt:
+    term: "ODS (operational data store)"
+    short: "Uma base separada com uma cópia dos dados dos sistemas operacionais, atualizada periodicamente ou quase em tempo real. Os relatórios leem a cópia e não o sistema em produção."
+    why: "Um ODS tira carga dos relatórios ao ERP e junta vários sistemas, mas não resolve diferenças na forma de calcular os indicadores."
+    aliases: ["re:(?<![\\w-])ODS(?![\\w-])", "operational data store"]
+
+- slug: data-mart
+  service: data-architecture
+  related: [data-warehouse, star-schema, semantic-model]
+  uk:
+    term: "Вітрина даних (data mart)"
+    short: "Частина сховища, підготовлена для одного бізнес-напряму, наприклад фінансів чи продажів, зазвичай у вигляді схеми «зірка»."
+    why: "Вітрина дає бізнес-користувачам зрозумілу модель і швидкі звіти, а показники в ній визначені один раз для всіх."
+    aliases: ["вітрин* даних", "data mart*"]
+  en:
+    term: "Data mart"
+    short: "A part of the warehouse prepared for one business area, such as finance or sales, usually as a star schema."
+    why: "A data mart gives business users a model they understand and fast reports, with each measure defined once for everyone."
+    aliases: ["data mart*"]
+  pt:
+    term: "Data mart"
+    short: "Uma parte do data warehouse preparada para uma área de negócio, como finanças ou vendas, normalmente em esquema em estrela."
+    why: "Um data mart dá aos utilizadores de negócio um modelo que entendem e relatórios rápidos, com cada indicador definido uma vez para todos."
+    aliases: ["data mart*"]
+
+- slug: data-mesh
+  service: data-governance
+  related: [data-product, data-owner, data-governance, data-fabric]
+  uk:
+    term: "Data mesh"
+    short: "Організаційний підхід, у якому даними володіють бізнес-домени, що їх створюють, і публікують їх як продукти даних на спільній платформі за спільними правилами."
+    why: "Data mesh прибирає вузьке місце центральної команди у великих компаніях, але без власників даних, платформи і правил дає лише хаос і дублювання."
+    aliases: ["data mesh"]
+  en:
+    term: "Data mesh"
+    short: "An organisational approach where business domains own the data they create and publish it as data products on a shared platform under shared rules."
+    why: "Data mesh removes the central team bottleneck in large companies, but without data owners, a platform and rules it only brings chaos and duplication."
+    aliases: ["data mesh"]
+  pt:
+    term: "Data mesh"
+    short: "Uma abordagem organizacional em que os domínios de negócio são donos dos dados que criam e os publicam como produtos de dados numa plataforma comum, com regras comuns."
+    why: "O data mesh elimina o estrangulamento da equipa central em grandes empresas, mas sem responsáveis, plataforma e regras só traz caos e duplicação."
+    aliases: ["data mesh"]
+
+- slug: data-fabric
+  service: data-architecture
+  related: [data-mesh, data-governance, data-architecture]
+  uk:
+    term: "Data fabric"
+    short: "Підхід, за якого поверх наявних систем будують шар метаданих, каталогу і віртуального доступу, що автоматизує пошук, інтеграцію і контроль даних. Термін просувають Gartner і вендори."
+    why: "Data fabric корисний як напрям, але це не готовий продукт. Варто оцінювати конкретні можливості платформи, а не назву."
+    aliases: ["data fabric"]
+  en:
+    term: "Data fabric"
+    short: "An approach that builds a layer of metadata, catalogue and virtual access on top of existing systems to automate finding, integrating and controlling data. The term is promoted by Gartner and vendors."
+    why: "Data fabric is useful as a direction, but it is not a ready-made product. Judge the specific capabilities of a platform, not the label."
+    aliases: ["data fabric"]
+  pt:
+    term: "Data fabric"
+    short: "Uma abordagem que constrói, por cima dos sistemas existentes, uma camada de metadados, catálogo e acesso virtual para automatizar a descoberta, a integração e o controlo dos dados. O termo é promovido pela Gartner e por fornecedores."
+    why: "O data fabric é útil como direção, mas não é um produto pronto. Avalie as capacidades concretas de uma plataforma, não o rótulo."
+    aliases: ["data fabric"]
+
+- slug: data-product
+  service: data-governance
+  related: [data-mesh, data-owner, data-quality]
+  uk:
+    term: "Продукт даних (data product)"
+    short: "Набір даних, який команда публікує для інших з описом, власником, гарантованою якістю і зрозумілим способом доступу."
+    why: "Коли дані оформлені як продукт, ними можна користуватися без дзвінків автору і без сумнівів, чи можна їм вірити."
+    aliases: ["продукт* даних", "data product*"]
+  en:
+    term: "Data product"
+    short: "A dataset a team publishes for others with a description, an owner, guaranteed quality and a clear way to access it."
+    why: "When data is packaged as a product, people can use it without calling its author and without doubting whether to trust it."
+    aliases: ["data product*"]
+  pt:
+    term: "Produto de dados (data product)"
+    short: "Um conjunto de dados que uma equipa publica para outros com descrição, responsável, qualidade garantida e uma forma clara de acesso."
+    why: "Quando os dados são tratados como produto, podem ser usados sem ligar ao autor e sem dúvidas sobre se são de confiança."
+    aliases: ["produto* de dados", "data product*"]
+
+- slug: cdc
+  service: data-architecture
+  related: [ods, streaming, etl]
+  uk:
+    term: "CDC (фіксація змін даних)"
+    short: "Спосіб передавати далі лише зміни в базі джерела, зазвичай читаючи журнал транзакцій, замість повного копіювання таблиць."
+    why: "CDC дає свіжі дані майже в реальному часі і менше навантажує облікові системи, ніж повні вивантаження."
+    aliases: ["re:(?<![\\w-])CDC(?![\\w-])", "change data capture"]
+  en:
+    term: "CDC (change data capture)"
+    short: "A way to pass on only the changes in a source database, usually by reading its transaction log, instead of copying whole tables."
+    why: "CDC delivers near real-time data and puts less load on operational systems than full extracts."
+    aliases: ["re:(?<![\\w-])CDC(?![\\w-])", "change data capture"]
+  pt:
+    term: "CDC (change data capture)"
+    short: "Uma forma de passar apenas as alterações de uma base fonte, normalmente lendo o registo de transações, em vez de copiar tabelas inteiras."
+    why: "O CDC entrega dados quase em tempo real e sobrecarrega menos os sistemas operacionais do que extrações completas."
+    aliases: ["re:(?<![\\w-])CDC(?![\\w-])", "change data capture"]
+
+- slug: streaming
+  service: data-architecture
+  related: [cdc, data-freshness, lakehouse]
+  uk:
+    term: "Потокова обробка (streaming)"
+    short: "Обробка даних подія за подією в міру надходження, а не пакетами за розкладом. Класичні схеми: Lambda і Kappa."
+    why: "Потоки потрібні, коли рішення ухвалюються за секунди чи хвилини. В інших випадках вони дорожчі й складніші за щогодинне оновлення."
+    aliases: ["потоков* обробк*", "streaming"]
+  en:
+    term: "Streaming"
+    short: "Processing data event by event as it arrives rather than in scheduled batches. Classic patterns are Lambda and Kappa."
+    why: "Streaming pays off when decisions are made within seconds or minutes. Otherwise it costs more and is harder to run than an hourly refresh."
+    aliases: ["streaming", "stream processing"]
+  pt:
+    term: "Streaming (processamento em fluxo)"
+    short: "Processamento dos dados evento a evento à medida que chegam, em vez de lotes agendados. Os padrões clássicos são Lambda e Kappa."
+    why: "O streaming compensa quando as decisões são tomadas em segundos ou minutos. Caso contrário, custa mais e é mais difícil de manter do que uma atualização horária."
+    aliases: ["streaming", "processamento em fluxo"]
+
+- slug: point-to-point-integration
+  service: data-architecture
+  related: [ods, data-warehouse, data-architecture]
+  uk:
+    term: "Інтеграція «точка до точки»"
+    short: "Пряме з'єднання кожної системи чи звіту з кожним джерелом окремо, без спільного проміжного шару."
+    why: "Швидко на старті, але кількість зв'язків росте швидше, ніж кількість систем, і кожна зміна джерела ламає кілька звітів одразу."
+    aliases: ["точка до точки"]
+  en:
+    term: "Point-to-point integration"
+    short: "Connecting each system or report directly to each source separately, with no shared layer in between."
+    why: "Fast to start, but the number of links grows faster than the number of systems, and each source change breaks several reports at once."
+    aliases: ["point-to-point integration", "point-to-point"]
+  pt:
+    term: "Integração ponto a ponto"
+    short: "Ligação direta de cada sistema ou relatório a cada fonte separadamente, sem uma camada comum intermédia."
+    why: "Rápida no arranque, mas o número de ligações cresce mais depressa do que o número de sistemas, e cada alteração numa fonte parte vários relatórios de uma vez."
+    aliases: ["integração ponto a ponto", "ponto a ponto"]
