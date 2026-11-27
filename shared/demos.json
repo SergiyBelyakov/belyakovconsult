@@ -979,6 +979,62 @@
       "first_for": [
         "learning"
       ]
+    },
+    {
+      "slug": "sales-margin",
+      "dir": "sales-demo",
+      "attr": "data-sales-demo",
+      "anchor": "sales-margin",
+      "status": "live",
+      "langs": [
+        "uk",
+        "en"
+      ],
+      "services": [
+        "financial-analytics",
+        "data-analysis",
+        "management-analytics",
+        "business-intelligence"
+      ],
+      "stages": [],
+      "build": {
+        "entry": "sales-demo/src/main.jsx",
+        "charset": "utf8",
+        "copy": [
+          [
+            "dashboard/public/img/wave.webp",
+            "img/wave.webp"
+          ],
+          [
+            "dashboard/public/img/bc-negative.png",
+            "img/bc-negative.png"
+          ]
+        ]
+      },
+      "lang": {
+        "uk": {
+          "title": "Продажі та маржа: чому виручка росте, а прибуток ні | Belyakov Consult",
+          "description": "Виручка зросла на 15%, а валовий прибуток лише на 1%. Інтерактивна модель на синтетичних даних дистриб’ютора розкладає зміну прибутку на обсяг, структуру, ціну, собівартість, нових і втрачених клієнтів: карта України, крива кита, від прайсу до внеску, рейтинг менеджерів, сценарії й Excel з формулами.",
+          "name": "Продажі та маржа",
+          "noscript": "Для роботи демо потрібен JavaScript. Демо розкладає зміну валового прибутку умовного дистриб’ютора на вплив обсягу, структури, ціни, собівартості, нових і втрачених позицій і показує продажі за товарами, клієнтами, каналами, менеджерами й регіонами на карті.",
+          "kind": "Фінансова аналітика · маржа",
+          "teaser": "Виручка +15%, прибуток +1%: міст прибутку з обсягом, структурою, ціною й собівартістю, карта регіонів, крива кита, канали, менеджери й сценарії."
+        },
+        "en": {
+          "title": "Sales and margin: why revenue grows but profit does not | Belyakov Consult",
+          "description": "Revenue grew 15%, gross profit only 1%. An interactive model on synthetic distributor data splits the change in profit into volume, mix, price, cost, new and lost customers: a map of Ukraine, a whale curve, list price to contribution, a sales manager ranking, scenarios and an Excel file with formulas.",
+          "name": "Sales and margin",
+          "noscript": "The demo needs JavaScript. It splits the change in gross profit of a fictional distributor into volume, mix, price, cost, new and lost items and shows sales by product, customer, channel, sales manager and region on a map.",
+          "kind": "Financial analytics · margin",
+          "teaser": "Revenue +15%, profit +1%: a profit bridge with volume, mix, price and cost, a regional map, a whale curve, channels, sales managers and scenarios."
+        }
+      },
+      "audiences": [
+        "business"
+      ],
+      "featured": [
+        "financial-analytics"
+      ]
     }
   ],
   "exhibits": [
