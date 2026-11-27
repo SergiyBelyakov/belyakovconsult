@@ -116,6 +116,7 @@
   },
   "data-architecture-types#1": {
     "cover": "icon",
+    "frozen": true,
     "globe": "globe-2.jpg",
     "icon": "service-bi.webp",
     "k": 58,

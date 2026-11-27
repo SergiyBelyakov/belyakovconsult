@@ -490,6 +490,33 @@
     "status": "published",
     "url": "https://youtube.com/shorts/AERBBD3aAu4"
   },
+  "data-architecture-types/instagram-en": {
+    "at": "2026-11-27 18:02",
+    "id": "18356317084249377",
+    "status": "published",
+    "url": "https://www.instagram.com/reel/DgQEH0eMVsL/"
+  },
+  "data-architecture-types/telegram-uk": {
+    "at": "2026-11-27 18:02",
+    "extra_ids": [
+      77
+    ],
+    "id": 76,
+    "status": "published",
+    "url": "https://t.me/belyakovconsult/76"
+  },
+  "data-architecture-types/threads-en": {
+    "at": "2026-11-27 18:02",
+    "id": "18095626628205985",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DgQEOYZzfV0"
+  },
+  "data-architecture-types/threads-uk": {
+    "at": "2026-11-27 18:02",
+    "id": "17887701171652248",
+    "status": "published",
+    "url": "https://www.threads.com/@belyakovconsult/post/DgQEXvezpw-"
+  },
   "data-boss/instagram-en": {
     "at": "2026-11-08 19:26",
     "id": "17968823574200846",
