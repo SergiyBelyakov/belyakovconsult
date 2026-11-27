@@ -329,8 +329,7 @@ class Promo:
         if name == "cta":
             self._cta(f, u)
         if name != "cta":
-            a = clamp(t / 0.8) if name == "hook" else 1.0
-            f.alpha_composite(with_alpha(self.small_lock, 0.9 * a), (M, L["top"] + 12))
+            f.alpha_composite(with_alpha(self.small_lock, 0.9), (M, L["top"] + 12))
         f.alpha_composite(self.grain[int(t * FPS) % len(self.grain)])
         ImageDraw.Draw(f).rectangle([0, 0, int(W * t / self.total), 3], fill=(*brand.RUBY, 255))   # тонкий прогрес
         return f
@@ -338,14 +337,13 @@ class Promo:
     def _hook(self, f, t, name, u):
         L, M = self.L, self.M
         n = len(self.s["hook"])
-        if name == "hook":
-            if self.tag is not None:                                   # тег першим, дрібно й розріджено
-                masked(f, with_alpha(self.tag, 0.95), M, self.hook_y0 - 34 - self.tag.height, expo(u / 0.9), 0.8)
+        if name == "hook":                                             # хук видно повністю з кадру 0, рух лише в розрідженні
+            if self.tag is not None:
+                f.alpha_composite(with_alpha(self.tag, 0.95), (M, self.hook_y0 - 34 - self.tag.height))
             for i in range(n):
-                k = expo((u - 0.25 - i * 0.14) / 0.9)
-                tr = self.hook_size * 0.06 * (1 - expo((u - 0.25 - i * 0.14) / 1.6))
-                masked(f, self._word(i, tr), M, self.hook_y0 + i * self.line_h, k)
-            lw = int(240 * expo((u - 0.25 - n * 0.14 - 0.2) / 1.0))      # тонка рубінова лінія під блоком
+                tr = self.hook_size * 0.06 * (1 - expo((u - i * 0.1) / 1.6))
+                f.alpha_composite(self._word(i, tr), (M, self.hook_y0 + i * self.line_h))
+            lw = int(240 * (0.35 + 0.65 * expo(u / 1.0)))                # рубінова лінія під блоком є з першого кадру
             if lw > 0:
                 ly = self.hook_y0 + (n - 1) * self.line_h + int(self.hook_size * 1.08) + 18
                 ImageDraw.Draw(f).rectangle([M, ly, M + lw, ly + 5], fill=(*brand.RUBY, 255))

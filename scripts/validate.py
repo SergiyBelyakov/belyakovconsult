@@ -35,6 +35,17 @@ def main() -> int:
     for p in posts:
         if p.video and not publish.video_file(p, cfg):
             errors.append(f"{p.key}: відео «{p.video}» не знайдено (uk: site/assets/insights/<slug>/<файл>, en: .../<slug>/en/<файл>)")
+    import json
+    import first_frame  # noqa: E402  правило «хук на кадрі 0»: відео не починається з порожнього екрану
+    from common import now, social_asset_dir  # noqa: E402
+    pub_path = Path(__file__).resolve().parents[1] / "state" / "published.json"
+    published = json.loads(pub_path.read_text()) if pub_path.exists() else {}
+    for p in posts:
+        if p.key in published or p.publish_at <= now(cfg):
+            continue
+        found = publish.video_file(p, cfg) if (p.video or media_kind(p, cfg) == "motion") else None
+        if found and first_frame.is_blank(social_asset_dir(cfg, p.slug, found[0]) / found[1]):
+            errors.append(f"{p.key}: відео {found[0]}/{found[1]} починається з порожнього кадру. Перший кадр має бути хуком")
     errors += [f"бренд: {x}" for x in brand.check()]
     for a in articles:
         where = f"{a.slug}/{a.lang}.md"
