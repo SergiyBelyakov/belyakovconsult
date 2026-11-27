@@ -114,6 +114,15 @@
     "music": "lofi",
     "wave": "wave-2.jpg"
   },
+  "data-architecture-types#1": {
+    "cover": "icon",
+    "globe": "globe-2.jpg",
+    "icon": "service-bi.webp",
+    "k": 58,
+    "look": "glass",
+    "music": "cinematic",
+    "wave": "wave-7.jpg"
+  },
   "data-boss#1": {
     "cover": "icon",
     "frozen": true,

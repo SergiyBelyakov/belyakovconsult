@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#05070A" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="/style.css" rel="stylesheet"/><script defer="" src="/script.js"></script>
+<link rel="icon" href="/favicon.ico" sizes="48x48"/><link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png"/><link rel="icon" href="/assets/favicon-192.png" sizes="192x192" type="image/png"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180"/>
+<title>Data architecture types: 6 levels from ERP reports to data mesh | Belyakov Consult</title>
+<meta content="Six types of enterprise data architecture, from reports straight on source systems to warehouse, lake, lakehouse and data mesh. Pros, cons and how to choose." name="description"/>
+<meta content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" name="robots"/>
+<meta content="Sergiy Belyakov" name="author"/>
+<link href="https://www.belyakovconsult.com/en/insights/data-architecture-types/" rel="canonical"/>
+<link href="https://www.belyakovconsult.com/insights/data-architecture-types/" hreflang="uk" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/en/insights/data-architecture-types/" hreflang="en" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/pt/insights/data-architecture-types/" hreflang="pt" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/insights/data-architecture-types/" hreflang="x-default" rel="alternate"/>
+<link href="https://www.belyakovconsult.com/en/insights/feed.xml" rel="alternate" title="Belyakov Consult · Articles" type="application/rss+xml"/>
+<meta content="en_GB" property="og:locale"/>
+<meta content="article" property="og:type"/>
+<meta content="Belyakov Consult" property="og:site_name"/>
+<meta content="Data architecture types: 6 levels from ERP reports to data mesh | Belyakov Consult" property="og:title"/>
+<meta content="Six types of enterprise data architecture, from reports straight on source systems to warehouse, lake, lakehouse and data mesh. Pros, cons and how to choose." property="og:description"/>
+<meta content="https://www.belyakovconsult.com/en/insights/data-architecture-types/" property="og:url"/>
+<meta content="https://www.belyakovconsult.com/assets/insights/data-architecture-types/en/og.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Data architecture types: 6 levels from ERP reports to data mesh | Belyakov Consult" name="twitter:title"/>
+<meta content="Six types of enterprise data architecture, from reports straight on source systems to warehouse, lake, lakehouse and data mesh. Pros, cons and how to choose." name="twitter:description"/>
+<meta content="https://www.belyakovconsult.com/assets/insights/data-architecture-types/en/og.png" name="twitter:image"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://www.belyakovconsult.com/en/insights/data-architecture-types/#article", "headline": "Data architecture types: 6 levels from ERP reports to data mesh", "description": "Six types of enterprise data architecture, from reports straight on source systems to warehouse, lake, lakehouse and data mesh. Pros, cons and how to choose.", "datePublished": "2026-11-27", "dateModified": "2026-11-27", "inLanguage": "en", "image": "https://www.belyakovconsult.com/assets/insights/data-architecture-types/en/og.png", "mainEntityOfPage": "https://www.belyakovconsult.com/en/insights/data-architecture-types/", "wordCount": 1866, "keywords": "data architecture, data warehouse, data lake, lakehouse, data mesh, data fabric, ODS, data mart, CDC", "author": {"@type": "Person", "name": "Sergiy Belyakov", "url": "https://www.belyakovconsult.com/en/sergiy-belyakov/", "sameAs": ["https://www.linkedin.com/in/sergiy-belyakov"]}, "publisher": {"@type": "Organization", "name": "Belyakov Consult", "url": "https://www.belyakovconsult.com/", "logo": "https://www.belyakovconsult.com/assets/logo-original.png"}, "isPartOf": {"@id": "https://www.belyakovconsult.com/#website"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Belyakov Consult", "item": "https://www.belyakovconsult.com/en/"}, {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://www.belyakovconsult.com/en/insights/"}, {"@type": "ListItem", "position": 3, "name": "Data architecture types: 6 levels from ERP reports to data mesh", "item": "https://www.belyakovconsult.com/en/insights/data-architecture-types/"}]}]}</script>
+<link href="/assets/insights/insights.css" rel="stylesheet"/>
+</head><body><header class="header glass"><div class="container nav">
+<a aria-label="Belyakov Consult" class="brand-lockup" href="/en/"><img alt="BC." class="logo-original-image" decoding="async" height="170" src="/assets/logo-original.png" width="360"/><span aria-hidden="true" class="brand-lockup-divider"></span><span class="brand-lockup-copy"><span class="brand-lockup-name">Belyakov Consult</span><span class="brand-lockup-signature">BI • Data Architecture • Data Governance</span></span></a>
+<nav aria-label="Main navigation" class="nav-links" id="main-nav"><a href="/en/#services">Services</a><a href="/en/cases/">Data Lab</a><a href="/en/insights/">Articles</a><a href="/en/sergiy-belyakov/">About</a><a href="/en/#contact">Contact</a></nav>
+<div class="nav-actions"><button aria-controls="main-nav" aria-expanded="false" class="menu-toggle" type="button">Menu</button>
+<div aria-label="Language" class="lang-switch"><a href="/insights/data-architecture-types/" lang="uk">UA</a><a aria-current="page" class="active" href="/en/insights/data-architecture-types/" lang="en">EN</a><a href="/pt/insights/data-architecture-types/" lang="pt">PT</a></div>
+<div class="social-top"><a aria-label="LinkedIn" class="icon-circle linkedin-link" href="https://www.linkedin.com/in/sergiy-belyakov" rel="me noopener noreferrer"><svg aria-hidden="true" class="linkedin-mark" focusable="false" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.941v5.665H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.558V9h3.561v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z" fill="currentColor"></path></svg></a><a aria-label="Instagram @belyakovconsult" class="icon-circle bc-social-link" href="https://www.instagram.com/belyakovconsult/" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg></a><a aria-label="Threads @belyakovconsult" class="icon-circle bc-social-link" href="https://www.threads.com/@belyakovconsult" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a><a aria-label="YouTube @BelyakovConsult" class="icon-circle bc-social-link" href="https://www.youtube.com/@BelyakovConsult" target="_blank" rel="me noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a></div></div>
+</div></header><main><section class="detail-hero compact-hero bc-article-hero"><div class="container detail-hero-grid"><div class="detail-hero-copy">
+<nav class="breadcrumbs"><a href="/en/">Belyakov Consult</a><span>/</span><a href="/en/insights/">Articles</a><span>/</span><span>Data architecture types: 6 levels from ERP reports to data mesh</span></nav>
+<span class="section-kicker">Articles</span>
+<h1>Data architecture types: 6 levels from ERP reports to data mesh</h1>
+<p>Six types of enterprise data architecture, from reports straight on source systems to warehouse, lake, lakehouse and data mesh. Pros, cons and how to choose.</p>
+<div class="bc-meta"><time datetime="2026-11-27">27 November 2026</time><span>9 min read</span><span>Sergiy Belyakov</span></div>
+</div></div></section>
+<article class="section insight-article bc-article"><div class="container prose">
+<p>When a company has two different revenue figures and a new report takes a month, the problem is rarely the people or the reporting tool. Usually it sits in the <a class="bc-term" href="/en/glossary/data-architecture/" title="A description of where data comes from, where and in what shape it is stored, how it is transformed and how it reaches reports and systems.">data architecture</a>: where reports get their data, where business logic lives and who is accountable for the numbers being right.</p>
+<p>Below are six types of data architecture found in enterprise systems, from the simplest to the most complex. They are not steps everyone has to climb. Many companies do well on level three for good, and large organisations often run several types side by side. The goal of this article is to help you see where you are and whether you really need the next level.</p>
+<p>If you are interested in the reporting layer specifically, we have a separate guide to <a href="/en/insights/bi-architecture-options/">four BI architecture options and Power BI best practices</a>.</p>
+<h2>In short</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Type</th>
+<th>Main plus</th>
+<th>Main risk</th>
+<th>Fits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reports straight from systems</td>
+<td>live in days</td>
+<td>different numbers in different reports</td>
+<td>small company, one or two systems</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Replica (<a class="bc-term" href="/en/glossary/ods/" title="A separate database holding a copy of operational system data, refreshed on a schedule or in near real time. Reports read the copy, not the live system.">ODS</a>)</td>
+<td>spares operational systems</td>
+<td>logic still scattered across reports</td>
+<td>several systems, operational reporting</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Warehouse and marts</td>
+<td>one version of the truth, history</td>
+<td>changes take weeks</td>
+<td>mid-size and large business, finance</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a class="bc-term" href="/en/glossary/data-lake/" title="Storage for large volumes of raw data in any format, usually in low-cost cloud file storage.">Data lake</a></td>
+<td>cheap storage for any data</td>
+<td>turns into a swamp without rules</td>
+<td>large volumes, data science</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a class="bc-term" href="/en/glossary/lakehouse/" title="An architecture that combines a data lake and a warehouse: data sits in an open table format (such as Delta) and serves both engineering and reporting.">Lakehouse</a></td>
+<td>one copy of data for <a class="bc-term" href="/en/glossary/business-intelligence/" title="The processes and tools that turn a company&#x27;s data into reports, dashboards and measures for decision making.">BI</a> and ML</td>
+<td>needs new skills</td>
+<td>large volumes, BI and ML together</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a class="bc-term" href="/en/glossary/data-mesh/" title="An organisational approach where business domains own the data they create and publish it as data products on a shared platform under shared rules.">Data mesh</a></td>
+<td>scale without a central bottleneck</td>
+<td>needs a mature organisation</td>
+<td>many domains with their own data teams</td>
+</tr>
+</tbody>
+</table>
+<p>All assessments here and below are indicative. Real timelines and costs depend on the number of sources, their quality, volumes and the team.</p>
+<h2>1. Reports straight from systems</h2>
+<p><strong>What it looks like.</strong> Every report connects to operational systems on its own: the ERP, CRM, warehouse software, Excel files. The logic for calculating measures lives inside each report. Systems are wired to each other one by one, which is <a class="bc-term" href="/en/glossary/point-to-point-integration/" title="Connecting each system or report directly to each source separately, with no shared layer in between.">point-to-point integration</a>.</p>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>Live in days with no separate infrastructure.</li>
+<li>Minimal cost and simple support while there are few reports.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>The same number is calculated differently in different reports.</li>
+<li>Heavy queries load operational systems during working hours.</li>
+<li>No history: you cannot tell what a reference table looked like a month ago.</li>
+</ul>
+<p><strong>When it fits.</strong> A small company with one or two systems, a few reports and one team.</p>
+<p><strong>Signals to move on.</strong> Meetings start by working out whose number is right. The ERP slows down when reports refresh. A new source means reworking a dozen reports.</p>
+<h2>2. Replica of operational databases (ODS)</h2>
+<p><strong>What it looks like.</strong> Data from operational systems is copied on a schedule or in near real time into a separate database, an operational data store (ODS). Reports read the copy, not the live system. Table structures stay almost the same as in the source.</p>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>Operational systems no longer suffer from reporting.</li>
+<li>Data from several systems sits in one place and can be combined.</li>
+<li>Freshness is high, especially when changes are copied with <a class="bc-term" href="/en/glossary/cdc/" title="A way to pass on only the changes in a source database, usually by reading its transaction log, instead of copying whole tables.">CDC</a>.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>Business logic is still scattered across reports, so the numbers still disagree.</li>
+<li>Source structures are awkward for analytics and queries get complex.</li>
+<li>Usually no change history: the copy shows the current state.</li>
+</ul>
+<p><strong>When it fits.</strong> Several operational systems, a need for operational reporting, and a warehouse project that is still too big a step.</p>
+<p><strong>Signals to move on.</strong> The same formulas are <a class="bc-term" href="/en/glossary/duplicate-record/" title="Several records in one system describing the same thing, such as one person or one contract.">duplicated</a> in many reports. You need period comparisons and there is no history. Analysts spend more time joining tables than analysing.</p>
+<h2>3. Data warehouse and data marts</h2>
+<p><strong>What it looks like.</strong> Source data goes through ETL or ELT: it is cleaned, reconciled across systems and stored with history in a <a class="bc-term" href="/en/glossary/data-warehouse/" title="A separate database where data from different systems is collected on a schedule and reconciled for analytics and reporting.">data warehouse</a>. Data marts are built for business areas using a <a class="bc-term" href="/en/glossary/star-schema/" title="A way to organise data for analytics: a fact table in the centre, surrounded by dimension tables linked one-to-many.">star schema</a>: fact tables and dimensions. Reports read from the marts or from a shared <a class="bc-term" href="/en/glossary/semantic-model/" title="The layer between data and reports that defines tables, relationships, measures and access rules. In Power BI it used to be called a dataset.">semantic model</a>.</p>
+<p>There are two classic approaches. Bill Inmon proposed building a normalised enterprise warehouse first and deriving marts from it. Ralph Kimball proposed building the warehouse directly from dimensional models linked by shared, conformed dimensions. In practice most modern warehouses combine both ideas.</p>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>One version of the truth: each measure is defined once.</li>
+<li>Change history and period comparisons.</li>
+<li>A model business users understand, and fast reports.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>Every change goes through the data team, which takes weeks.</li>
+<li>A poor fit for unstructured data: logs, text, files.</li>
+<li>Needs a permanent team and modelling discipline.</li>
+</ul>
+<p><strong>When it fits.</strong> Mid-size and large businesses, financial and regulatory reporting where numbers must reconcile to the cent.</p>
+<p><strong>Signals to move on.</strong> Data volumes and types grow faster than the warehouse can take them in. Data science needs raw data the warehouse does not hold. The data team backlog grows for months.</p>
+<h2>4. Data lake</h2>
+<p><strong>What it looks like.</strong> All data lands in cheap file storage in raw form: tables, logs, events, documents, device data. Structure is applied when data is read, not when it is written. The term "data lake" appeared around 2010 together with the Hadoop ecosystem.</p>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>Very cheap storage for large volumes.</li>
+<li>Any format, including unstructured data.</li>
+<li>Raw data is available for data science and machine learning.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>Without a catalogue, owners and quality rules a lake quickly becomes a "swamp" where nobody knows what is there or whether to trust it.</li>
+<li>Classic BI reporting still needs a warehouse next to it, so data is duplicated.</li>
+<li>Weak consistency guarantees under concurrent writes and updates.</li>
+</ul>
+<p><strong>When it fits.</strong> Large volumes of varied data, a strong data science team, a need to keep raw data for years.</p>
+<p><strong>Signals to move on.</strong> You maintain both a lake and a warehouse with the same data. Reports and ML models calculate the same measures differently.</p>
+<h2>5. Lakehouse</h2>
+<p><strong>What it looks like.</strong> A lakehouse combines the cheap file storage of a lake with the reliability of a warehouse. Data is stored in open table formats such as Delta Lake or Apache Iceberg, which add transactions, versions and schema control. Inside, data is usually organised with the medallion architecture: Bronze for raw data, Silver for cleaned and reconciled data, Gold for ready-to-use marts.</p>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>One copy of data for BI, data science and ML.</li>
+<li>Fresher data and fewer copies between systems.</li>
+<li>Compute scales separately from storage.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>New skills: Spark, SQL at scale, managing table formats.</li>
+<li>Needs discipline between layers, otherwise Gold becomes the same swamp.</li>
+<li>Compute costs need watching because they grow with the workload.</li>
+</ul>
+<p><strong>When it fits.</strong> Large volumes, BI and ML on the same data, a cloud platform such as Microsoft Fabric or Databricks.</p>
+<p><strong>Signals to move on.</strong> The central data team has become a bottleneck for the whole company, while domains such as sales, logistics and finance have their own analysts and engineers and want to move faster.</p>
+<h2>6. Data mesh</h2>
+<p><strong>What it looks like.</strong> Data mesh is not a technology but an organisational approach. Zhamak Dehghani described it in 2019. Instead of one central team, data is owned by the domains that create it. The approach rests on four principles:</p>
+<ol>
+<li>Domain ownership: the team that understands the data best is accountable for it.</li>
+<li>Data as a product: each domain publishes data products with a description, quality standards and an owner.</li>
+<li>Self-serve data platform: shared infrastructure so domains do not build everything from scratch.</li>
+<li>Federated computational governance: shared rules for security, quality and interoperability, checked automatically.</li>
+</ol>
+<p><strong>Pros.</strong></p>
+<ul>
+<li>Scale without a single bottleneck.</li>
+<li>Data stays close to the people who understand it, so quality improves.</li>
+<li>Domains move at their own pace.</li>
+</ul>
+<p><strong>Cons.</strong></p>
+<ul>
+<li>Needs maturity: data owners, a strong platform, a culture of accountability.</li>
+<li>Risk of duplication and incompatible definitions if the rules are weak.</li>
+<li>Expensive for companies without several independent data teams.</li>
+</ul>
+<p><strong>When it fits.</strong> A large organisation with several domains, each with its own engineers and analysts, where the central team can no longer keep up.</p>
+<p><strong>When it is too early.</strong> If one or two people work with data, data mesh adds bureaucracy without adding speed.</p>
+<h2>Cross-cutting approaches: streaming and data fabric</h2>
+<p>Two approaches are not a separate level but complement any of them.</p>
+<p><strong>Streaming.</strong> When data is needed in seconds rather than the next morning, teams use event streams and CDC: changes in operational databases are passed on immediately. The classic patterns are Lambda (batch and streaming layers in parallel) and Kappa (everything as a stream). Streaming is more expensive and harder to support, so check honestly whether decisions are really made within minutes.</p>
+<p><strong>Data fabric.</strong> A term promoted by Gartner and vendors. The idea is to build a layer of metadata, catalogue and virtual access on top of existing systems that automates finding, integrating and controlling data. Data fabric focuses on technology and metadata, data mesh on organisation and ownership. They do not exclude each other. There is no "data fabric out of the box": it is a direction, not a specific platform.</p>
+<h2>Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Complexity</th>
+<th>Freshness</th>
+<th>Scale</th>
+<th>Typical cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reports from systems</td>
+<td>low</td>
+<td>high</td>
+<td>small</td>
+<td>minimal</td>
+</tr>
+<tr>
+<td>ODS replica</td>
+<td>low to medium</td>
+<td>high</td>
+<td>small to medium</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Warehouse and marts</td>
+<td>medium</td>
+<td>daily or hourly</td>
+<td>medium</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Data lake</td>
+<td>medium</td>
+<td>depends on loading</td>
+<td>large</td>
+<td>low for storage</td>
+</tr>
+<tr>
+<td>Lakehouse</td>
+<td>high</td>
+<td>high</td>
+<td>large</td>
+<td>medium to high</td>
+</tr>
+<tr>
+<td>Data mesh</td>
+<td>very high</td>
+<td>depends on domains</td>
+<td>very large</td>
+<td>high</td>
+</tr>
+</tbody>
+</table>
+<h2>How to choose</h2>
+<p>Start with five questions, not with technology:</p>
+<ol>
+<li>How many source systems are there and how different are they?</li>
+<li>Who uses the data: a few managers or hundreds of people across departments?</li>
+<li>How fresh must data be: next morning, hourly or within seconds?</li>
+<li>Do you have unstructured data and machine learning use cases?</li>
+<li>How many people can support the solution? We covered team sizing in <a href="/en/insights/analytics-team-sizing/">how many people BI needs</a>.</li>
+</ol>
+<p>Choose the simplest level that covers your real needs for the next two or three years. Match complexity to scale: unnecessary complexity costs as much as missing capability.</p>
+<h2>Migration path</h2>
+<p>Move between levels gradually rather than with one big project from scratch:</p>
+<ul>
+<li>From reports on systems to an ODS: start with the most loaded system.</li>
+<li>From an ODS to a warehouse: move three to five of the most disputed measures out of reports and into marts.</li>
+<li>From a warehouse to a lakehouse: migrate domain by domain while reports keep working.</li>
+<li>To data mesh: first appoint data owners and data governance rules, then distribute technical responsibility.</li>
+</ul>
+<h2>Common mistakes</h2>
+<ul>
+<li>Choosing an architecture by trend rather than by need.</li>
+<li>Building a lake without a catalogue and data owners.</li>
+<li>Moving old reports without reviewing their logic, discrepancies included.</li>
+<li>Launching data mesh without a platform and shared rules.</li>
+<li>Forgetting data quality: no architecture fixes errors at the input.</li>
+</ul>
+<h2>Where to start</h2>
+<p>Write down where the numbers for the three main management reports come from today and where the logic behind them lives. In a few hours this shows which level you are on and where the biggest risk sits. From there, a <a href="/en/data-architecture/">data architecture review</a> and setting up <a href="/en/data-governance/">data governance</a> help. Definitions of the terms used here are in the <a href="/en/glossary/">glossary</a>.</p>
+<p>Which level of data architecture is your company on today?</p>
+<div class="bc-chips"><a class="text-link" href="/en/data-architecture/">Data Architecture</a><a class="text-link" href="/en/business-intelligence/">Business Intelligence</a><a class="text-link" href="/en/data-governance/">Data Governance</a></div>
+</div></article>
+<section class="section bg-darker bc-cta"><div class="container prose">
+<h2>A similar problem in your team?</h2>
+<p>Describe the situation in a few sentences. I will reply with where I would start and whether I can help.</p>
+<a class="btn btn-primary" href="#contact">Discuss your project</a>
+<p class="bc-channel">Short weekly notes on data in the Telegram channel (in Ukrainian): <a class="text-link" href="https://t.me/belyakovconsult" rel="noopener">@belyakovconsult</a></p>
+<p class="bc-back"><a class="text-link" href="/en/insights/">All articles</a></p>
+<p class="bc-back"><a class="text-link" href="/en/glossary/">Glossary</a></p>
+</div></section><footer class="footer section" id="contact">
+<div class="container footer-grid">
+<div class="footer-info">
+<div aria-label="Belyakov Consult" class="logo logo-original"><img alt="BC." class="logo-original-image" decoding="async" height="155" src="/assets/logo-original.png" width="334"/></div>
+<p class="footer-desc">Belyakov Consult · Sergiy Belyakov. A focused consultation, a defined analytical project or ongoing support for your team. Get in touch when the problem sits somewhere between data, systems and a decision that has to hold up.</p>
+<div class="premium-contacts">
+<a class="contact-link" href="mailto:hello@belyakovconsult.com">
+<span class="icon-box"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                            hello@belyakovconsult.com
+                        </a>
+<a class="contact-link" href="tel:+380936859779">
+<span class="icon-box"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+                            +380 93 685 97 79
+                        </a>
+</div>
+<div class="social-modern">
+<a aria-label="Telegram" class="social-circle" href="https://t.me/+380936859779" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+<a aria-label="WhatsApp" class="social-circle" href="https://wa.me/380936859779" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+<a aria-label="LinkedIn" class="social-circle" href="https://www.linkedin.com/in/sergiy-belyakov" rel="noopener noreferrer"><svg aria-hidden="true" class="linkedin-mark" focusable="false" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.941v5.665H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.558V9h3.561v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z" fill="currentColor"></path></svg></a>
+<a aria-label="Instagram @belyakovconsult" class="social-circle" href="https://www.instagram.com/belyakovconsult/" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5" fill="none"/><circle cx="12" cy="12" r="4.2" fill="none"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg></a>
+<a aria-label="Threads @belyakovconsult" class="social-circle" href="https://www.threads.com/@belyakovconsult" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a>
+<a aria-label="YouTube @BelyakovConsult" class="social-circle" href="https://www.youtube.com/@BelyakovConsult" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+</div>
+</div>
+<div class="footer-form">
+<form action="https://formspree.io/f/xykwoaql" class="glass-form glow-border-form" method="POST">
+<h3>Let’s discuss your project</h3>
+<div class="form-row">
+<label for="name">Your name</label><input autocomplete="name" id="name" name="name" placeholder="Your name" required="" type="text"/>
+</div>
+<div class="form-row">
+<label for="email">Work email</label><input autocomplete="email" id="email" name="email" placeholder="Work email" required="" type="email"/>
+</div>
+<div class="form-row">
+<label for="message">Your project</label><textarea id="message" name="message" placeholder="Organisation, service area, your challenge, expected deliverables and deadline." required="" rows="4"></textarea>
+</div>
+<button class="btn btn-primary" type="submit">Send enquiry</button>
+<p class="form-note">When you submit this form, your details are sent through Formspree so I can respond to your enquiry. Please do not include confidential information. <a class="text-link" href="/en/privacy/">Privacy policy</a>.</p></form>
+</div>
+</div>
+</footer></main></body></html>
