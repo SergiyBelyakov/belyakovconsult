@@ -1,32 +1,18 @@
 # Останній запуск конвеєра
 
-Режим: live лише для: instagram, telegram, threads, youtube. Оброблено дописів: 4. Час: 2026-11-27 18:02
+Режим: live лише для: instagram, telegram, threads, youtube. Оброблено дописів: 2. Час: 2026-11-27 18:32
 Повідомлення в Telegram-адмінку: так
 
 ## 1
 
 ```
-✅ Опубліковано в Instagram: data-architecture-types
-https://www.instagram.com/reel/DgQEH0eMVsL/
+✅ Опубліковано в YouTube Shorts: data-architecture-types
+https://youtube.com/shorts/PbMWd72qPCQ
 ```
 
 ## 2
 
 ```
-✅ Опубліковано в Telegram: data-architecture-types
-https://t.me/belyakovconsult/76
-```
-
-## 3
-
-```
-✅ Опубліковано в Threads: data-architecture-types
-https://www.threads.com/@belyakovconsult/post/DgQEOYZzfV0
-```
-
-## 4
-
-```
-✅ Опубліковано в Threads: data-architecture-types
-https://www.threads.com/@belyakovconsult/post/DgQEXvezpw-
+✅ Опубліковано в YouTube Shorts: data-architecture-types
+https://youtube.com/shorts/nWhig6DZs-s
 ```
